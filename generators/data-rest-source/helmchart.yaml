@@ -1,0 +1,6 @@
+apiVersion: qlik.com/v1
+kind: HelmChart
+metadata:
+ name: data-rest-source
+subChart: data-rest-source
+releaseName: data-rest-source

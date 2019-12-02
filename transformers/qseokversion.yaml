@@ -1,0 +1,32 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: qseokversion
+enabled: true
+patches:
+- target:
+    kind: HelmChart
+    labelSelector: name!=qliksense-init
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: HelmChart
+    metadata:
+      name: helmchart
+    releaseNamespace: default
+    chartHome: /tmp/.chartcache/qliksense
+    chartRepo: https://qlik.bintray.com/edge
+    chartName: qliksense
+    chartVersion: 1.12.89
+- target:
+    kind: HelmChart
+    name: qliksense-init
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: HelmChart
+    metadata:
+      name: qliksense-init
+    releaseNamespace: default
+    chartHome: /tmp/.chartcache/qliksense-init
+    chartRepo: https://qlik.bintray.com/edge
+    chartName: qliksense-init
+    chartVersion: 1.1.0

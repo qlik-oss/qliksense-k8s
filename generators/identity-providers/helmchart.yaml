@@ -1,0 +1,6 @@
+apiVersion: qlik.com/v1
+kind: HelmChart
+metadata:
+ name: identity-providers
+subChart: identity-providers
+releaseName: identity-providers

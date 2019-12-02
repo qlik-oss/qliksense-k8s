@@ -1,0 +1,6 @@
+apiVersion: qlik.com/v1
+kind: HelmChart
+metadata:
+ name: data-connector-rest
+subChart: data-connector-rest
+releaseName: data-connector-rest
