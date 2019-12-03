@@ -13,10 +13,10 @@ jobs:
       - run:
           name: Push
           command: |
-            LATEST_VERSION=$(jfrog bt vs qlik/edge/qsefe  --key $RT_APIKEY --user dtg@qlik | jq ".name")
+            LATEST_VERSION=$(jfrog bt vs qlik/edge/qsefe  --key $RT_APIKEY --user dtg@qlik | jq ".name" | sed 's/"//g')
             CURRENT_VERSION=$(yq r transformers/qseokversion.yaml 'patches[0].patch' | grep "chartVersion" | sed 's/\chartVersion: //g')
 
-            LATEST_VERSION=$(echo $LATEST_VERSION | sed 's/"//g')
+            # LATEST_VERSION=$(echo $LATEST_VERSION | sed 's/"//g')
             vert ">$LATEST_VERSION" $CURRENT_VERSION || ret=$?
 
             if [ $ret -ne 0 ]; then
