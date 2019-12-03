@@ -21,6 +21,22 @@ jobs:
 
             if [ $ret -ne 0 ]; then
               echo "DO A PR"
+              git config --global user.email "qlikossbuild@qlik.com"
+              git config --global user.name "qlikossbuild"
+
+              export GITHUB_TOKEN=${GITHUB_API_TOKEN}
+
+              git checkout -b update/edge-chart
+
+
+              git commit -am "[tag update] Update Image tag to ${CIRCLE_BRANCH}"
+
+              hub pull-request -f -m "${SERVICE_NAME}: Staging Integration" --base master
+
+
+
+
+
             else
               echo "DON'T DO ANYTHING"
             fi
