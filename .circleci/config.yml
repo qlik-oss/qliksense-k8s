@@ -13,11 +13,20 @@ jobs:
       - run:
           name: Push
           command: |
-            apk add --no-cache bash
+            apk add --no-cache libgcc bash
+            GLIBC=2.28-r0
+
+            wget https://github.com/sgerrand/alpine-pkg-glibc/releases/download/$GLIBC/glibc-$GLIBC.apk \
+              && apk add --no-cache glibc-$GLIBC.apk \
+              && rm glibc-$GLIBC.apk \
+              && ln -s /lib/libz.so.1 /usr/glibc-compat/lib \
+              && ln -s /lib/libc.musl-x86_64.so.1 /usr/glibc-compat/lib \
+              && ln -s /usr/lib/libgcc_s.so.1 /usr/glibc-compat/lib
+
             mkdir hub && \
                 wget https://github.com/github/hub/releases/download/v2.12.2/hub-linux-amd64-2.12.2.tgz -O- | \
                 tar xz --strip-components 1 --directory hub \
-                && ./hub/install \
+                && ./hub/install
                 && rm -r hub
 
             LATEST_VERSION=$(jfrog bt vs qlik/edge/qsefe  --key $RT_APIKEY --user dtg@qlik | jq ".name" | sed 's/"//g')
