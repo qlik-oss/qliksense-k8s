@@ -13,6 +13,13 @@ jobs:
       - run:
           name: Push
           command: |
+            apk add --no-cache
+            mkdir hub && \
+                wget https://github.com/github/hub/releases/download/v2.12.2/hub-linux-amd64-2.12.2.tgz -O- | \
+                tar xz --strip-components 1 --directory hub \
+                && ./hub/install \
+                && rm -r hub
+
             LATEST_VERSION=$(jfrog bt vs qlik/edge/qsefe  --key $RT_APIKEY --user dtg@qlik | jq ".name" | sed 's/"//g')
             CURRENT_VERSION=$(yq r transformers/qseokversion.yaml 'patches[0].patch' | grep "chartVersion" | sed 's/\chartVersion: //g')
 
