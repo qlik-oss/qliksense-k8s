@@ -1,0 +1,44 @@
+version: 2.0
+jobs:
+  push:
+    docker:
+      - image: qlik/elastic-charts-build-tools
+        auth:
+          username: $DOCKER_USERNAME
+          password: $DOCKER_PASSWORD
+    steps:
+      - attach_workspace:
+          at: ~/
+      - checkout
+      - run:
+          name: Push
+          command: |
+            LATEST_VERSION=$(jfrog bt vs qlik/edge/qsefe  --key $RT_APIKEY --user dtg@qlik | jq ".name")
+            pwd
+            ls -la
+
+            CURRENT_VERSION=(yq r transformers/qseokversion.yaml 'patches[0].patch' |sed 's/\chartVersion: //g')
+
+workflows:
+  version: 2
+  publish:
+    jobs:
+      - push
+
+#  namespace-cleanup:
+#    jobs:
+#      - openshift-namespace-cleanup
+#    triggers:
+#      - schedule:
+#          cron: "0 * * * *"
+#          filters:
+#            branches:
+#              only:
+#                - master
+
+# Avoid non-master slack noise
+experimental:
+  notify:
+    branches:
+      only:
+        - master
