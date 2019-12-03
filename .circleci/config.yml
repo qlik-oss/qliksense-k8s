@@ -15,8 +15,16 @@ jobs:
           command: |
             LATEST_VERSION=$(jfrog bt vs qlik/edge/qsefe  --key $RT_APIKEY --user dtg@qlik | jq ".name")
             CURRENT_VERSION=$(yq r transformers/qseokversion.yaml 'patches[0].patch' | grep "chartVersion" | sed 's/\chartVersion: //g')
-            echo $LATEST_VERSION
-            echo $CURRENT_VERSION
+
+            vert ">LATEST_VERSION" $CURRENT_VERSION
+            ret=$?
+
+            if [ $ret -ne 0 ]; then
+              echo "DO A PR"
+            else
+              echo "DON'T DO ANYTHING"
+            fi
+
 
 workflows:
   version: 2
