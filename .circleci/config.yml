@@ -34,7 +34,7 @@ jobs:
               export GITHUB_API_TOKEN=${GITHUB_TOKEN}
               CLONE_URL=https://${GITHUB_API_TOKEN}@github.com/qlik-oss/qliksense-k8s && git clone ${CLONE_URL}
 
-              # git checkout testing-ci && git checkout -b update/edge
+              git checkout testing-ci && git checkout -b update/edge
 
               git commit -am "[tag update] Update Image tag to ${CIRCLE_BRANCH}" && git push origin update/edge
 
