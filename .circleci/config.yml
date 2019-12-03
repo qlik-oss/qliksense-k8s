@@ -36,7 +36,7 @@ jobs:
 
               git checkout testing-ci && git checkout -b update/edge
 
-              git commit -am "[tag update] Update Image tag to ${CIRCLE_BRANCH}" && git push origin update/edge
+               git push origin update/edge
 
               hub pull-request -f -m "${SERVICE_NAME}: Staging Integration" --base master
             else
