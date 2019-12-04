@@ -1,0 +1,6 @@
+apiVersion: qlik.com/v1
+kind: HelmChart
+metadata:
+ name: reload-tasks
+subChart: reload-tasks
+releaseName: reload-tasks

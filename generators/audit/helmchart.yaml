@@ -1,0 +1,6 @@
+apiVersion: qlik.com/v1
+kind: HelmChart
+metadata:
+ name: audit
+subChart: audit
+releaseName: audit

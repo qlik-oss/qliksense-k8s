@@ -1,0 +1,9 @@
+apiVersion: qlik.com/v1
+kind: FullPath
+metadata:
+  name: fullpath
+fieldSpecs:
+- kind: SelectivePatch
+  path: patches/path
+- kind: SelectivePatch
+  path: patches/patches

@@ -1,0 +1,6 @@
+apiVersion: qlik.com/v1
+kind: HelmChart
+metadata:
+ name: chronos-worker
+subChart: chronos-worker
+releaseName: chronos-worker
