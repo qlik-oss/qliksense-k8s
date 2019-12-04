@@ -1,0 +1,162 @@
+name: Qliksense
+version: 0.0.2
+description: "Qliksense application cnab bundle"
+invocationImage: qlik/qliksense-cnab-invocation:v0.2.0
+tag: qlik/qliksense-cnab-bundle:v0.2.0
+
+dockerfile: Dockerfile.tmpl
+
+mixins:
+  - kustomize
+  - qliksense
+  - kubernetes
+  - exec
+
+
+# See https://porter.sh/wiring/#credentials
+credentials:
+  - name: kubeconfig
+    path: /root/.kube/config
+    description: "The .kubeconfig file to connect to k8s cluster"
+  - name: ejson_key
+    description: "The ejson private key to descript jwt keys"
+    env: EJSON_KEY
+    
+parameters:
+  - name: acceptEULA
+    type: string
+    description: "User has to accept End User License Aggrement's term to install Qliksense"
+    reqired: true
+  - name: profile
+    type: string
+    description: "Select profile a like, base for docker-desktop, aws-eks, gke, azure"
+    default: base
+  - name: mongoDbUri
+    description: "The mongodb uri to connect"
+    type: string
+    default: "mongodb://qliksense-mongodb:27017/qliksense?ssl=false"
+  - name: scName
+    description: "Storage Class Name to be used in PVCs"
+    type: string
+    default: ""
+
+outputs:
+- name: LoadBalancer
+  description: "Ingress LoadBalancer hostname"
+  type: string
+  applyTo:
+  - install
+  - upgrade
+
+install:
+  - qliksense:
+      description: "Installing: Creating patch based on CR"
+      name: qliksense-operator
+      cr:
+        manifestsRoot: "/cnab/app"
+        configs:
+        - dataKey: acceptEULA
+          values:
+            qliksense: "{{ bundle.parameters.acceptEULA }}"
+        secrets:
+        - secretKey: mongoDbUri
+          values:
+            qliksense: "{{ bundle.parameters.mongoDbUri }}"
+        storageClassName: "{{ bundle.parameters.scName }}"
+  - kustomize:
+      description: "Installing: Use Kustomize to generate CRD for Qliksense"
+      name: CRD-install
+      kustomization_input:
+          - "manifests/{{ bundle.parameters.profile }}/manifests/qliksense-init/"
+      kubernetes_manifest_output: manifests/{{ bundle.parameters.profile }}/manifests/
+  - kubernetes:
+      description: "Installing: run Kubernetes to create CRD resource"
+      manifests:
+        - manifests/{{ bundle.parameters.profile }}/manifests/
+      wait: true
+      validate: false
+
+  - kustomize:
+      description: "Installing: Use Kustomize to generate the k8s resources for Qliksense"
+      name: qliksense-install
+      kustomization_input:
+          - "manifests/{{ bundle.parameters.profile }}"
+      kubernetes_manifest_output: manifests/
+  - kubernetes:
+      description: "Installing: run Kubernetes to create k8s resource"
+      manifests:
+        - manifests/
+      wait: true
+      validate: false
+      outputs:
+        - name: LoadBalancer
+          resourceType: service
+          resourceName: qliksense-elastic-infra-nginx-ingress-controller
+          jsonPath: "{.status.loadBalancer.ingress[0].hostname}"
+upgrade:
+  - qliksense:
+      description: "Upgrading: Creating patch based on CR"
+      name: qliksense-operator
+      cr:
+        manifestsRoot: "/cnab/app"
+        configs:
+        - dataKey: acceptEULA
+          values:
+            qliksense: "{{ bundle.parameters.acceptEULA }}"
+        secrets:
+        - secretKey: mongoDbUri
+          values:
+            qliksense: "{{ bundle.parameters.mongoDbUri }}"
+        storageClassName: "{{ bundle.parameters.scName }}"
+  - kustomize:
+      description: "Upgrading: Use Kustomize to generate the k8s resources for Qliksense"
+      name: "upgrade qliksense"
+      kustomization_input:
+          - "manifests/{{ bundle.parameters.profile }}"
+      kubernetes_manifest_output: manifests/
+  - kubernetes:
+      description: "Upgrading: run Kubernetes to create/upgrade k8s resource"
+      manifests:
+        - manifests/
+      wait: true
+      validate: false
+
+uninstall:
+  - qliksense:
+      description: "Uninstalling: Creating patch based on CR"
+      name: qliksense-operator
+      cr:
+        manifestsRoot: "/cnab/app"
+        configs:
+        - dataKey: acceptEULA
+          values:
+            qliksense: "{{ bundle.parameters.acceptEULA }}"
+        secrets:
+        - secretKey: mongoDbUri
+          values:
+            qliksense: "{{ bundle.parameters.mongoDbUri }}"
+        storageClassName: "{{ bundle.parameters.scName }}"
+  - kustomize:
+      description: "Uninstalling: Use Kustomize to generate the k8s resources for Qliksense"
+      name: porter-robotshop-uninstall
+      kustomization_input:
+          - "manifests/{{ bundle.parameters.profile }}"
+      kubernetes_manifest_output: manifests/
+  - kubernetes:
+      description: "Uninstalling: run kubernetes to delete k8s resources"
+      manifests:
+        - manifests/
+      wait: true
+      validate: false
+  - kustomize:
+      description: "Uninstalling: Use Kustomize to generate CRD for Qliksense"
+      name: CRD-uninstall
+      kustomization_input:
+          - "manifests/{{ bundle.parameters.profile }}/manifests/qliksense-init"
+      kubernetes_manifest_output: manifests/{{ bundle.parameters.profile }}/manifests/
+  - kubernetes:
+      description: "Uninstalling: run Kubernetes to delete CRD resource"
+      manifests:
+        - manifests/{{ bundle.parameters.profile }}/manifests/
+      wait: true
+      validate: false
