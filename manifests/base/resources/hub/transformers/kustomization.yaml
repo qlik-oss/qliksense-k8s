@@ -3,8 +3,21 @@ kind: Kustomization
 commonLabels:
   app: hub
 resources:
-- ../../../transformers/ingressClass
+  - ../../../transformers
 transformers:
-- ../../../../../.operator/transformers
-- ../../../../../configuration/transformers
- 
+  - ../../../../../.operator/transformers
+  - ../../../../../configuration/transformers
+#Disable all transformers except these
+patches:
+  - target:
+      labelSelector: >-
+        key notin (
+          ingressClass
+          )
+    patch: |-
+      - op: replace
+        path: /enabled
+        value: false
+      - op: replace
+        path: /default
+        value: true
