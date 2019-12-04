@@ -1,0 +1,28 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: ingressAuthUrl
+  labels:
+    key: ingressAuthUrl
+enabled: false
+default: true
+patches:
+- target:
+    kind: Ingress 
+  patch: |-
+    apiVersion: extensions/v1beta1
+    kind: Ingress
+    metadata:
+      name: component
+      annotations:
+        nginx.ingress.kubernetes.io/auth-url: $(INGRESS_AUTH_URL)
+defaults:
+- target:
+    kind: Ingress 
+  patch: |-
+    apiVersion: extensions/v1beta1
+    kind: Ingress
+    metadata:
+      name: component
+      annotations:
+        nginx.ingress.kubernetes.io/auth-url: http://$(PREFIX)-edge-auth.$(NAMESPACE).svc.cluster.local:8080/v1/auth

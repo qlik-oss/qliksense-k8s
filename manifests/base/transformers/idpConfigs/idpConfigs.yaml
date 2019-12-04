@@ -1,0 +1,31 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: idpconfig
+  labels:
+    key: idpconfig
+enabled: false 
+patches:
+- target:
+    kind: Deployment
+  patch: |-
+    apiVersion: apps/v1beta2
+    kind: Deployment
+    metadata:
+      name: identity-providers
+    spec:
+      template:
+        spec:
+          containers:
+          - name: main
+            env:
+            - name: IDP_CONFIGS_FILE
+              value: /run/secret/global/idpConfigs
+            volumeMounts:
+            - mountPath: /run/secret/global
+              name: volume-for-idp-global
+              readOnly: true
+          volumes:
+            - name: volume-for-idp-global
+              secret:
+                secretName: global_idp_secret # in this secret a key named "idpConfigs" exist

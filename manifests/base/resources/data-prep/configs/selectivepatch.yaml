@@ -1,0 +1,21 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: data-prep-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: data-prep-configs
+    data:
+      redisUri: $(PREFIX)-data-prep-redis-master:6379
+      spacesUri: "http://$(PREFIX)-data-prep-spaces:6080"
+      featureFlagsUri: "http://$(PREFIX)-data-prep-feature-flags:8080/v0/features"
+      qixSessionsUri: "http://$(PREFIX)-data-prep-qix-sessions:8080"
+      dataFilesUri: "http://$(PREFIX)-data-prep-datafiles:8080"
+      qixDataFilesUri: "http://$(PREFIX)-data-prep-qix-datafiles:8080"
+      precedentsUri: "http://$(PREFIX)-data-prep-precedents:9054"

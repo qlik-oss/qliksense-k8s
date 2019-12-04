@@ -1,0 +1,16 @@
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: qliksense
+target:
+  kind: Deployment
+patch: |-
+  kind: Deployment
+  metadata:
+    name: component
+  spec:
+    template:
+      metadata:
+        labels:
+          qliksense-messaging-nats-client: "true"
+

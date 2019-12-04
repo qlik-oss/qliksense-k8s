@@ -1,0 +1,14 @@
+## This is base for both globals and component config maps
+apiVersion: qlik.com/v1
+kind: SuperConfigMap
+disableNameSuffixHash: false 
+assumeTargetWillExist: true
+prefix: $(PREFIX)-
+metadata:
+  name: configs
+data:
+  ingressClass: qlik-nginx
+  imageRegistry: qlik-docker-qsefe.bintray.io
+  ingressAuthUrl: http://$(PREFIX)-edge-auth.$(NAMESPACE).svc.cluster.local:8080/v1/auth
+  redisImageRegistry: docker.io/bitnami
+  storageClassName: "" # it will be patched by either operator or user

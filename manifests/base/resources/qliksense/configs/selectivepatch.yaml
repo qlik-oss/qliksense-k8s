@@ -1,0 +1,45 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: global-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: all-configs
+    data:
+      pdsUri: http://$(PREFIX)-policy-decisions:5080
+      natsUri: nats://$(PREFIX)-messaging-nats-client:4222
+      featureFlagsUri: http://$(PREFIX)-feature-flags:8080
+      keysUri: http://$(PREFIX)-keys:8080/v1
+      tokenAuthUri: http://$(PREFIX)-edge-auth:8080
+      natsStreamingClusterId: $(PREFIX)-messaging-nats-streaming-cluster
+      identityProvidersUri: http://$(PREFIX)-identity-providers.$(NAMESPACE).svc.cluster.local:8080/v0
+      identityProvidersV1Uri: http://$(PREFIX)-identity-providers-ext.$(NAMESPACE).svc.cluster.local:8080/v1
+      usersUri: http://$(PREFIX)-users.$(NAMESPACE).svc.cluster.local:8080/v1
+      tenantsUri: http://$(PREFIX)-tenants.$(NAMESPACE).svc.cluster.local:8080/v1
+      groupsUri: http://$(PREFIX)-groups.$(NAMESPACE).svc.cluster.local:8080
+      corsUri: http://$(PREFIX)-tenants.$(NAMESPACE).svc.cluster.local:8080/v1
+      qixSessionsUri: "http://$(PREFIX)-qix-sessions:8080"
+      dataFilesUri: "http://$(PREFIX)-datafiles:8080"
+      qixDataFilesUri: "http://$(PREFIX)-qix-datafiles:8080"
+      precendentsUri: "http://$(PREFIX)-precedents:9054"
+      redisUri: $(PREFIX)-redis-master
+      redisUriWithPort: $(PREFIX)-redis-master:6379
+      encryptionUri: "http://$(PREFIX)-encryption:8080"
+      acceptEULA: "no"
+      licensesUri: "http://$(PREFIX)-licenses:9200"
+      spacesUri: "http://$(PREFIX)-spaces:6080"
+      quotasUri: "http://$(PREFIX)-quotas:6080"
+      precedentsUri: "http://$(PREFIX)-precedents:9054"
+      temporaryContentsUri: "http://$(PREFIX)-temporary-contents:6080"
+      engineUri: "http://$(PREFIX)-engine:9076"
+      dcaasUri: http://$(PREFIX)-dcaas:9026
+      qixDataConnectionUri: http://$(PREFIX)-qix-data-connection:9011
+      #it does not have http prefix
+      geoOperationsUri: $(PREFIX)-geo-operations:50072
+      encryptionUri: "http://$(PREFIX)-encryption:8080"

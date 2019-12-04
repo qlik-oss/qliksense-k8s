@@ -1,0 +1,8 @@
+apiVersion: qlik.com/v1
+kind: HelmValues
+metadata:
+  name: data-connector-qwc
+releaseNamespace: $(NAMESPACE)
+values:
+  redis:
+    enabled: false

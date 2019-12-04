@@ -1,0 +1,17 @@
+apiVersion: qlik.com/v1
+kind: EnvUpsert
+metadata:
+  name: engineEnvUpdate-temporaryContentsUri
+  labels:
+    key: temporaryContentsUri
+enabled: true
+target:
+  kind: Engine
+  name: engine-reload
+path: spec/podSpec/containers/env
+env:
+- name: TEMPORARY_CONTENTS_URI
+  valueFrom:
+    configMapKeyRef:
+      key: temporaryContentsUri
+      name: configs

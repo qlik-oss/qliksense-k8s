@@ -1,0 +1,47 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: mongoDbUri
+  labels:
+    key: mongoDbUri
+enabled: true
+patches:
+- target:
+    kind: Deployment
+  patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: component
+    spec:
+      template:
+        spec:
+          containers:
+          - name: main
+            env:
+            - name: MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  key: mongoDbUri
+                  name: secrets
+- target:
+    kind: Secret
+    name: .*-secrets
+  patch: |-
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: component-secrets
+    stringData:
+      mongoDbUri: null
+defaults:
+- target:
+    kind: Secret
+    name: .*-secrets
+  patch: |-
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: component-secrets
+    stringData:
+      mongoDbUri: null

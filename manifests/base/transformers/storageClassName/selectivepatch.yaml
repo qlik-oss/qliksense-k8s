@@ -1,0 +1,17 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: storageClassName
+  labels:
+    key: storageClassName
+enabled: false
+patches:
+- target:
+    kind: PersistentVolumeClaim
+  patch: |-
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: component
+    spec:
+      storageClassName: $(STORAGE_CLASS_NAME)

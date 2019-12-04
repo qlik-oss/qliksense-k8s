@@ -1,0 +1,24 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: resource-library-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: resource-library-configs
+    data:
+      natsUri: "nats://$(PREFIX)-resource-library-messaging-nats-client:4222"
+      natsStreamingClusterId: "$(PREFIX)-resource-library-messaging-nats-streaming-cluster"
+      tokenAuthUri: "http://$(PREFIX)-resource-library-edge-auth:8080/v1"
+      keysUri: "http://$(PREFIX)-resource-library-keys:8080/v1/keys/qlik.api.internal"
+      pdsUri: "http://$(PREFIX)-resource-library-policy-decisions:5080"
+      mongoDbUri: "mongodb://$(PREFIX)-mongodb:27017/resource-library"
+
+
+
+        

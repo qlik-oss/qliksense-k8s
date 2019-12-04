@@ -1,0 +1,17 @@
+apiVersion: qlik.com/v1
+kind: EnvUpsert
+metadata:
+  name: engineEnvUpdate-natsStreamingClusterId
+  labels:
+    key: natsStreamingClusterId
+enabled: true
+target:
+  kind: Engine
+  name: engine-reload
+path: spec/podSpec/containers/env
+env:
+- name: NATS_STREAMING_CLUSTER_ID
+  valueFrom:
+    configMapKeyRef:
+      key: natsStreamingClusterId
+      name: configs

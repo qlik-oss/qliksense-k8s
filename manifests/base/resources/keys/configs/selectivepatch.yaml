@@ -1,0 +1,45 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: keys-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: keys-configs
+    # data:
+    #   qlik.api.internal-audit: ""
+    #   qlik.api.internal-chronos-worker: ""
+    #   qlik.api.internal-collections: ""
+    #   qlik.api.internal-data-connections: ""
+    #   qlik.api.internal-data-engineering-exporter: ""
+    #   qlik.api.internal-edge-auth: ""
+    #   qlik.api.internal-engine: ""
+    #   qlik.api.internal-eventing: ""
+    #   qlik.api.internal-groups: ""
+    #   qlik.api.internal-identity-providers: ""
+    #   qlik.api.internal-insights: ""
+    #   qlik.api.internal-invite: ""
+    #   qlik.api.internal-licenses: ""
+    #   qlik.api.internal-nl-parser: ""
+    #   qlik.api.internal-notification-prep: ""
+    #   qlik.api.internal-odag: ""
+    #   qlik.api.internal-onboarding: ""
+    #   qlik.api.internal-precedents: ""
+    #   qlik.api.internal-qix-data-connection: ""
+    #   qlik.api.internal-qix-data-reload: ""
+    #   qlik.api.internal-qix-datafiles: ""
+    #   qlik.api.internal-qix-sessions: ""
+    #   qlik.api.internal-quotas: ""
+    #   qlik.api.internal-reporting: ""
+    #   qlik.api.internal-resource-library: ""
+    #   qlik.api.internal-sharing: ""
+    #   qlik.api.internal-spaces: ""
+    #   qlik.api.internal-subscriptions: ""
+    #   qlik.api.internal-temporary-contents: ""
+    #   qlik.api.internal-tenants: ""
+    #   qlik.api.internal-users: ""

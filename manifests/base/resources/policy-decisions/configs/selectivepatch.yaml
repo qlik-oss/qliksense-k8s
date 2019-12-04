@@ -1,0 +1,18 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: policy-decisions-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: policy-decisions-configs
+    data:
+      keysUri: "http://$(PREFIX)-policy-decisions-keys:8080/v1/keys/qlik.api.internal"
+      licensesUri: "http://$(PREFIX)-policy-decisions-licenses:9200/"
+      spacesUri: "http://$(PREFIX)-policy-decisions-spaces:6080/"
+      groupsUri: "http://$(PREFIX)-policy-decisions-groups:8080/"

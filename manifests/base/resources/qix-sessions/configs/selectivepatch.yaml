@@ -1,0 +1,29 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: qix-sessions-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    - op: replace
+      path: /metadata/name
+      value: qix-sessions-configs
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: qix-sessions-configs
+    data:
+      selectors: '{"qv-selectors":["qlik.com/default"],"selectors":["qlik.com/default"]}'
+      redisUri: $(PREFIX)-qix-sessions-redis-master:6379
+      featureFlagsUri: "http://$(PREFIX)-qix-sessions-feature-flags:8080"
+      engineUri: "http://$(PREFIX)-qix-sessions-engine:9076"
+      pdsUri: "http://$(PREFIX)-qix-sessions-policy-decisions:5080"
+      natsUri: "nats://$(PREFIX)-qix-sessions-messaging-nats-client:4222"
+      keysUri: "http://$(PREFIX)-qix-sessions-keys:8080/v1/keys/qlik.api.internal"
+      natsStreamingClusterId: "$(PREFIX)-qix-sessions-messaging-nats-streaming-cluster"
+      tokenAuthUri: "http://$(PREFIX)-qix-sessions-edge-auth:8080/v1"

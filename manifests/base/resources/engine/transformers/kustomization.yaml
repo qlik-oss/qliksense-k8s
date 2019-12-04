@@ -1,0 +1,38 @@
+kind: Kustomization
+commonLabels:
+  app: engine
+resources:
+- ../../../transformers
+transformers:
+- ../../../../../.operator/transformers
+- ../../../../../configuration/transformers
+#Disable all transformers except these
+patches:
+- target:
+    labelSelector: >-
+      key notin (
+        tokenAuthUri,
+        featureFlagsUri,
+        ingressClass,
+        ingressAuthUrl,
+        natsStreamingClusterId,
+        natsUri,
+        keysUri,
+        licensesUri,
+        spacesUri,
+        groupsUri,
+        temporaryContentsUri,
+        acceptEULA,
+        dcaasUri,
+        geoOperationsUri,
+        qixDataConnectionUri,
+        encryptionUri,
+        storageClassName
+        )
+  patch: |-
+    - op: replace
+      path: /enabled
+      value: false
+    - op: replace
+      path: /default
+      value: true

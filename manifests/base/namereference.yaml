@@ -1,0 +1,27 @@
+nameReference:
+- kind: ConfigMap
+  version: v1
+  fieldSpecs:
+  - path: spec/podSpec/containers/env/valueFrom/configMapKeyRef/name
+    kind: Engine
+  - path: spec/podSpec/volumes/configMap/name
+    kind: Engine
+  - path: spec/template/spec/containers/env/value
+    kind: Deployment
+- kind: Secret
+  version: v1
+  fieldSpecs:
+  - path: spec/podSpec/volumes/secret/secretName
+    kind: Engine
+  - path: spec/podSpec/containers/env/valueFrom/secretKeyRef/name
+    kind: Engine
+- kind: PersistentVolumeClaim
+  version: v1
+  fieldSpecs:
+  - path: spec/podSpec/volumes/persistentVolumeClaim/claimName
+    kind: Engine
+- kind: ServiceAccount
+  version: v1
+  fieldSpecs:
+  - path: subjects/name
+    kind: RoleBinding

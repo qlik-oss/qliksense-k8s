@@ -1,0 +1,58 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: acceptEULA
+  labels:
+    key: acceptEULA
+enabled: true
+patches:
+#- target:
+#    kind: Engine
+#  patch: |-
+#    - op: replace
+#      path: /spec/podSpec/containers/0/env/0
+#      value:
+#        name: ACCEPT_EULA
+#        valueFrom:
+#          configMapKeyRef:
+#            key: acceptEULA
+#            name: configs
+- target:
+    kind: Deployment
+  patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: component
+    spec:
+      template:
+        spec:
+          containers:
+          - name: main
+            env:
+            - name: ACCEPT_EULA
+              valueFrom:
+                configMapKeyRef:
+                  key: acceptEULA
+                  name: configs
+# - target:
+#     kind: ConfigMap
+#     name: .*-configs
+#   patch: |-
+#     apiVersion: v1
+#     kind: ConfigMap
+#     metadata:
+#       name: component-configs
+#     data:
+#       acceptEULA: null
+# defaults:
+# - target:
+#     kind: ConfigMap
+#     name: .*-configs
+#   patch: |-
+#     apiVersion: v1
+#     kind: ConfigMap
+#     metadata:
+#       name: component-configs
+#     data:
+#       acceptEULA: null

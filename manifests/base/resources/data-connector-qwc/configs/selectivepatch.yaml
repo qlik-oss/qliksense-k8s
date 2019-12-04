@@ -1,0 +1,15 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: data-connector-qwc-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: data-connector-qwc-configs
+    data:
+      redisUri: $(PREFIX)-data-connector-qwc-redis-master:6379

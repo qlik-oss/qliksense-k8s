@@ -1,0 +1,15 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: encryption-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: encryption-configs
+    data:
+      keysUri: "http://$(PREFIX)-encryption-keys:8080/v1/keys/qlik.api.internal"

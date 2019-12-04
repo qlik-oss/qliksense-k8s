@@ -1,0 +1,16 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: chronos-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: chronos-configs
+    data:
+      redisUri: chronos-redis-master:6379
+      keysUri: "http://$(PREFIX)-chronos-keys:8080/v1/keys/qlik.api.internal"
