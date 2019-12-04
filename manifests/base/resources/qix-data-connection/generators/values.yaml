@@ -1,0 +1,9 @@
+apiVersion: qlik.com/v1
+kind: HelmValues
+metadata:
+  name: qix-data-connection
+releaseNamespace: $(NAMESPACE)
+values:
+  mongodb:
+    enabled: false
+    sslValidate: true

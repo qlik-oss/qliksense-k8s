@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dcaas-redis-slave
+spec:
+  template:
+    spec:
+      containers:
+      - name: main
+        env:
+        - name: REDIS_MASTER_HOST
+          value: $(PREFIX)-dcaas-redis-master

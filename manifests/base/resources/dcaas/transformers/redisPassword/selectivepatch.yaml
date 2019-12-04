@@ -1,0 +1,63 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: dcaasRedisPassword
+  labels:
+    key: dcaasRedisPassword
+enabled: true
+patches:
+- target:
+    kind: Deployment
+  patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: component
+    spec:
+      template:
+        spec:
+          containers:
+          - name: main
+            env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: redisPassword
+                  name: dcaas-secrets
+- target:
+    kind: Deployment
+    name: dcaas-redis-slave
+  patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: dcaas-redis-slave
+    spec:
+      template:
+        spec:
+          containers:
+          - name: main
+            env:
+            - name: REDIS_MASTER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: redisPassword
+                  name: dcaas-secrets
+- target:
+    kind: StatefulSet
+  patch: |-
+    apiVersion: apps/v1
+    kind: StatefulSet
+    metadata:
+      name: component
+    spec:
+      template:
+        spec:
+          containers:
+          - name: main
+            env:
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: redisPassword
+                  name: dcaas-secrets

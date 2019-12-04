@@ -1,0 +1,20 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: dcaas
+enabled: true
+patches:
+  - path: deploymentJSON.yaml
+    target:
+      kind: Deployment
+      name: dcaas
+  - path: deployment.yaml
+  - path: redisJSON.yaml
+    target:
+      kind: Deployment
+      name: dcaas-redis-slave
+  - path: redisJSON.yaml
+    target:
+      kind: StatefulSet
+      name: dcaas-redis-master
+  - path: redis.yaml

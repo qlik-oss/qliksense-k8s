@@ -1,0 +1,13 @@
+apiVersion: qlik.com/v1
+kind: HelmValues
+metadata:
+  name: groups 
+releaseNamespace: $(NAMESPACE)
+values:
+  mongodb:
+    enabled: false
+  redis:
+    enabled: false
+  config:
+    archive:
+      enabled: true

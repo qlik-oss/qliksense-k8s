@@ -1,0 +1,19 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: chronos-worker-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: chronos-worker-configs
+    data:
+      natsUri: "nats://$(PREFIX)-chronos-worker-messaging-nats-client:4222"
+      tokenAuthUri: "http://$(PREFIX)-chronos-worker-edge-auth:8080/v1/internal-tokens"
+      natsStreamingClusterId: "$(PREFIX)-chronos-worker-messaging-nats-streaming-cluster"
+      redisUri: $(PREFIX)-chronos-worker-redis-master
+      redisUriWithPort: $(PREFIX)-chronos-worker-redis-master:6379

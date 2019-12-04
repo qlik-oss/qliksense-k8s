@@ -1,0 +1,6 @@
+apiVersion: qlik.com/v1
+kind: HelmValues
+metadata:
+  name: messaging
+releaseNamespace: $(NAMESPACE)
+

@@ -1,0 +1,15 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: feature-flags-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: feature-flags-configs
+    data:
+      keysUri: "http://$(PREFIX)-feature-flags-keys:8080/v1/keys/qlik.api.internal"

@@ -1,0 +1,7 @@
+apiVersion: builtin
+kind: PrefixSuffixTransformer
+metadata:
+  name: release
+prefix: $(PREFIX)- 
+fieldSpecs:
+- path: metadata/name

@@ -1,0 +1,16 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: quotas-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: quotas-configs
+    data:
+      keysUri: "http://$(PREFIX)-quotas-keys:8080/v1"
+      tokenAuthUri: "http://$(PREFIX)-quotas-edge-auth:8080"

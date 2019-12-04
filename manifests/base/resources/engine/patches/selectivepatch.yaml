@@ -1,0 +1,26 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: engine
+enabled: true
+patches:
+- path: deploymentJSON.yaml
+  target:
+    kind: Deployment
+    name: engine-default
+- path: deployment-delete-args.yaml
+  target:
+    kind: Deployment
+    name: engine-default
+- path: deployment.yaml
+  target:
+    kind: Deployment
+    name: engine-default
+- path: engine-reload.yaml
+  target:
+    kind: Engine
+    name: engine-reload    
+- path: engine-reloadJSON.yaml
+  target:
+    kind: Engine
+    name: engine-reload

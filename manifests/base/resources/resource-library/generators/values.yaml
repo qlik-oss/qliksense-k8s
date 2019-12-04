@@ -1,0 +1,11 @@
+apiVersion: qlik.com/v1
+kind: HelmValues
+metadata:
+  name: resource-library 
+releaseNamespace: $(NAMESPACE)
+values:
+  mongodb:
+    enabled: false
+    ssl: false
+    sslValidate: false
+    checkServerIdentity: false

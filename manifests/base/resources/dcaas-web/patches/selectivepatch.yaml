@@ -1,0 +1,12 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: dcaas-web
+enabled: true
+patches:
+  - path: deploymentJSON.yaml
+    target:
+      kind: Deployment
+  - path: deployment.yaml
+    target:
+      kind: Deployment

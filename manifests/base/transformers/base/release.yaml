@@ -1,0 +1,9 @@
+apiVersion: builtin
+kind: LabelTransformer
+metadata:
+  name: release
+labels:
+  release: qliksense
+fieldSpecs:
+  - path: metadata/labels
+    create: true

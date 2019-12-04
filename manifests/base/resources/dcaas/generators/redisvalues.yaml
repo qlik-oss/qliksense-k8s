@@ -1,0 +1,11 @@
+apiVersion: qlik.com/v1
+kind: HelmValues
+metadata:
+  name: redis 
+releaseName: dcaas
+releaseNamespace: $(NAMESPACE)
+values:
+  usePassword: false
+  existingSecret: "dcaas-secrets"
+  cluster:
+    enabled: true
