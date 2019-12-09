@@ -22,6 +22,10 @@ ARG QLIKSENSE_INIT_VERSION=1.1.0
 # The Qlik docker registry to use for Image layers
 ARG QLIK_REGISTRY=qlik-docker-qsefe.bintray.io/
 
+# Air Gapped operation, images are copied to invocation image (this one)
+# to enable images to be pushed to private docker registry
+ARG AIR_GAPPED=true
+
 RUN mkdir -p /tmp/.chartcache
 
 RUN helm repo add qlik-edge https://qlik.bintray.com/edge
