@@ -16,14 +16,18 @@ RUN apt-get update && \
 RUN helm init --client-only
 
 # CI job will update this version and make a PR
-ARG QSEOK_VERSION=1.12.89
-ARG QLIKSENS_INIT_VERSION=1.1.0
+ARG QSEOK_VERSION=1.12.89 
+ARG QLIKSENSE_INIT_VERSION=1.1.0
+
+# The Qlik docker registry to use for Image layers
+ARG QLIK_REGISTRY=qlik-docker-qsefe.bintray.io/
 
 RUN mkdir -p /tmp/.chartcache
 
 RUN helm repo add qlik-edge https://qlik.bintray.com/edge
-RUN helm fetch qlik-edge/qliksense-init --version $QLIKSENS_INIT_VERSION --untar -d /tmp/.chartcache/
-RUN helm fetch qlik-edge/qliksense --version $QSEOK_VERSION --untar -d /tmp/.chartcache/
+RUN helm fetch qlik-edge/qliksense-init --version $QLIKSENSE_INIT_VERSION --untar -d /tmp/.chartcache/
+
+
 
 # This is a template Dockerfile for the bundle's invocation image
 # You can customize it to use different base images, install tools and copy configuration files.
