@@ -38,7 +38,7 @@ ARG QLIK_REGISTRY=qlik-docker-qsefe.bintray.io
 
 # Air Gapped operation, images are copied to invocation image (this one)
 # to enable images to be pushed to private docker registry
-ARG AIR_GAPPED=true
+ARG AIR_GAPPED=false
 
 COPY --from=0 /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 # Use the BUNDLE_DIR build argument to copy files into the bundle
