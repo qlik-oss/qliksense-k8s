@@ -5,13 +5,7 @@ commonLabels:
 generators:
   - generators
 transformers:
-  - patches
-  - super-configs
-  - configs
-  #- ../qliksense/generators/secrets 
-  - ../qliksense/generators/configs
-  - ../../../../.operator/patches
-  - ../../../../configuration/patches
+  - all-transformers
 images:
   - name: qlik-docker-qsefe.bintray.io/keys
     newName: $(IMAGE_REGISTRY)/keys

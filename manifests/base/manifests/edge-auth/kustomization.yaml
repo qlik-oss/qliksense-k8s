@@ -25,6 +25,13 @@ vars:
       name: edge-auth-configs 
     fieldref:
       fieldpath: metadata.labels.release
+  # - name: INGRESS_AUTH_URL
+  #   objref:
+  #     apiVersion: v1
+  #     kind: ConfigMap
+  #     name: edge-auth-configs
+  #   fieldref:
+  #     fieldpath: data.ingressAuthUrl
   - name: IMAGE_REGISTRY
     objref:
       apiVersion: v1

@@ -1,0 +1,16 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: keys-component-configs
+enabled: true
+patches:
+  - target:
+      kind: SuperConfigMap
+    patch: |-
+      apiVersion: qlik.com/v1
+      kind: SuperConfigMap
+      metadata:
+        name: keys-configs
+#      data:
+#        qlik.api.internal-XXX: |
+#          (( index (ds "data") "XXX" | base64.Decode ))
