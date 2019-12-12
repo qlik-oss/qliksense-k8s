@@ -47,7 +47,8 @@ vars:
 configurations:
   - varreference.yaml
 transformers:
-  - transformers/base
-  - transformers/msgprefix
+  - transformers
+  - ../base/transformers/msgprefix
 resources:
   - resources
+  - ../base/resources

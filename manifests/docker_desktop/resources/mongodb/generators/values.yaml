@@ -1,0 +1,27 @@
+apiVersion: qlik.com/v1
+kind: HelmValues
+metadata:
+  name: mongodb
+releaseNamespace: $(NAMESPACE)
+values:
+  ssl: false
+  sslValidate: false
+  checkServerIdentity: false
+  image:
+    ## Bitnami MongoDB image tag
+    ## ref: https://hub.docker.com/r/bitnami/mongodb/tags/
+    ## This value overrides the mongo image tag in chart v.4.5.0 (tag: 4.0.3-debian-9)
+    tag: 3.6.12
+
+  ## mongodb.enabled should never be set to `true` in this chart.
+  enabled: false
+
+  ## disable password for local dev mode
+  usePassword: false
+
+  securityContext:
+    enabled: false
+    runAsUser: ~
+
+  persistence:   # disable persistence mode for local dev
+    enabled: false

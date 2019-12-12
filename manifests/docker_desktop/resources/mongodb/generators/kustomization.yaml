@@ -1,0 +1,27 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+commonLabels:
+  app: mongodb
+resources:
+- ../../../../../generators/mongodb
+- ../../../secrets
+- ../../../configs
+transformers:
+- ../secrets
+- ../configs
+- values.yaml
+patches:
+- target:
+    kind: SuperSecret
+  patch: |-
+    - op: replace
+      path: /metadata/name
+      value: mongodb-secrets
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    - op: replace
+      path: /metadata/name
+      value: mongodb-configs
+
+
