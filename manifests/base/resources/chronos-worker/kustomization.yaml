@@ -7,11 +7,9 @@ generators:
 transformers:
   - patches
   - secrets
-  - ../../../../.operator/secrets
-  - ../../../../configuration/secrets
   - configs
   - transformers
-  - ../qliksense/generators/secrets 
+  - ../qliksense/generators/secrets
   - ../qliksense/generators/configs
   - ../../../../.operator/patches
   - ../../../../configuration/patches

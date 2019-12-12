@@ -14,9 +14,18 @@
 - Install the bundle : `porter install --param acceptEULA=yes -c QLIKSENSE`
 - Notice `acceptEULA` key has been updated inside `qliksense-configs-<hash>` configMap.
 
-**Generate Credentials from published bundle**
+## Generate Credentials from published bundle**
 
-  - `porter credential generate demo3 --tag qlik/qliksense-cnab-bundle:v0.1.0`
+- `porter credential generate demo3 --tag qlik/qliksense-cnab-bundle:v0.1.0`
 
-## Service configuration ##
+## Supported Parameters during install
+
+| Name        | Descriptions           | Default  |
+| ------------- |:-------------:| -----:|
+| acceptEULA      | yes | has to be yes |
+| namespace      | any kubernetes namespace      |   default |
+| rotateKeys | should use existing ejson keys or generate new keys (yes/no)      |    yes |
+
+## Service configuration
+
 For information on configuring services to become kubernetes-compatible [refer here](How-to.md)
