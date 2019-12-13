@@ -24,6 +24,8 @@ parameters:
     type: string
     description: "User has to accept End User License Aggrement's term to install Qliksense"
     reqired: true
+    applyTo:
+    - install
   - name: profile
     type: string
     description: "Select a profile i.e docker-desktop, aws-eks, gke, azure. default is docker-desktop"
@@ -90,11 +92,13 @@ install:
         - manifests/
       wait: true
       validate: false
+      namespace: "{{ bundle.parameters.namespace }}"
       outputs:
         - name: LoadBalancer
           resourceType: service
           resourceName: qliksense-elastic-infra-nginx-ingress-controller
           jsonPath: "{.status.loadBalancer.ingress[0].hostname}"
+          namespace: "{{ bundle.parameters.namespace }}"
 upgrade:
   - qliksense:
       description: "Upgrading: Creating patch based on CR"
@@ -123,6 +127,7 @@ upgrade:
         - manifests/
       wait: true
       validate: false
+      namespace: "{{ bundle.parameters.namespace }}"
 
 uninstall:
   - exec:
