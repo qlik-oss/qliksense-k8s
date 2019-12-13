@@ -120,6 +120,7 @@ upgrade:
             qliksense: "{{ bundle.parameters.mongoDbUri }}"
         storageClassName: "{{ bundle.parameters.scName }}"
         rotateKeys: "yes"
+        namespace: "{{ bundle.parameters.namespace }}"
   - kustomize:
       description: "Upgrading: Use Kustomize to generate the k8s resources for Qliksense"
       name: "upgrade qliksense"
