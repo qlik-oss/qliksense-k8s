@@ -4,3 +4,5 @@ resources:
 - namespace.yaml
 - prefix.yaml
 - release.yaml
+transformers:
+- ../../../../.operator/transformers
