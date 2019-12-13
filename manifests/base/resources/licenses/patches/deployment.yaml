@@ -13,6 +13,10 @@ spec:
         imagePullPolicy: IfNotPresent
         env:
         - $patch: delete
+          name: SQS_QUEUE_URI
+        - $patch: delete
+          name: AWS_REGION
+        - $patch: delete
           name: PDS_URI
         - name: PDS_URI
           valueFrom:

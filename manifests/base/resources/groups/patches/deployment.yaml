@@ -16,6 +16,12 @@ spec:
       - name: main
         imagePullPolicy: IfNotPresent
         env:
+        - $patch: delete
+          name: MONGO_SSL
+        - $patch: delete
+          name: MONGO_SSL_VALIDATE
+        - $patch: delete
+          name: MONGO_CHECK_SERVER_IDENTITY
         - name: MONGODB_URI
           valueFrom:
             secretKeyRef:
