@@ -45,7 +45,7 @@ vars:
     fieldref:
       fieldpath: data.storageClassName
 configurations:
-  - varreference.yaml
+  - ../base/varreference.yaml
 transformers:
   - transformers
   - ../base/transformers/msgprefix
