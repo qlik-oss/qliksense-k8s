@@ -19,6 +19,8 @@ spec:
       - name: main
         imagePullPolicy: IfNotPresent
         env:
+        - $patch: delete
+          name: MONGO_MAX_TIME_MS
         - name: NATS_URI
           valueFrom:
             configMapKeyRef:
