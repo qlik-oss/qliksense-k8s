@@ -7,8 +7,8 @@ transformers:
   - secrets
   - configs
   - transformers
-  - ../qliksense/generators/configs
-  - ../qliksense/generators/secrets
+  - ../../../base/resources/qliksense/generators/configs
+  - ../../../base/resources/qliksense/generators/secrets
   - ../../../../.operator/patches
   - ../../../../configuration/patches
 images:

@@ -3,7 +3,7 @@ kind: Kustomization
 commonLabels:
   app: redis
 resources:
-- ../../../transformers
+- ../../../../base/transformers
 transformers:
 - ../../../../../.operator/transformers
 - ../../../../../configuration/transformers

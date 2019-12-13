@@ -1,8 +1,8 @@
 name: Qliksense
-version: 0.0.2
+version: 0.3.0
 description: "Qliksense application cnab bundle"
-invocationImage: qlik/qliksense-cnab-invocation:v0.2.0
-tag: qlik/qliksense-cnab-bundle:v0.2.0
+invocationImage: qlik/qliksense-cnab-invocation:v0.3.0
+tag: qlik/qliksense-cnab-bundle:v0.3.0
 
 dockerfile: Dockerfile.tmpl
 
@@ -18,10 +18,7 @@ credentials:
   - name: kubeconfig
     path: /root/.kube/config
     description: "The .kubeconfig file to connect to k8s cluster"
-  - name: ejson_key
-    description: "The ejson private key to descript jwt keys"
-    env: EJSON_KEY
-    
+
 parameters:
   - name: acceptEULA
     type: string
@@ -29,14 +26,18 @@ parameters:
     reqired: true
   - name: profile
     type: string
-    description: "Select profile a like, base for docker-desktop, aws-eks, gke, azure"
-    default: base
+    description: "Select a profile i.e docker-desktop, aws-eks, gke, azure. default is docker-desktop"
+    default: docker-desktop
   - name: mongoDbUri
     description: "The mongodb uri to connect"
     type: string
     default: "mongodb://qliksense-mongodb:27017/qliksense?ssl=false"
   - name: scName
     description: "Storage Class Name to be used in PVCs"
+    type: string
+    default: ""
+  - name: namespace
+    description: "Which namespace the qliksense will be installed"
     type: string
     default: ""
 
@@ -63,19 +64,20 @@ install:
           values:
             qliksense: "{{ bundle.parameters.mongoDbUri }}"
         storageClassName: "{{ bundle.parameters.scName }}"
+        namespace: "{{ bundle.parameters.namespace }}"
+        rotateKeys: "yes"
   - kustomize:
       description: "Installing: Use Kustomize to generate CRD for Qliksense"
       name: CRD-install
       kustomization_input:
-          - "manifests/{{ bundle.parameters.profile }}/manifests/qliksense-init/"
-      kubernetes_manifest_output: manifests/{{ bundle.parameters.profile }}/manifests/
+          - "manifests/base/manifests/qliksense-init/"
+      kubernetes_manifest_output: manifests/base/manifests/
   - kubernetes:
       description: "Installing: run Kubernetes to create CRD resource"
       manifests:
-        - manifests/{{ bundle.parameters.profile }}/manifests/
+        - manifests/base/manifests/
       wait: true
       validate: false
-
   - kustomize:
       description: "Installing: Use Kustomize to generate the k8s resources for Qliksense"
       name: qliksense-install
@@ -108,6 +110,7 @@ upgrade:
           values:
             qliksense: "{{ bundle.parameters.mongoDbUri }}"
         storageClassName: "{{ bundle.parameters.scName }}"
+        rotateKeys: "yes"
   - kustomize:
       description: "Upgrading: Use Kustomize to generate the k8s resources for Qliksense"
       name: "upgrade qliksense"
@@ -122,41 +125,11 @@ upgrade:
       validate: false
 
 uninstall:
-  - qliksense:
-      description: "Uninstalling: Creating patch based on CR"
-      name: qliksense-operator
-      cr:
-        manifestsRoot: "/cnab/app"
-        configs:
-        - dataKey: acceptEULA
-          values:
-            qliksense: "{{ bundle.parameters.acceptEULA }}"
-        secrets:
-        - secretKey: mongoDbUri
-          values:
-            qliksense: "{{ bundle.parameters.mongoDbUri }}"
-        storageClassName: "{{ bundle.parameters.scName }}"
-  - kustomize:
-      description: "Uninstalling: Use Kustomize to generate the k8s resources for Qliksense"
-      name: porter-robotshop-uninstall
-      kustomization_input:
-          - "manifests/{{ bundle.parameters.profile }}"
-      kubernetes_manifest_output: manifests/
-  - kubernetes:
-      description: "Uninstalling: run kubernetes to delete k8s resources"
-      manifests:
-        - manifests/
-      wait: true
-      validate: false
-  - kustomize:
-      description: "Uninstalling: Use Kustomize to generate CRD for Qliksense"
-      name: CRD-uninstall
-      kustomization_input:
-          - "manifests/{{ bundle.parameters.profile }}/manifests/qliksense-init"
-      kubernetes_manifest_output: manifests/{{ bundle.parameters.profile }}/manifests/
-  - kubernetes:
-      description: "Uninstalling: run Kubernetes to delete CRD resource"
-      manifests:
-        - manifests/{{ bundle.parameters.profile }}/manifests/
-      wait: true
-      validate: false
+  - exec:
+      description: "Uninstalling: delete all qliksense resources"
+      command: kubectl
+      arguments:
+      - delete
+      - deployment,services,statefulset,ingress,configmap,secrets,role,serviceaccount,rolebinding,pvc,crd
+      flags:
+        l: release=qliksense

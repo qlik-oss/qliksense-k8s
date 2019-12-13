@@ -4,8 +4,8 @@ commonLabels:
   app: mongodb
 resources:
 - ../../../../../generators/mongodb
-- ../../../secrets
-- ../../../configs
+- ../../../../base/secrets
+- ../../../../base/configs
 transformers:
 - ../secrets
 - ../configs
