@@ -62,8 +62,8 @@ if [[ "$preflight_status" == *PASS* ]]; then
     echo "Preflight checks have passed."
 else
     echo "Preflight checks have failed, please proceed at your own risk..."
+    # For now, we will not abort installation if preflight checks fail.
     # exit 1
 fi
 
-# These echoes below should not get printed, if preflight check failed.
 echo "Installing Qliksense..."
