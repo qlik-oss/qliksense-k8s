@@ -8,3 +8,6 @@ values:
     enabled: false
   configmaps:
     create: true
+  messaging:
+    nats:
+      connectWaitSeconds: 30

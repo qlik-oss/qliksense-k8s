@@ -20,6 +20,12 @@ spec:
         imagePullPolicy: IfNotPresent
         env:
         - $patch: delete
+          name: MONGO_SSL
+        - $patch: delete
+          name: MONGO_SSL_VALIDATE
+        - $patch: delete
+          name: MONGO_CHECK_SERVER_IDENTITY
+        - $patch: delete
           name: NATS_URL
         - name: NATS_URI
           valueFrom:
