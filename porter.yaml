@@ -1,8 +1,8 @@
 name: Qliksense
-version: 0.0.2
+version: 0.3.0
 description: "Qliksense application cnab bundle"
-invocationImage: qlik/qliksense-cnab-invocation:v0.2.0
-tag: qlik/qliksense-cnab-bundle:v0.2.0
+invocationImage: qlik/qliksense-cnab-invocation:v0.3.0
+tag: qlik/qliksense-cnab-bundle:v0.3.0
 
 dockerfile: Dockerfile.tmpl
 
@@ -67,12 +67,12 @@ install:
       description: "Installing: Use Kustomize to generate CRD for Qliksense"
       name: CRD-install
       kustomization_input:
-          - "manifests/{{ bundle.parameters.profile }}/manifests/qliksense-init/"
-      kubernetes_manifest_output: manifests/{{ bundle.parameters.profile }}/manifests/
+          - "manifests/base/manifests/qliksense-init/"
+      kubernetes_manifest_output: manifests/base/manifests/
   - kubernetes:
       description: "Installing: run Kubernetes to create CRD resource"
       manifests:
-        - manifests/{{ bundle.parameters.profile }}/manifests/
+        - manifests/base/manifests/
       wait: true
       validate: false
 

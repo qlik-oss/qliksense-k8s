@@ -26,6 +26,7 @@
 | acceptEULA      | yes | has to be yes |
 | namespace      | any kubernetes namespace      |   default |
 | rotateKeys | should use existing ejson keys or generate new keys (yes/no)      |    yes |
+| scName | storage class name      |    none |
 
 ## Service configuration
 
