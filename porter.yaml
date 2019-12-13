@@ -52,6 +52,11 @@ outputs:
   - upgrade
 
 install:
+  - exec:
+      description: "Running preflight checks.."
+      command: bash
+      flags:
+        c: /cnab/app/preflight.sh -n {{ bundle.parameters.namespace }}
   - qliksense:
       description: "Installing: Creating patch based on CR"
       name: qliksense-operator
