@@ -29,8 +29,8 @@ parameters:
     reqired: true
   - name: profile
     type: string
-    description: "Select profile a like, base for docker-desktop, aws-eks, gke, azure"
-    default: base
+    description: "Select a profile i.e docker-desktop, aws-eks, gke, azure. default is docker-desktop"
+    default: docker-desktop
   - name: mongoDbUri
     description: "The mongodb uri to connect"
     type: string
