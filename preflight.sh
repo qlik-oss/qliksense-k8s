@@ -6,36 +6,14 @@ continue_install=false;
 unset namespace
 unset preflight_status
 
-# in case we want to run this script on the CLI
-print_help() {
-    echo "usage: ./preflight.sh [OPTIONS]
-   Options:
-   -h          Prints help.
-   -n string   namespace to use.
-   "
-}
-
-# accept value for namespace in case we run this script from CLI
-while getopts "n:h" opt; do
-  case $opt in
-    n)
-      namespace=$OPTARG
-      ;;
-    h)
-      print_help
-      exit 1
-      ;;  
-    \?)
-      echo "Invalid option, please provide a value for namespace."
-      exit 1
-      ;;
-  esac
-done
-
 if [[ "$namespace" == "" ]]; then
-    echo "Please provide a value for namespace."
-    exit 1
+    echo "namespace empty, resetting it to default namespace."
+    namespace="default"
 fi
+
+echo "namespace to use: $namespace"
+# replace value of namespace in preflight_checks.yaml
+sed -i -e "s/PREFLIGHT_NAMESPACE/$namespace/g" clustertests/preflight_check/preflight_checks.yaml
 
 # create a test deployment and service and then run preflight in this setup
 kubectl create deployment $appName --image=nginx -n $namespace && \

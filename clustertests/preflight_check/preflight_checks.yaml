@@ -2,7 +2,7 @@ apiVersion: troubleshoot.replicated.com/v1beta1
 kind: Preflight
 metadata:
   name: cluster-preflight-checks
-  namespace: ash-ns
+  namespace: PREFLIGHT_NAMESPACE
 spec:
   collectors:
     - run: 
@@ -12,7 +12,7 @@ spec:
         image: subfuzion/netcat:latest
         imagePullPolicy: IfNotPresent
         name: spin-up-pod-check-dns
-        namespace: ash-ns
+        namespace: PREFLIGHT_NAMESPACE
         timeout: 30s
 
   analyzers:
@@ -32,7 +32,7 @@ spec:
     - deploymentStatus:
         checkName: check for deploymentStatus
         name: qnginx001
-        namespace: ash-ns
+        namespace: PREFLIGHT_NAMESPACE
         outcomes:
           - fail:
               when: "= 0"
