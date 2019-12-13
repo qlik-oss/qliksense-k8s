@@ -3,10 +3,35 @@
 # test deployment and service name we will use to test
 appName="qnginx001"
 continue_install=false;
-unset namespace
+namespace=""
 unset preflight_status
 
-if [[ "$namespace" == "" ]]; then
+print_help() {
+    echo "usage: ./preflight.sh [OPTIONS]
+   Options:
+   -h          Prints help.
+   -n string   namespace to use.
+   "
+}
+
+# accept value for namespace in case we run this script from CLI
+while getopts "n:h" opt; do
+  case $opt in
+    n)
+      namespace=$OPTARG
+      ;;
+    h)
+      print_help
+      exit 1
+      ;;  
+    \?)
+      # echo "Invalid option, please provide a value for namespace."
+      # exit 1
+      ;;
+  esac
+done
+
+if [[ $namespace == "" ]]; then
     echo "namespace empty, resetting it to default namespace."
     namespace="default"
 fi

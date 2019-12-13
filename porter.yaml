@@ -41,7 +41,7 @@ parameters:
   - name: namespace
     description: "Which namespace the qliksense will be installed"
     type: string
-    default: ""
+    default: "default"
 
 outputs:
 - name: LoadBalancer
@@ -144,4 +144,3 @@ uninstall:
       - deployment,services,statefulset,ingress,configmap,secrets,role,serviceaccount,rolebinding,pvc,crd
       flags:
         l: release=qliksense
-        n: "{{ bundle.parameters.namespace }}"
