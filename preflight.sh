@@ -25,8 +25,8 @@ while getopts "n:h" opt; do
       exit 1
       ;;  
     \?)
-      # echo "Invalid option, please provide a value for namespace."
-      # exit 1
+      # in case we want to abort installation in the event of preflight check failure
+      # exit 1 
       ;;
   esac
 done
