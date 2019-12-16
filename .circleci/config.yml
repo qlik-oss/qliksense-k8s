@@ -41,7 +41,7 @@ workflows:
   version: 2
   publish:
     jobs:
-      - release-package:
+      - qliksense-release:
           filters:
             branches:
               only: master
