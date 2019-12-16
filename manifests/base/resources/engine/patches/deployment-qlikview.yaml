@@ -9,7 +9,7 @@ spec:
         engine-nats-client: null
     spec:
       volumes:
-      - name: secrets
+      - name: secrets-service2service
         secret:
           secretName: engine-secrets
           items:
