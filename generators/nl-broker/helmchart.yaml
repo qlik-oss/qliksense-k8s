@@ -1,6 +1,0 @@
-apiVersion: qlik.com/v1
-kind: HelmChart
-metadata:
- name: nl-broker
-subChart: nl-broker
-releaseName: nl-broker
