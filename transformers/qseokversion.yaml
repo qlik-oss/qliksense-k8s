@@ -16,7 +16,7 @@ patches:
     chartHome: /tmp/.chartcache/qliksense
     chartRepo: https://qlik.bintray.com/edge
     chartName: qliksense
-    chartVersion: 1.22.36
+    chartVersion: 1.12.89
 
 - target:
     kind: HelmChart
