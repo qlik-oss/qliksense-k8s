@@ -18,12 +18,15 @@ credentials:
   - name: kubeconfig
     path: /root/.kube/config
     description: "The .kubeconfig file to connect to k8s cluster"
+    required: false
 
 parameters:
   - name: acceptEULA
     type: string
     description: "User has to accept End User License Aggrement's term to install Qliksense"
-    reqired: true
+    applyTo:
+    - install
+    - upgrade
   - name: profile
     type: string
     description: "Select a profile i.e docker-desktop, aws-eks, gke, azure. default is docker-desktop"
