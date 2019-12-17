@@ -142,4 +142,4 @@ uninstall:
       - delete
       - deployment,services,statefulset,ingress,configmap,secrets,role,serviceaccount,rolebinding,pvc,crd
       flags:
-        l: release=qliksensez
+        l: release=qliksense
