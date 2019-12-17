@@ -49,6 +49,16 @@ outputs:
   - install
   - upgrade
 
+customActions:
+  about:
+    description: "About Qlik Sense"
+    stateless: true
+    modifies: false
+
+about:
+  - qliksense:
+      description: "Use bundled version by default"
+      version: "bundled"
 install:
   - qliksense:
       description: "Installing: Creating patch based on CR"
