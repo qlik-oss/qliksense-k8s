@@ -37,7 +37,10 @@ jobs:
           porter mixin install qliksense -v v0.9.0 --url https://github.com/qlik-oss/porter-qliksense/releases/download
           porter build -v
           porter publish
-
+      - run: |
+          cat porter.yaml | sed -r 's/:v[0-9]+.[0-9]+.[0-9]+/:latest/g' > porter.yaml
+          porter build -v
+          porter publish
 workflows:
   version: 2
   publish:
@@ -49,4 +52,4 @@ workflows:
       - bundle-release:
           filters:
             branches:
-              only: master
+              only: bundle-release
