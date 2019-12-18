@@ -43,6 +43,13 @@ parameters:
     description: "Which namespace the qliksense will be installed"
     type: string
     default: ""
+  - name: dockerRegistry
+    description: "Push images/use specified docker registry"
+    type: string
+    default: ""
+    applyTo:
+      - install
+      - upgrade
 
 outputs:
 - name: LoadBalancer
@@ -67,6 +74,7 @@ install:
       description: "Installing: Creating patch based on CR"
       name: qliksense-operator
       cr:
+        dockerRegistry: "{{ bundle.parameters.dockerRegistry }}"
         manifestsRoot: "/cnab/app"
         configs:
         - dataKey: acceptEULA
@@ -114,6 +122,7 @@ upgrade:
       name: qliksense-operator
       cr:
         manifestsRoot: "/cnab/app"
+        dockerRegistry: "{{ bundle.parameters.dockerRegistry }}"
         configs:
         - dataKey: acceptEULA
           values:
