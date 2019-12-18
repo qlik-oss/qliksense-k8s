@@ -29,15 +29,28 @@ jobs:
       image: ubuntu-1604:201903-01
     steps:
       - checkout
-      - run: |
-          docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-          curl https://cdn.deislabs.io/porter/latest/install-linux.sh | bash
-          export PATH=$PATH:~/.porter
-          porter mixin install kustomize -v 0.2-beta-3-0e19ca4 --url https://github.com/donmstewart/porter-kustomize/releases/download
-          porter mixin install qliksense -v v0.11.0 --url https://github.com/qlik-oss/porter-qliksense/releases/download
-          porter build -v
-          porter publish
-
+      - run:
+          name: Installing-porter-mixins
+          command: |
+            docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+            curl https://cdn.deislabs.io/porter/latest/install-linux.sh | bash
+            export PATH=$PATH:~/.porter
+            porter mixin install kustomize -v 0.2-beta-3-0e19ca4 --url https://github.com/donmstewart/porter-kustomize/releases/download
+            porter mixin install qliksense -v v0.11.0 --url https://github.com/qlik-oss/porter-qliksense/releases/download
+      - run:
+          name: porter-build-publish
+          command: |
+            export PATH=$PATH:~/.porter
+            porter build -v
+            porter publish
+      - run:
+          name: porter-build-publish-latest
+          command: |
+            export PATH=$PATH:~/.porter
+            cat porter.yaml | sed -r 's/:v[0-9]+.[0-9]+.[0-9]+/:latest/g' > porter.tmpl.yaml
+            mv porter.tmpl.yaml porter.yaml
+            porter build -v
+            porter publish
 workflows:
   version: 2
   publish:
