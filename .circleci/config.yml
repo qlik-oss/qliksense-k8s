@@ -39,7 +39,8 @@ jobs:
           porter publish
       - run: |
           export PATH=$PATH:~/.porter
-          cat porter.yaml | sed -r 's/:v[0-9]+.[0-9]+.[0-9]+/:latest/g' > porter.yaml
+          cat porter.yaml | sed -r 's/:v[0-9]+.[0-9]+.[0-9]+/:latest/g' > porter.tmpl.yaml
+          mv porter.tmpl.yaml porter.yaml
           porter build -v
           porter publish
 workflows:
