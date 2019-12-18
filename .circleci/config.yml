@@ -34,7 +34,7 @@ jobs:
           curl https://cdn.deislabs.io/porter/latest/install-linux.sh | bash
           export PATH=$PATH:~/.porter
           porter mixin install kustomize -v 0.2-beta-3-0e19ca4 --url https://github.com/donmstewart/porter-kustomize/releases/download
-          porter mixin install qliksense -v v0.9.0 --url https://github.com/qlik-oss/porter-qliksense/releases/download
+          porter mixin install qliksense -v v0.11.0 --url https://github.com/qlik-oss/porter-qliksense/releases/download
           porter build -v
           porter publish
       - run: |
