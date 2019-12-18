@@ -13,14 +13,15 @@ mixins:
   - exec
 
 
-# See https://porter.sh/wiring/#credentials
-credentials:
+parameters:
   - name: kubeconfig
+    type: file
     path: /root/.kube/config
     description: "The .kubeconfig file to connect to k8s cluster"
-    required: false
-
-parameters:
+    applyTo:
+    - install
+    - upgrade
+    - uninstall
   - name: acceptEULA
     type: string
     description: "User has to accept End User License Aggrement's term to install Qliksense"
