@@ -52,4 +52,4 @@ workflows:
       - bundle-release:
           filters:
             branches:
-              only: bundle-release
+              only: master
