@@ -13,17 +13,21 @@ mixins:
   - exec
 
 
-# See https://porter.sh/wiring/#credentials
-credentials:
+parameters:
   - name: kubeconfig
+    type: file
     path: /root/.kube/config
     description: "The .kubeconfig file to connect to k8s cluster"
-
-parameters:
+    applyTo:
+    - install
+    - upgrade
+    - uninstall
   - name: acceptEULA
     type: string
     description: "User has to accept End User License Aggrement's term to install Qliksense"
-    reqired: true
+    applyTo:
+    - install
+    - upgrade
   - name: profile
     type: string
     description: "Select a profile i.e docker-desktop, aws-eks, gke, azure. default is docker-desktop"
@@ -40,6 +44,13 @@ parameters:
     description: "Which namespace the qliksense will be installed"
     type: string
     default: ""
+  - name: dockerRegistry
+    description: "Push images/use specified docker registry"
+    type: string
+    default: ""
+    applyTo:
+      - install
+      - upgrade
 
 outputs:
 - name: LoadBalancer
@@ -49,11 +60,22 @@ outputs:
   - install
   - upgrade
 
+customActions:
+  about:
+    description: "About Qlik Sense"
+    stateless: true
+    modifies: false
+
+about:
+  - qliksense:
+      description: "Use bundled version by default"
+      version: "bundled"
 install:
   - qliksense:
       description: "Installing: Creating patch based on CR"
       name: qliksense-operator
       cr:
+        dockerRegistry: "{{ bundle.parameters.dockerRegistry }}"
         manifestsRoot: "/cnab/app"
         configs:
         - dataKey: acceptEULA
@@ -101,6 +123,7 @@ upgrade:
       name: qliksense-operator
       cr:
         manifestsRoot: "/cnab/app"
+        dockerRegistry: "{{ bundle.parameters.dockerRegistry }}"
         configs:
         - dataKey: acceptEULA
           values:
