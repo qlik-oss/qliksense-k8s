@@ -1,8 +1,8 @@
 name: Qliksense
-version: 0.3.0
+version: 0.5.0
 description: "Qliksense application cnab bundle"
-invocationImage: qlik/qliksense-cnab-invocation:v0.3.0
-tag: qlik/qliksense-cnab-bundle:v0.3.0
+invocationImage: qlik/qliksense-cnab-invocation:v0.5.0
+tag: qlik/qliksense-cnab-bundle:v0.5.0
 
 dockerfile: Dockerfile.tmpl
 
@@ -12,18 +12,19 @@ mixins:
   - kubernetes
   - exec
 
-
-# See https://porter.sh/wiring/#credentials
 credentials:
   - name: kubeconfig
     path: /root/.kube/config
     description: "The .kubeconfig file to connect to k8s cluster"
+    required: false
 
 parameters:
   - name: acceptEULA
     type: string
     description: "User has to accept End User License Aggrement's term to install Qliksense"
-    reqired: true
+    applyTo:
+    - install
+    - upgrade
   - name: profile
     type: string
     description: "Select a profile i.e docker-desktop, aws-eks, gke, azure. default is docker-desktop"
@@ -46,7 +47,14 @@ parameters:
     default: "no"
     applyTo:
       - upgrade
-
+  - name: dockerRegistry
+    description: "Push images/use specified docker registry"
+    type: string
+    default: ""
+    applyTo:
+      - install
+      - upgrade
+    
 outputs:
 - name: LoadBalancer
   description: "Ingress LoadBalancer hostname"
@@ -54,11 +62,32 @@ outputs:
   applyTo:
   - install
 
+customActions:
+  about:
+    description: "About Qlik Sense"
+    stateless: true
+    modifies: false
+  preflight:
+    description: "Run preflight checks"
+    stateless: true
+    modifies: false
+
+about:
+  - qliksense:
+      description: "Use bundled version by default"
+      version: "bundled"
+preflight:
+  - exec:
+      description: "Running preflight checks.."
+      command: bash
+      flags:
+        c: /cnab/app/preflight.sh -n {{ bundle.parameters.namespace }}
 install:
   - qliksense:
       description: "Installing: Creating patch based on CR"
       name: qliksense-operator
       cr:
+        dockerRegistry: "{{ bundle.parameters.dockerRegistry }}"
         manifestsRoot: "/cnab/app"
         configs:
         - dataKey: acceptEULA
@@ -106,6 +135,7 @@ upgrade:
       name: qliksense-operator
       cr:
         manifestsRoot: "/cnab/app"
+        dockerRegistry: "{{ bundle.parameters.dockerRegistry }}"
         configs:
         - dataKey: acceptEULA
           values:
