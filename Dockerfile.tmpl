@@ -31,14 +31,7 @@ ARG QLIKSENSE_INIT_VERSION=1.1.0
 RUN helm fetch qlik-edge/qliksense-init --version $QLIKSENSE_INIT_VERSION --untar -d /tmp/.chartcache/
 
 # CI job will update this version and make a PR
-ARG QSEOK_VERSION=1.22.36
-
-# The Qlik docker registry to use for Image layers
-ARG QLIK_REGISTRY=qlik-docker-qsefe.bintray.io
-
-# Air Gapped operation, images are copied to invocation image (this one)
-# to enable images to be pushed to private docker registry
-ARG AIR_GAPPED=false
+ARG QSEOK_VERSION=1.12.89
 
 COPY --from=0 /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 # Use the BUNDLE_DIR build argument to copy files into the bundle

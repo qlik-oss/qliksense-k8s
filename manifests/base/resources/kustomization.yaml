@@ -3,14 +3,12 @@ kind: Kustomization
 resources:
   - audit
   - qliksense
-  - api-keys
   - chronos
   - chronos-worker
   - collections
   - data-connector-qwc
   - data-connector-odbc
   - data-connector-rest
-  - data-connector-sap-sql
   - data-connector-sfdc
   - data-prep
   - data-rest-source
@@ -24,7 +22,6 @@ resources:
   - feature-flags
   - geo-operations
   - groups
-  - generic-links
   - hub
   - identity-providers
   - insights
@@ -33,8 +30,6 @@ resources:
   - locale
   - messaging
   - management-console
-  - nl-broker
-  - nl-parser
   - odag
   - policy-decisions
   - precedents
@@ -42,7 +37,6 @@ resources:
   - qix-datafiles
   - qix-sessions
   - quotas
-  - qlikview-client
   - reloads
   - reload-tasks
   - reporting

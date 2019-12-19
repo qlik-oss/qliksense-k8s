@@ -1,6 +1,0 @@
-apiVersion: qlik.com/v1
-kind: HelmChart
-metadata:
- name: api-keys
-subChart: api-keys
-releaseName: api-keys
