@@ -62,11 +62,21 @@ customActions:
     description: "About Qlik Sense"
     stateless: true
     modifies: false
+  preflight:
+    description: "Run preflight checks"
+    stateless: true
+    modifies: false
 
 about:
   - qliksense:
       description: "Use bundled version by default"
       version: "bundled"
+preflight:
+  - exec:
+      description: "Running preflight checks.."
+      command: bash
+      flags:
+        c: /cnab/app/preflight.sh -n {{ bundle.parameters.namespace }}
 install:
   - qliksense:
       description: "Installing: Creating patch based on CR"
