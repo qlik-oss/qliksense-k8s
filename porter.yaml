@@ -12,16 +12,13 @@ mixins:
   - kubernetes
   - exec
 
-
-parameters:
+credentials:
   - name: kubeconfig
-    type: file
     path: /root/.kube/config
     description: "The .kubeconfig file to connect to k8s cluster"
-    applyTo:
-    - install
-    - upgrade
-    - uninstall
+    required: false
+
+parameters:
   - name: acceptEULA
     type: string
     description: "User has to accept End User License Aggrement's term to install Qliksense"
@@ -51,7 +48,7 @@ parameters:
     applyTo:
       - install
       - upgrade
-
+    
 outputs:
 - name: LoadBalancer
   description: "Ingress LoadBalancer hostname"
