@@ -41,6 +41,12 @@ parameters:
     description: "Which namespace the qliksense will be installed"
     type: string
     default: ""
+  - name: rotateKeys
+    description: "Rotate all application keys"
+    type: string
+    default: "no"
+    applyTo:
+      - upgrade
   - name: dockerRegistry
     description: "Push images/use specified docker registry"
     type: string
@@ -55,7 +61,6 @@ outputs:
   type: string
   applyTo:
   - install
-  - upgrade
 
 customActions:
   about:
@@ -140,7 +145,7 @@ upgrade:
           values:
             qliksense: "{{ bundle.parameters.mongoDbUri }}"
         storageClassName: "{{ bundle.parameters.scName }}"
-        rotateKeys: "yes"
+        rotateKeys: "{{ bundle.parameters.rotateKeys }}"
   - kustomize:
       description: "Upgrading: Use Kustomize to generate the k8s resources for Qliksense"
       name: "upgrade qliksense"
