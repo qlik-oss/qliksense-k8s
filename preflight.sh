@@ -69,4 +69,4 @@ else
     # exit 1
 fi
 
-echo "Installing Qliksense..."
+echo "Qliksense installation can continue"
