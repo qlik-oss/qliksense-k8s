@@ -22,6 +22,7 @@ parameters:
   - name: acceptEULA
     type: string
     description: "User has to accept End User License Aggrement's term to install Qliksense"
+    default: "no"
     applyTo:
     - install
     - upgrade
