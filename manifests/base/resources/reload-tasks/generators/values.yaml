@@ -1,15 +1,8 @@
 apiVersion: qlik.com/v1
 kind: HelmValues
 metadata:
-  name: reloads 
+  name: reload-tasks 
 releaseNamespace: $(NAMESPACE)
 values:
   mongodb:
-    enabled: false
-  config:
-    archive:
-      enabled: false
-  nats:
-    enabled: false
-  reloads_nats:
     enabled: false

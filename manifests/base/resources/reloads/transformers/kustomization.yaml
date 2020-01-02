@@ -18,7 +18,7 @@ patches:
         natsStreamingClusterId,
         keysUri,
         mongoDbUri,
-        qixSessionUri,
+        qixSessionsUri,
         engineUri,
         usersUri,
         reloadTasksUri,

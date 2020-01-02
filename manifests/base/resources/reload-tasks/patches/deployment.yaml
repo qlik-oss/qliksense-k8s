@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: reloads
+  name: reload-tasks
 spec:
   template:
     metadata:
       labels:
-        reloads-nats-client: null
+        reload-tasks-nats-client: null
     spec:
       containers:
       - name: main
@@ -18,91 +18,31 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: keysUri
-              name: reloads-configs
+              name: reload-tasks-configs
         - name: AUTH_JWKS_URI
           value: $(KEYS_URI)/keys/qlik.api.internal
         - $patch: delete
-          name: QIX_SESSION_URL
-        - name: QIX_SESSIONS_URI
+          name: CHRONOS_URI
+        - name: CHRONOS_URI
           valueFrom:
             configMapKeyRef:
-              key: qixSessionsUri
-              name: reloads-configs
-        - name: QIX_SESSION_URL
-          value: $(QIX_SESSIONS_URI)
+              key: chronosUri
+              name: reload-tasks-configs
         - $patch: delete
-          name: RELOAD_TASKS_URL
-        - name: RELOAD_TASKS_URI
+          name: CHRONOS_ACTION_URI
+        - name: RELOADS_URI
           valueFrom:
             configMapKeyRef:
-              key: reloadTasksUri
-              name: reloads-configs
-        - name: RELOAD_TASKS_URL
-          value: $(RELOAD_TASKS_URI)
-        - $patch: delete
-          name: NATS_SERVICE_NAME
-        - name: NATS_SERVICE_NAME
-          value: $(PREFIX)-messaging-nats-client
-        - $patch: delete
-          name: NATS_CLUSTER_ID
-        - name: NATS_STREAMING_CLUSTER_ID
-          valueFrom:
-            configMapKeyRef:
-              key: natsStreamingClusterId
-              name: reloads-configs
-        - name: NATS_CLUSTER_ID
-          value: $(NATS_STREAMING_CLUSTER_ID)
+              key: reloadsUri
+              name: reload-tasks-configs
+        - name: CHRONOS_ACTION_URI
+          value: $(RELOADS_URI)/v1/scheduledreloads
         - name: MONGODB_URI
           valueFrom:
             secretKeyRef:
               key: mongoDbUri
-              name: reloads-secrets
+              name: reload-tasks-secrets
         - $patch: delete
           name: MONGO_URI
         - name: MONGO_URI
           value: $(MONGODB_URI)
-        - name: TOKEN_AUTH_PRIVATE_KEY
-          valueFrom:
-            secretKeyRef:
-              key: tokenAuthPrivateKey
-              name: reloads-secrets
-        - $patch: delete
-          name: SELF_SIGNING_PRIVATE_KEY
-        - name: SELF_SIGNING_PRIVATE_KEY
-          value: $(TOKEN_AUTH_PRIVATE_KEY)
-        - $patch: delete
-          name: KEY_IDENTIFIER
-        - name: TOKEN_AUTH_PRIVATE_KEY_ID
-          valueFrom:
-            secretKeyRef:
-              key: tokenAuthPrivateKeyId
-              name: reloads-secrets
-        - name: KEY_IDENTIFIER
-          value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
-        - $patch: delete
-          name: ENGINE_URL
-        - name: ENGINE_URI
-          valueFrom:
-            configMapKeyRef:
-              key: engineUri
-              name: reloads-configs
-        - name: ENGINE_URL
-          value: $(ENGINE_URI)
-        - $patch: delete
-          name: USERS_URL
-        - name: USERS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: usersUri
-              name: reloads-configs
-        - name: USERS_URL
-          value: $(USERS_URI)
-        - $patch: delete
-          name: EDGE_AUTH_URL
-        - name: TOKEN_AUTH_URI
-          valueFrom:
-            configMapKeyRef:
-              key: tokenAuthUri
-              name: reloads-configs
-        - name: EDGE_AUTH_URL
-          value: $(TOKEN_AUTH_URI)

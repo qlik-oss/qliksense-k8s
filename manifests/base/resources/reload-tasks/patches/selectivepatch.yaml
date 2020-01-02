@@ -1,11 +1,11 @@
 apiVersion: qlik.com/v1
 kind: SelectivePatch
 metadata:
-  name: reloads
+  name: reload-tasks
 enabled: true
 patches:
   - path: deploymentJSON.yaml
     target:
       kind: Deployment
-      name: reloads
+      name: reload-tasks
   - path: deployment.yaml

@@ -1,7 +1,7 @@
 apiVersion: qlik.com/v1
 kind: SelectivePatch
 metadata:
-  name: reloads-component-configs
+  name: reload-tasks-component-configs
 enabled: true
 patches:
 - target:
@@ -10,11 +10,8 @@ patches:
     apiVersion: qlik.com/v1
     kind: SuperConfigMap
     metadata:
-      name: reloads-configs
+      name: reload-tasks-configs
     data:
-      keysUri: "http://$(PREFIX)-reloads-keys:8080/v1/keys/qlik.api.internal"
-      qixSessionsUri: "http://$(PREFIX)-reloads-qix-sessions:8080"
-      engineUri: "http://$(PREFIX)-reloads-engine:9076"
-      usersUri: http://$(PREFIX)-reloads-users:8080
-      tokenAuthUri: "http://$(PREFIX)-reloads-edge-auth:8080"
-      natsStreamingClusterId: "$(PREFIX)-reloads-messaging-nats-streaming-cluster"
+      keysUri: "http://$(PREFIX)-reload-tasks-keys:8080/v1/keys/qlik.api.internal"
+      chronosUri:  "http://$(PREFIX)-reload-tasks-chronos:8585"
+      reloadsUri: "http://$(PREFIX)-reload-tasks-reloads:8080"
