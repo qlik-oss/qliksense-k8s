@@ -29,6 +29,7 @@ resources:
   - locale
   - messaging
   - management-console
+  - nl-broker
   - odag
   - policy-decisions
   - precedents
