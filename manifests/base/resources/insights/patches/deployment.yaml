@@ -88,3 +88,12 @@ spec:
                   name: insights-configs
             - name: REPORTING_URL
               value: $(REPORTING_URI)
+            - $patch: delete
+              name: PDS_URL
+            - name: PDS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: pdsUri
+                  name: insights-configs
+            - name: PDS_URL
+              value: $(PDS_URI)
