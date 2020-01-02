@@ -1,0 +1,18 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: qlikview-client-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: qlikview-client-configs
+    data:
+      keysUri: "http://$(PREFIX)-qlikview-client-keys:8080/v1/keys/qlik.api.internal"
+      licensesUri: "http://$(PREFIX)-qlikview-client-licenses:9200/"
+      spacesUri: "http://$(PREFIX)-qlikview-client-spaces:6080/"
+      groupsUri: "http://$(PREFIX)-qlikview-client-groups:8080/"
