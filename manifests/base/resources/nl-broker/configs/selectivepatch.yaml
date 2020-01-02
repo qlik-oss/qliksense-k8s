@@ -12,9 +12,8 @@ patches:
     metadata:
       name: nl-broker-configs
     data:
-      parserUri: "http://$(PREFIX)-nl-broker-nl-parser:30302"
+      parserUri: "http://$(PREFIX)-nl-parser:30302"
       tokenAuthUri: "http://$(PREFIX)-nl-broker-edge-auth:8080"
-      mongoDbUri: "mongodb://$(PREFIX)-mongodb:27017/nl-broker"
       dpsUri: "http://$(PREFIX)-nl-broker-data-prep.svc.cluster.local:9072"
       keysUri: "http://$(PREFIX)-nl-broker-keys:8080/v1/keys/qlik.api.internal"
 

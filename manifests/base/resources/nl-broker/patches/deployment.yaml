@@ -44,8 +44,6 @@ spec:
             configMapKeyRef:
               key: dpsUri
               name: nl-broker-configs
-        - name: DPS_URI
-          value: $(DPS_URI)
         - $patch: delete
           name: PARSER_URI
         - name: PARSER_URI
@@ -53,5 +51,3 @@ spec:
             configMapKeyRef:
               key: parserUri
               name: nl-broker-configs
-        - name: PARSER_URI
-          value: $(PARSER_URI)

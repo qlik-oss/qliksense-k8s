@@ -9,3 +9,5 @@ patches:
     kind: Deployment
     name: nl-broker
 - path: deployment.yaml
+  target:
+    kind: Deployment

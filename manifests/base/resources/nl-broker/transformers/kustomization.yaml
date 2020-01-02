@@ -13,8 +13,8 @@ patches:
     labelSelector: >-
       key notin ( 
         tokenAuthUri,
-        dpsUri,
         parserUri,
+        dpsUri,
         mongoDbUri,
         keysUri
       )
