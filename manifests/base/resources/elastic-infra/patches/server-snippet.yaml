@@ -29,9 +29,9 @@ metadata:
         proxy_set_header            X-Original-URL          $scheme://$http_host$request_uri;
         proxy_set_header            X-Original-Method       $request_method;
         proxy_set_header            X-Sent-From             "nginx-ingress-controller";
-        proxy_set_header            X-Real-IP               $the_real_ip;
+        proxy_set_header            X-Real-IP               $remote_addr;
 
-        proxy_set_header            X-Forwarded-For        $the_real_ip;
+        proxy_set_header            X-Forwarded-For        $remote_addr;
 
         proxy_set_header            X-Auth-Request-Redirect $request_uri;
 
@@ -66,20 +66,26 @@ metadata:
       # session and then proxies the websocket upgrade to the returned engine.
       #
       # Here are some example paths that would match this location.
+      #   /app/%3Ftransient%3D
       #   /app/a774322d-8230-4688-b459-3e037d53a560
-      #   /app/a774322d-8230-4688-b459-3e037d53a560/identity/b7c7q
-      #   /qvapp/one_of_each%3FRequestQvpx2
+      #   /app/a774322d-8230-4688-b459-3e037d53a560/identity/36fec6a7-61c5-41ba-b9f5-76997a53a82c
+      #   /app/SessionApp_a774322d-8230-4688-b459-3e037d53a560
+      #   /app/SessionApp_a774322d-8230-4688-b459-3e037d53a560/identity/36fec6a7-61c5-41ba-b9f5-76997a53a82c
+      #   /qvapp/a774322d-8230-4688-b459-3e037d53a560
+      #   /qvapp/a774322d-8230-4688-b459-3e037d53a560/identity/36fec6a7-61c5-41ba-b9f5-76997a53a82c
       #
       # Note that location does not contain the query string (e.g. ?example1=true&example2=yes).
       # This golang regex tester is good for testing changes to the localtion regex: https://regex101.com/.
       #
-      location ~ ^/app/([a-zA-Z0-9\-]+|%3Ftransient%3D)(/identity/)?([a-zA-Z0-9\-]+)?.*|^/(qv)app/(.+) {
+      # ^/app/(SessionApp_)?([a-zA-Z0-9\-]+|%3Ftransient%3D)(/identity/)?([a-zA-Z0-9\-]+)?.*|^/(qv)app/([a-zA-Z0-9\-])(/identity/)?([a-zA-Z0-9\-]+)?.*
+      #
+      location ~ ^/(qv)?app/(SessionApp_)?([a-zA-Z0-9\-]+|%3Ftransient%3D)(/identity/)?([a-zA-Z0-9\-]+)?.* {
         set $engine_path '';
 
-        set $app_id $1;
-        set $session_id $3;
-        set $qv $4;
-        set $qv_app_id $5;
+        set $session_app $2;
+        set $app_id $3;
+        set $session_id $5;
+        set $qv $1;
 
         set $auth_path http://$(PREFIX)-edge-auth.$(NAMESPACE).svc.cluster.local:8080/v1/auth;
         set $qix_session_path http://$(PREFIX)-qix-sessions.$(NAMESPACE).svc.cluster.local:8080/v1/engine-sessions;

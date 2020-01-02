@@ -9,5 +9,7 @@ transformers:
 images:
 - name: qlik-docker-qsefe.bintray.io/engine
   newName: $(IMAGE_REGISTRY)/engine
+- name: qlik-docker-qsefe.bintray.io/engine-qv
+  newName: $(IMAGE_REGISTRY)/engine-qv
 configurations:
   - ../../namereference.yaml
