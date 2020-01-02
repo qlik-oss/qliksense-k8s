@@ -7,7 +7,6 @@ resources:
 - ../../../secrets
 - ../../../configs
 transformers:
-- ../secrets
 - ../configs
 - values.yaml 
 patches:

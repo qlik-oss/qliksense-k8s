@@ -6,7 +6,6 @@ generators:
   - generators
 transformers:
   - patches
-  - secrets
   - configs
   - transformers
   - ../qliksense/generators/secrets 
