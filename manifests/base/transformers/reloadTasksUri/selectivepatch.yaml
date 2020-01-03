@@ -1,9 +1,9 @@
 apiVersion: qlik.com/v1
 kind: SelectivePatch
 metadata:
-  name: reloadServicesUri
+  name: reloadTasksUri
   labels:
-    key: reloadServicesUri 
+    key: reloadTasksUri
 enabled: true
 patches:
 - target:
@@ -19,10 +19,10 @@ patches:
           containers:
           - name: main
             env:
-            - name: RELOAD_SERVICES_URI
+            - name: RELOAD_TASKS_URI
               valueFrom:
                 configMapKeyRef:
-                  key: reloadServicesUri
+                  key: reloadTasksUri
                   name: configs
 - target:
     kind: ConfigMap
@@ -33,4 +33,4 @@ patches:
     metadata:
       name: component-configs
     data:
-      reloadServicesUri: null
+      reloadTasksUri: null

@@ -17,3 +17,10 @@ patches:
     - op: replace
       path: /metadata/name
       value: insights-configs
+- target:
+    kind: SuperSecret
+  patch: |-
+    - op: replace
+      path: /metadata/name
+      value: insights-secrets
+

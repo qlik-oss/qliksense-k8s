@@ -25,6 +25,26 @@ patches:
                   key: mongoDbUri
                   name: secrets
 - target:
+    kind: CronJob
+  patch: |-
+    apiVersion: batch/v1beta1
+    kind: CronJob
+    metadata:
+      name: component
+    spec:
+      jobTemplate:
+        spec:
+          template:
+            spec:
+              containers:
+              - name: main
+                env:
+                - name: MONGODB_URI
+                  valueFrom:
+                    secretKeyRef:
+                      key: mongoDbUri
+                      name: secrets
+- target:
     kind: Secret
     name: .*-secrets
   patch: |-

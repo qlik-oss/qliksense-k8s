@@ -30,6 +30,7 @@ resources:
   - locale
   - messaging
   - management-console
+  - nl-broker
   - odag
   - policy-decisions
   - precedents
@@ -38,7 +39,7 @@ resources:
   - qix-sessions
   - qlikview-client
   - quotas
-  - reloads
+  - qix-data-reload
   - reload-tasks
   - reporting
   - resource-library
