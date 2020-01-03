@@ -175,3 +175,5 @@ varReference:
   path: data/reloadTasksUri
 - kind: ConfigMap
   path: data/chronosUri
+- kind: ConfigMap
+  path: data/collectionsUri
