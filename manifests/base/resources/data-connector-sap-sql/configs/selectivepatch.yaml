@@ -1,0 +1,15 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: data-connector-sap-sql-component-configs
+enabled: true
+patches:
+  - target:
+      kind: SuperConfigMap
+    patch: |-
+      apiVersion: qlik.com/v1
+      kind: SuperConfigMap
+      metadata:
+        name: data-connector-sap-sql-configs
+      data:
+        licensesUri: http://$(PREFIX)-data-connector-sap-sql-licenses:9200
