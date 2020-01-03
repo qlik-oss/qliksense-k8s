@@ -46,3 +46,4 @@ patches:
       reloadTasksUri: "http://$(PREFIX)-reload-tasks:8080"
       qixDataReloadUri: "http://$(PREFIX)-qix-data-reload:8080"
       chronosUri: "http://$(PREFIX)-chronos:8585"
+      collectionsUri: "http://$(PREFIX)-collections:8080"
