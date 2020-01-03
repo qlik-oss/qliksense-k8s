@@ -39,4 +39,8 @@ resources:
 - reloadTasksUri
 - qixDataReloadUri
 - chronosUri
+- reportingUri
+- collectionsUri
+- parserUri
+- dpsUri
 

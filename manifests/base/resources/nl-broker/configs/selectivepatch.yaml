@@ -1,0 +1,19 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: nl-broker-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: nl-broker-configs
+    data:
+      parserUri: "http://$(PREFIX)-nl-parser:30302"
+      dpsUri: "http://$(PREFIX)-nl-broker-data-prep.svc.cluster.local:9072"
+      keysUri: "http://$(PREFIX)-nl-broker-keys:8080/v1/keys/qlik.api.internal"
+
+

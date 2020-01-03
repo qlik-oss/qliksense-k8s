@@ -47,3 +47,6 @@ patches:
       qixDataReloadUri: "http://$(PREFIX)-qix-data-reload:8080"
       chronosUri: "http://$(PREFIX)-chronos:8585"
       collectionsUri: "http://$(PREFIX)-collections:8080"
+      reportingUri: "http://$(PREFIX)-reporting:8282"
+      parserUri: "http://$(PREFIX)-nl-parser:30302"
+      dpsUri: "http://$(PREFIX)-data-prep.svc.cluster.local:9072"

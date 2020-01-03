@@ -25,12 +25,13 @@ resources:
   - groups
   - hub
   - identity-providers
-  - insights
+  #- insights
   - keys
   - licenses
   - locale
   - messaging
   - management-console
+  - nl-broker
   - odag
   - policy-decisions
   - precedents
