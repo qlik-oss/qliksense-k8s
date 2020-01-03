@@ -26,13 +26,6 @@ spec:
           name: AUTH_JWKS_URI
         - name: AUTH_JWKS_URI
           value: $(KEYS_URI)/keys/qlik.api.internal
-        - name: TOKEN_AUTH_URI
-          valueFrom:
-            configMapKeyRef:
-              key: tokenAuthUri
-              name: nl-broker-configs
-        - name: EDGE_AUTH_URL
-          value: $(TOKEN_AUTH_URI)
         - $patch: delete
           name: MONGO_URI
         - name: MONGO_URI

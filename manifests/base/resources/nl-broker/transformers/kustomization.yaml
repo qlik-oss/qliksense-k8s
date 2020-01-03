@@ -12,7 +12,6 @@ patches:
 - target:
     labelSelector: >-
       key notin ( 
-        tokenAuthUri,
         parserUri,
         dpsUri,
         mongoDbUri,
