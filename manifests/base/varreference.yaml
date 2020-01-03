@@ -11,6 +11,8 @@ varReference:
   kind: Deployment
 - path: metadata/name
   kind: Deployment
+- path: metadata/name
+  kind: CronJob
 - path: spec/template/spec/containers/env/valueFrom/secretKeyRef/name
   kind: Deployment
 - path: spec/template/spec/containers/env/valueFrom/configMapKeyRef/name
@@ -31,6 +33,8 @@ varReference:
   kind: Deployment
 - path: spec/template/spec/containers/image
   kind: Deployment
+- path: spec/jobTemplate/spec/template/spec/containers/image
+  kind: CronJob
 - path: data/pdsUri
   kind: ConfigMap
 - path: spec/serviceName
@@ -39,6 +43,8 @@ varReference:
   kind: StatefulSet
 - path: spec/template/spec/containers/env/valueFrom/secretKeyRef/name
   kind: StatefulSet
+- path: spec/jobTemplate/spec/template/spec/containers/env/valueFrom/secretKeyRef/name
+  kind: CronJob
 - path: spec/template/spec/containers/env/valueFrom/configMapKeyRef/name
   kind: StatefulSet
 - path: spec/template/spec/serviceAccountName

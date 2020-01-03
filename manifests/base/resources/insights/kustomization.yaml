@@ -16,4 +16,3 @@ transformers:
 images:
   - name: qlik-docker-qsefe.bintray.io/insights
     newName: $(IMAGE_REGISTRY)/insights
-
