@@ -97,3 +97,5 @@ spec:
                   name: insights-configs
             - name: PDS_URL
               value: $(PDS_URI)
+            - $patch: delete #deleting due to null causes kuz failure
+              name: REPORTING_SERVICE_DISABLED

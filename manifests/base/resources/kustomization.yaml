@@ -24,7 +24,7 @@ resources:
   - groups
   - hub
   - identity-providers
-  #- insights
+  - insights
   - keys
   - licenses
   - locale

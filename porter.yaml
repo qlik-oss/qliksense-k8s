@@ -166,6 +166,6 @@ uninstall:
       command: kubectl
       arguments:
       - delete
-      - deployment,services,statefulset,ingress,configmap,secrets,role,serviceaccount,rolebinding,pvc,crd
+      - deployment,services,statefulset,ingress,configmap,secrets,role,serviceaccount,rolebinding,pvc,crd,cronjob
       flags:
         l: release=qliksense
