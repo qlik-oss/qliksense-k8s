@@ -8,38 +8,38 @@ vars:
     objref:
       apiVersion: v1
       kind: ConfigMap
-      name: reload-tasks-configs
+      name: qix-data-reload-configs
     fieldref:
       fieldpath: data.ingressClass
   - name: NAMESPACE
     objref:
       apiVersion: v1
       kind: ConfigMap
-      name: reload-tasks-configs 
+      name: qix-data-reload-configs 
     fieldref:
       fieldpath: metadata.namespace
   - name: PREFIX 
     objref:
       apiVersion: v1
       kind: ConfigMap 
-      name: reload-tasks-configs 
+      name: qix-data-reload-configs 
     fieldref:
       fieldpath: metadata.labels.release
   - name: INGRESS_AUTH_URL
     objref:
       apiVersion: v1
       kind: ConfigMap
-      name: reload-tasks-configs
+      name: qix-data-reload-configs
     fieldref:
       fieldpath: data.ingressAuthUrl
   - name: IMAGE_REGISTRY
     objref:
       apiVersion: v1
       kind: ConfigMap
-      name: reload-tasks-configs
+      name: qix-data-reload-configs
     fieldref:
       fieldpath: data.imageRegistry
 configurations:
   - ../../varreference.yaml
 resources:
-  - ../../resources/reload-tasks
+  - ../../resources/qix-data-reload

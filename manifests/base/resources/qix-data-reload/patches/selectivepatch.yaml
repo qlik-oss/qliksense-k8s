@@ -1,0 +1,11 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: qix-data-reload
+enabled: true
+patches:
+  - path: deploymentJSON.yaml
+    target:
+      kind: Deployment
+      name: qix-data-reload
+  - path: deployment.yaml

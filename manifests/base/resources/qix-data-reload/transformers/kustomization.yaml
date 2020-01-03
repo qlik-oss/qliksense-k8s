@@ -1,9 +1,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 commonLabels:
-  app: odag
+  app: qix-data-reload
 resources:
-  - ../../../transformers
+- ../../../transformers
 transformers:
 - ../../../../../.operator/transformers
 - ../../../../../configuration/transformers
@@ -11,24 +11,21 @@ transformers:
 patches:
 - target:
     labelSelector: >-
-      key notin ( 
+      key notin (
+        tokenAuthUri,
         ingressClass,
         ingressAuthUrl,
-        natsUri,
         natsStreamingClusterId,
         keysUri,
-        tokenAuthUri,
         mongoDbUri,
-        engineUri,
         qixSessionsUri,
-        qixDataReloadUri,
+        engineUri,
         usersUri,
-        collectionsUri,
-        featureFlagsUri,
-        encryptionUri,
-        tokenAuthPrivateKey,
-        tokenAuthPrivateKeyId
-      )
+        reloadTasksUri,
+        secretClientCertificates,
+        hostClientCertificates,
+        pvcClientCertificates
+        )
   patch: |-
     - op: replace
       path: /enabled
@@ -36,3 +33,4 @@ patches:
     - op: replace
       path: /default
       value: true
+ 

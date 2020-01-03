@@ -20,11 +20,12 @@ resources:
   - engine
   - eventing
   - feature-flags
+  - generic-links
   - geo-operations
   - groups
   - hub
   - identity-providers
-  - insights
+  #- insights
   - keys
   - licenses
   - locale
@@ -38,7 +39,7 @@ resources:
   - qix-datafiles
   - qix-sessions
   - quotas
-  - reloads
+  - qix-data-reload
   - reload-tasks
   - reporting
   - resource-library

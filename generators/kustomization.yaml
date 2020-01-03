@@ -38,7 +38,7 @@ resources:
   - qix-datafiles
   - qix-sessions
   - quotas
-  - reloads
+  - qix-data-reload
   - reload-tasks
   - reporting
   - resource-library

@@ -3,4 +3,4 @@ kind: HelmChart
 metadata:
  name: reloads
 subChart: reloads
-releaseName: reloads
+releaseName: qix-data-reload

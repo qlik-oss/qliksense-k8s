@@ -1,9 +1,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 commonLabels:
-  app: insights
+  app: qix-data-reload
 resources:
-- ../../../../../generators/insights
+- ../../../../../generators/reloads
 - ../../../secrets
 - ../../../configs
 transformers:
@@ -12,15 +12,15 @@ transformers:
 - values.yaml
 patches:
 - target:
-    kind: SuperConfigMap
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: insights-configs
-- target:
     kind: SuperSecret
   patch: |-
     - op: replace
       path: /metadata/name
-      value: insights-secrets
+      value: qix-data-reload-secrets
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    - op: replace
+      path: /metadata/name
+      value: qix-data-reload-configs
 
