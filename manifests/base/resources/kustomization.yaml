@@ -36,6 +36,7 @@ resources:
   - qix-data-connection
   - qix-datafiles
   - qix-sessions
+  - qlikview-client
   - quotas
   - reloads
   - reload-tasks
