@@ -24,7 +24,7 @@ resources:
   - groups
   - hub
   - identity-providers
-  - insights
+  #- insights
   - keys
   - licenses
   - locale
@@ -38,7 +38,7 @@ resources:
   - qix-datafiles
   - qix-sessions
   - quotas
-  - reloads
+  - qix-data-reload
   - reload-tasks
   - reporting
   - resource-library

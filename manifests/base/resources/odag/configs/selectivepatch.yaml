@@ -18,7 +18,7 @@ patches:
       keysUri: "http://$(PREFIX)-odag-keys:8080/v1/keys/qlik.api.internal"
       engineUri: "http://$(PREFIX)-odag-engine:9076"
       qixSessionsUri: "http://$(PREFIX)-odag-qix-sessions:8080"
-      reloadServiceUri: "http://$(PREFIX)-odag-reloads:8080"
+      qixDataReloadUri: "http://$(PREFIX)-odag-qix-data-reload:8080"
       usersUri: "http://$(PREFIX)-odag-users:8080"
       collectionsUri: "http://$(PREFIX)-odag-collections:8080"
       featureFlagsUri: "http://$(PREFIX)-odag-feature-flags:8080"

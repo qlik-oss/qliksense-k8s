@@ -1,0 +1,17 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: reload-tasks-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: reload-tasks-configs
+    data:
+      keysUri: "http://$(PREFIX)-reload-tasks-keys:8080/v1/keys/qlik.api.internal"
+      chronosUri:  "http://$(PREFIX)-reload-tasks-chronos:8585"
+      qixDataReloadUri: "http://$(PREFIX)-reload-tasks-qix-data-reload:8080"
