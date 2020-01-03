@@ -18,24 +18,10 @@ spec:
               name: MONGO_URI
             - name: MONGO_URI
               value: $(MONGODB_URI)
-            - name: TOKEN_AUTH_PRIVATE_KEY_ID
-              valueFrom:
-                secretKeyRef:
-                  key: tokenAuthPrivateKeyId
-                  name: insights-secrets
-            - $patch: delete
+            - $patch: delete # deleting because the service does not use JWT
               name: JWT_KID
-            - name: JWT_KID
-              value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
-            - name: TOKEN_AUTH_PRIVATE_KEY
-              valueFrom:
-                secretKeyRef:
-                  key: tokenAuthPrivateKey
-                  name: insights-secrets
-            - $patch: delete
+            - $patch: delete # deleting because the service does not use JWT
               name: JWT_PRIVATE_KEY
-            - name: JWT_PRIVATE_KEY
-              value: $(TOKEN_AUTH_PRIVATE_KEY)
             - name: KEYS_URI
               valueFrom:
                 configMapKeyRef:
