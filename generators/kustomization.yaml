@@ -9,6 +9,7 @@ resources:
   - data-connector-odbc
   - data-connector-rest
   - data-connector-sfdc
+  - data-connector-sap-sql
   - data-prep
   - data-rest-source
   - dcaas
