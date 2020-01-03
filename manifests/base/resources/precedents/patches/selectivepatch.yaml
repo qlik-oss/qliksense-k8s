@@ -1,0 +1,11 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: precedents
+enabled: true
+patches:
+- path: deploymentJSON.yaml
+  target:
+    kind: Deployment
+    name: precedents
+- path: deployment.yaml
