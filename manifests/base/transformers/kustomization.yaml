@@ -36,4 +36,8 @@ resources:
 - qixDataConnectionUri
 - geoOperationsUri
 - storageClassName
+- reportingUri
+- collectionsUri
+- parserUri
+- dpsUri
 

@@ -1,7 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 commonLabels:
-  app: odag
+  app: nl-broker
 resources:
   - ../../../transformers
 transformers:
@@ -12,22 +12,10 @@ patches:
 - target:
     labelSelector: >-
       key notin ( 
-        ingressClass,
-        ingressAuthUrl,
-        natsUri,
-        natsStreamingClusterId,
-        keysUri,
-        tokenAuthUri,
+        parserUri,
+        dpsUri,
         mongoDbUri,
-        engineUri,
-        qixSessionsUri,
-        reloadServiceUri,
-        usersUri,
-        collectionsUri,
-        featureFlagsUri,
-        encryptionUri,
-        tokenAuthPrivateKey,
-        tokenAuthPrivateKeyId
+        keysUri
       )
   patch: |-
     - op: replace
