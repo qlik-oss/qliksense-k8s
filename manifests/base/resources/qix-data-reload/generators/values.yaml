@@ -12,3 +12,7 @@ values:
   nats:
     enabled: false
     authEnabled: true
+  reloads_nats:
+    enabled: false
+  nameOverride: qix-data-reload
+  fullnameOverride: qix-data-reload

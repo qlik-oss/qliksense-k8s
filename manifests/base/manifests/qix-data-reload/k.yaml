@@ -1,0 +1,224 @@
+apiVersion: v1
+data:
+  imageRegistry: qlik-docker-qsefe.bintray.io
+  ingressAuthUrl: http://qliksense-edge-auth.default.svc.cluster.local:8080/v1/auth
+  ingressClass: qlik-nginx
+  redisImageRegistry: docker.io/bitnami
+  storageClassName: ""
+kind: ConfigMap
+metadata:
+  labels:
+    app: qix-data-reload
+    release: qliksense
+  name: qliksense-qix-data-reload-configs-fbbt544k27
+  namespace: default
+---
+apiVersion: v1
+data:
+  privatekey: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1JR2tBZ0VCQkRBY3VGcFRMRk82TWJ2aUdUSnVCam1GR1Vka3JOdkxTV3RTY3BvV1QwdnYvcG5tejUvQ2w3TGUKNEN3b3JDNWpTalNnQndZRks0RUVBQ0toWkFOaUFBUzF4NXdaaHVTMHJOalpRQUlVZkl6ZFh5SnEwK3pFeVR0TgpUNi9LK3lvRkNwYlhmSHhCZkV6bWhZZWhSUFo5OENlK3VzUnl3eHVHcFVhM01lQis3bFFBc3VTNnNtdUIyR2NSClVCdUozeWVLK0VMU1E0eU9Oc3djY0gwNnhxOUFtd0U9Ci0tLS0tRU5EIEVDIFBSSVZBVEUgS0VZLS0tLS0K
+kind: Secret
+metadata:
+  labels:
+    app: qix-data-reload
+    release: qliksense
+  name: qliksense-qix-data-reload-privatekey
+  namespace: default
+stringData:
+  mongoDbUri: mongodb://qliksense-mongodb:27017/qix-data-reload
+type: Opaque
+---
+apiVersion: v1
+data:
+  something: ZWxzZQ==
+  tokenAuthPrivateKey: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1JR2tBZ0VCQkRBY3VGcFRMRk82TWJ2aUdUSnVCam1GR1Vka3JOdkxTV3RTY3BvV1QwdnYvcG5tejUvQ2w3TGUKNEN3b3JDNWpTalNnQndZRks0RUVBQ0toWkFOaUFBUzF4NXdaaHVTMHJOalpRQUlVZkl6ZFh5SnEwK3pFeVR0TgpUNi9LK3lvRkNwYlhmSHhCZkV6bWhZZWhSUFo5OENlK3VzUnl3eHVHcFVhM01lQis3bFFBc3VTNnNtdUIyR2NSClVCdUozeWVLK0VMU1E0eU9Oc3djY0gwNnhxOUFtd0U9Ci0tLS0tRU5EIEVDIFBSSVZBVEUgS0VZLS0tLS0K
+  tokenAuthPrivateKeyId: UXRpRnR4LTVNQ2NzbkhiLXhtV0dnandvSnVFWllZa1lIYmxOMklfQmlibw==
+kind: Secret
+metadata:
+  labels:
+    app: qix-data-reload
+    release: qliksense
+  name: qliksense-qix-data-reload-secrets-5g6f2db47d
+  namespace: default
+stringData: {}
+type: Opaque
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    prometheus.io/port: "8080"
+    prometheus.io/scrape: "true"
+  labels:
+    app: qix-data-reload
+    chart: reloads-1.6.3
+    heritage: Tiller
+    release: qliksense
+  name: qliksense-qix-data-reload
+  namespace: default
+spec:
+  ports:
+  - name: qix-data-reload
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: qix-data-reload
+    release: qix-data-reload
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: qix-data-reload
+    chart: reloads-1.6.3
+    heritage: Tiller
+    release: qliksense
+  name: qliksense-qix-data-reload
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qix-data-reload
+      release: qix-data-reload
+  template:
+    metadata:
+      labels:
+        app: qix-data-reload
+        qliksense-messaging-nats-client: "true"
+        release: qix-data-reload
+    spec:
+      containers:
+      - env:
+        - name: KEYS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: keysUri
+              name: qliksense-configs-t8664gtd9d
+        - name: AUTH_JWKS_URI
+          value: $(KEYS_URI)/keys/qlik.api.internal
+        - name: QIX_SESSIONS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: qixSessionsUri
+              name: qliksense-configs-t8664gtd9d
+        - name: QIX_SESSION_URL
+          value: $(QIX_SESSIONS_URI)
+        - name: RELOAD_TASKS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: reloadTasksUri
+              name: qliksense-configs-t8664gtd9d
+        - name: RELOAD_TASKS_URL
+          value: $(RELOAD_TASKS_URI)
+        - name: NATS_SERVICE_NAME
+          value: qliksense-messaging-nats-client
+        - name: NATS_STREAMING_CLUSTER_ID
+          valueFrom:
+            configMapKeyRef:
+              key: natsStreamingClusterId
+              name: qliksense-configs-t8664gtd9d
+        - name: NATS_CLUSTER_ID
+          value: $(NATS_STREAMING_CLUSTER_ID)
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              key: mongoDbUri
+              name: qliksense-secrets-d8d4b46kd4
+        - name: MONGO_URI
+          value: $(MONGODB_URI)
+        - name: TOKEN_AUTH_PRIVATE_KEY
+          valueFrom:
+            secretKeyRef:
+              key: tokenAuthPrivateKey
+              name: qliksense-qix-data-reload-secrets-5g6f2db47d
+        - name: SELF_SIGNING_PRIVATE_KEY
+          value: $(TOKEN_AUTH_PRIVATE_KEY)
+        - name: TOKEN_AUTH_PRIVATE_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              key: tokenAuthPrivateKeyId
+              name: qliksense-qix-data-reload-secrets-5g6f2db47d
+        - name: KEY_IDENTIFIER
+          value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
+        - name: ENGINE_URI
+          valueFrom:
+            configMapKeyRef:
+              key: engineUri
+              name: qliksense-configs-t8664gtd9d
+        - name: ENGINE_URL
+          value: $(ENGINE_URI)
+        - name: USERS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: usersUri
+              name: qliksense-configs-t8664gtd9d
+        - name: USERS_URL
+          value: $(USERS_URI)
+        - name: TOKEN_AUTH_URI
+          valueFrom:
+            configMapKeyRef:
+              key: tokenAuthUri
+              name: qliksense-configs-t8664gtd9d
+        - name: EDGE_AUTH_URL
+          value: $(TOKEN_AUTH_URI)
+        - name: LOG_LEVEL
+          value: debug
+        - name: MAX_SIMULTANEOUS_RELOADS
+          value: "100"
+        - name: AUTH_ENABLED
+          value: "true"
+        - name: AUTH_JWT_AUD
+          value: qlik.api.internal
+        - name: AUTH_JWT_ISS
+          value: qlik.api.internal
+        - name: NATS_CLIENT_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: NATS_AUTH_ENABLED
+          value: "true"
+        image: qlik-docker-qsefe.bintray.io/qix-data-reload:1.3.5
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+        name: main
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+        volumeMounts: null
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+      volumes: null
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: qlik-nginx
+    nginx.ingress.kubernetes.io/auth-response-headers: Authorization
+    nginx.ingress.kubernetes.io/auth-url: http://qliksense-edge-auth.default.svc.cluster.local:8080/v1/auth
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite (?i)/api/(.*) /$1 break;
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+  labels:
+    app: qix-data-reload
+    chart: reloads-1.6.3
+    heritage: Tiller
+    release: qliksense
+  name: qliksense-qix-data-reload
+  namespace: default
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: qliksense-qix-data-reload
+          servicePort: 8080
+        path: /api/v1/reloads

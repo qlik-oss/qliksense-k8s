@@ -46,3 +46,5 @@ spec:
           name: MONGO_URI
         - name: MONGO_URI
           value: $(MONGODB_URI)
+        - $patch: delete # need to delete because of null value causing kuz failed
+          name: EXCLUDED_TENANTS
