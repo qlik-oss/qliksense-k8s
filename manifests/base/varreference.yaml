@@ -166,7 +166,7 @@ varReference:
 - kind: PersistentVolumeClaim
   path: spec/storageClassName
 - kind: ConfigMap
-  path: data/reloadsUri
+  path: data/qixDataReloadUri
 - kind: ConfigMap
   path: data/reloadTasksUri
 - kind: ConfigMap

@@ -44,5 +44,5 @@ patches:
       geoOperationsUri: $(PREFIX)-geo-operations:50072
       encryptionUri: "http://$(PREFIX)-encryption:8080"
       reloadTasksUri: "http://$(PREFIX)-reload-tasks:8080"
-      reloadsUri: "http://$(PREFIX)-reloads:8080"
+      qixDataReloadUri: "http://$(PREFIX)-qix-data-reload:8080"
       chronosUri: "http://$(PREFIX)-chronos:8585"

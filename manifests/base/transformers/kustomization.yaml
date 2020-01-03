@@ -37,6 +37,6 @@ resources:
 - geoOperationsUri
 - storageClassName
 - reloadTasksUri
-- reloadsUri
+- qixDataReloadUri
 - chronosUri
 

@@ -1,7 +1,7 @@
 apiVersion: qlik.com/v1
 kind: HelmValues
 metadata:
-  name: reloads 
+  name: qix-data-reload 
 releaseNamespace: $(NAMESPACE)
 values:
   mongodb:

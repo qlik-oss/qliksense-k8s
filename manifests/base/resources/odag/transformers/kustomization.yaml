@@ -21,7 +21,7 @@ patches:
         mongoDbUri,
         engineUri,
         qixSessionsUri,
-        reloadsUri,
+        qixDataReloadUri,
         usersUri,
         collectionsUri,
         featureFlagsUri,

@@ -16,7 +16,7 @@ patches:
         ingressAuthUrl,
         keysUri,
         mongoDbUri,
-        reloadsUri,
+        qixDataReloadUri,
         chronosUri,
         secretClientCertificates,
         hostClientCertificates,

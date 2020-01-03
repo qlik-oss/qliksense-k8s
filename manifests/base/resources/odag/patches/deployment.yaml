@@ -89,13 +89,13 @@ spec:
           value: $(QIX_SESSIONS_URI)
         - $patch: delete
           name: RELOAD_SERVICE_URL
-        - name: RELOADS_URI
+        - name: QIX_DATA_RELOAD_URI
           valueFrom:
             configMapKeyRef:
-              key: reloadsUri
+              key: qixDataReloadUri
               name: odag-configs
         - name: RELOAD_SERVICE_URL
-          value: $(RELOADS_URI)
+          value: $(QIX_DATA_RELOAD_URI)
         - $patch: delete
           name: USER_SERVICE_URL
         - name: USERS_URI

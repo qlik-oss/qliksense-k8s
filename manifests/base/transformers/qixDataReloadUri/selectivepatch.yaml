@@ -1,9 +1,9 @@
 apiVersion: qlik.com/v1
 kind: SelectivePatch
 metadata:
-  name: reloadsUri
+  name: qixDataReloadUri
   labels:
-    key: reloadsUri 
+    key: qixDataReloadUri 
 enabled: true
 patches:
 - target:
@@ -19,10 +19,10 @@ patches:
           containers:
           - name: main
             env:
-            - name: RELOADS_URI
+            - name: QIX_DATA_RELOAD_URI
               valueFrom:
                 configMapKeyRef:
-                  key: reloadsUri
+                  key: qixDataReloadUri
                   name: configs
 - target:
     kind: ConfigMap
@@ -33,4 +33,4 @@ patches:
     metadata:
       name: component-configs
     data:
-      reloadsUri: null
+      qixDataReloadUri: null

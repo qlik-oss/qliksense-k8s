@@ -30,13 +30,13 @@ spec:
               name: reload-tasks-configs
         - $patch: delete
           name: CHRONOS_ACTION_URI
-        - name: RELOADS_URI
+        - name: QIX_DATA_RELOAD_URI
           valueFrom:
             configMapKeyRef:
-              key: reloadsUri
+              key: qixDataReloadUri
               name: reload-tasks-configs
         - name: CHRONOS_ACTION_URI
-          value: $(RELOADS_URI)/v1/scheduledreloads
+          value: $(QIX_DATA_RELOAD_URI)/v1/scheduledreloads
         - name: MONGODB_URI
           valueFrom:
             secretKeyRef:
