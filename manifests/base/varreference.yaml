@@ -165,3 +165,9 @@ varReference:
   path: subjects/namespace
 - kind: PersistentVolumeClaim
   path: spec/storageClassName
+- kind: ConfigMap
+  path: data/reloadsUri
+- kind: ConfigMap
+  path: data/reloadTasksUri
+- kind: ConfigMap
+  path: data/chronosUri

@@ -11,5 +11,4 @@ values:
       enabled: false
   nats:
     enabled: false
-  reloads_nats:
-    enabled: false
+    authEnabled: true
