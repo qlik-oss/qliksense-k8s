@@ -44,3 +44,5 @@ patches:
       geoOperationsUri: $(PREFIX)-geo-operations:50072
       encryptionUri: "http://$(PREFIX)-encryption:8080"
       reportingUri: "http://$(PREFIX)-reporting:8282"
+      parserUri: "http://$(PREFIX)-nl-parser:30302"
+      dpsUri: "http://$(PREFIX)-data-prep.svc.cluster.local:9072"
