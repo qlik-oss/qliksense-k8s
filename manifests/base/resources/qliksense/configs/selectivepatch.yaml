@@ -46,3 +46,6 @@ patches:
       reloadTasksUri: "http://$(PREFIX)-reload-tasks:8080"
       qixDataReloadUri: "http://$(PREFIX)-qix-data-reload:8080"
       chronosUri: "http://$(PREFIX)-chronos:8585"
+      reportingUri: "http://$(PREFIX)-reporting:8282"
+      parserUri: "http://$(PREFIX)-nl-parser:30302"
+      dpsUri: "http://$(PREFIX)-data-prep.svc.cluster.local:9072"

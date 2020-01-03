@@ -159,6 +159,10 @@ varReference:
   path: data/geoOperationsUri
 - kind: ConfigMap
   path: data/dcaasUri
+- kind: ConfigMap
+  path: data/dpsUri
+- kind: ConfigMap
+  path: data/parserUri
 - kind: Role
   path: rules/resourceNames
 - kind: RoleBinding
