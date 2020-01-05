@@ -20,10 +20,10 @@ spec:
               name: chronos-secrets
         - $patch: delete
           name: REDIS_URI
-        - name: REDIS_URI
+        - name: REDIS_URI_WITH_PORT
           valueFrom:
             configMapKeyRef:
-              key: redisUri
+              key: redisUriWithPort
               name: chronos-configs
         - name: MONGODB_URI
           valueFrom:
@@ -39,8 +39,8 @@ spec:
           name: MONGO_URI
         - name: MONGO_URI
           value: $(MONGODB_URI)
-        - name: REDIS_ADDR
-          value: $(REDIS_URI)
+        - name: REDIS_URI
+          value: $(REDIS_URI_WITH_PORT)
         resources:
            limits:
              cpu: "0"
