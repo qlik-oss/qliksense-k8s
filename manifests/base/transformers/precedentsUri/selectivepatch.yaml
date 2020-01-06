@@ -25,6 +25,26 @@ patches:
                   key: precedentsUri
                   name: configs
 - target:
+    kind: CronJob
+  patch: |-
+    apiVersion: batch/v1beta1
+    kind: CronJob
+    metadata:
+      name: component
+    spec:
+      jobTemplate:
+        spec:
+          template:
+            spec:
+              containers:
+              - name: main
+                env:
+                - name: PRECEDENTS_URI
+                  valueFrom:
+                    secretKeyRef:
+                      key: precedentsUri
+                      name: configs
+- target:
     kind: ConfigMap
     name: .*-configs
   patch: |-

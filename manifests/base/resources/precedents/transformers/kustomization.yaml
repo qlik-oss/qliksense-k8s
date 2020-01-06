@@ -14,14 +14,13 @@ patches:
       key notin ( 
         tokenAuthUri,
         featureFlagsUri,
+        ingressClass,
         natsUri,
         natsStreamingClusterId,
         keysUri,
         mongoDbUri,
         spacesUri,
-        qixSessionsUri,
-        tokenAuthPrivateKey,
-        tokenAuthPrivateKeyId
+        qixSessionsUri
       )
   patch: |-
     - op: replace
