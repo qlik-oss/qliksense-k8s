@@ -156,8 +156,6 @@ varReference:
 - kind: ConfigMap
   path: data/licensesUri
 - kind: ConfigMap
-  path: data/precendentsUri
-- kind: ConfigMap
   path: data/quotasUri
 - kind: ConfigMap
   path: data/temporaryContentsUri
