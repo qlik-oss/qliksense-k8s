@@ -14,7 +14,7 @@ patches:
       key notin (
         keysUri,
         mongoDbUri,
-        redisUri,
+        redisUriWithPort,
         redisPassword,
         secretClientCertificates,
         hostClientCertificates,
