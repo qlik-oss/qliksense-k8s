@@ -4,8 +4,17 @@ metadata:
   name: precedents
 enabled: true
 patches:
-- path: deploymentJSON.yaml
-  target:
-    kind: Deployment
-    name: precedents
-- path: deployment.yaml
+patches:
+  - path: deploymentJSON.yaml
+    target:
+      kind: Deployment
+      name: insights
+  - path: cronJobJSON.yaml
+    target:
+      kind: CronJob
+  - path: deployment.yaml
+    target:
+      kind: Deployment
+  - path: cronJob.yaml
+    target:
+      kind: CronJob

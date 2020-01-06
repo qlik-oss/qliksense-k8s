@@ -1,0 +1,22 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: precedents-pruning
+spec:
+  jobTemplate:
+    spec:
+      template:
+        spec:
+containers:
+  - name: precedents-pruning
+    env:
+      - name: MONGODB_URI
+        valueFrom:
+          secretKeyRef:
+            key: mongoDbUri
+            name: precedents-secrets
+      - $patch: delete
+        name: MONGO_URI
+      - name: MONGO_URI
+        value: $(MONGODB_URI)
+
