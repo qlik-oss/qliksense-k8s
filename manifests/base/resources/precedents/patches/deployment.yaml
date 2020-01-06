@@ -77,14 +77,8 @@ spec:
           value: $(NATS_STREAMING_CLUSTER_ID)
         - $patch: delete
           name: ENGINEADDRESS
-        # - name: QIX_SESSIONS_URI
-        #   valueFrom:
-        #     configMapKeyRef:
-        #       key: qixSessionsUri
-        #       name: precedents-configs
         - name: ENGINEADDRESS
           value: http://$(PREFIX)-qix-sessions
-          # value: $(QIX_SESSIONS_URI)
         - $patch: delete
           name: FEATURE_FLAG_URL
         - name: FEATURE_FLAGS_URI

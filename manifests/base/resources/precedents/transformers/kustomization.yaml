@@ -19,8 +19,7 @@ patches:
         natsStreamingClusterId,
         keysUri,
         mongoDbUri,
-        spacesUri,
-        qixSessionsUri
+        spacesUri
       )
   patch: |-
     - op: replace
