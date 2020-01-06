@@ -1,0 +1,25 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: precedents-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: precedents-configs
+    data:
+      keysUri: "http://$(PREFIX)-precedents-keys:8080/v1/keys/qlik.api.internal"
+      natsUri: "nats://$(PREFIX)-precedents-messaging-nats-client:4222"
+      natsStreamingClusterId: "$(PREFIX)-precedents-messaging-nats-streaming-cluster"
+      tokenAuthUri: "http://$(PREFIX)-precedents-edge-auth:8080"
+      featureFlagsUri: "http://$(PREFIX)-precedents-feature-flags:8080"
+      spacesUri: "http://$(PREFIX)-precedents-spaces:6080/"
+      mongoDbUri: "mongodb://$(PREFIX)-mongodb:27017/precedents"
+      
+      
+      
+

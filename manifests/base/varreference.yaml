@@ -45,6 +45,8 @@ varReference:
   kind: StatefulSet
 - path: spec/jobTemplate/spec/template/spec/containers/env/valueFrom/secretKeyRef/name
   kind: CronJob
+- path: spec/jobTemplate/spec/template/spec/containers/env/valueFrom/configMapKeyRef/name
+  kind: CronJob
 - path: spec/template/spec/containers/env/valueFrom/configMapKeyRef/name
   kind: StatefulSet
 - path: spec/template/spec/serviceAccountName
@@ -153,8 +155,6 @@ varReference:
   path: data/encryptionUri
 - kind: ConfigMap
   path: data/licensesUri
-- kind: ConfigMap
-  path: data/precendentsUri
 - kind: ConfigMap
   path: data/quotasUri
 - kind: ConfigMap
