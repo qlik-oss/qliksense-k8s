@@ -14,6 +14,8 @@ spec:
         env:
         - $patch: delete
           name: DPS_URI
+        - $patch: delete
+          value: LOG_LEVEL
         - name: LOG_LEVEL
           value: INFO
         - name: DPS_URI
