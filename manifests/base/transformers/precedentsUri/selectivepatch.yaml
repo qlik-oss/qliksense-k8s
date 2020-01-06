@@ -43,7 +43,7 @@ patches:
                   valueFrom:
                     secretKeyRef:
                       key: precedentsUri
-                      name: secrets
+                      name: configs
 - target:
     kind: ConfigMap
     name: .*-configs
