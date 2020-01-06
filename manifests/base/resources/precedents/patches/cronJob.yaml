@@ -10,13 +10,18 @@ spec:
           containers:
             - name: main
               env:
-              - name: MONGODB_URI
+              - name: PRUNE_URL
+                value: "http://release-name-precedents:9054/v1/graph/prune"
+              - name: EDGE_AUTH_URI
+                value: "http://release-name-edge-auth:8080"
+
+              # Private Signing Key
+              - name: SELF_SIGNING_PRIVATE_KEY
                 valueFrom:
                   secretKeyRef:
-                    key: mongoDbUri
-                    name: precedents-secrets
-              - $patch: delete
-                name: MONGO_URI
-              - name: MONGO_URI
-                value: $(MONGODB_URI)
+                    name: release-name-precedents-secret
+                    key: privatekey
+              - name: KEY_IDENTIFIER
+                value: GrvbBlHIXFBB7vrpoOl4Vyrbbbbaflafjafasdfasfaf
+
 

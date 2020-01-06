@@ -8,7 +8,7 @@ patches:
   - path: deploymentJSON.yaml
     target:
       kind: Deployment
-      name: insights
+      name: precedents
   - path: cronJobJSON.yaml
     target:
       kind: CronJob
