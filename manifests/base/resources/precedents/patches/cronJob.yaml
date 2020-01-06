@@ -10,18 +10,41 @@ spec:
           containers:
             - name: main
               env:
-              - name: PRUNE_URL
-                value: "http://release-name-precedents:9054/v1/graph/prune"
+              - name: PRECEDENTS_URI
+                valueFrom:
+                  configMapKeyRef:
+                    key: precedentsUri
+                    name: precedents-configs
+              - $patch: delete
+                name: PRUNE_URI  
+              - name: PRUNE_URI
+                value: "$(PRECEDENTS_URI)/v1/graph/prune"
+              - $patch: delete
+                name: EDGE_AUTH_URI  
               - name: EDGE_AUTH_URI
-                value: "http://release-name-edge-auth:8080"
-
-              # Private Signing Key
-              - name: SELF_SIGNING_PRIVATE_KEY
+                valueFrom:
+                  configMapKeyRef:
+                    key: tokenAuthUri
+                    name: precedents-configs
+              - $patch: delete
+                name: KEY_IDENTIFIER
+              - name: TOKEN_AUTH_PRIVATE_KEY_ID
                 valueFrom:
                   secretKeyRef:
-                    name: release-name-precedents-secret
-                    key: privatekey
+                    key: tokenAuthPrivateKeyId
+                    name: precedents-secrets
               - name: KEY_IDENTIFIER
-                value: GrvbBlHIXFBB7vrpoOl4Vyrbbbbaflafjafasdfasfaf
+                value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
+              - $patch: delete
+                name: SELF_SIGNING_PRIVATE_KEY
+              - name: TOKEN_AUTH_PRIVATE_KEY
+                valueFrom:
+                  secretKeyRef:
+                    key: tokenAuthPrivateKey
+                    name: precedents-secrets
+              - name: SELF_SIGNING_PRIVATE_KEY
+                value: $(TOKEN_AUTH_PRIVATE_KEY)
+
+
 
 
