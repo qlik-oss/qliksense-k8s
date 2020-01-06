@@ -3,7 +3,7 @@ kind: Kustomization
 commonLabels:
   app: nl-parser
 resources:
-- ../../../../../generators/nl-broker
+- ../../../../../generators/nl-parser
 - ../../../secrets
 - ../../../configs
 transformers:

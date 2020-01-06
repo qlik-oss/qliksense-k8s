@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nl-broker
+  name: nl-parser
 spec:
   template:
     metadata:
@@ -16,4 +16,4 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: dpsUri
-              name: nl-broker-configs
+              name: nl-parser-configs
