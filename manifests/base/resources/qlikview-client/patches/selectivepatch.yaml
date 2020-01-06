@@ -1,0 +1,10 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: qlikview-client
+enabled: true
+patches:
+  - path: deploymentJSON.yaml
+    target:
+      kind: Deployment
+      name: qlikview-client
