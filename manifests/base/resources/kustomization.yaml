@@ -32,6 +32,7 @@ resources:
   - messaging
   - management-console
   - nl-broker
+  - nl-parser
   - odag
   - policy-decisions
   - precedents

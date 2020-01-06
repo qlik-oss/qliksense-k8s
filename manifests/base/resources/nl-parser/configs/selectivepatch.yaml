@@ -1,0 +1,17 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: nl-parser-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: nl-parser-configs
+    data:
+      dpsUri: "http://$(PREFIX)-nl-parser-data-prep.svc.cluster.local:9072"
+
+

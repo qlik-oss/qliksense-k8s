@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nl-broker
+spec:
+  template:
+    metadata:
+      labels:
+        nl-parser-nats-client: null
+    spec:
+      containers:
+      - name: main
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: DPS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: dpsUri
+              name: nl-broker-configs
