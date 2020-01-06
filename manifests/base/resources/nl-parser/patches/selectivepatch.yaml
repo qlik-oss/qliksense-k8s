@@ -1,0 +1,13 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: nl-parser
+enabled: true
+patches:
+- path: deploymentJSON.yaml
+  target:
+    kind: Deployment
+    name: nl-parser
+- path: deployment.yaml
+  target:
+    kind: Deployment
