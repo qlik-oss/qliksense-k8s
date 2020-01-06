@@ -15,7 +15,11 @@ patches:
         parserUri,
         dpsUri,
         mongoDbUri,
-        keysUri
+        keysUri,
+        ingressClass,
+        secretClientCertificates,
+        hostClientCertificates,
+        pvcClientCertificates,
       )
   patch: |-
     - op: replace

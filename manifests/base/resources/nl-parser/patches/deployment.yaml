@@ -12,6 +12,8 @@ spec:
       - name: main
         imagePullPolicy: IfNotPresent
         env:
+        - $patch: delete
+          name: DPS_URI
         - name: DPS_URI
           valueFrom:
             configMapKeyRef:
