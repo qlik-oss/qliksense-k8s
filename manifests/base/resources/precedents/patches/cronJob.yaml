@@ -7,16 +7,16 @@ spec:
     spec:
       template:
         spec:
-containers:
-  - name: precedents-pruning
-    env:
-      - name: MONGODB_URI
-        valueFrom:
-          secretKeyRef:
-            key: mongoDbUri
-            name: precedents-secrets
-      - $patch: delete
-        name: MONGO_URI
-      - name: MONGO_URI
-        value: $(MONGODB_URI)
+          containers:
+            - name: main
+              env:
+              - name: MONGODB_URI
+                valueFrom:
+                  secretKeyRef:
+                    key: mongoDbUri
+                    name: precedents-secrets
+              - $patch: delete
+                name: MONGO_URI
+              - name: MONGO_URI
+                value: $(MONGODB_URI)
 
