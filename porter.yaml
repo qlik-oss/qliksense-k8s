@@ -88,12 +88,14 @@ install:
       description: "Installing: Creating patch based on CR"
       name: qliksense-operator
       cr:
-        dockerRegistry: "{{ bundle.parameters.dockerRegistry }}"
         manifestsRoot: "/cnab/app"
         configs:
         - dataKey: acceptEULA
           values:
             qliksense: "{{ bundle.parameters.acceptEULA }}"
+        - dataKey: imageRegistry
+          values:
+            qliksense: "{{ bundle.parameters.dockerRegistry }}"
         secrets:
         - secretKey: mongoDbUri
           values:
@@ -136,11 +138,13 @@ upgrade:
       name: qliksense-operator
       cr:
         manifestsRoot: "/cnab/app"
-        dockerRegistry: "{{ bundle.parameters.dockerRegistry }}"
         configs:
         - dataKey: acceptEULA
           values:
             qliksense: "{{ bundle.parameters.acceptEULA }}"
+        - dataKey: imageRegistry
+          values:
+            qliksense: "{{ bundle.parameters.dockerRegistry }}"
         secrets:
         - secretKey: mongoDbUri
           values:
