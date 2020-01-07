@@ -31,7 +31,7 @@ ARG QLIKSENSE_INIT_VERSION=1.1.0
 RUN helm fetch qlik-edge/qliksense-init --version $QLIKSENSE_INIT_VERSION --untar -d /tmp/.chartcache/
 
 # CI job will update this version and make a PR
-ARG QSEOK_VERSION=1.21.23
+ARG QSEOK_VERSION=1.22.98
 
 COPY --from=0 /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 # Use the BUNDLE_DIR build argument to copy files into the bundle
