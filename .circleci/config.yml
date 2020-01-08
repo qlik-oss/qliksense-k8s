@@ -32,7 +32,6 @@ jobs:
       - run:
           name: Installing-porter-mixins
           command: |
-            sudo snap install yq
             docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
             curl https://cdn.deislabs.io/porter/latest/install-linux.sh | bash
             export PATH=$PATH:~/.porter
@@ -41,6 +40,7 @@ jobs:
       - run:
           name: Add Invocation image label
           command: |
+            sudo snap install yq
             INSTALLER_VER=$(yq r dependencies.yaml '[org.qlik.operator.cli.sense-installer.version.min]')
             PORTER_VER=$(yq r dependencies.yaml '[org.qlik.operator.cli.porter.version.min]')
             MIXIN_VER=$(yq r dependencies.yaml '[org.qlik.operator.mixin.qliksense.version.min]')
