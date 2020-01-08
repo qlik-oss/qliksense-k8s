@@ -32,6 +32,7 @@ jobs:
       - run:
           name: Installing-porter-mixins
           command: |
+            snap install yq
             docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
             curl https://cdn.deislabs.io/porter/latest/install-linux.sh | bash
             export PATH=$PATH:~/.porter
@@ -71,7 +72,7 @@ workflows:
       - qliksense-release:
           filters:
             branches:
-              ignore: master
+              only: master
       - bundle-release:
           filters:
             branches:
