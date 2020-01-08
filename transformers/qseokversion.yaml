@@ -13,7 +13,7 @@ patches:
     metadata:
       name: helmchart
     releaseNamespace: default
-    chartHome: /tmp/.chartcache/qliksense
+    tmpChartHome: .chartcache/qliksense
     chartRepo: https://qlik.bintray.com/edge
     chartName: qliksense
     chartVersion: 1.21.23
@@ -27,7 +27,7 @@ patches:
     metadata:
       name: qliksense-init
     releaseNamespace: default
-    chartHome: /tmp/.chartcache/qliksense-init
+    tmpChartHome: .chartcache/qliksense-init
     chartRepo: https://qlik.bintray.com/edge
     chartName: qliksense-init
     chartVersion: 1.1.0
