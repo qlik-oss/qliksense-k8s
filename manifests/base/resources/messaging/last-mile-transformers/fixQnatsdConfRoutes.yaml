@@ -1,7 +1,10 @@
 apiVersion: qlik.com/v1
-kind: SedOnPath
+kind: SearchReplace
 metadata:
   name: fixQnatsdConfRoutes
+target:
+  kind: ConfigMap
+  name: messaging-nats
 path: data/gnatsd.conf
-regex:
-  - s/nats\:\/\/messaging-nats-cluster\:6222/nats:\/\/\$\(PREFIX\)-messaging-nats-cluster:6222/g
+search: nats://messaging-nats-cluster:6222
+replace: nats://$(PREFIX)-messaging-nats-cluster:6222
