@@ -32,7 +32,7 @@ jobs:
       - run:
           name: Installing-porter-mixins
           command: |
-            snap install yq
+            sudo snap install yq
             docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
             curl https://cdn.deislabs.io/porter/latest/install-linux.sh | bash
             export PATH=$PATH:~/.porter
