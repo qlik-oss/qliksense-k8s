@@ -40,7 +40,9 @@ jobs:
       - run:
           name: Add Invocation image label
           command: |
-            sudo snap install yq
+            sudo add-apt-repository ppa:rmescandon/yq
+            sudo apt update
+            sudo apt install yq -y
             INSTALLER_VER=$(yq r dependencies.yaml '[org.qlik.operator.cli.sense-installer.version.min]')
             PORTER_VER=$(yq r dependencies.yaml '[org.qlik.operator.cli.porter.version.min]')
             MIXIN_VER=$(yq r dependencies.yaml '[org.qlik.operator.mixin.qliksense.version.min]')
