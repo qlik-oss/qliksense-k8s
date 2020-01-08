@@ -28,9 +28,9 @@
 | rotateKeys | regenerate application PKI keys on upgrade (yes/no)      |    no |
 | scName | storage class name      |    none |
 
-## How To Add Idintity Provider Config
+## How To Add Identity Provider Config
 
-since idp configs are usually mulitline configs it is not conventional to pass to porter duing install as a `param`. Rather put the configs in a file and refer to that file duing `porter install` command. For example to add `keycloak` IDP create file named `idpconfig.txt` and put
+since idp configs are usually multiline configs it is not conventional to pass to porter during install as a `param`. Rather put the configs in a file and refer to that file during `porter install` command. For example to add `keycloak` IDP create file named `idpconfigs.txt` and put
 
 ```console
 idpConfigs=[{"discoveryUrl":"http://keycloak-insecure:8089/keycloak/realms/master22/.well-known/openid-configuration","clientId":"edge-auth","clientSecret":"e15b5075-9399-4b20-a95e-023022aa4aed","realm":"master","hostname":"elastic.example","claimsMapping":{"sub":["sub","client_id"],"name":["name","given_name","family_name","preferred_username"]}}]
