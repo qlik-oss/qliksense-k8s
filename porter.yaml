@@ -55,7 +55,13 @@ parameters:
     applyTo:
       - install
       - upgrade
-    
+  - name: idpConfigs
+    description: "Config for IDP"
+    type: string
+    default: ""
+    applyTo:
+      - install
+      - upgrade
 outputs:
 - name: LoadBalancer
   description: "Ingress LoadBalancer hostname"
@@ -100,6 +106,9 @@ install:
         - secretKey: mongoDbUri
           values:
             qliksense: "{{ bundle.parameters.mongoDbUri }}"
+        - secretKey: idpConfigs
+          values:
+            identity-providers: "{{ bundle.parameters.idpConfigs }}"
         storageClassName: "{{ bundle.parameters.scName }}"
         namespace: "{{ bundle.parameters.namespace }}"
         rotateKeys: "yes"
@@ -149,6 +158,9 @@ upgrade:
         - secretKey: mongoDbUri
           values:
             qliksense: "{{ bundle.parameters.mongoDbUri }}"
+        - secretKey: idpConfigs
+          values:
+            identity-providers: "{{ bundle.parameters.idpConfigs }}"
         storageClassName: "{{ bundle.parameters.scName }}"
         rotateKeys: "{{ bundle.parameters.rotateKeys }}"
   - kustomize:
