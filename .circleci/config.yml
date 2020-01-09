@@ -11,6 +11,9 @@ jobs:
       - run:
           name: git-release
           command: |
+
+            echo "CIRCLE_TAG: ${CIRCLE_TAG}"
+
             COMMIT_SHA2=$(git rev-parse --short $CIRCLE_SHA1)
             QSEOK_VERSION=$(yq r transformers/qseokversion.yaml 'patches[0].patch' | grep "chartVersion" | sed 's/chartVersion: //g')
 
@@ -71,9 +74,13 @@ workflows:
     jobs:
       - qliksense-release:
           filters:
+            tags:
+              only: /^v.*/
             branches:
-              only: master
+              ignore: /.*/
       - bundle-release:
           filters:
+            tags:
+              only: /^v.*/
             branches:
-              ignore: master
+              ignore: /.*/
