@@ -32,7 +32,7 @@ jobs:
       - run:
           name: Install-porter
           command: |
-            sudo add-apt-repository ppa:rmescandon/yq && sudo apt install yq -y
+            sudo add-apt-repository ppa:rmescandon/yq && sudo apt-get update && sudo apt install yq -y
             curl https://cdn.deislabs.io/porter/latest/install-linux.sh | bash
             export PATH=$PATH:~/.porter
             docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
