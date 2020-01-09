@@ -5,7 +5,7 @@
 - Install Porter from here: https://porter.sh/install/
 - Install the followiung Mixins:
   - `porter mixin install kustomize -v 0.2-beta-3-0e19ca4 --url https://github.com/donmstewart/porter-kustomize/releases/download`
-  - `porter mixin install qliksense -v v0.12.0 --url https://github.com/qlik-oss/porter-qliksense/releases/download`
+  - `porter mixin install qliksense -v v0.14.0 --url https://github.com/qlik-oss/porter-qliksense/releases/download`
 - Run Porter build: `porter build -v`
 - Ensure connectivity to the target cluster create a kubeconfig credential `porter cred generate`
   - Select `specific value` at the prompt and specify the value. 
@@ -27,6 +27,21 @@
 | namespace      | any kubernetes namespace      |   default |
 | rotateKeys | regenerate application PKI keys on upgrade (yes/no)      |    no |
 | scName | storage class name      |    none |
+
+## How To Add Identity Provider Config
+
+since idp configs are usually multiline configs it is not conventional to pass to porter during install as a `param`. Rather put the configs in a file and refer to that file during `porter install` command. For example to add `keycloak` IDP create file named `idpconfigs.txt` and put
+
+```console
+idpConfigs=[{"discoveryUrl":"http://keycloak-insecure:8089/keycloak/realms/master22/.well-known/openid-configuration","clientId":"edge-auth","clientSecret":"e15b5075-9399-4b20-a95e-023022aa4aed","realm":"master","hostname":"elastic.example","claimsMapping":{"sub":["sub","client_id"],"name":["name","given_name","family_name","preferred_username"]}}]
+
+```
+
+Then pass that file during install command like this
+
+```console
+porter install --param acceptEULA=yes -c QLIKSENSE --param-file idpconfigs.txt
+```
 
 ## Service configuration
 
