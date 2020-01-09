@@ -30,19 +30,20 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Installing-porter-mixins
+          name: Install-porter
           command: |
-            docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+            sudo add-apt-repository ppa:rmescandon/yq && sudo apt install yq -y
             curl https://cdn.deislabs.io/porter/latest/install-linux.sh | bash
             export PATH=$PATH:~/.porter
+            docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+      - run:
+          name: Installing-mixins
+          command: |
             porter mixin install kustomize -v 0.2-beta-3-0e19ca4 --url https://github.com/donmstewart/porter-kustomize/releases/download
             porter mixin install qliksense -v v0.13.0 --url https://github.com/qlik-oss/porter-qliksense/releases/download
       - run:
           name: Add Invocation image label
           command: |
-            sudo add-apt-repository ppa:rmescandon/yq
-            sudo apt update
-            sudo apt install yq -y
             INSTALLER_VER=$(yq r dependencies.yaml '[org.qlik.operator.cli.sense-installer.version.min]')
             PORTER_VER=$(yq r dependencies.yaml '[org.qlik.operator.cli.porter.version.min]')
             MIXIN_VER=$(yq r dependencies.yaml '[org.qlik.operator.mixin.qliksense.version.min]')
@@ -50,9 +51,6 @@ jobs:
             STREAM=$(yq r dependencies.yaml '[org.qlik.stream]')
             cat Dockerfile.tmpl | sed "s/INSTALLER_VER/$INSTALLER_VER/g" | sed "s/PORTER_VER/$PORTER_VER/g" | sed "s/MIXIN_VER/$MIXIN_VER/g" | sed "s/QSEOK_VER/$QSEOK_VER/g" | sed "s/STREAM/$STREAM/g" | sed "s/# LABEL/LABEL/g" > tmp_Dockerfile.tmpl
             mv tmp_Dockerfile.tmpl Dockerfile.tmpl
-
-            cat Dockerfile.tmpl
-
       - run:
           name: porter-build-publish
           command: |
