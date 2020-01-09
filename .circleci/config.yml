@@ -68,7 +68,7 @@ jobs:
             export PATH=$PATH:~/.porter
             errno=0 && (echo $CIRCLE_TAG | grep -iv edge > /dev/null) || errno=$?
             if [[ ${errno} -ne 0 ]]; then
-              cat porter.yaml | sed -r 's/:v[0-9]+.[0-9]+.[0-9]+*/:latest/g' > porter.tmpl.yaml
+              cat porter.yaml | sed -r 's/:v[0-9]+.[0-9]+.[0-9]+[-edge]+/:latest/g' > porter.tmpl.yaml
               mv porter.tmpl.yaml porter.yaml
               # porter build -v
               # porter publish
