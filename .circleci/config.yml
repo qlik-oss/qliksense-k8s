@@ -23,9 +23,9 @@ jobs:
             CLONE_URL=https://${GITHUB_API_TOKEN}@github.com/qlik-oss/qliksense-k8s && git clone ${CLONE_URL} && cd qliksense-k8s && git checkout master
 
             RELEASE_VERSION="$QSEOK_VERSION-$COMMIT_SHA2"
-            git tag -a v"${RELEASE_VERSION}" -m "Releasing qliksense v${RELEASE_VERSION}"
-            git push
-            git push --tags
+            # git tag -a v"${RELEASE_VERSION}" -m "Releasing qliksense v${RELEASE_VERSION}"
+            # git push
+            # git push --tags
 
   bundle-release:
     machine:
@@ -58,16 +58,21 @@ jobs:
           name: porter-build-publish
           command: |
             export PATH=$PATH:~/.porter
+            cat porter.yaml | sed -r "s/:v[0-9]+.[0-9]+.[0-9]+/:${CIRCLE_TAG}/g" > porter.tmpl.yaml
+            mv porter.tmpl.yaml porter.yaml
             porter build -v
             porter publish
       - run:
           name: porter-build-publish-latest
           command: |
             export PATH=$PATH:~/.porter
-            cat porter.yaml | sed -r 's/:v[0-9]+.[0-9]+.[0-9]+/:latest/g' > porter.tmpl.yaml
-            mv porter.tmpl.yaml porter.yaml
-            porter build -v
-            porter publish
+            errno=0 && (echo $CIRCLE_TAG | grep -iv edge > /dev/null) || errno=$?
+            if [[ ${errno} -ne 0 ]]; then
+              cat porter.yaml | sed -r 's/:v[0-9]+.[0-9]+.[0-9]+/:latest/g' > porter.tmpl.yaml
+              mv porter.tmpl.yaml porter.yaml
+              porter build -v
+              porter publish
+            fi
 workflows:
   version: 2
   publish:
