@@ -33,12 +33,12 @@ jobs:
           name: Install-porter
           command: |
             sudo add-apt-repository ppa:rmescandon/yq && sudo apt-get update && sudo apt install yq -y
-            curl https://cdn.deislabs.io/porter/latest/install-linux.sh | bash
-            export PATH=$PATH:~/.porter
             docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+            curl https://cdn.deislabs.io/porter/latest/install-linux.sh | bash
       - run:
           name: Installing-mixins
           command: |
+            export PATH=$PATH:~/.porter
             porter mixin install kustomize -v 0.2-beta-3-0e19ca4 --url https://github.com/donmstewart/porter-kustomize/releases/download
             porter mixin install qliksense -v v0.13.0 --url https://github.com/qlik-oss/porter-qliksense/releases/download
       - run:
