@@ -20,8 +20,6 @@ FROM debian:stretch as base
 # LABEL org.qlik.qseok.versione=QSEOK_VER
 # LABEL org.qlik.stream=STREAM
 
-
-
 ARG HELM_VERSION=v2.16.0
 RUN apt-get update && \
  apt-get install -y curl && \
