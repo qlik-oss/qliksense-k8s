@@ -14,6 +14,12 @@ FROM debian:stretch as base
 # another location in this file. If you remove that line, the mixins generated content is appended to this file.
 # PORTER_MIXINS
 
+# LABEL org.qlik.operator.cli.sense-installer.version.min=INSTALLER_VER
+# LABEL org.qlik.operator.cli.porter.version.min=PORTER_VER
+# LABEL org.qlik.operator.mixin.qliksense.version.min=MIXIN_VER
+# LABEL org.qlik.qseok.versione=QSEOK_VER
+# LABEL org.qlik.stream=STREAM
+
 ARG HELM_VERSION=v2.16.0
 RUN apt-get update && \
  apt-get install -y curl && \

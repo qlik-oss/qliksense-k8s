@@ -1,42 +1,32 @@
 version: 2.0
 jobs:
-  qliksense-release:
-    docker:
-      - image: qlik/qliksense-cloud-tools
-    steps:
-      - attach_workspace:
-          at: ~/
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: git-release
-          command: |
-            COMMIT_SHA2=$(git rev-parse --short $CIRCLE_SHA1)
-            QSEOK_VERSION=$(yq r transformers/qseokversion.yaml 'patches[0].patch' | grep "chartVersion" | sed 's/chartVersion: //g')
-
-            git config --global user.email "qlik-efe-reference-dev@qlik.com"
-            git config --global user.name "efebot"
-            export GITHUB_API_TOKEN=${GITHUB_TOKEN}
-            CLONE_URL=https://${GITHUB_API_TOKEN}@github.com/qlik-oss/qliksense-k8s && git clone ${CLONE_URL} && cd qliksense-k8s && git checkout master
-
-            RELEASE_VERSION="$QSEOK_VERSION-$COMMIT_SHA2"
-            git tag -a v"${RELEASE_VERSION}" -m "Releasing qliksense v${RELEASE_VERSION}"
-            git push
-            git push --tags
-
   bundle-release:
     machine:
       image: ubuntu-1604:201903-01
     steps:
       - checkout
       - run:
-          name: Installing-porter-mixins
+          name: Install-porter
           command: |
+            sudo add-apt-repository ppa:rmescandon/yq && sudo apt-get update && sudo apt install yq -y
             docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
             curl https://cdn.deislabs.io/porter/latest/install-linux.sh | bash
+      - run:
+          name: Installing-mixins
+          command: |
             export PATH=$PATH:~/.porter
             porter mixin install kustomize -v 0.2-beta-3-0e19ca4 --url https://github.com/donmstewart/porter-kustomize/releases/download
-            porter mixin install qliksense -v v0.11.0 --url https://github.com/qlik-oss/porter-qliksense/releases/download
+            porter mixin install qliksense -v v0.14.0 --url https://github.com/qlik-oss/porter-qliksense/releases/download
+      - run:
+          name: Add Invocation image label
+          command: |
+            INSTALLER_VER=$(yq r dependencies.yaml '[org.qlik.operator.cli.sense-installer.version.min]')
+            PORTER_VER=$(yq r dependencies.yaml '[org.qlik.operator.cli.porter.version.min]')
+            MIXIN_VER=$(yq r dependencies.yaml '[org.qlik.operator.mixin.qliksense.version.min]')
+            QSEOK_VER=$(yq r dependencies.yaml '[org.qlik.qseok.version]')
+            STREAM=$(yq r dependencies.yaml '[org.qlik.stream]')
+            cat Dockerfile.tmpl | sed "s/INSTALLER_VER/$INSTALLER_VER/g" | sed "s/PORTER_VER/$PORTER_VER/g" | sed "s/MIXIN_VER/$MIXIN_VER/g" | sed "s/QSEOK_VER/$QSEOK_VER/g" | sed "s/STREAM/$STREAM/g" | sed "s/# LABEL/LABEL/g" > tmp_Dockerfile.tmpl
+            mv tmp_Dockerfile.tmpl Dockerfile.tmpl
       - run:
           name: porter-build-publish
           command: |
@@ -47,19 +37,20 @@ jobs:
           name: porter-build-publish-latest
           command: |
             export PATH=$PATH:~/.porter
-            cat porter.yaml | sed -r 's/:v[0-9]+.[0-9]+.[0-9]+/:latest/g' > porter.tmpl.yaml
-            mv porter.tmpl.yaml porter.yaml
-            porter build -v
-            porter publish
+            errno=0 && (echo $CIRCLE_TAG | grep -iv edge > /dev/null) || errno=$?
+            if [[ ${errno} -ne 0 ]]; then
+              cat porter.yaml | sed -r 's/:v[0-9]+.[0-9]+.[0-9]+[-edge]+/:latest/g' > porter.tmpl.yaml
+              mv porter.tmpl.yaml porter.yaml
+              porter build -v
+              porter publish
+            fi
 workflows:
   version: 2
   publish:
     jobs:
-      - qliksense-release:
-          filters:
-            branches:
-              only: master
       - bundle-release:
           filters:
+            tags:
+              only: /^v.*/
             branches:
-              only: master
+              ignore: /.*/

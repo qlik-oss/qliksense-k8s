@@ -1,8 +1,8 @@
 name: Qliksense
 version: 0.5.0
 description: "Qliksense application cnab bundle"
-invocationImage: qlik/qliksense-cnab-invocation:v0.5.0
-tag: qlik/qliksense-cnab-bundle:v0.5.0
+invocationImage: qlik/qliksense-cnab-invocation:v1.21.23-edge
+tag: qlik/qliksense-cnab-bundle:v1.21.23-edge
 
 dockerfile: Dockerfile.tmpl
 
