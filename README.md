@@ -6,7 +6,7 @@ This repository contains a filesystem structure that allows for the rendering of
 of [`kustomize`](https://kustomize.io/). `kustomize` is used to perform "last mile" modifications to component helm charts rendered using `helm template` to provide a 
 configuration interface using change fragments (patches) of kubernetes resources using label selectors.
 
-Generally, performing configuration for Qlik Sense is done through the CLI and associated operators, this repository is what is used by those components as the initial state of the cluster prior to configuration. Manual creationg of patches in this repository directly is jmeant for advanced configuarations to handled by the operator.
+Generally, performing configuration for Qlik Sense is done through the CLI and associated operators, this repository is what is used by those components as the initial state of the cluster prior to configuration. Manual creation of patches in this repository directly is meant for advanced configuarations not handled by the operator.
 
 
 ## Quickstart
