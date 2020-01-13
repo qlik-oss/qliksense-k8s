@@ -296,7 +296,7 @@ patches:
 As what is being patched is a secret it is also possible to supply the value for idpConfigs as base64 in the `data:`
 section.
 
-See (below)[#generate-a-secret-from-vault] for an example of how
+See [below](#generate-a-secret-from-vault) for an example of how
 to pull the IDP configuration secret from vault!
 
 #### Adding a custom root CA certificate (for IDP)
