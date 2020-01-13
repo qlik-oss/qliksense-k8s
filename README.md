@@ -1,5 +1,26 @@
 # Qlik Sense Enterprise on Kubernetes
 
+- [Qlik Sense Enterprise on Kubernetes](#qlik-sense-enterprise-on-kubernetes)
+  - [What is this Repository?](#what-is-this-repository)
+  - [Quickstart](#quickstart)
+    - [Learning through Examples: Typical Use cases](#learning-through-examples-typical-use-cases)
+      - [Specifying replicas](#specifying-replicas)
+      - [Setting resource limits](#setting-resource-limits)
+      - [Configuring an IDP](#configuring-an-idp)
+      - [Adding a custom root CA certificate (for IDP)](#adding-a-custom-root-ca-certificate-for-idp)
+      - [Setting a global storage class](#setting-a-global-storage-class)
+      - [Setting a global docker image registry](#setting-a-global-docker-image-registry)
+      - [Generate a secret from vault](#generate-a-secret-from-vault)
+  - [Design Details](#design-details)
+    - [Rationale](#rationale)
+    - [How manifests are rendered](#how-manifests-are-rendered)
+      - [Components](#components)
+    - [Installation of Qliksense](#installation-of-qliksense)
+  - [Generate Credentials from published bundle**](#generate-credentials-from-published-bundle)
+  - [Supported Parameters during install](#supported-parameters-during-install)
+  - [How To Add Identity Provider Config](#how-to-add-identity-provider-config)
+  - [Service configuration](#service-configuration)
+
 ## What is this Repository?
 
 This repository contains a filesystem structure that allows for the rendering of QSEoK manifests using the [qlik-oss version](https://github.com/qlik-oss/kustomize/releases) 
@@ -27,57 +48,57 @@ To render a manifest for a Docker Desktop kubernetes QSEoK cluster instance:
 While you can apply this manifest to your local desktop cluster, the `engine` pods will likely fail as the EULA needs to be explictely accepted.
 To do this, you need to patch the engine ConfigMap resource directly that contains this setting using a `kustomize` custom resource (`SelectivePatch`) that contains the patch:
 
-6. Create a file called `acceptEULA.yaml` with that content, place it into the `configuration/patches` directory. This file contains a 
-   - Bash:
-     - ```yaml
-       bash# pushd .
-       bash# cd configuration/patches 
-       bash# cat <<EOT >> acceptEULA.yaml
-       apiVersion: qlik.com/v1
-       kind: SelectivePatch
-       metadata:
-          name: acceptEULA
-       enabled: true
-       patches:
-         - patch: |-
-             apiVersion: v1
-             kind: ConfigMap
-             metadata:
-               name: engine-configs
-             data:
-               acceptEULA: 'yes'
-       EOT
-       bash# kustomize edit add resource acceptEULA.yaml
-       bash# popd
-       ```
-   - PowerShell:
-     - ```yaml
-       PS> Push-Location
-       PS> Set-Location configuration\patches
-       PS> Add-Content -Value @"
-       apiVersion: qlik.com/v1
-       kind: SelectivePatch
-       metadata:
-          name: acceptEULA
-       enabled: true
-       patches:
-         - patch: |-
-             apiVersion: v1
-             kind: ConfigMap
-             metadata:
-               name: engine-configs
-             data:
-               acceptEULA: 'yes'
-       "@ -Path .\acceptEULA.yaml
-       PS> kustomize edit add resource acceptEULA.yaml
-       PS> Pop-Location
-       ```
-    
-7. Navigate into the `qliksense-k8s` directory and execute `kustomize build manifests/docker-desktop`, you can also apply the manifest to a cluster using `kustomize build manifests/docker-desktop | kubectl apply -f - `
+1. Create a file called `acceptEULA.yaml` with that content, place it into the `configuration/patches` directory.
+   - _Bash_
+     ```yaml
+     bash# pushd .
+     bash# cd configuration/patches 
+     bash# cat <<EOT >> acceptEULA.yaml
+     apiVersion: qlik.com/v1
+     kind: SelectivePatch
+     metadata:
+       name: acceptEULA
+     enabled: true
+     patches:
+     - patch: |-
+         apiVersion: v1
+         kind: ConfigMap
+         metadata:
+           name: engine-configs
+         data:
+           acceptEULA: 'yes'
+     EOT
+     bash# kustomize edit add resource acceptEULA.yaml
+     bash# popd
+     ```
+   - _PowerShell_
+     ```yaml
+     PS> Push-Location
+     PS> Set-Location configuration\patches
+     PS> Add-Content -Value @"
+     apiVersion: qlik.com/v1
+     kind: SelectivePatch
+     metadata:
+       name: acceptEULA
+     enabled: true
+     patches:
+     - patch: |-
+         apiVersion: v1
+         kind: ConfigMap
+           metadata:
+             name: engine-configs
+         data:
+           acceptEULA: 'yes'
+     "@ -Path .\acceptEULA.yaml
+     PS> kustomize edit add resource acceptEULA.yaml
+     PS> Pop-Location
+     ```
+
+2. Navigate into the `qliksense-k8s` directory and execute `kustomize build manifests/docker-desktop`, you can also apply the manifest to a cluster using `kustomize build manifests/docker-desktop | kubectl apply -f - `
 
 ### Learning through Examples: Typical Use cases
 
-### Specifying replicas
+#### Specifying replicas
 
 (Examples will use base, for Windows PowerShell, use the same scripting patterns as the quickstart above)
 
@@ -93,18 +114,18 @@ metadata:
   name: replicas
 enabled: true
 patches:
-  - target:
-      kind: Deployment
-    patch: |-
-      apiVersion: apps/v1
-      kind: Deployment
-      metadata:
-        name: notneeded
-      spec:
-        replicas: 3
- EOT
- bash# kustomize edit add resource relicas.yaml
- bash# popd
+- target:
+    kind: Deployment
+  patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: notneeded
+    spec:
+      replicas: 3
+EOT
+bash# kustomize edit add resource relicas.yaml
+bash# popd
  ```
 Notice that what is specified in `target` indicates a "target" and takes precendence over that which is specified `metadata.name` of the patch.
 In this case, it means "Apply the following patch to all targets where `kind` is `Deployment`".
@@ -112,101 +133,101 @@ In this case, it means "Apply the following patch to all targets where `kind` is
 We  may want to be more specific for the replicas of the `audit` component, in which case we would replace the corresponding section above with:
 ```yaml
 patches:
-  - target:
-      kind: Deployment
-      labelSelector: app=audit
-    patch: |-
-      apiVersion: apps/v1
-      kind: Deployment
-      metadata:
-        name: notneeded
-      spec:
-        replicas: 3
+- target:
+    kind: Deployment
+    labelSelector: app=audit
+  patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: notneeded
+    spec:
+      replicas: 3
 ```
 An alternate version, is to allow the patch to indiciate the target via it's ond group-version-kind (GVK) data and `name` (used when there is no `target`).
 ```yaml
 patches:
-  - patch: |-
-      apiVersion: apps/v1
-      kind: Deployment
-      metadata:
-        name: audit
-      spec:
-        replicas: 3
+- patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: audit
+    spec:
+      replicas: 3
 ```
 It is also possible to use a [JSON 6902 patch](http://jsonpatch.com/). This always requires a target as the patch never containss GVK or name data.
 ```yaml
 patches:
-  - target:
-      kind: Deployment
-      labelSelector: app=audit
-    patch: |-
-      - op: replace
-        path: /spec/replicas
-        value: 3
+- target:
+    kind: Deployment
+    labelSelector: app=audit
+  patch: |-
+    - op: replace
+      path: /spec/replicas
+      value: 3
 ```
 or, more simply
 ```yaml
 patches:
-  - target:
-      kind: Deployment
-      name: audit
-    patch: |-
-      - op: replace
-        path: /spec/replicas
-        value: 3
+- target:
+    kind: Deployment
+    name: audit
+  patch: |-
+    - op: replace
+      path: /spec/replicas
+      value: 3
 ```
 Replicas for all Deployments except audit and collections
 ```yaml
 patches:
-  - target:
-      kind: Deployment
-      labelSelector: "app notin (audit,collections)"
-    patch: |-
-      - op: replace
-        path: /spec/replicas
-        value: 3
+- target:
+    kind: Deployment
+    labelSelector: "app notin (audit,collections)"
+  patch: |-
+    - op: replace
+      path: /spec/replicas
+      value: 3
 ```
 Replicas for all Deployments except audit and collections
 ```yaml
 patches:
-  - target:
-      kind: Deployment
-      labelSelector: "app notin (audit,collections)"
-    patch: |-
-      - op: replace
-        path: /spec/replicas
-        value: 3
+- target:
+    kind: Deployment
+    labelSelector: "app notin (audit,collections)"
+  patch: |-
+    - op: replace
+      path: /spec/replicas
+      value: 3
 ```
 
-### Setting resource limits
+#### Setting resource limits
 
 By default, qseok, does not come with any resource limits defined. To create a limit for collections and audit:
 ```yaml
 patches:
- - target:
-      kind: Deployment
-      labelSelector: "app in (audit,collections)"
-  - patch: |-
-      apiVersion: apps/v1
-      kind: Deployment
-      metadata:
-        name: component
-      spec:
-        template:
-          spec:
-            containers:
-              - name: main
-                resources: 
-                  limits:
-                    memory: 512Mi
-                  requests:
-                    cpu: 100m
-                    memory: 128Mi
+- target:
+    kind: Deployment
+    labelSelector: "app in (audit,collections)"
+- patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: component
+    spec:
+      template:
+        spec:
+          containers:
+            - name: main
+              resources: 
+                limits:
+                  memory: 512Mi
+                requests:
+                  cpu: 100m
+                  memory: 128Mi
 ```
 In the same way as replicas is used, coll
 
-### Configuring an IDP
+#### Configuring an IDP
 For General documentation on configing IDPs on QSEoK go to Qlik Sense Help.
 
 When configuring any IDP, it requires the following JSON file per IDP:
@@ -240,62 +261,62 @@ secret (where it is stored) as string data:
 
 ```yaml
 patches:
-  - patch: |-
-      apiVersion: v1
-      kind:Secret
-      metadata:
-        name: identity-providers-secrets
-      stringData:
-        idpConfigs: |-
-          [ {
-              "claimsMapping": {
-                "name": "name",
-                "sub": [
-                    "sub",
-                    "client_id"
-                ]
-              },
-              "clientId": "foo",
-              "clientSecret": "bar",
-              "hostname": "elastic.example",
-              "issuerConfig": {
-                "authorization_endpoint": "http://elastic.example:32123/auth",
-                "end_session_endpoint": "http://elastic.example:32123/session/end",
-                "introspection_endpoint": "http://elastic.example:32123/token/introspection",
-                "issuer": "http://simple-oidc-provider",
-                "jwks_uri": "http://elastic.example:32123/certs",
-                "token_endpoint": "http://elastic.example:32123/token",
-                "userinfo_endpoint": "http://elastic.example:32123/me"
-              },
-              "postLogoutRedirectUri": "http://elastic.example",
-              "realm": "simple"
-            }
-          ]
+- patch: |-
+    apiVersion: v1
+    kind:Secret
+    metadata:
+      name: identity-providers-secrets
+    stringData:
+      idpConfigs: |-
+        [ {
+            "claimsMapping": {
+              "name": "name",
+              "sub": [
+                  "sub",
+                  "client_id"
+              ]
+            },
+            "clientId": "foo",
+            "clientSecret": "bar",
+            "hostname": "elastic.example",
+            "issuerConfig": {
+              "authorization_endpoint": "http://elastic.example:32123/auth",
+              "end_session_endpoint": "http://elastic.example:32123/session/end",
+              "introspection_endpoint": "http://elastic.example:32123/token/introspection",
+              "issuer": "http://simple-oidc-provider",
+              "jwks_uri": "http://elastic.example:32123/certs",
+              "token_endpoint": "http://elastic.example:32123/token",
+              "userinfo_endpoint": "http://elastic.example:32123/me"
+            },
+            "postLogoutRedirectUri": "http://elastic.example",
+            "realm": "simple"
+          }
+        ]
 ```
 As what is being patched is a secret it is also possible to supply the value for idpConfigs as base64 in the `data:`
 section.
 
-See (below)[https://github.com/qlik-oss/qliksense-k8s/tree/readme_doc#generate-a-secret-from-vault] for an example of how
+See (below)[#generate-a-secret-from-vault] for an example of how
 to pull the IDP configuration secret from vault!
 
-### Adding a custom root CA certificate (for IDP)
+#### Adding a custom root CA certificate (for IDP)
 
-### Setting a global storage class
+#### Setting a global storage class
 
-### Setting a global docker image registry
+#### Setting a global docker image registry
 
-### Generate a secret from vault
+#### Generate a secret from vault
 
 The [`kustomize`](https://kustomize.io/) version from [qlik-oss](https://github.com/qlik-oss/kustomize/releases) has a builtin `gomplate` plugin that allows secrets to be pulled from vault.
 You should hav downloaded [`gomplate`](https://github.com/hairyhenderson/gomplate/releases/) an put it you path as part of the "quickstart" above.
 
 As we are using Vault, we will need a vault address specifying the base in which to find the secret and and address. These environmental variables are set prior to the generation of the manifest through `kustomize build .`:
-   - Bash:
-     - `export VAULT_ADDR=https://127.0.0.1:8200`
-     - `export VAULT_TOKEN=a8dc748390aac1c60c434d52f32ffb3c37870153d34ace6f526bf1f9d987439d`
-   - PowerShell:
-     - `$Env:VAULT_ADDR=https://127.0.0.1:8200`
-     - `$Env:VAULT_TOKEN="a8dc748390aac1c60c434d52f32ffb3c37870153d34ace6f526bf1f9d987439d"`
+- Bash:
+  - `export VAULT_ADDR=https://127.0.0.1:8200`
+  - `export VAULT_TOKEN=a8dc748390aac1c60c434d52f32ffb3c37870153d34ace6f526bf1f9d987439d`
+- PowerShell:
+  - `$Env:VAULT_ADDR=https://127.0.0.1:8200`
+  - `$Env:VAULT_TOKEN="a8dc748390aac1c60c434d52f32ffb3c37870153d34ace6f526bf1f9d987439d"`
 
 To pull a secret from vault, a special type of patch needs to be used. We will use the "Configuring an IDP" example, in which case the folling IDP configuration array is stored in vault:
 
@@ -361,86 +382,84 @@ patches:
 ```
 
 These needed now need to be added to kustomize in the appropriate directory:
-   - Bash:
-     - ```yaml
-       bash# pushd .
-       bash# cd configuration/secrets 
-       bash# cat <<EOT >> identity-providers-mysecrets.yaml
-       apiVersion: qlik.com/v1
-       kind: SelectivePatch
-       metadata:
-         name: identity-providers-secrets
-       enabled: true
-       patches:
-       - target:
-           kind: SuperSecret
-         patch: |-
-           apiVersion: qlik.com/v1
-           kind: SuperSecret
-           metadata:
-             name: identity-providers-secrets
-           stringData:
-             idpConfigs: |-
-               (( (ds "vault").idpConfigs | indent 8 ))
-       EOT
-       bash# kustomize edit add resource identity-providers-mysecrets.yaml
-       bash# cat <<EOT >> identity-providers-vault-secrets.yaml
-       apiVersion: qlik.com/v1
-       kind: Gomplate
-       metadata:
-         name: identity-providers-vault-secrets
-         labels:
-           key: gomplate
-       dataSource:
-         vault:
-           secretPath: path/to/key/values/with/secret
-       EOT
-       bash# cat <<EOT >> kustomization.yaml
-       transformers:
-       - identity-providers-vault-secrets.yaml
-       EOT
-       bash# popd
-       ```
-   - PowerShell:
-     - ```yaml
-       PS> Push-Location
-       PS> Set-Location configuration\secrets
-       PS> Add-Content -Value @" 
-       apiVersion: qlik.com/v1
-       kind: SelectivePatch
-       metadata:
-         name:  identity-providers-secrets
-       enabled: true
-       patches:
-       - target:
-           kind: SuperSecret
-         patch: |-
-           apiVersion: qlik.com/v1
-           kind: SuperSecret
-           metadata:
-             name: identity-providers-secrets
-           stringData:
-             idpConfigs: |-
-               (( (ds "vault").idpConfigs | indent 8 ))
-       "@ -Path .\identity-providers-mysecrets.yaml
-       PS> kustomize edit add resource identity-providers-mysecrets.yaml
-       PS> Add-Content -Value @"
-       apiVersion: qlik.com/v1
-       kind: Gomplate
-       metadata:
-         name:  identity-providers-vault-secrets
-         labels:
-           key: gomplate
-       dataSource:
-         vault:
-           secretPath: path/to/key/values/with/secret
-       "@ -Path .\ identity-providers-vault-secrets.yaml
-       PS> Add-Content -Value @"
-       transformers:
-       -  identity-providers-vault-secrets.yaml
-       "@ -Path .\kustomization.yaml
-       PS> Pop-Location
-       ```
+- _Bash_
+  ```yaml
+  bash# pushd .
+  bash# cd configuration/secrets 
+  bash# cat <<EOT >> identity-providers-mysecrets.yaml
+  apiVersion: qlik.com/v1
+  kind: SelectivePatch
+  metadata:
+    name: identity-providers-secrets
+  enabled: true
+  patches:
+  - target:
+      kind: SuperSecret
+    patch: |-
+      apiVersion: qlik.com/v1
+      kind: SuperSecret
+      metadata:
+        name: identity-providers-secrets
+      stringData:
+        idpConfigs: |-
+          (( (ds "vault").idpConfigs | indent 8 ))
+  EOT
+  bash# kustomize edit add resource identity-providers-mysecrets.yaml
+  bash# cat <<EOT >> identity-providers-vault-secrets.yaml
+  apiVersion: qlik.com/v1
+  kind: Gomplate
+  metadata:
+    name: identity-providers-vault-secrets
+  dataSource:
+    vault:
+      secretPath: path/to/key/values/with/secret
+  EOT
+  bash# cat <<EOT >> kustomization.yaml
+  transformers:
+  - identity-providers-vault-secrets.yaml
+  EOT
+  bash# popd
+  ```
+- _PowerShell_
+  ```yaml
+  PS> Push-Location
+  PS> Set-Location configuration\secrets
+  PS> Add-Content -Value @" 
+  apiVersion: qlik.com/v1
+  kind: SelectivePatch
+  metadata:
+    name:  identity-providers-secrets
+  enabled: true
+  patches:
+  - target:
+      kind: SuperSecret
+    patch: |-
+      apiVersion: qlik.com/v1
+      kind: SuperSecret
+      metadata:
+        name: identity-providers-secrets
+      stringData:
+        idpConfigs: |-
+          (( (ds "vault").idpConfigs | indent 8 ))
+  "@ -Path .\identity-providers-mysecrets.yaml
+  PS> kustomize edit add resource identity-providers-mysecrets.yaml
+  PS> Add-Content -Value @"
+  apiVersion: qlik.com/v1
+  kind: Gomplate
+  metadata:
+    name:  identity-providers-vault-secrets
+    labels:
+      key: gomplate
+  dataSource:
+    vault:
+      secretPath: path/to/key/values/with/secret
+  "@ -Path .\ identity-providers-vault-secrets.yaml
+  PS> Add-Content -Value @"
+  transformers:
+  -  identity-providers-vault-secrets.yaml
+  "@ -Path .\kustomization.yaml
+  PS> Pop-Location
+  ```
 
 Generating the manifest should now also pull the IDP configuration from vault.
 
@@ -465,7 +484,7 @@ f) decouple configuration logic from service implementation logic
 
 #### Components
 
-In order to facilate a) ("Rationale"), components are expected to render are consistent kubernets API. Bespoke components are required to render the required layouts directly from helm using defaults. Off-the-shell
+In order to facilate a) (the "Rationale"), components are expected to render are consistent kubernets API. Bespoke components are required to render the required layouts directly from helm using defaults. Off-the-shell
 components will be patched immediately from the helm rendering to conform the the required layout.
 
 Thje lao
