@@ -4,3 +4,5 @@
 - op: replace
   path: /apiVersion
   value: apps/v1
+- op: remove
+  path: /spec/template/spec/containers/0/args/4
