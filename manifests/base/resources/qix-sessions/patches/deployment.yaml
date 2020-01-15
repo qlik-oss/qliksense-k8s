@@ -98,7 +98,9 @@ spec:
             configMapKeyRef:
               key: natsStreamingClusterId
               name: qix-sessions-configs
-        - name: NATS_CLUSTER_ID
+        - $patch: delete
+          name: STAN_CLUSTER_ID
+        - name: STAN_CLUSTER_ID
           value: $(NATS_STREAMING_CLUSTER_ID)
         - $patch: delete
           name: APP_SERVICE_URI
