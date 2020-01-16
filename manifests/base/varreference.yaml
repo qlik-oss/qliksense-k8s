@@ -9,6 +9,8 @@ varReference:
   kind: Ingress
 - path: metadata/labels/
   kind: Deployment
+- path: spec/template/metadata/labels/qlik.com\/engine-deployment-name
+  kind: Deployment
 - path: metadata/name
   kind: Deployment
 - path: metadata/name

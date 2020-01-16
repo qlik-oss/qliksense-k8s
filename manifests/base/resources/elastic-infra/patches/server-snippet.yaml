@@ -25,7 +25,7 @@ metadata:
         proxy_set_header            Content-Length "";
         proxy_set_header            X-Forwarded-Proto "";
 
-        proxy_set_header            Host                    edge-auth.default.svc.cluster.local;
+        proxy_set_header            Host                    edge-auth.$(NAMESPACE).svc.cluster.local;
         proxy_set_header            X-Original-URL          $scheme://$http_host$request_uri;
         proxy_set_header            X-Original-Method       $request_method;
         proxy_set_header            X-Sent-From             "nginx-ingress-controller";
@@ -105,7 +105,7 @@ metadata:
           headers["X-Real-IP"] = ngx.var.the_real_ip
           headers["X-Forwarded-For"] = ngx.var.the_real_ip
           headers["X-Auth-Request-Redirect"] = ngx.var.request_uri
-          headers["Host"] = "edge-auth.default.svc.cluster.local"
+          headers["Host"] = "edge-auth.$(NAMESPACE).svc.cluster.local"
           headers["qlik-web-integration-id"] = ngx.req.get_uri_args()["qlik-web-integration-id"]
 
           -- Copy incoming headers
@@ -136,12 +136,7 @@ metadata:
 
           -- Find upstream engine
 
-          local engReqBody = ""
-          if "qv" == ngx.var.qv then
-            engReqBody = engReqBody .. "{\"appId\":\"" .. ngx.var.qv_app_id .. "\","
-          else
-            engReqBody = engReqBody .. "{\"appId\":\"" .. ngx.var.app_id .. "\","
-          end
+          local engReqBody = "{\"appId\":\"" .. ngx.var.app_id .. "\","
 
           if string.len(ngx.var.session_id) > 0 then
             engReqBody = engReqBody .. "\"id\":\"" .. ngx.var.session_id .. "\","
@@ -149,6 +144,8 @@ metadata:
 
           if "qv" == ngx.var.qv then
             engReqBody = engReqBody .. "\"workloadType\":\"qv-analyse\"}"
+          elseif "SessionApp_" == ngx.var.session_app then
+            engReqBody = engReqBody .. "\"workloadType\":\"sessionapp\"}"
           else
             engReqBody = engReqBody .. "\"workloadType\":\"analyse\"}"
           end
@@ -177,9 +174,7 @@ metadata:
           local qix_sessions_route_data = cjson.decode(qix_session_res.body);
 
           local engine_path = ""
-          if "qv" == ngx.var.qv then
-            engine_path = "http://" .. qix_sessions_route_data.internalIP .. ":9076/qvapp/" .. ngx.var.qv_app_id
-          elseif qix_sessions_route_data.links.engineUrl.href then
+          if qix_sessions_route_data.links.engineUrl.href then
             engine_path = qix_sessions_route_data.links.engineUrl.href .. "/TTL/120"
           else
             ngx.log(ngx.ERR, "Invalid or empty engine path received from qix-sessions")
@@ -299,7 +294,7 @@ metadata:
 
           local function redirect_to_https()
             return ngx.var.pass_access_scheme == "http" and (ngx.var.scheme == "http" or ngx.var.scheme == "https")
-          end 
+          end
 
           if redirect_to_https() then
             ngx.redirect(ngx.var.redir, ngx.HTTP_MOVED_PERMANETLY)
@@ -323,7 +318,7 @@ metadata:
             headers[h] = v
           end
 
-          headers["Host"] = "edge-auth.default.svc.cluster.local"
+          headers["Host"] = "edge-auth.$(NAMESPACE).svc.cluster.local"
           headers["X-Original-URL"] = string.format("%s://%s%s", ngx.var.scheme, ngx.var.http_host, ngx.var.request_uri)
           headers["X-Original-Method"] = ngx.var.request_method
           headers["X-Sent-From"] = "nginx-ingress-controller"
