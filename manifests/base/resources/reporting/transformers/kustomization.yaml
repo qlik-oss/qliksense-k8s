@@ -17,7 +17,7 @@ patches:
         qixSessionsUri,
         temporaryContentsUri,
         featureFlagsUri,
-        redisUri,
+        redisUriWithPort,
         redisPassword,
         tokenAuthUri,
         tokenAuthPrivateKey,

@@ -51,13 +51,13 @@ spec:
         #  REDIS_URL -> REDIS_URI
         - $patch: delete
           name: REDIS_URL
-        - name: REDIS_URI
+        - name: REDIS_URI_WITH_PORT
           valueFrom:
             configMapKeyRef:
-              key: redisUri
+              key: redisUriWithPort
               name: reporting-configs
         - name: REDIS_URL
-          value: $(REDIS_URI)
+          value: $(REDIS_URI_WITH_PORT)
         #  AUTH_JWKS_URI -> KEYS_URI
         - $patch: delete
           name: AUTH_JWKS_URI
