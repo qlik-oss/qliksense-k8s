@@ -6,7 +6,7 @@ enabled: true
 patches:
 - target:
     kind: HelmChart
-    labelSelector: name!=qliksense-init
+    labelSelector: name notin (qliksense-init, elasticsearch, kibana)
   patch: |-
     apiVersion: qlik.com/v1
     kind: HelmChart
@@ -31,3 +31,31 @@ patches:
     chartRepo: https://qlik.bintray.com/edge
     chartName: qliksense-init
     chartVersion: 1.1.0
+
+- target:
+    kind: HelmChart
+    name: elasticsearch
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: HelmChart
+    metadata:
+      name: elasticsearch
+    tmpChartHome: .chartcache/elasticsearch
+    chartRepo: https://kubernetes-charts.storage.googleapis.com
+    chartName: elasticsearch
+    releaseNamespace: default
+    chartVersion: 1.32.2
+
+- target:
+    kind: HelmChart
+    name: kibana
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: HelmChart
+    metadata:
+      name: kibana
+    tmpChartHome: .chartcache/kibana
+    chartRepo: https://kubernetes-charts.storage.googleapis.com
+    chartName: kibana
+    releaseNamespace: default
+    chartVersion: 3.2.5

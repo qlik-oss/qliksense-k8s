@@ -1,0 +1,10 @@
+apiVersion: qlik.com/v1
+kind: HelmValues
+metadata:
+  name: kibana
+releaseNamespace: $(NAMESPACE)
+values:
+  env:
+    ELASTICSEARCH_HOSTS: http://$(PREFIX)-elasticsearch-client:9200
+  service:
+    externalPort: 5601
