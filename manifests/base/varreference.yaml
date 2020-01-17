@@ -185,3 +185,5 @@ varReference:
   path: data/chronosUri
 - kind: ConfigMap
   path: data/collectionsUri
+- kind: ConfigMap
+  path: data/reportingUri
