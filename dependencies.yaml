@@ -1,4 +1,4 @@
-org.qlik.operator.cli.sense-installer.version.min: v0.5.3
+org.qlik.operator.cli.sense-installer.version.min: v0.5.5
 org.qlik.operator.cli.porter.version.min: 0.2-beta-3-0e19ca4
 org.qlik.operator.mixin.qliksense.version.min: v0.16.0
 org.qlik.qseok.version: v1.21.23
