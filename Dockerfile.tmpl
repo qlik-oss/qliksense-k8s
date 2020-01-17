@@ -43,4 +43,4 @@ COPY --from=0 /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.
 # Use the BUNDLE_DIR build argument to copy files into the bundle
 ARG BUNDLE_DIR
 COPY . $BUNDLE_DIR
-RUN kustomize build $BUNDLE_DIR/manifests/base
+RUN kustomize build $BUNDLE_DIR/manifests/base 1>/dev/null
