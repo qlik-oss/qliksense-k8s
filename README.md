@@ -15,11 +15,6 @@
     - [Rationale](#rationale)
     - [How manifests are rendered](#how-manifests-are-rendered)
       - [Components](#components)
-    - [Installation of Qliksense](#installation-of-qliksense)
-  - [Generate Credentials from published bundle**](#generate-credentials-from-published-bundle)
-  - [Supported Parameters during install](#supported-parameters-during-install)
-  - [How To Add Identity Provider Config](#how-to-add-identity-provider-config)
-  - [Service configuration](#service-configuration)
 
 ## What is this Repository?
 
@@ -486,52 +481,3 @@ f) decouple configuration logic from service implementation logic
 
 In order to facilate a) (the "Rationale"), components are expected to render are consistent kubernets API. Bespoke components are required to render the required layouts directly from helm using defaults. Off-the-shell
 components will be patched immediately from the helm rendering to conform the the required layout.
-
-Thje lao
-
-### Installation of Qliksense
-
-- Install Porter from here: https://porter.sh/install/
-- Install the followiung Mixins:
-  - `porter mixin install kustomize -v 0.2-beta-3-0e19ca4 --url https://github.com/donmstewart/porter-kustomize/releases/download`
-  - `porter mixin install qliksense -v v0.15.0 --url https://github.com/qlik-oss/porter-qliksense/releases/download`
-- Run Porter build: `porter build -v`
-- Ensure connectivity to the target cluster create a kubeconfig credential `porter cred generate`
-  - Select `specific value` at the prompt and specify the value. 
-  - Select `file path` and specify full path to kube config file ex. `/home/user/.kube/config` or  `C:\Users\.kube\config `
-  
-- Install the bundle : `porter install --param acceptEULA=yes -c QLIKSENSE`
-- Notice `acceptEULA` key has been updated inside `qliksense-configs-<hash>` configMap.
-
-## Generate Credentials from published bundle**
-
-- `porter credential generate demo3 --tag qlik/qliksense-cnab-bundle:v0.1.0`
-
-## Supported Parameters during install
-
-| Name        | Descriptions           | Default  |
-| ------------- |:-------------:| -----:|
-| profile      | select a profile i.e docker-desktop, aws-eks, gke | docker-desktop |
-| acceptEULA      | yes | has to be yes |
-| namespace      | any kubernetes namespace      |   default |
-| rotateKeys | regenerate application PKI keys on upgrade (yes/no)      |    no |
-| scName | storage class name      |    none |
-
-## How To Add Identity Provider Config
-
-since idp configs are usually multiline configs it is not conventional to pass to porter during install as a `param`. Rather put the configs in a file and refer to that file during `porter install` command. For example to add `keycloak` IDP create file named `idpconfigs.txt` and put
-
-```console
-idpConfigs=[{"discoveryUrl":"http://keycloak-insecure:8089/keycloak/realms/master22/.well-known/openid-configuration","clientId":"edge-auth","clientSecret":"e15b5075-9399-4b20-a95e-023022aa4aed","realm":"master","hostname":"elastic.example","claimsMapping":{"sub":["sub","client_id"],"name":["name","given_name","family_name","preferred_username"]}}]
-
-```
-
-Then pass that file during install command like this
-
-```console
-porter install --param acceptEULA=yes -c QLIKSENSE --param-file idpconfigs.txt
-```
-
-## Service configuration
-
-For information on configuring services to become kubernetes-compatible [refer here](How-to.md)
