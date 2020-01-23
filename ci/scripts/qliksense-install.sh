@@ -33,4 +33,7 @@ cat cr.tmpl.yaml | envsubst > cr.yaml
 
 export YAML_CONF=$(cat cr.yaml)
 
+
+echo $YAML_CONF
+
 qliksense-operator
