@@ -44,10 +44,102 @@ jobs:
               porter build -v
               porter publish
             fi
+  qliksense-install-openshift:
+    working_directory: ~/src
+    docker:
+      - image: qliktech-docker.jfrog.io/openshift-cluster-aws:0.0.3-372
+        auth:
+          username: $RT_USERNAME
+          password: $RT_APIKEY
+    environment:
+      CLUSTER_NAME: openshift-ci
+      REGION: us-east-1
+      TARGET_PLATFORM: openshift
+      PIPELINE_NAME: qliksense-integration-ci-openshift
+      KEYVAL_FILE: .keyval_file
+      USE_BASTION: "true"
+    steps:
+      - checkout
+      - run:
+          name: Set up workspace
+          command: |
+            mkdir -p /workspace
+      - run:
+          name: setup-isolated-namespace
+          shell: /bin/bash
+          command: |
+            if [ ! -f "$KEYVAL_FILE" ]
+            then
+              touch $KEYVAL_FILE
+            fi
+
+            export BASTION_PRIVATE_KEY=$OPENSHIFT_BASTION_PRIVATE_KEY
+            export SERVICE_ACCOUNT_NAME=$OPENSHIFT_SERVICE_ACCOUNT_NAME
+            export SERVICE_ACCOUNT_TOKEN=$OPENSHIFT_SERVICE_ACCOUNT_TOKEN
+
+            # Checking if there are changed charts
+            ./ci/scripts/changed-charts.sh
+
+            # Login to the K8 cluster on the target platform
+            ./ci/scripts/cluster-login.sh
+
+            # Create and configure a unique namespace
+            ./ci/scripts/install-namespace.sh
+
+            # Save generated namespace in workspace
+            cat $KEYVAL_FILE > /workspace/generated_namespace
+      - run:
+          name: watch-pods
+          shell: /bin/bash
+          background: true
+          command: |
+            # Run check pod (check if pods are running and ready)
+            ./ci/scripts/watch-pods.sh
+      - run:
+          name: qliksense-test-bump
+          shell: /bin/bash
+          command: |
+            # Init helm tiller service account and add helm repos
+            ./ci/scripts/helm-init.sh
+
+            export HOSTNAME="sut-nginx-ingress-controller"
+            ./ci/scripts/qliksense-cert-oidc.sh
+
+            # qlik-sense test bump
+            ./ci/scripts/qliksense-install.sh
+      - run:
+          name: check-pods-are-ready
+          shell: /bin/bash
+          command: |
+            # Run check pod (check if pods are running and ready)
+            ./ci/scripts/check-pods.sh
+      - run:
+          name: export-pod-logs
+          shell: /bin/bash
+          when: on_fail
+          command: |
+            ./ci/scripts/export-pod-logs.sh
+      - run:
+          name: namespace-cleanup
+          shell: /bin/bash
+          no_output_timeout: 20m
+          when: on_fail
+          command: |
+            # Cleanup namespace if exits
+            ./ci/scripts/delete-namespace.sh
+      - store_artifacts:
+          path: /tmp/podlogs
+          destination: podlogs
+      - persist_to_workspace:
+          root: /workspace
+          paths:
+            - generated_namespace
+
 workflows:
   version: 2
   publish:
     jobs:
+      - qliksense-install-openshift
       - bundle-release:
           filters:
             tags:

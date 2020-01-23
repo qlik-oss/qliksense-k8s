@@ -1,0 +1,7 @@
+## Global configurations for the qliksense chart
+global:
+  ## Global persistence configuration for qliksense sub-charts
+  ##
+  persistence:
+    storageClass: "efs"
+
