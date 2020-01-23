@@ -77,9 +77,6 @@ jobs:
             export SERVICE_ACCOUNT_NAME=$OPENSHIFT_SERVICE_ACCOUNT_NAME
             export SERVICE_ACCOUNT_TOKEN=$OPENSHIFT_SERVICE_ACCOUNT_TOKEN
 
-            # Checking if there are changed charts
-            ./ci/scripts/changed-charts.sh
-
             # Login to the K8 cluster on the target platform
             ./ci/scripts/cluster-login.sh
 
