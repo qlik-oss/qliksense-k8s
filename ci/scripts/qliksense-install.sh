@@ -23,6 +23,7 @@ manifestsRoot: "/root/src"
 storageClassName: efs
 namespace: "$GENERATED_NAMESPACE"
 storageClassName: "efs"
+rotateKeys: "false"
 configs:
 - dataKey: acceptEULA
   values:
