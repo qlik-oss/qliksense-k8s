@@ -28,6 +28,10 @@ configs:
 - dataKey: acceptEULA
   values:
     qliksense: "yes"
+secrets:
+- secretKey: mongoDbUri
+  values:
+    qliksense: mongodb://qliksense-mongodb:27017/qliksense?ssl=false
 EOF
 
 cat cr.tmpl.yaml | envsubst > cr.yaml
@@ -39,6 +43,5 @@ echo $YAML_CONF
 
 qliksense-operator
 
-export EJSON_KEY=$(EJSON_KEY)
 cd /root/src/manifests/docker-desktop
 kustomize build . | kubectl apply --validate=false -f -
