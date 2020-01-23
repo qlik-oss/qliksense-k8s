@@ -18,7 +18,7 @@ setup_kubectl_context
 
 
 cat <<EOF > cr.tmpl.yaml
-configProfile: manifests/docker-desktop
+configProfile: manifests/base
 manifestsRoot: "/root/src"
 storageClassName: efs
 namespace: "$GENERATED_NAMESPACE"
