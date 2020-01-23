@@ -39,6 +39,6 @@ echo $YAML_CONF
 
 qliksense-operator
 
-
+export EJSON_KEY=$(EJSON_KEY)
 cd /root/src/manifests/docker-desktop
-kustomize build . | kubectl apply -f -
+kustomize build . | kubectl apply --validate=false -f -
