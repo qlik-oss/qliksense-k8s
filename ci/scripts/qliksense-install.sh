@@ -8,11 +8,6 @@ REQUIRED_ENV_VARS=(
   TARGET_PLATFORM
 )
 
-RRS_CONTR_CHARTS=(
-  audit
-  quotas
-)
-
 export_keyval_env
 
 check_skip_testing_condition
@@ -22,9 +17,20 @@ check_req_env_vars
 setup_kubectl_context
 
 
+cat <<EOF > cr.tmpl.yaml
+configProfile: manifests/docker-desktop
+manifestsRoot: "/root/src"
+storageClassName: efs
+namespace: "$GENERATED_NAMESPACE"
+storageClassName: "efs"
+configs:
+- dataKey: acceptEULA
+  values:
+    qliksense: "yes"
+EOF
 
-echo "Which directory i'm in"
+cat cr.tmpl.yaml | envsubst > cr.yaml
 
-pwd
+export YAML_CONF=$(cat cr.yaml)
 
-ls -la
+qliksense-operator
