@@ -23,7 +23,7 @@ manifestsRoot: "/root/src"
 storageClassName: efs
 namespace: "$GENERATED_NAMESPACE"
 storageClassName: "efs"
-rotateKeys: "yes"
+rotateKeys: "None"
 configs:
 - dataKey: acceptEULA
   values:
@@ -38,3 +38,5 @@ export YAML_CONF=$(cat cr.yaml)
 echo $YAML_CONF
 
 qliksense-operator
+
+kustomize build . | kubectl apply -f -

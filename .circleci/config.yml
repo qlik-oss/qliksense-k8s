@@ -47,7 +47,7 @@ jobs:
   qliksense-install-openshift:
     working_directory: ~/src
     docker:
-      - image: qliktech-docker.jfrog.io/openshift-cluster-aws:0.0.3-372
+      - image: qliktech-docker.jfrog.io/openshift-cluster-aws:0.0.3-375
         auth:
           username: $RT_USERNAME
           password: $RT_APIKEY
