@@ -39,4 +39,6 @@ echo $YAML_CONF
 
 qliksense-operator
 
+
+cd /root/src/manifests/docker-desktop
 kustomize build . | kubectl apply -f -
