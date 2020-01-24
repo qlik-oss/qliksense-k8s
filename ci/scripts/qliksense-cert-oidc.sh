@@ -47,7 +47,8 @@ EOF
 
 kubectl apply -f tls-secret.yaml --namespace ${GENERATED_NAMESPACE}
 ## rollout elastic-infra deployment after creating the new tls secret
-kubectl rollout restart deployment/qliksense-elastic-infra-nginx-ingress-controller
+ELASTIC_INFRA_POD=$(kubectl get pods -o jsonpath="{.items[*].metadata.name}" | grep qliksense-elastic-infra )
+kubectl delete pod $ELASTIC_INFRA_POD
 
 echo "Create QSEFE License"
 secretName=qsefe-license
@@ -62,5 +63,3 @@ if [[ ${errno} -ne 0 ]]; then
   echo "ERROR: Failure to install ${chartName} chart"
   exit 1
 fi
-
-
