@@ -43,6 +43,8 @@ qliksense-operator
 ## Turn off default simple-oidc in edge-auth
 yq w -i /root/src/manifests/base/resources/edge-auth/generators/values.yaml 'values.service.type' ClusterIP
 yq w -i /root/src/manifests/base/resources/edge-auth/generators/values.yaml 'values.oidc.enabled' false
+# delete the patch for oidc
+yq d -i /root/src/manifests/base/resources/edge-auth/patches/deployment.yaml 'spec.template.spec.containers[1]'
 
 cat /root/src/manifests/base/resources/edge-auth/generators/values.yaml
 
