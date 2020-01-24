@@ -46,7 +46,7 @@ yq w -i /root/src/manifests/base/resources/edge-auth/generators/values.yaml 'val
 # delete the patch for oidc
 yq d -i /root/src/manifests/base/resources/edge-auth/patches/deployment.yaml 'spec.template.spec.containers[1]'
 
-
-
 cd /root/src/manifests/docker-desktop
 kustomize build . | kubectl apply --validate=false -f -
+
+kubectl describe secret qliksense-elastic-infra-elastic-infra-tls-secret

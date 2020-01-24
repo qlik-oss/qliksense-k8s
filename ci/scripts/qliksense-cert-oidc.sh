@@ -47,6 +47,8 @@ EOF
 
 kubectl apply -f tls-secret.yaml --namespace ${GENERATED_NAMESPACE}
 
+kubectl describe secret qliksense-elastic-infra-elastic-infra-tls-secret
+
 echo "Create QSEFE License"
 secretName=qsefe-license
 kubectl create secret generic ${secretName} --from-literal=qsefe-license=${QSEFE_LICENSE}
