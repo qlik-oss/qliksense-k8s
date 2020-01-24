@@ -47,10 +47,8 @@ EOF
 
 kubectl apply -f tls-secret.yaml --namespace ${GENERATED_NAMESPACE}
 ## rollout elastic-infra deployment after creating the new tls secret
-ELASTIC_INFRA_POD=$(kubectl get pods -o jsonpath="{.items[*].metadata.name}" | grep "qliksense-elastic-infra" )
-
-echo $ELASTIC_INFRA_POD
-#kubectl delete pod $ELASTIC_INFRA_POD
+ELASTIC_INFRA_POD=$(kubectl get pods -o jsonpath="{.items[*].metadata.name}" -l app=elastic-infra)
+kubectl delete pod $ELASTIC_INFRA_POD
 
 echo "Create QSEFE License"
 secretName=qsefe-license
