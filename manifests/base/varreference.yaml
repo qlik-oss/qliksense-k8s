@@ -89,8 +89,6 @@ varReference:
   kind: ConfigMap
 - path: data/imageRegistry
   kind: ConfigMap
-- path: data/redisImageRegistry
-  kind: ConfigMap
 - path: data/groupsUri
   kind: ConfigMap
 - path: data/identityProvidersUri

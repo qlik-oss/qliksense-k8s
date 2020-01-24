@@ -9,3 +9,6 @@ values:
   existingSecret: "dcaas-secrets"
   cluster:
     enabled: true
+  master:
+    securityContext:
+      enabled: false

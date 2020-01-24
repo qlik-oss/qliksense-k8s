@@ -39,13 +39,6 @@ vars:
       name: dcaas-configs
     fieldref:
       fieldpath: data.imageRegistry
-  - name: REDIS_IMAGE_REGISTRY
-    objref:
-      apiVersion: v1
-      kind: ConfigMap
-      name: dcaas-configs
-    fieldref:
-      fieldpath: data.redisImageRegistry
 configurations:
   - ../../varreference.yaml
 resources:
