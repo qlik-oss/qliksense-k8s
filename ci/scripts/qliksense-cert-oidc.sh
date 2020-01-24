@@ -36,7 +36,7 @@ cat <<EOF > tls-secret.yaml
 apiVersion: v1
 kind: Secret
 metadata:
-  name: ci-certificate
+  name: qliksense-elastic-infra-elastic-infra-tls-secret
 type: kubernetes.io/tls
 data:
   tls.crt: ${crt}
