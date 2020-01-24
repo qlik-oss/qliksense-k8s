@@ -12,4 +12,7 @@ patches:
     target:
       kind: Deployment
       name: licenses
- 
+  - path: role.yaml
+    target:
+      kind: Role
+      name: licenses
