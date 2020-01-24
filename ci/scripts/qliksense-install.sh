@@ -48,5 +48,3 @@ yq d -i /root/src/manifests/base/resources/edge-auth/patches/deployment.yaml 'sp
 
 cd /root/src/manifests/docker-desktop
 kustomize build . | kubectl apply --validate=false -f -
-
-kubectl describe secret qliksense-elastic-infra-elastic-infra-tls-secret

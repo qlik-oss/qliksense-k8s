@@ -46,8 +46,8 @@ data:
 EOF
 
 kubectl apply -f tls-secret.yaml --namespace ${GENERATED_NAMESPACE}
-
-kubectl describe secret qliksense-elastic-infra-elastic-infra-tls-secret
+## rollout elastic-infra deployment after creating the new tls secret
+kubectl rollout restart deployment/qliksense-elastic-infra-nginx-ingress-controller
 
 echo "Create QSEFE License"
 secretName=qsefe-license
@@ -62,3 +62,5 @@ if [[ ${errno} -ne 0 ]]; then
   echo "ERROR: Failure to install ${chartName} chart"
   exit 1
 fi
+
+
