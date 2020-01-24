@@ -8,3 +8,6 @@ values:
   existingSecret: "redis-secrets"
   cluster:
     enabled: true
+  master:
+    securityContext:
+      enabled: false

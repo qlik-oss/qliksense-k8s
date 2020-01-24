@@ -1,8 +1,0 @@
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: component
-spec:
-  template:
-    spec:
-      securityContext: null #removing security context as openshift complains
