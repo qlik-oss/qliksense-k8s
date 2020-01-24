@@ -1,0 +1,18 @@
+imagePullSecrets:
+  - name: artifactory-docker-secret
+
+oidc:
+  ## IDP Name
+  ## A value for the name/url of the IDP
+  idpname: "https://sut-nginx-ingress-controller/oidc"
+  ## Redirects
+  redirects: "https://sut-nginx-ingress-controller/login/callback"
+
+  prefix: "/oidc"
+
+service:
+  prefix: "/oidc"
+
+ingress:
+  enabled: true
+  class: "qlik-nginx"

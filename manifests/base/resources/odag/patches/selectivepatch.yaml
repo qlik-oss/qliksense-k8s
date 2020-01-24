@@ -9,3 +9,7 @@ patches:
     kind: Deployment
     name: odag
 - path: deployment.yaml
+- path: role.yaml
+  target:
+    kind: Role
+    name: odag
