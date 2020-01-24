@@ -15,5 +15,5 @@ setup_kubectl_context
 
 while true; do
   kubectl get pods --namespace $GENERATED_NAMESPACE || true
-  sleep 20
+  sleep 40
 done

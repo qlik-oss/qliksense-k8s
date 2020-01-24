@@ -16,7 +16,6 @@ check_req_env_vars
 
 setup_kubectl_context
 
-
 cat <<EOF > cr.tmpl.yaml
 configProfile: manifests/docker-desktop
 manifestsRoot: "/root/src"
@@ -33,15 +32,18 @@ secrets:
   values:
     qliksense: mongodb://qliksense-mongodb:27017/qliksense?ssl=false
 EOF
-
+## Substitute namespace in cr.tmpl.yaml
 cat cr.tmpl.yaml | envsubst > cr.yaml
 
 export YAML_CONF=$(cat cr.yaml)
 
-
-echo $YAML_CONF
-
+# Apply patches using operator
 qliksense-operator
+
+## Turn off default simple-oidc in edge-auth
+yq w -i /root/src/manifests/base/resources/edge-auth/generators/values.yaml 'values.service.type' ClusterIP
+yq w -i /root/src/manifests/base/resources/edge-auth/generators/values.yaml 'values.oidc.enabled' false
+
 
 cd /root/src/manifests/docker-desktop
 kustomize build . | kubectl apply --validate=false -f -

@@ -23,24 +23,24 @@ if [ -f "$KEYVAL_FILE" ];then
   echo "GENERATED_NAMESPACE=${GENERATED_NAMESPACE}" >> "$KEYVAL_FILE"
 fi
 
-cat <<EOF > limitRange.yaml
-apiVersion: v1
-kind: LimitRange
-metadata:
-  name: default-qliksense-limit
-spec:
-  limits:
-  - defaultRequest:
-      memory: 120Mi
-      cpu:  "0.1"
-    type: Container
-EOF
+#cat <<EOF > limitRange.yaml
+#apiVersion: v1
+#kind: LimitRange
+#metadata:
+#  name: default-qliksense-limit
+#spec:
+#  limits:
+#  - defaultRequest:
+#      memory: 120Mi
+#      cpu:  "0.1"
+#    type: Container
+#EOF
 
 echo "Creating namespace $GENERATED_NAMESPACE"
 kubectl create namespace $GENERATED_NAMESPACE
 setup_kubectl_context
 kubectl apply -f /rbac/helm-namespace-sa.yaml
-kubectl apply -f ./limitRange.yaml
+# kubectl apply -f ./limitRange.yaml
 
 kubectl create secret docker-registry artifactory-registry-secret --docker-server=https://qliktech-docker-snapshot.jfrog.io/v1/ \
     --docker-username=$ART_USERNAME --docker-password=$ART_PASSWORD --docker-email=qlik-efe-reference-dev@qlik.com
@@ -54,4 +54,4 @@ kubectl create secret docker-registry artifactory-docker-infrastructure-secret -
 kubectl create secret docker-registry artifactory-docker-experimental-secret --docker-server=https://qliktech-docker-experimental.jfrog.io/v1/ \
     --docker-username=$ART_USERNAME --docker-password=$ART_PASSWORD --docker-email=qlik-efe-reference-dev@qlik.com
 
-kubectl label namespace $GENERATED_NAMESPACE app=ci
+kubectl label namespace $GENERATED_NAMESPACE app=qliksense-k8s
