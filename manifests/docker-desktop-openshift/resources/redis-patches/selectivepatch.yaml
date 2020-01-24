@@ -1,0 +1,22 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: redis2
+enabled: true
+patches:
+- path: deployment.yaml
+  target:
+    kind: Deployment
+    name: redis-slave
+- path: statefulset.yaml
+  target:
+    kind: StatefulSet
+    name: redis-master
+- path: deployment.yaml
+  target:
+    kind: Deployment
+    name: dcaas-redis-slave
+- path: statefulset.yaml
+  target:
+    kind: StatefulSet
+    name: dcaas-redis-master
