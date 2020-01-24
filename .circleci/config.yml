@@ -136,7 +136,10 @@ workflows:
   version: 2
   publish:
     jobs:
-      - qliksense-install-openshift
+      - qliksense-install-openshift:
+          filters:
+            branches:
+              ignore: master
       - bundle-release:
           filters:
             tags:
