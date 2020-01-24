@@ -44,6 +44,7 @@ qliksense-operator
 yq w -i /root/src/manifests/base/resources/edge-auth/generators/values.yaml 'values.service.type' ClusterIP
 yq w -i /root/src/manifests/base/resources/edge-auth/generators/values.yaml 'values.oidc.enabled' false
 
+cat /root/src/manifests/base/resources/edge-auth/generators/values.yaml
 
 cd /root/src/manifests/docker-desktop
 kustomize build . | kubectl apply --validate=false -f -
