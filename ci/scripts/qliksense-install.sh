@@ -18,7 +18,7 @@ setup_kubectl_context
 
 
 cat <<EOF > cr.tmpl.yaml
-configProfile: manifests/docker-desktop-openshift
+configProfile: manifests/docker-desktop
 manifestsRoot: "/root/src"
 storageClassName: efs
 namespace: "$GENERATED_NAMESPACE"
@@ -43,5 +43,5 @@ echo $YAML_CONF
 
 qliksense-operator
 
-cd /root/src/manifests/docker-desktop-openshift
+cd /root/src/manifests/docker-desktop
 kustomize build . | kubectl apply --validate=false -f -
