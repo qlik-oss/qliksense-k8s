@@ -20,3 +20,10 @@ spec:
         - --jwt_users_file=/opt/bitnami/nats/users.json
         - --jwt_auth_url=$(KEYS_URI)/keys/qlik.api.internal
 
+      - name: metrics
+        args:
+        - -connz
+        - -routez
+        - -subz
+        - -varz
+        - "http://localhost:8222"

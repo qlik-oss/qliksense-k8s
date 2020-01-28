@@ -127,3 +127,9 @@ spec:
             configMapKeyRef:
               key: natsStreamingClusterId
               name: messaging-configs
+
+      - name: metrics
+        args:
+          - -channelz
+          - -serverz
+          - "http://localhost:8222"
