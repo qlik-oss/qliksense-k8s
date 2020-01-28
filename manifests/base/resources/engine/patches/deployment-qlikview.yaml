@@ -7,7 +7,7 @@ spec:
     metadata:
       labels:
         engine-nats-client: null
-        qlik.com/engine-deployment-name: $(PREFIX)-engine-default
+        qlik.com/engine-deployment-name: $(PREFIX)-engine-qlikview-default
     spec:
       volumes:
       - name: secrets-service2service

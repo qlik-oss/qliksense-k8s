@@ -79,17 +79,51 @@ spec:
         - name: SESSION_SERVICE_URL
           value: $(QIX_SESSIONS_URI)
         - $patch: delete
-          name: KEY_ID
+          name: TOKEN_AUTH_KID
         - name: TOKEN_AUTH_PRIVATE_KEY_ID
           valueFrom:
             secretKeyRef:
               key: tokenAuthPrivateKeyId
               name: reporting-secrets
-        - name: KEY_ID
+        - name: TOKEN_AUTH_KID
           value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
+        - $patch: delete
+          name: TOKEN_AUTH_PRIVATE_KEY
+        - name: TOKEN_AUTH_PRIVATE_KEY
+          valueFrom:
+            secretKeyRef:
+              key: tokenAuthPrivateKey
+              name: reporting-secrets
         - name: TOKEN_AUTH_URL
           value: $(TOKEN_AUTH_URI)/v1/internal-tokens
         - $patch: delete
           name: REDIS_AUTH_TOKEN
         - name: REDIS_AUTH_TOKEN
           value: $(REDIS_PASSWORD)
+      - name: rpr
+        imagePullPolicy: IfNotPresent
+        env:
+        - $patch: delete
+          name: ENGINE_HOST
+        - name: ENGINE_HOST
+          value: $(PREFIX)-engine
+        - $patch: delete
+          name: CLIENT_HOST
+        - name: CLIENT_HOST
+          value: $(PREFIX)-sense-client
+        - $patch: delete
+          name: FEATUREFLAGS_HOST
+        - name: FEATUREFLAGS_HOST
+          value: $(PREFIX)-feature-flags
+        - $patch: delete
+          name: RESOURCELIBRARY_HOST
+        - name: RESOURCELIBRARY_HOST
+          value: $(PREFIX)-resource-library
+        - $patch: delete
+          name: TEMPCONTENTS_HOST
+        - name: TEMPCONTENTS_HOST
+          value: $(PREFIX)-temporary-contents
+        - $patch: delete
+          name: LOCALE_HOST
+        - name: LOCALE_HOST
+          value: $(PREFIX)-locale
