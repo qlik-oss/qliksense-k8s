@@ -7,3 +7,5 @@ metadata:
       containers:
       - name: main
         args: null
+      - name: metrics
+        args: null
