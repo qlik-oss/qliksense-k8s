@@ -47,7 +47,7 @@ jobs:
   qliksense-install-openshift:
     working_directory: ~/src
     docker:
-      - image: qliktech-docker.jfrog.io/openshift-cluster-aws:0.0.3-375
+      - image: qliktech-docker.jfrog.io/openshift-cluster-aws
         auth:
           username: $RT_USERNAME
           password: $RT_APIKEY
@@ -99,17 +99,89 @@ jobs:
             # Init helm tiller service account and add helm repos
             ./ci/scripts/helm-init.sh
 
+            export HOSTNAME="qliksense-elastic-infra-nginx-ingress-controller"
+            export BASE_PATH="/root/src"
+            ./ci/scripts/qliksense-generate-certs.sh
+
+            ./ci/scripts/qliksense-simple-oidc.sh
+
             # Install qliksense using operator + kustomize
             ./ci/scripts/qliksense-install.sh
-
-            export HOSTNAME="sut-nginx-ingress-controller"
-            ./ci/scripts/qliksense-cert-oidc.sh
       - run:
           name: check-pods-are-ready
           shell: /bin/bash
           command: |
             # Run check pod (check if pods are running and ready)
             ./ci/scripts/check-pods.sh
+      - run:
+          name: export-pod-logs
+          shell: /bin/bash
+          when: on_fail
+          command: |
+            ./ci/scripts/export-pod-logs.sh
+      - run:
+          name: namespace-cleanup
+          shell: /bin/bash
+          no_output_timeout: 20m
+          when: on_fail
+          command: |
+            # Cleanup namespace if exits
+            ./ci/scripts/delete-namespace.sh
+      - store_artifacts:
+          path: /tmp/podlogs
+          destination: podlogs
+      - persist_to_workspace:
+          root: /workspace
+          paths:
+            - generated_namespace
+
+  qliksense-system-test-openshift:
+    working_directory: ~/src
+    docker:
+      - image: qliktech-docker.jfrog.io/openshift-cluster-aws
+        auth:
+          username: $RT_USERNAME
+          password: $RT_APIKEY
+    environment:
+      CLUSTER_NAME: openshift-ci
+      REGION: us-east-1
+      TARGET_PLATFORM: openshift
+      PIPELINE_NAME: qliksense-integration-ci-openshift
+      KEYVAL_FILE: .keyval_file
+      USE_BASTION: "true"
+    steps:
+      - checkout
+      - attach_workspace:
+          at: /workspace
+      - run:
+          name: cluster-login
+          shell: /bin/bash
+          command: |
+            if [ ! -f "$KEYVAL_FILE" ]
+            then
+              touch $KEYVAL_FILE
+              cat /workspace/generated_namespace >> "$KEYVAL_FILE"
+            fi
+
+            export BASTION_PRIVATE_KEY=$OPENSHIFT_BASTION_PRIVATE_KEY
+            export SERVICE_ACCOUNT_NAME=$OPENSHIFT_SERVICE_ACCOUNT_NAME
+            export SERVICE_ACCOUNT_TOKEN=$OPENSHIFT_SERVICE_ACCOUNT_TOKEN
+
+            # Login to the K8 cluster on the target platform
+            ./ci/scripts/cluster-login.sh
+
+            # Init helm tiller service account and add helm repos
+            ./ci/scripts/helm-init.sh
+      - run:
+          name: run-system-test
+          shell: /bin/bash
+          no_output_timeout: 15m
+          command: |
+            # Running system test
+            ./ci/scripts/run-system-test.sh
+      - store_artifacts:
+          path: /tmp/system-test-reports
+          destination: system-test-reports
       - run:
           name: export-pod-logs
           shell: /bin/bash
@@ -127,10 +199,6 @@ jobs:
       - store_artifacts:
           path: /tmp/podlogs
           destination: podlogs
-      - persist_to_workspace:
-          root: /workspace
-          paths:
-            - generated_namespace
 
 workflows:
   version: 2
@@ -140,6 +208,13 @@ workflows:
           filters:
             branches:
               ignore: master
+      - qliksense-system-test-openshift:
+          requires:
+            - qliksense-install-openshift
+          filters:
+            branches:
+              ignore:
+                - master
       - bundle-release:
           filters:
             tags:

@@ -23,18 +23,18 @@ if [ -f "$KEYVAL_FILE" ];then
   echo "GENERATED_NAMESPACE=${GENERATED_NAMESPACE}" >> "$KEYVAL_FILE"
 fi
 
-#cat <<EOF > limitRange.yaml
-#apiVersion: v1
-#kind: LimitRange
-#metadata:
-#  name: default-qliksense-limit
-#spec:
-#  limits:
-#  - defaultRequest:
-#      memory: 120Mi
-#      cpu:  "0.1"
-#    type: Container
-#EOF
+cat <<EOF > limitRange.yaml
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: default-qliksense-limit
+spec:
+  limits:
+  - defaultRequest:
+      memory: 100Mi
+      cpu:  "0.1"
+    type: Container
+EOF
 
 echo "Creating namespace $GENERATED_NAMESPACE"
 kubectl create namespace $GENERATED_NAMESPACE
