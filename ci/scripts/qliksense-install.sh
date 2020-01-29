@@ -6,7 +6,6 @@ source ci/scripts/common-func.sh
 REQUIRED_ENV_VARS=(
   GENERATED_NAMESPACE
   TARGET_PLATFORM
-  ROOT_CA
   IDP_CONFIG
 )
 
