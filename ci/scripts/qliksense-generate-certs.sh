@@ -44,12 +44,10 @@ data:
 EOF
 
 ## Export the values of rootCA and idpConfig to the shared keyval file
-rootCA=$(echo ${ca} | base64 -d)
 idp_config_file="${BASE_PATH}/ci/common/values/oidc-idp-config.json"
 idpConfig=$(cat ${idp_config_file}) &&
 
 if [ -f "$KEYVAL_FILE" ];then
   # Writing GENERATED_NAMESPACE to the keyval properties file
-  echo "ROOT_CA=${rootCA}" >> "$KEYVAL_FILE"
   echo "IDP_CONFIG=${idpConfig}" >> "$KEYVAL_FILE"
 fi

@@ -41,8 +41,8 @@ secrets:
     identity-providers: IDP_CONFIG
 EOF
 
-
-yq w -i -- cr.tmpl.yaml 'secrets[1].values.qliksense' "$ROOT_CA"
+rootCA=$(cat rootCA.crt)
+yq w -i -- cr.tmpl.yaml 'secrets[1].values.qliksense' "$rootCA"
 yq w -i -- cr.tmpl.yaml 'secrets[2].values.identity-providers' "$IDP_CONFIG"
 
 ## Substitute namespace in cr.tmpl.yaml.
@@ -55,11 +55,7 @@ export YAML_CONF=$(cat cr.yaml)
 # Apply patches using operator
 qliksense-operator
 
-
-
-
 MANIFEST_DIR="${BASE_PATH}/manifests/docker-desktop"
-
 
 yq w -i ${BASE_PATH}/manifests/base/transformers/clientCertificates/secret/selectivepatch.yaml 'enabled' true
 
