@@ -4,9 +4,9 @@ imagePullSecrets:
 oidc:
   ## IDP Name
   ## A value for the name/url of the IDP
-  idpname: "https://sut-nginx-ingress-controller/oidc"
+  idpname: "https://qliksense-elastic-infra-nginx-ingress-controller/oidc"
   ## Redirects
-  redirects: "https://sut-nginx-ingress-controller/login/callback"
+  redirects: "https://qliksense-elastic-infra-nginx-ingress-controller/login/callback"
 
   prefix: "/oidc"
 

@@ -104,7 +104,7 @@ done
 
 if (("$PODS_READY" == 0)); then
   echo "INFO: All containers are ready"
-  kubectl get pods --namespace $GENERATED_NAMESPACE | grep -e "sut-*"
+  kubectl get pods --namespace $GENERATED_NAMESPACE | grep -e "qliksense-*"
   exit 0
 else
   echo "ERROR: Some containers failed to reach the ready state"
