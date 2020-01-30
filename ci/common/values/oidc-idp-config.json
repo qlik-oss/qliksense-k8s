@@ -1,0 +1,1 @@
+[{"discoveryUrl":"https://qliksense-elastic-infra-nginx-ingress-controller/oidc/.well-known/openid-configuration","clientId":"foo","clientSecret":"bar","realm":"simple","hostname":"qliksense-elastic-infra-nginx-ingress-controller","claimsMapping":{"sub":["sub","client_id"],"name":"name"}}]

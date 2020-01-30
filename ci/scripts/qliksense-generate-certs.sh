@@ -6,7 +6,6 @@ source ci/scripts/common-func.sh
 REQUIRED_ENV_VARS=(
   HOSTNAME
   GENERATED_NAMESPACE
-  TARGET_PLATFORM
 )
 
 export_keyval_env
@@ -18,7 +17,6 @@ check_req_env_vars
 setup_kubectl_context
 
 echo "Generating TLS certs and secret"
-## HOSTNAME="sut-nginx-ingress-controller"
 
 # Generate root CA
 openssl genrsa -out rootCA.key 4096
@@ -45,21 +43,11 @@ data:
 
 EOF
 
-kubectl apply -f tls-secret.yaml --namespace ${GENERATED_NAMESPACE}
-## rollout elastic-infra deployment after creating the new tls secret
-ELASTIC_INFRA_POD=$(kubectl get pods -o jsonpath="{.items[*].metadata.name}" -l app=elastic-infra)
-kubectl delete pod $ELASTIC_INFRA_POD
+## Export the values of rootCA and idpConfig to the shared keyval file
+idp_config_file="${BASE_PATH}/ci/common/values/oidc-idp-config.json"
+idpConfig=$(cat ${idp_config_file}) &&
 
-echo "Create QSEFE License"
-secretName=qsefe-license
-kubectl create secret generic ${secretName} --from-literal=qsefe-license=${QSEFE_LICENSE}
-
-echo "Installing simple oidc chart"
-errno=0
-chartName=simple-oidc-chart
-oidcValuesFile="ci/common/values/${chartName}-values.yaml"
-for i in {1..5}; do helm install --tiller-namespace="$GENERATED_NAMESPACE" --wait --name sut-${chartName} qlik/${chartName} -f ${oidcValuesFile} && errno=0 && break || errno=$? && sleep 30; done;
-if [[ ${errno} -ne 0 ]]; then
-  echo "ERROR: Failure to install ${chartName} chart"
-  exit 1
+if [ -f "$KEYVAL_FILE" ];then
+  # Writing GENERATED_NAMESPACE to the keyval properties file
+  echo "IDP_CONFIG=${idpConfig}" >> "$KEYVAL_FILE"
 fi
