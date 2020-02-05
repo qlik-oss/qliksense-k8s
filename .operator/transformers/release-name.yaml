@@ -1,0 +1,19 @@
+# This patch will be used to change the release name.
+# the default release name is release: qliksense
+# k-api will just replace that value with the user provided releaseName through CR
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: release
+enabled: true
+patches:
+- target:
+    name: release
+    kind: LabelTransformer
+  patch: |-
+    apiVersion: builtin
+    kind: LabelTransformer
+    metadata:
+      name: release
+    labels:
+      release: qliksense
