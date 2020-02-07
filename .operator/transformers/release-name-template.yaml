@@ -4,7 +4,7 @@
 apiVersion: qlik.com/v1
 kind: SelectivePatch
 metadata:
-  name: release
+  name: release-template
 enabled: true
 patches:
 - target:
