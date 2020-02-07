@@ -4,6 +4,7 @@
   - [What is this Repository?](#what-is-this-repository)
   - [Quickstart](#quickstart)
     - [Learning through Examples: Typical Use cases](#learning-through-examples-typical-use-cases)
+      - [Change release name/prefix](#set-release-name)
       - [Specifying replicas](#specifying-replicas)
       - [Setting resource limits](#setting-resource-limits)
       - [Configuring an IDP](#configuring-an-idp)
@@ -92,6 +93,41 @@ To do this, you need to patch the engine ConfigMap resource directly that contai
 2. Navigate into the `qliksense-k8s` directory and execute `kustomize build manifests/docker-desktop`, you can also apply the manifest to a cluster using `kustomize build manifests/docker-desktop | kubectl apply -f - `
 
 ### Learning through Examples: Typical Use cases
+
+#### Set release name
+
+By default the generated kubernetes resources are prefixed with `qliksense` which is basically a release name. To change the release name place a patch into `configuration/transformers` folder and add that file name into `configuration/transformers/kustomization.yaml` file. To change the release name to `myrelease` the file content should be like this
+
+```yaml
+bash# pushd .
+bash# cd configuration/transformers
+base# cat <<EOF>> my-release.yaml
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: release-template
+enabled: true
+patches:
+- target:
+    name: release
+    kind: LabelTransformer
+  patch: |-
+    apiVersion: builtin
+    kind: LabelTransformer
+    metadata:
+      name: release
+    labels:
+      release: myrelease
+EOF
+
+bash# cat <<EOF>> kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- my-release.yaml
+
+EOF
+```
 
 #### Specifying replicas
 
