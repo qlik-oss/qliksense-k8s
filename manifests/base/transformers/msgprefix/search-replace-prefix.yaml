@@ -1,0 +1,15 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: searchReplaceDeployment
+target:
+  kind: Deployment
+path: spec/template/metadata/labels
+search: \$\(PREFIX\)
+replaceWithObjRef:
+ objref:
+   apiVersion: v1
+   kind: ConfigMap
+ fieldref:
+   fieldpath: metadata.labels.release
+
