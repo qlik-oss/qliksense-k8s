@@ -16,4 +16,4 @@ patches:
     metadata:
       name: release
     labels:
-      release: whatever
+      release: qliksense
