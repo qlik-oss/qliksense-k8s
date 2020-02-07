@@ -1,6 +1,6 @@
-# This patch will be used to change the release name.
-# the default release name is release: qliksense
-# k-api will just replace that value with the user provided releaseName through CR
+# This file is not referenced in kustomization.yaml 
+# k-api use this file to create new patch file for release name
+# and then add that file in the kustomization.yaml file
 apiVersion: qlik.com/v1
 kind: SelectivePatch
 metadata:
@@ -16,4 +16,4 @@ patches:
     metadata:
       name: release
     labels:
-      release: qliksense
+      release: whatever

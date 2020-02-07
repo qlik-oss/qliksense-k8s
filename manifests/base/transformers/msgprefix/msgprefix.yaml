@@ -12,5 +12,5 @@ patch: |-
     template:
       metadata:
         labels:
-          qliksense-messaging-nats-client: "true"
+          $(PREFIX)-messaging-nats-client: "true"
 
