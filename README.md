@@ -32,8 +32,8 @@ By cloning this repository or downloading and unpacking an archive from the rele
 To render a manifest for a Docker Desktop kubernetes QSEoK cluster instance:
 
 1. Download [`kustomize`](https://kustomize.io/) from [qlik-oss](https://github.com/qlik-oss/kustomize/releases) and put it in your `PATH`. (This is a convienient pre-built version of `kustomize` with all the necessary plugins compiled into it)
-2. Download [`gomplate`](https://github.com/hairyhenderson/gomplate/releases/) for your platform and put it in your `PATH`
-3. Download [`helm`](https://github.com/helm/helm/releases/tag/v2.16.1) v2.x latest and put it in your `PATH`
+2. ~~Download [`gomplate`](https://github.com/hairyhenderson/gomplate/releases/) for your platform and put it in your `PATH`~~ **No Longer Necessary**
+3. ~~Download [`helm`](https://github.com/helm/helm/releases/tag/v2.16.1) v2.x latest and put it in your `PATH`~~ **No Longer Necessary**
 4. Set an environment variable for a resource decryption key:
    - Bash:
      - `export EJSON_KEY=a8dc748390aac1c60c434d52f32ffb3c37870153d34ace6f526bf1f9d987439d`
