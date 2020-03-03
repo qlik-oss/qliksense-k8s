@@ -14,5 +14,5 @@ transformers:
   - ../../../../.operator/patches
   - ../../../../configuration/patches
 images:
-  - name: qlik-docker-qsefe.bintray.io/policy-decisions-service
-    newName: $(IMAGE_REGISTRY)/policy-decisions-service
+  - name: qlik-docker-qsefe.bintray.io/policy-decision-service
+    newName: $(IMAGE_REGISTRY)/policy-decision-service

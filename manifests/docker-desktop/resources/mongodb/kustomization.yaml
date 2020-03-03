@@ -5,4 +5,7 @@ commonLabels:
 generators:
 - generators
 transformers:
-- patches 
+- patches
+images:
+  - name: docker.io/bitnami/mongodb
+    newName: $(IMAGE_REGISTRY)/mongodb

@@ -14,6 +14,12 @@ transformers:
   - ../../../../.operator/patches
   - ../../../../configuration/patches
 images:
-  - name: qlik-docker-qsefe.bintray.io/reporting
-    newName: $(IMAGE_REGISTRY)/reporting
+  - name: qlik-docker-qsefe.bintray.io/reporting-web-renderer
+    newName: $(IMAGE_REGISTRY)/reporting-web-renderer
+  - name: qlik-docker-qsefe.bintray.io/reporting-composer
+    newName: $(IMAGE_REGISTRY)/reporting-composer
+  - name: qlik-docker-qsefe.bintray.io/reporting-service
+    newName: $(IMAGE_REGISTRY)/reporting-service
+  - name: qlik-docker-qsefe.bintray.io/reporting-proxy
+    newName: $(IMAGE_REGISTRY)/reporting-proxy
 
