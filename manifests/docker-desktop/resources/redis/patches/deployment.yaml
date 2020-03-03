@@ -5,6 +5,8 @@ metadata:
 spec:
   template:
     spec:
+      imagePullSecrets:
+      - name: artifactory-docker-secret
       containers:
       - name: main
         env:

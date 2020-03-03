@@ -5,9 +5,11 @@ metadata:
 spec:
   template:
     spec:
+      imagePullSecrets:
+      - name: artifactory-docker-secret
       containers:
       - name: main
-        env:   
-        # deleting MONGODB_EXTRA_FLAGS due to it getting a 'null' value 
+        env:
+        # deleting MONGODB_EXTRA_FLAGS due to it getting a 'null' value
         - $patch: delete
           name: MONGODB_EXTRA_FLAGS

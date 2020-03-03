@@ -12,7 +12,5 @@ transformers:
   - ../../../../.operator/patches
   - ../../../../configuration/patches
 images:
-  - name: qliktech-docker.jfrog.io/dcaas
-    newName: $(IMAGE_REGISTRY)/dcaas
   - name: qlik-docker-qsefe.bintray.io/redis
     newName: $(IMAGE_REGISTRY)/redis
