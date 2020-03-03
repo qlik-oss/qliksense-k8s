@@ -9,10 +9,10 @@ transformers:
   - secrets
   - configs
   - transformers
-  - ../qliksense/generators/secrets 
+  - ../qliksense/generators/secrets
   - ../qliksense/generators/configs
   - ../../../../.operator/patches
   - ../../../../configuration/patches
 images:
-  - name: qlik-docker-qsefe.bintray.io/data-prep
-    newName: $(IMAGE_REGISTRY)/data-prep
+  - name: qlik-docker-qsefe.bintray.io/data-prep-service
+    newName: $(IMAGE_REGISTRY)/data-prep-service
