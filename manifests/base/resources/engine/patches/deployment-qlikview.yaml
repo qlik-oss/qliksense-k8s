@@ -21,83 +21,85 @@ spec:
         imagePullPolicy: IfNotPresent
         args:
         - -S
-        - AcceptEULA=$(ACCEPT_EULA)
+        - BasePathPrefix=/api
         - -S
         - DocumentDirectory=/qlik/apps
         - -S
+        - EnableNumericalAbbreviation=0
+        - -S
+        - EnableQvwRestImport=1
+        - -S
         - EnableRestartOnSessionStall=1
+        - -S
+        - EnableWebSocketIdleManagement=1
+        - -S
+        - FolderConnectionInterface=0
+        - -S
+        - ShutdownWait=1
+        - -S
+        - AcceptEULA=$(ACCEPT_EULA)
         - -S
         - PrometheusServicePort=9090
         - -S
         - DesktopPort=9076
         - -S
-        - EnableNumericalAbbreviation=0
+        - AuditLogVerbosity=0
+        - -S
+        - EnableExtServiceLogs=1
+        - -S
+        - EventBusLogVerbosity=4
+        - -S
+        - ExternalServicesLogVerbosity=4
         - -S
         - HttpTrafficLogVerbosity=4
-        - -S
-        - TrafficLogVerbosity=0
-        - -S
-        - SystemLogVerbosity=4
-        - -S
-        - AuditLogVerbosity=0
         - -S
         - PerformanceLogVerbosity=0
         - -S
         - QixPerformanceLogVerbosity=0
         - -S
-        - SessionLogVerbosity=4
+        - SSEVerbosity=4
         - -S
         - ScriptLogVerbosity=4
         - -S
-        - SmartSearchQueryLogVerbosity=3
+        - SessionLogVerbosity=4
         - -S
         - SmartSearchIndexLogVerbosity=3
         - -S
-        - SSEVerbosity=4
+        - SmartSearchQueryLogVerbosity=3
         - -S
-        - EventBusLogVerbosity=4
+        - SystemLogVerbosity=4
         - -S
-        - EnableExtServiceLogs=1
+        - TrafficLogVerbosity=0
         - -S
-        - ExternalServicesLogVerbosity=4
-        - -S
-        - BasePathPrefix=/api
-        - -S
-        - FolderConnectionInterface=0
+        - RestServiceRequestNbrOfRetries=5
         - -S
         - Autosave=1
         - -S
         - AutosaveInterval=5
         - -S
-        - ValidateJsonWebTokens=2
-        - -S
         - JWKSServiceUrl=$(KEYS_URI)/keys/qlik.api.internal
         - -S
-        - JWTSignPrivateKeyPath=/etc/secrets/jwtPrivateKey
-        - -S
-        - JWTSignPrivateKeyId=$(TOKEN_AUTH_PRIVATE_KEY_ID)
-        - -S
-        - InternalTokenServiceUrl=$(TOKEN_AUTH_URI)/v1
+        - ValidateJsonWebTokens=2
         - -S
         - EnableRenewUserToken=1
         - -S
+        - InternalTokenServiceUrl=$(TOKEN_AUTH_URI)/v1
+        - -S
+        - JWTSignPrivateKeyId=$(TOKEN_AUTH_PRIVATE_KEY_ID)
+        - -S
+        - JWTSignPrivateKeyPath=/etc/secrets/jwtPrivateKey
+        - -S
         - EnableABAC=1
-        - -S
-        - Gen3=1
-        - -S
-        - EnableFilePolling=1
-        - -S
-        - PersistenceMode=2
         - -S
         - EnableAccessControlTrace=1
         - -S
+        - EnableFilePolling=1
+        - -S
+        - Gen3=1
+        - -S
+        - PersistenceMode=2
+        - -S
         - SystemRules=/etc/config/rules.yaml
-        - -S
-        - EnableDataConnectivityService=1
-        - -S
-        - EnableGrpcFileStreamConnector=1
-        - -S
-        - DataConnectorServiceUrl=$(DCAAS_URI)
         - -S
         - ConnectivityServiceUrl=$(QIX_DATA_CONNECTION_URI)
         - -S
@@ -105,15 +107,21 @@ spec:
         - -S
         - ConnectorGetDataRetryIntervalInSeconds=10
         - -S
+        - DataConnectorServiceUrl=$(DCAAS_URI)
+        - -S
+        - EnableDataConnectivityService=1
+        - -S
+        - EnableGrpcFileStreamConnector=1
+        - -S
         - HostedFileRetryCount=3
         - -S
         - HostedFileRetryIntervalInSeconds=10
         - -S
         - SSEPlugin=GeoOperations,$(GEO_OPERATIONS_URI)
         - -S
-        - LicenseServiceUrl=$(LICENSES_URI)
-        - -S
         - LicenseCacheTimeoutSeconds=3600
+        - -S
+        - LicenseServiceUrl=$(LICENSES_URI)
         - -S
         - EnableSpaces=1
         - -S
@@ -121,9 +129,9 @@ spec:
         - -S
         - EnableEncryptData=1
         - -S
-        - UseEncryptionService=1
-        - -S
         - EncryptionServiceUrl=$(ENCRYPTION_URI)
+        - -S
+        - UseEncryptionService=1
         - -S
         - EnableFeatureFlagService=1
         - -S
@@ -135,17 +143,15 @@ spec:
         - -S
         - EnableAppExport=1
         - -S
+        - EnableDownloadFromTCS=1
+        - -S
+        - EnableResumableUpload=1
+        - -S
         - EnableTempContentService=1
         - -S
         - TempContentServiceUrl=$(TEMPORARY_CONTENTS_URI)
         - -S
-        - UseSTAN=1
-        - -S
-        - STANUrl=$(NATS_URI)
-        - -S
         - STANCluster=$(NATS_STREAMING_CLUSTER_ID)
-        - -S
-        - STANUseToken=1
         - -S
         - STANMaxReconnect=60
         - -S
@@ -153,27 +159,49 @@ spec:
         - -S
         - STANTimeout=10
         - -S
+        - STANUrl=$(NATS_URI)
+        - -S
+        - STANUseToken=1
+        - -S
         - UseEventBus=1
         - -S
-        - STANTrace=1
+        - UseSTAN=1
+        - -S
+        - PersistUserState=1
+        - -S
+        - PersistedUserStateTTLSeconds=1800
+        - -S
+        - RedisConnectTimeoutMs=100
+        - -S
+        - RedisHost=$(REDIS_URI)
+        - -S
+        - RedisPasswordFile=/etc/secrets/redisUserStatePassword
+        - -S
+        - RedisPort=6379
+        - -S
+        - RedisSentinelConnectTimeoutMs=100
+        - -S
+        - RedisSentinelMasterSet=engine-redis-user-state
+        - -S
+        - RedisSentinelPasswordFile=/etc/secrets/redisUserStateSentinelPassword
+        - -S
+        - RedisSentinelPort=26379
+        - -S
+        - RedisSentinelRetryIntervalMs=100
+        - -S
+        - RedisSentinelSocketTimeoutMs=100
+        - -S
+        - RedisSocketTimeoutMs=100
+        - -S
+        - UseRedis=1
+        - -S
+        - UseRedisSentinel=1
         - -S
         - EnvironmentName="example"
         - -S
         - RegionName="example"
         - -S
-        - ShutdownWait=1
-        - -S
-        - EnableQvwRestImport=1
-        - -S
         - SessionTimeoutSec=1200
-        - -S
-        - EnableWebSocketIdleManagement=1
-        - -S
-        - BasicQlikviewEnabled=1
-        - -S
-        - BundledContentsRootFolder=/usr/local/share/Bundled
-        - -S
-        - SkiaFontPaths=/usr/share/fonts
         env:
         - name: ACCEPT_EULA
           valueFrom:
