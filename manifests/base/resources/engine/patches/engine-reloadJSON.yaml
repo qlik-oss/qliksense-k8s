@@ -56,6 +56,8 @@
   - -S
   - FolderConnectionInterface=0
   - -S
+  - RestServiceRequestNbrOfRetries=5
+  - -S
   - Autosave=1
   - -S
   - AutosaveInterval=5
@@ -75,8 +77,6 @@
   - EnableABAC=1
   - -S
   - Gen3=1
-  - -S
-  - EnableFilePolling=1
   - -S
   - PersistenceMode=2
   - -S
@@ -129,6 +129,10 @@
   - EnableTempContentService=1
   - -S
   - TempContentServiceUrl=$(TEMPORARY_CONTENTS_URI)
+  - -S
+  - EnableResumableUpload=1
+  - -S
+  - EnableDownloadFromTCS=1
   - -S
   - UseSTAN=1
   - -S

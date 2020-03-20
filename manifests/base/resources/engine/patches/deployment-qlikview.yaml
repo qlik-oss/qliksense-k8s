@@ -16,6 +16,16 @@ spec:
           items:
             - key: tokenAuthPrivateKey
               path: jwtPrivateKey
+      - $patch: delete
+        name: secrets
+      - name: secrets
+        secret:
+          secretName: secrets
+          items:
+          - key: redisPassword
+            path: redisUserStatePassword
+          - key: redisUserStateSentinelPassword
+            path: redisUserStateSentinelPassword
       containers:
       - name: main
         imagePullPolicy: IfNotPresent
@@ -202,6 +212,12 @@ spec:
         - RegionName="example"
         - -S
         - SessionTimeoutSec=1200
+        - -S
+        - BasicQlikviewEnabled=1
+        - -S
+        - BundledContentsRootFolder=/usr/local/share/Bundled
+        - -S
+        - SkiaFontPaths=/usr/share/fonts
         env:
         - name: ACCEPT_EULA
           valueFrom:
@@ -277,4 +293,9 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: geoOperationsUri
+              name: engine-configs
+        - name: REDIS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: redisUri
               name: engine-configs
