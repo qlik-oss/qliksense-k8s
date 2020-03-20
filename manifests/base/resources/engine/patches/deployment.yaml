@@ -21,16 +21,6 @@ spec:
           items:
             - key: tokenAuthPrivateKey
               path: jwtPrivateKey
-      - $patch: delete
-        name: secrets
-      - name: secrets
-        secret:
-          secretName: secrets
-          items:
-          - key: redisPassword
-            path: redisUserStatePassword
-          - key: redisUserStateSentinelPassword
-            path: redisUserStateSentinelPassword
       containers:
       - name: main
         imagePullPolicy: IfNotPresent
@@ -188,7 +178,7 @@ spec:
         - -S
         - RedisConnectTimeoutMs=100
         - -S
-        - RedisHost=$(REDIS_URI)
+        - RedisHost=$(PREFIX)-redis-user-state
         - -S
         - RedisPasswordFile=/etc/secrets/redisUserStatePassword
         - -S

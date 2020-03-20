@@ -27,8 +27,7 @@ patches:
         geoOperationsUri,
         qixDataConnectionUri,
         encryptionUri,
-        storageClassName,
-        redisUri
+        storageClassName
         )
   patch: |-
     - op: replace
