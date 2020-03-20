@@ -8,13 +8,6 @@ spec:
       labels:
         temporary-contents-nats-client: null
     spec:
-      volumes:
-      - name: temporary-contents-secret
-        secret:
-          secretName: temporary-contents-secrets
-          items:
-            - key: tokenAuthPrivateKey
-              path: jwtPrivateKey
       containers:
       - name: main
         imagePullPolicy: IfNotPresent
@@ -43,6 +36,11 @@ spec:
           valueFrom:
             secretKeyRef:
               key: tokenAuthPrivateKeyId
+              name: temporary-contents-secrets
+        - name: TOKEN_AUTH_PRIVATE_KEY
+          valueFrom:
+            secretKeyRef:
+              key: tokenAuthPrivateKey
               name: temporary-contents-secrets
         - $patch: delete
           name: PDS_URI
@@ -79,8 +77,10 @@ spec:
         - name: TOKEN_URI
           value: $(TOKEN_AUTH_URI)
         - $patch: delete
-          name: KEY_ID
-        - name: KEY_ID
+          name: TOKEN_AUTH_KID
+        - $patch: delete
+          name: TOKEN_AUTH_PRIVATE_KEY
+        - name: TOKEN_AUTH_KID
           value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
         - name: TOKEN_AUTH_URL
           value: $(TOKEN_AUTH_URI)/v1/internal-tokens
@@ -92,4 +92,6 @@ spec:
           name: FEATURE_FLAGS_URI
         - name: FEATURES_RESOURCE
           value: $(FEATURE_FLAGS_URI)
+        - name: AUTH_ENABLED
+          value: "true"
 

@@ -43,4 +43,5 @@ resources:
 - collectionsUri
 - parserUri
 - dpsUri
+- insightsUri
 
