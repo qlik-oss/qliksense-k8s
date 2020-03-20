@@ -17,12 +17,13 @@ metadata:
       # Enforce HSTS
       more_set_headers "Strict-Transport-Security: max-age=15724800; includeSubDomains";
 
+      
+
       # The following custom auth block is required so we can have a reliable auth path for engine load balancing (below)
       location = /_external-auth-engine {
         internal;
 
         proxy_pass_request_body     off;
-        proxy_set_header            Content-Length "";
         proxy_set_header            X-Forwarded-Proto "";
 
         proxy_set_header            Host                    edge-auth.$(NAMESPACE).svc.cluster.local;
@@ -96,7 +97,6 @@ metadata:
           local headers = {}
 
           -- Set specific headers
-          headers["Content-Length"] = ""
           headers["X-Forwarded-Proto"] = ""
           headers["X-Original-URL"] = string.format("%s://%s%s", ngx.var.scheme, ngx.var.http_host, ngx.var.request_uri)
           headers["X-Original-Method"] = ngx.var.request_method

@@ -7,16 +7,16 @@ resources:
 - ../../../secrets
 - ../../../configs
 transformers:
-- ../secrets
+#- ../secrets
 - ../configs
 - values.yaml
 patches:
-- target:
-    kind: SuperSecret
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: engine-secrets
+# - target:
+#     kind: SuperSecret
+#   patch: |-
+#     - op: replace
+#       path: /metadata/name
+#       value: engine-secrets
 - target:
     kind: SuperConfigMap
   patch: |-
