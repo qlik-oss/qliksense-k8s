@@ -1,0 +1,6 @@
+apiVersion: qlik.com/v1
+kind: HelmChart
+metadata:
+ name: notification-prep
+subChart: notification-prep
+releaseName: notification-prep

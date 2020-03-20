@@ -33,6 +33,7 @@ resources:
   - management-console
   - nl-broker
   - nl-parser
+  - notification-preop
   - odag
   - policy-decisions
   - precedents
@@ -46,6 +47,7 @@ resources:
   - reporting
   - resource-library
   - sense-client
+  - sharing
   - spaces
   - temporary-contents
   - tenants
