@@ -4,15 +4,15 @@ commonLabels:
   app: audit
 generators:
   - generators
-# transformers:
-#   - patches
-#   - secrets
-#   - configs
-#   - transformers
-#   - ../qliksense/generators/secrets 
-#   - ../qliksense/generators/configs
-#   - ../../../../.operator/patches
-#   - ../../../../configuration/patches
+transformers:
+  - patches
+  - secrets
+  - configs
+  - transformers
+  - ../qliksense/generators/secrets
+  - ../qliksense/generators/configs
+  - ../../../../.operator/patches
+  - ../../../../configuration/patches
 images:
   - name: qlik-docker-qsefe.bintray.io/audit
     newName: $(IMAGE_REGISTRY)/audit

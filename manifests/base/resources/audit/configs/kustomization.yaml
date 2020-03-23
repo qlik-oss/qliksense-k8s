@@ -4,3 +4,10 @@ resources:
 - selectivepatch.yaml
 - ../../../../../.operator/configs
 - ../../../../../configuration/configs
+patches:
+  - target:
+      kind: SuperConfigMap
+    patch: |-
+      - op: replace
+        path: /metadata/name
+        value: audit-configs

@@ -1,0 +1,206 @@
+apiVersion: v1
+data:
+  ingressAuthUrl: http://audit-edge-auth.$(NAMESPACE).svc.cluster.local:8080/v1/auth
+  logLevel: info
+  storageBucket: audit
+  storageEndpoint: audit-minio:9000
+  storageRegion: us-east-1
+kind: ConfigMap
+metadata:
+  labels:
+    app: audit
+    chart: audit-3.3.3
+    heritage: Helm
+    release: audit
+  name: audit-configs
+  namespace: $(NAMESPACE)
+---
+apiVersion: v1
+data:
+  mongodbUri: bW9uZ29kYjovL2F1ZGl0LW1vbmdvZGI6MjcwMTc=
+  tokenAuthPrivateKey: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1JR2tBZ0VCQkRBSWpUZm5mRG9hOUNlRUlybFhKcFp3YytMZTFIYmg3THdvb1FoOVlicGRCdzVuSVFPUkdBSTAKRXNHRWlVUERpTXFnQndZRks0RUVBQ0toWkFOaUFBVHMzSkxKRUwxeTdwVVE2dTFlT2hKM001QlZSUFpSUTRkdQpvdVJzUk0vd2tBYitPbE1Bc3lGWkN1RWd0REYxNEcvMlJZNGdlcFVrQVJCRkNnRU8wRTNXYXJTRUhRTVMyNnBOCmZrUkhIRVVBYU92VDZ2UDQrQnFnUW1oKzBNYlN0S0k9Ci0tLS0tRU5EIEVDIFBSSVZBVEUgS0VZLS0tLS0K
+  tokenAuthPrivateKeyId: VjV1RUkyeDJzWWpJcTBFeno3Tmxxb0V4UzFZNGR2d2hkdDNpYWtmbHhHWQ==
+kind: Secret
+metadata:
+  labels:
+    app: audit
+    chart: audit-3.3.3
+    heritage: Helm
+    release: audit
+  name: audit-secrets
+  namespace: $(NAMESPACE)
+stringData: {}
+type: Opaque
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    prometheus.io/port: "6080"
+    prometheus.io/scrape: "true"
+  labels:
+    app: audit
+    chart: audit-3.3.3
+    heritage: Helm
+    release: audit
+  name: audit
+  namespace: $(NAMESPACE)
+spec:
+  ports:
+  - name: audit
+    port: 6080
+    protocol: TCP
+    targetPort: 6080
+  selector:
+    app: audit
+    release: audit
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: audit
+    chart: audit-3.3.3
+    heritage: Helm
+    release: audit
+  name: audit
+  namespace: $(NAMESPACE)
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: audit
+      release: audit
+  template:
+    metadata:
+      annotations:
+        checksum/configs: 8e048e63677a3215a6e57082aaee8392a9bd399a43e3d8ad9c071b22f9399f06
+        checksum/secrets: 51cf7993f451e71fb47a01b8ec21c2b5069cd0a417d15185632b6f9e3246215c
+      labels:
+        app: audit
+        audit-nats-client: "true"
+        release: audit
+    spec:
+      containers:
+      - env:
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              key: mongoDbUri
+              name: secrets
+        - name: MONGODB_URI_FILE
+          value: /run/secrets/qlik.com/audit/mongodbUri
+        - name: TOKEN_AUTH_PRIVATE_KEY_FILE
+          value: /run/secrets/qlik.com/audit/tokenAuthPrivateKey
+        - name: TOKEN_AUTH_PRIVATE_KEY_ID_FILE
+          value: /run/secrets/qlik.com/audit/tokenAuthPrivateKeyId
+        - name: FEATURE_FLAGS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: featureFlagsUri
+              name: configs
+        - name: INGRESS_AUTH_URL
+          valueFrom:
+            configMapKeyRef:
+              key: ingressAuthUrl
+              name: audit-configs
+        - name: KEYS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: keysUri
+              name: configs
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              key: logLevel
+              name: audit-configs
+        - name: NATS_STREAMING_CLUSTER_ID
+          valueFrom:
+            configMapKeyRef:
+              key: natsStreamingClusterId
+              name: configs
+        - name: NATS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: natsUri
+              name: configs
+        - name: PDS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: pdsUri
+              name: configs
+        - name: STORAGE_BUCKET
+          valueFrom:
+            configMapKeyRef:
+              key: storageBucket
+              name: audit-configs
+        - name: STORAGE_ENDPOINT
+          valueFrom:
+            configMapKeyRef:
+              key: storageEndpoint
+              name: audit-configs
+        - name: STORAGE_REGION
+          valueFrom:
+            configMapKeyRef:
+              key: storageRegion
+              name: audit-configs
+        - name: TOKEN_AUTH_URI
+          valueFrom:
+            configMapKeyRef:
+              key: tokenAuthUri
+              name: configs
+        - name: NATS_CHANNELS
+          value: system-events.engine.app,system-events.user-session,system-events.spaces,system-events.licenses,system-events.generic-links,system-events.api-keys,system-events.web-security,system-events.user-identity
+        image: $(IMAGE_REGISTRY)/audit:1.16.1
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 6080
+        name: main
+        ports:
+        - containerPort: 6080
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 6080
+        resources:
+          limits: null
+          requests: null
+        volumeMounts:
+        - mountPath: /run/secrets/qlik.com/audit
+          name: audit-secrets
+          readOnly: true
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+      volumes:
+      - name: audit-secrets
+        secret:
+          secretName: audit-secrets
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: $(INGRESS_CLASS)
+    nginx.ingress.kubernetes.io/auth-response-headers: Authorization
+    nginx.ingress.kubernetes.io/auth-url: http://$(PREFIX)-edge-auth.$(NAMESPACE).svc.cluster.local:8080/v1/auth
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite (?i)/api/v1/(.*) /v1/$1 break;
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+  labels:
+    app: audit
+    chart: audit-3.3.3
+    heritage: Helm
+    release: audit
+  name: audit
+  namespace: $(NAMESPACE)
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: audit
+          servicePort: 6080
+        path: /api/v1/audits
