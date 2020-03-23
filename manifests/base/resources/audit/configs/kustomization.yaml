@@ -4,6 +4,7 @@ resources:
 - selectivepatch.yaml
 - ../../../../../.operator/configs
 - ../../../../../configuration/configs
+- ../../../configs
 patches:
   - target:
       kind: SuperConfigMap
