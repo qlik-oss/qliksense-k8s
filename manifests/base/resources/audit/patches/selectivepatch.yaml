@@ -8,4 +8,3 @@ patches:
     target:
       kind: Deployment
       name: audit
-  - path: deployment.yaml

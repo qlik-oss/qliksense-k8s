@@ -4,23 +4,5 @@ commonLabels:
   app: audit
 resources:
 - ../../../../../generators/audit
-- ../../../secrets
-- ../../../configs
 transformers:
-- ../secrets
-- ../configs
 - values.yaml
-patches:
-- target:
-    kind: SuperSecret
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: audit-secrets
-- target:
-    kind: SuperConfigMap
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: audit-configs
-

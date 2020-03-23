@@ -3,18 +3,3 @@ kind: SelectivePatch
 metadata:
   name: audit-component-configs
 enabled: true
-patches:
-- target:
-    kind: SuperConfigMap
-  patch: |-
-    apiVersion: qlik.com/v1
-    kind: SuperConfigMap
-    metadata:
-      name: audit-configs
-    data:
-      pdsUri: "http://$(PREFIX)-audit-policy-decisions:5080"
-      natsUri: "nats://$(PREFIX)-audit-messaging-nats-client:4222"
-      featureFlagsUri: "http://$(PREFIX)-audit-feature-flags:8080"
-      keysUri: "http://$(PREFIX)-audit-keys:8080/v1/keys/qlik.api.internal"
-      tokenAuthUri: "http://$(PREFIX)-audit-edge-auth:8080/v1"
-      natsStreamingClusterId: "$(PREFIX)-audit-messaging-nats-streaming-cluster"

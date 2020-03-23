@@ -1,6 +1,3 @@
 - op: replace
   path: /spec/template/spec/containers/0/name
   value: main
-- op: replace
-  path: /apiVersion
-  value: apps/v1
