@@ -112,6 +112,8 @@ spec:
               name: sharing-configs
         - name: TEMP_CONTENT_URL
           value: $(TEMPORARY_CONTENTS_URI)
+        - $patch: delete
+          name: ENVIRONMENT #kustomize throws "Error: <nil> is expected to be either a string or a []interface{}"
         resources:
            limits:
              cpu: "0"

@@ -4,22 +4,5 @@ commonLabels:
   app: users
 resources:
 - ../../../../../generators/users
-- ../../../secrets
-- ../../../configs
 transformers:
-- ../secrets
-- ../configs
 - values.yaml 
-patches:
-- target:
-    kind: SuperSecret
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: users-secrets
-- target:
-    kind: SuperConfigMap
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: users-configs
