@@ -1,5 +1,5 @@
 apiVersion: qlik.com/v1
 kind: SelectivePatch
 metadata:
-  name: audit-component-configs
+  name: tenants-component-configs
 enabled: true
