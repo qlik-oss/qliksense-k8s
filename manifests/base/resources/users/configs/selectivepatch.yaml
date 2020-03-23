@@ -3,17 +3,3 @@ kind: SelectivePatch
 metadata:
   name: users-component-configs
 enabled: true
-patches:
-- target:
-    kind: SuperConfigMap
-  patch: |-
-    apiVersion: qlik.com/v1
-    kind: SuperConfigMap
-    metadata:
-      name: users-configs
-    data:
-      natsUri: "nats://$(PREFIX)-users-messaging-nats-client:4222"
-      featureFlagsUri: "http://$(PREFIX)-users-feature-flags:8080"
-      keysUri: "http://$(PREFIX)-users-keys:8080/v1/keys/qlik.api.internal"
-      tokenAuthUri: "http://$(PREFIX)-users-edge-auth:8080/v1"
-      natsStreamingClusterId: "$(PREFIX)-users-messaging-nats-streaming-cluster"

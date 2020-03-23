@@ -33,7 +33,7 @@ resources:
   - management-console
   - nl-broker
   - nl-parser
-  - notification-preop
+  - notification-prep
   - odag
   - policy-decisions
   - precedents

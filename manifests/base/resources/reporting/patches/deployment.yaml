@@ -100,6 +100,8 @@ spec:
           name: REDIS_AUTH_TOKEN
         - name: REDIS_AUTH_TOKEN
           value: $(REDIS_PASSWORD)
+        - $patch: delete
+          name: MEM_LIMIT_MIBS #removing because default comes as a null value which caused kustomize failed with "Error: <nil> is expected to be either a string or a []interface{}"
       - name: rpr
         imagePullPolicy: IfNotPresent
         env:
