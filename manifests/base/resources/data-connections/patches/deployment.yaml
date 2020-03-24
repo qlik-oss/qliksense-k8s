@@ -17,8 +17,6 @@ spec:
           name: MONGO_URI
         - name: MONGO_URI
           value: $(MONGODB_URI)
-
-
         - name: KEYS_URI
           valueFrom:
             configMapKeyRef:
