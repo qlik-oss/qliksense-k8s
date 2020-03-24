@@ -10,7 +10,7 @@ spec:
         qlik.com/engine-deployment-name: $(PREFIX)-engine-qlikview-default
     spec:
       volumes:
-      - name: secrets-service2service
+      - name: secrets
         secret:
           secretName: engine-secrets
           items:
@@ -283,9 +283,4 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: geoOperationsUri
-              name: engine-configs
-        - name: REDIS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: redisUri
               name: engine-configs
