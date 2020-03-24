@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+commonLabels:
+  app: data-connections
+generators:
+  - generators
+transformers:
+  - patches
+  - secrets
+  - configs
+  - transformers
+  - ../qliksense/generators/configs
+  - ../qliksense/generators/secrets
+  - ../../../../.operator/patches
+  - ../../../../configuration/patches
+images:
+  - name: qlik-docker-qsefe.bintray.io/data-connections
+    newName: $(IMAGE_REGISTRY)/data-connections

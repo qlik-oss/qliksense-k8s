@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: transport
+  name: data-connections
 spec:
   template:
     spec:
@@ -12,25 +12,27 @@ spec:
           valueFrom:
             secretKeyRef:
               key: mongodbUri
-              name: transport-secrets
+              name: data-connections-secrets
         - $patch: delete
           name: MONGO_URI
         - name: MONGO_URI
           value: $(MONGODB_URI)
+
+
         - name: KEYS_URI
           valueFrom:
             configMapKeyRef:
               key: keysUri
-              name: transport-configs
+              name: data-connections-configs
         - $patch: delete
-          name: JWKS_ENDPOINT
-        - name: JWKS_ENDPOINT
+          name: JWKS_URI
+        - name: JWKS_URI
           value: $(KEYS_URI)/keys/qlik.api.internal
         - name: NATS_STREAMING_CLUSTER_ID
           valueFrom:
             configMapKeyRef:
               key: natsStreamingClusterId
-              name: transport-configs
+              name: data-connections-configs
         - $patch: delete
           name: NATS_CLUSTER_ID
         - name: NATS_CLUSTER_ID
@@ -39,16 +41,16 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: natsUri
-              name: transport-configs
+              name: data-connections-configs
         - $patch: delete
-          name: NATS_URL
-        - name: NATS_URL
+          name: NATS_ADDR
+        - name: NATS_ADDR
           value: $(NATS_URI)
         - name: TOKEN_AUTH_PRIVATE_KEY
           valueFrom:
             secretKeyRef:
               key: tokenAuthPrivateKey
-              name: transport-secrets
+              name: data-connections-secrets
         - $patch: delete
           name: PRIVATE_KEY
         - name: PRIVATE_KEY
@@ -57,7 +59,7 @@ spec:
           valueFrom:
             secretKeyRef:
               key: tokenAuthPrivateKeyId
-              name: transport-secrets
+              name: data-connections-secrets
         - $patch: delete
           name: KEY_ID
         - name: KEY_ID
@@ -66,32 +68,46 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: tokenAuthUri
-              name: transport-configs
+              name: data-connections-configs
         - $patch: delete
-          name: INTERNAL_TOKENS_RESOURCE
-        - name: INTERNAL_TOKENS_RESOURCE
+          name: AUTH_URI
+        - name: AUTH_URI
           value: $(TOKEN_AUTH_URI)
-        - name: TEMPORARY_CONTENTS_URI
+        - name: FEATURE_FLAGS_URI
           valueFrom:
             configMapKeyRef:
-              key: temporaryContentsUri
-              name: transport-configs
+              key: featureFlagsUri
+              name: data-connections-configs
         - $patch: delete
-          name: TEMPORARY_CONTENTS_RESOURCE
-        - name: TEMPORARY_CONTENTS_RESOURCE
-          value: $(TEMPORARY_CONTENTS_URI)
+          name: FEATURE_FLAG_ADDR
+        - name: FEATURE_FLAG_ADDR
+          value: $(FEATURE_FLAGS_URI)
+
+
+        - name: QIX_DATA_FILES_URI
+          valueFrom:
+            configMapKeyRef:
+              key: qixDataFilesUri
+              name: data-connections-configs
+        - $patch: delete
+          name: DATAFILES_URI
+        - name: DATAFILES_URI
+          value: $(QIX_DATA_FILES_URI)
+        - name: SPACES_URI
+          valueFrom:
+            configMapKeyRef:
+              key: spacesUri
+              name: data-connections-configs
+        - $patch: delete
+          name: SPACE_URI
+        - name: SPACE_URI
+          value: $(SPACES_URI)
         - name: ENCRYPTION_URI
           valueFrom:
             configMapKeyRef:
               key: encryptionUri
-              name: transport-configs
+              name: data-connections-configs
         - $patch: delete
           name: E2S_ADDR
         - name: E2S_ADDR
           value: $(ENCRYPTION_URI)
-        - $patch: delete
-          name: MONGO_SSL
-        - $patch: delete 
-          name: MONGO_SSL_VALIDATE
-        - $patch: delete 
-          name: MONGO_CHECK_SERVER_IDENTITY
