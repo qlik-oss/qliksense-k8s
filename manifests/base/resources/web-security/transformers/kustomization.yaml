@@ -20,8 +20,6 @@ patches:
         hostClientCertificates,
         pvcClientCertificates,
         mongoDbUri,
-        temporaryContentsUri,
-        encryptionUri,
         natsUri,
         natsStreamingClusterId
         )
