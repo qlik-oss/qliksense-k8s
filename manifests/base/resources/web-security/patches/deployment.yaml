@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-security
+spec:
+  template:
+    spec:
+      containers:
+      - name: main
+        env:
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              key: mongodbUri
+              name: web-security-secrets
+        - $patch: delete
+          name: MONGO_URI
+        - name: MONGO_URI
+          value: $(MONGODB_URI)
+        - name: KEYS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: keysUri
+              name: web-security-configs
+        - $patch: delete
+          name: AUTH_JWKS_URI
+        - name: AUTH_JWKS_URI
+          value: $(KEYS_URI)/keys/qlik.api.internal
+        - name: NATS_STREAMING_CLUSTER_ID
+          valueFrom:
+            configMapKeyRef:
+              key: natsStreamingClusterId
+              name: web-security-configs
+        - $patch: delete
+          name: MESSAGING_STAN_CLUSTER_ID
+        - name: MESSAGING_STAN_CLUSTER_ID
+          value: $(NATS_STREAMING_CLUSTER_ID)
+        - name: NATS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: natsUri
+              name: web-security-configs
+        - $patch: delete
+          name: MESSAGING_NATS_ADDR
+        - name: MESSAGING_NATS_ADDR
+          value: $(NATS_URI)
+        - name: TOKEN_AUTH_PRIVATE_KEY
+          valueFrom:
+            secretKeyRef:
+              key: tokenAuthPrivateKey
+              name: web-security-secrets
+        - $patch: delete
+          name: TOKEN_PRIVATE_KEY
+        - name: TOKEN_PRIVATE_KEY
+          value: $(TOKEN_AUTH_PRIVATE_KEY)
+        - name: TOKEN_AUTH_PRIVATE_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              key: tokenAuthPrivateKeyId
+              name: web-security-secrets
+        - $patch: delete
+          name: TOKEN_KID
+        - name: TOKEN_KID
+          value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
+        - name: TOKEN_AUTH_URI
+          valueFrom:
+            configMapKeyRef:
+              key: tokenAuthUri
+              name: web-security-configs
+        - $patch: delete
+          name: TOKEN_URI
+        - name: TOKEN_URI
+          value: $(TOKEN_AUTH_URI)/v1/internal-tokens
+        - $patch: delete
+          name: CSP_MAX_HEADER_LENGTH
+        - $patch: delete
+          name: CSP_MAX_ENTRIES_PER_TENANT
+        - $patch: delete
+          name: ENVIRONMENT
+

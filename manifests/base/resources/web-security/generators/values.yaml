@@ -1,0 +1,12 @@
+apiVersion: qlik.com/v1
+kind: HelmValues
+metadata:
+  name: web-security
+releaseNamespace: $(NAMESPACE) 
+values:
+  messaging:
+    enabled: false
+  mongodb:
+    enabled: false
+  senseClient:
+    enabled: false
