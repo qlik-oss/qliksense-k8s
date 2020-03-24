@@ -23,7 +23,8 @@ patches:
         redisPassword,
         natsUri,
         natsStreamingClusterId,
-        tokenAuthUri
+        tokenAuthUri,
+        mongoDbUri
         )
   patch: |-
     - op: replace

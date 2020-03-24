@@ -49,3 +49,4 @@ patches:
       reportingUri: "http://$(PREFIX)-reporting:8282"
       parserUri: "http://$(PREFIX)-nl-parser:30302"
       dpsUri: "http://$(PREFIX)-data-prep.svc.cluster.local:9072"
+      insightsUri: "http://$(PREFIX)-insights:9292"
