@@ -48,6 +48,7 @@ resources:
   - resource-library
   - sense-client
   - sharing
+  - transport
   - spaces
   - temporary-contents
   - tenants

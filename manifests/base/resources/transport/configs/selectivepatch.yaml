@@ -1,0 +1,21 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: transport-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: transport-configs
+    data:
+      keysUri: "http://$(PREFIX)-transport-keys:8080/v1/keys/qlik.api.internal"
+      natsStreamingClusterId: "$(PREFIX)-transport-nats-streaming-cluster"
+      natsUri: nats://$(PREFIX)-transport-nats-client:4222"
+      temporaryContentsUri: "http://$(PREFIX)-transport-temporary-contents:6080"
+      encryptionUri: "http://$(PREFIX)-transport-encryption:8080"
+      tokenAuthUri: "http://$(PREFIX)-transport-edge-auth:8080"
+  

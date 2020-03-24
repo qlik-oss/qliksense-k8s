@@ -1,7 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 commonLabels:
-  app: qix-sessions
+  app: transport
 resources:
 - ../../../transformers
 transformers:
@@ -12,19 +12,18 @@ patches:
 - target:
     labelSelector: >-
       key notin (
-        engineUri,
-        featureFlagsUri,
-        pdsUri,
+        tokenAuthUri,
+        ingressClass,
+        ingressAuthUrl,
         keysUri,
         secretClientCertificates,
         hostClientCertificates,
         pvcClientCertificates,
-        redisUri,
-        redisPassword,
+        mongoDbUri,
+        temporaryContentsUri,
+        encryptionUri,
         natsUri,
-        natsStreamingClusterId,
-        tokenAuthUri,
-        mongoDbUri
+        natsStreamingClusterId
         )
   patch: |-
     - op: replace
@@ -33,3 +32,4 @@ patches:
     - op: replace
       path: /default
       value: true
+      
