@@ -1,0 +1,19 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: web-security-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: web-security-configs
+    data:
+      keysUri: "http://$(PREFIX)-web-security-keys:8080/v1/keys/qlik.api.internal"
+      natsStreamingClusterId: "$(PREFIX)-web-security-nats-streaming-cluster"
+      natsUri: nats://$(PREFIX)-web-security-nats-client:4222"
+      tokenAuthUri: "http://$(PREFIX)-web-security-edge-auth:8080/v1/internal-tokens"
+  

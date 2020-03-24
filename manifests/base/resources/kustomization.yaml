@@ -51,5 +51,6 @@ resources:
   - transport
   - spaces
   - temporary-contents
+  - web-security
   - tenants
   - users
