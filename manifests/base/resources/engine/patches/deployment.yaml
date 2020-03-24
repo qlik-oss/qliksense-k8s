@@ -15,7 +15,7 @@ spec:
       options: null
       dnsConfig: null
       volumes:
-      - name: secrets-service2service
+      - name: secrets
         secret:
           secretName: engine-secrets
           items:
@@ -283,9 +283,4 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: geoOperationsUri
-              name: engine-configs
-        - name: REDIS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: redisUri
               name: engine-configs
