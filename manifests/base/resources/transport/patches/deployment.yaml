@@ -89,3 +89,9 @@ spec:
           name: E2S_ADDR
         - name: E2S_ADDR
           value: $(TEMPORARY_CONTENTS_URI)
+        - $patch: delete
+          name: MONGO_SSL
+        - $patch: delete 
+          name: MONGO_SSL_VALIDATE
+        - $patch: delete 
+          name: MONGO_CHECK_SERVER_IDENTITY
