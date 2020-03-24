@@ -52,5 +52,6 @@ resources:
   - spaces
   - temporary-contents
   - web-security
+  - data-connections
   - tenants
   - users
