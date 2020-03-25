@@ -55,3 +55,4 @@ resources:
   - data-connections
   - tenants
   - users
+  - api-keys
