@@ -8,8 +8,4 @@ patches:
   target:
     kind: Deployment
     name: users
-- path: deployment.yaml
-  target:
-    kind: Deployment
-    name: users
 
