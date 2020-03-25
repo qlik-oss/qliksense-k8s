@@ -18,6 +18,7 @@ spec:
           valueFrom:
             configMapKeyRef:
               key: natsUri
+              name: qix-datafiles-configs
         - name: NATS_STREAMING_CLUSTER_ID
           valueFrom:
             configMapKeyRef:
@@ -74,8 +75,8 @@ spec:
               key: encryptionUri
               name: qix-datafiles-configs
         - $patch: delete
-          name: JWKS_TOKEN_URI
-        - name: JWKS_TOKEN_URI
+          name: EDGEAUTH_TOKEN_URI
+        - name: EDGEAUTH_TOKEN_URI
           value: $(TOKEN_AUTH_URI)
         - $patch: delete
           name: POLICYDECISIONS_URI
