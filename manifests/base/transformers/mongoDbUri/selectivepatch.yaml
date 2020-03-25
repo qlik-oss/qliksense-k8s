@@ -89,7 +89,7 @@ patches:
               - name: main
                 volumeMounts:
                 - mountPath: /run/secrets/qlik.com/qliksense
-                  name: secrets
+                  name: qliksense-secrets
                   readOnly: true
                 env:
                 - $patch: delete
