@@ -4,23 +4,8 @@ commonLabels:
   app: groups
 resources:
 - ../../../../../generators/groups
-- ../../../secrets
-- ../../../configs
 transformers:
-- ../secrets
-- ../configs
 - values.yaml
-patches:
-- target:
-    kind: SuperSecret
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: groups-secrets
-- target:
-    kind: SuperConfigMap
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: groups-configs
+
+
 
