@@ -90,22 +90,22 @@ spec:
         - name: NATS_CLUSTERID
           value: $(NATS_STREAMING_CLUSTER_ID)
         - $patch: delete
-          name: JWKS_TOKEN_KID
+          name: EDGEAUTH_TOKEN_KID
         - name: TOKEN_AUTH_PRIVATE_KEY_ID
           valueFrom:
             secretKeyRef:
               key: tokenAuthPrivateKeyId
               name: qix-datafiles-secrets
-        - name: JWKS_TOKEN_KID
+        - name: EDGEAUTH_TOKEN_KID
           value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
         - $patch: delete
-          name: JWKS_TOKEN_PRIVATE_KEY
+          name: EDGEAUTH_TOKEN_PRIVATE_KEY
         - name: TOKEN_AUTH_PRIVATE_KEY
           valueFrom:
             secretKeyRef:
               key: tokenAuthPrivateKey
               name: qix-datafiles-secrets
-        - name: JWKS_TOKEN_PRIVATE_KEY
+        - name: EDGEAUTH_TOKEN_PRIVATE_KEY
           value: $(TOKEN_AUTH_PRIVATE_KEY)
         - name: TOKEN_AUTH_URL
           value: $(TOKEN_AUTH_URI)/v1/internal-tokens
