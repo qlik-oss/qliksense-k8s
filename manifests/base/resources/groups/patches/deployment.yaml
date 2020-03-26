@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-keys
+  name: groups
 spec:
   template:
     spec:
