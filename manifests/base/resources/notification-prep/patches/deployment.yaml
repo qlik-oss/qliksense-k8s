@@ -47,16 +47,16 @@ spec:
               key: tokenAuthUri
               name: notification-prep-configs
         - name: INTERNAL_TOKENS_RESOURCE
-          value: $(TOKEN_AUTH_URI)/v1
+          value: $(TOKEN_AUTH_URI)
         - $patch: delete
           name: NATS_URL
-        - name: NATS_URI
+        - name: NATS_HTTP_URI
           valueFrom:
             configMapKeyRef:
-              key: natsUri
+              key: natsHttpUri
               name: notification-prep-configs
         - name: NATS_URL
-          value: $(NATS_URI)
+          value: $(NATS_HTTP_URI)
         - $patch: delete
           name: NATS_CLUSTER_ID
         - name: NATS_STREAMING_CLUSTER_ID

@@ -14,6 +14,7 @@ patches:
     data:
       pdsUri: http://$(PREFIX)-policy-decisions:5080
       natsUri: nats://$(PREFIX)-messaging-nats-client:4222
+      natsHttpUri: http://$(PREFIX)-messaging-nats-client:4222
       featureFlagsUri: http://$(PREFIX)-feature-flags:8080
       keysUri: http://$(PREFIX)-keys:8080/v1
       tokenAuthUri: http://$(PREFIX)-edge-auth:8080

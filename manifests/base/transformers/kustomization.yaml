@@ -44,4 +44,5 @@ resources:
 - parserUri
 - dpsUri
 - insightsUri
+- natsHttpUri
 

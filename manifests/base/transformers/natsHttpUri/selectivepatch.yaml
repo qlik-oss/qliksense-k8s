@@ -1,0 +1,26 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: natsHttpUri
+  labels:
+    key: natsHttpUri
+enabled: true
+patches:
+- target:
+    kind: Deployment
+  patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: component
+    spec:
+      template:
+        spec:
+          containers:
+          - name: main
+            env:
+            - name: NATS_HTTP_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: natsHttpUri
+                  name: configs
