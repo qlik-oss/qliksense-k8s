@@ -8,3 +8,8 @@ patches:
   target:
     kind: Deployment
     name: tenants
+- path: deployment.yaml
+  target:
+    kind: Deployment
+    name: tenants
+

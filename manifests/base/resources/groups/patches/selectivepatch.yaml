@@ -8,3 +8,8 @@ patches:
     target:
       kind: Deployment
       name: groups
+  - path: patches/deployment.yaml
+    target:
+      kind: Deployment
+      name: groups
+
