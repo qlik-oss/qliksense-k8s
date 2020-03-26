@@ -14,7 +14,7 @@ patches:
       key notin (
         ingressClass,
         ingressAuthUrl,
-        keysUri,
+        keysUriTemp,
         mongoDbUri,
         redisUriWithPort,
         redisPassword,

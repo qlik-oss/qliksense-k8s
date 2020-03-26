@@ -19,7 +19,7 @@ patches:
         ingressAuthUrl,
         natsStreamingClusterId,
         natsUri,
-        keysUri,
+        keysUriTemp,
         secretClientCertificates,
         hostClientCertificates,
         pvcClientCertificates,

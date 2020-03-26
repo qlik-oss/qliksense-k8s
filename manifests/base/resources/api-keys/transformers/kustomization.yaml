@@ -16,7 +16,7 @@ patches:
         ingressAuthUrl,
         natsStreamingClusterId,
         natsUri,
-        keysUri,
+        keysUriTemp,
         mongoDbUri,
         redisUriWithPort,
         redisPassword,

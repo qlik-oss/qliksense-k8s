@@ -17,7 +17,7 @@ patches:
         featureFlagsUri,
         natsStreamingClusterId,
         natsUri,
-        keysUri,
+        keysUriTemp,
         mongoDbUri,
         tokenAuthUri,
         tokenAuthPrivateKey,

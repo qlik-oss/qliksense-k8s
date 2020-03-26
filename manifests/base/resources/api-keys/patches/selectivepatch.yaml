@@ -8,3 +8,7 @@ patches:
   target:
     kind: Deployment
     name: api-keys
+- path: deployment.yaml
+  target:
+    kind: Deployment
+    name: api-keys

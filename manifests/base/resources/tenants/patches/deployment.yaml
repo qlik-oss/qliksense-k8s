@@ -1,0 +1,14 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tenants
+spec:
+  template:
+    spec:
+      containers:
+      - name: main
+        env:
+        - $patch: delete
+          name: KEYS_URI
+        - name: KEYS_URI
+          value: $(KEYS_URI_TEMP)/keys/qlik.api.internal
