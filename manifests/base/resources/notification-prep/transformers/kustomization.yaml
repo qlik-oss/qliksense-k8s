@@ -16,7 +16,7 @@ patches:
         ingressClass,
         ingressAuthUrl,
         keysUri,
-        natsUri,
+        natsHttpUri,
         usersUri,
         natsStreamingClusterId
         )

@@ -185,3 +185,6 @@ varReference:
   path: data/collectionsUri
 - kind: ConfigMap
   path: data/reportingUri
+- kind: ConfigMap
+  path: data/natsHttpUri
+  
