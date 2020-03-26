@@ -12,7 +12,7 @@ patches:
 - target:
     labelSelector: >-
       key notin (
-        tokenAuthUri,
+        tokenAuthUriTemp,
         pdsUri,
         featureFlagsUri,
         ingressClass,

@@ -10,5 +10,28 @@ spec:
         env:
         - $patch: delete
           name: KEYS_URI
+        - name: KEYS_URI_TEMP
+          valueFrom:
+            configMapKeyRef:
+              key: keysUri
+              name: tenants-configs
         - name: KEYS_URI
           value: $(KEYS_URI_TEMP)/keys/qlik.api.internal
+        - name: TOKEN_AUTH_URI_TEMP
+          valueFrom:
+            configMapKeyRef:
+              key: tokenAuthUri
+              name: tenants-configs
+        - $patch: delete
+          name: TOKEN_AUTH_URI
+        - name: TOKEN_AUTH_URI
+          value: $(TOKEN_AUTH_URI_TEMP)/v1
+        - $patch: delete
+          name: LICENSES_URI
+        - name: LICENSES_URI_TEMP
+          valueFrom:
+            configMapKeyRef:
+              key: licensesUri
+              name: tenants-configs
+        - name: LICENSES_URI
+          value: $(LICENSES_URI_TEMP)/v1

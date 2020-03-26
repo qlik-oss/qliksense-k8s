@@ -187,4 +187,9 @@ varReference:
   path: data/reportingUri
 - kind: ConfigMap
   path: data/natsHttpUri
-  
+- kind: ConfigMap
+  path: data/keysUriTemp
+- kind: ConfigMap
+  path: data/tokenAuthUriTemp
+- kind: ConfigMap
+  path: data/licensesUriTemp

@@ -45,4 +45,7 @@ resources:
 - dpsUri
 - insightsUri
 - natsHttpUri
+- keysUriTemp
+- tokenAuthUriTemp
+- licensesUriTemp
 

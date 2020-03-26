@@ -10,6 +10,11 @@ spec:
           env:
             - $patch: delete
               name: KEYS_URI
+            - name: KEYS_URI_TEMP
+              valueFrom:
+                configMapKeyRef:
+                  key: keysUri
+                  name: api-keys-configs
             - name: KEYS_URI
               value: $(KEYS_URI_TEMP)
             - $patch: delete
