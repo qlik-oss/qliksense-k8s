@@ -14,9 +14,13 @@ patches:
       key notin (
         ingressClass,
         ingressAuthUrl,
+        natsStreamingClusterId,
+        natsUri,
+        keysUri,
         mongoDbUri,
         redisUriWithPort,
         redisPassword,
+        usersUri,
         tokenAuthUri,
         tokenAuthPrivateKey,
         tokenAuthPrivateKeyId,
