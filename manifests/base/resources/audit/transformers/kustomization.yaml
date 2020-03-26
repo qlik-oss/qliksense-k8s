@@ -13,13 +13,8 @@ patches:
     labelSelector: >-
       key notin (
         tokenAuthUri,
-        pdsUri,
-        featureFlagsUri,
         ingressClass,
         ingressAuthUrl,
-        natsStreamingClusterId,
-        natsUri,
-        keysUri,
         secretClientCertificates,
         hostClientCertificates,
         pvcClientCertificates,
