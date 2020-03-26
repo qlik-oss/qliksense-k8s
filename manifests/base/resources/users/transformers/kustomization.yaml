@@ -17,7 +17,9 @@ patches:
         mongoDbUri,
         tokenAuthUri,
         tokenAuthPrivateKey,
-        tokenAuthPrivateKeyId
+        tokenAuthPrivateKeyId,
+        natsUri,
+        natsStreamingClusterId
         )
   patch: |-
     - op: replace

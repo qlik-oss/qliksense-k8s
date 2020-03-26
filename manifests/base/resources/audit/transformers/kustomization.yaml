@@ -18,7 +18,9 @@ patches:
         secretClientCertificates,
         hostClientCertificates,
         pvcClientCertificates,
-        mongoDbUri
+        mongoDbUri,
+        natsUri,
+        natsStreamingClusterId
         )
   patch: |-
     - op: replace
