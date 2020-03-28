@@ -19,9 +19,7 @@ patches:
         natsStreamingClusterId,
         natsUri,
         keysUri,
-        secretClientCertificates,
-        hostClientCertificates,
-        pvcClientCertificates,
+        caCertificates,
         mongoDbUri,
         collectionsUri
         )

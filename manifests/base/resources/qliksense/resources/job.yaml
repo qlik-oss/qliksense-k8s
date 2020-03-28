@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: ca-certificates 
+spec:
+  template:
+    spec:
+      containers:
+      - name: certs
+        image: qlik-docker-qsefe.bintray.io/edge-auth:2.57.1
+        imagePullPolicy: IfNotPresent
+        command: ["/bin/sh","-c"]
+        args: ["cp /etc/ssl/certs/ca-certificates.crt /mnt/certs/ca-certificates.crt;$(CERTS_COMMAND)"]
+        env:
+        - name: CERTS_COMMAND
+          valueFrom:
+            configMapKeyRef:
+              key: command
+              name: configs 
+        - name: CUSTOM_CERTS
+          valueFrom:
+            secretKeyRef:
+              key: caCertificates
+              name: secrets
+        volumeMounts:
+          - name: ca-certificates
+            mountPath: "/mnt/certs"
+      restartPolicy: Never
+      volumes:
+        - name: ca-certificates
+          persistentVolumeClaim:
+            claimName: ca-certificates
+      backoffLimit: 4
