@@ -7,3 +7,5 @@ fieldSpecs:
   path: patches/path
 - kind: SelectivePatch
   path: patches/patches
+- kind: HelmChart
+  path: chartHome
