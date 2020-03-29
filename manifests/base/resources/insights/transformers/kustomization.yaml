@@ -21,7 +21,9 @@ patches:
         ingressClass,
         ingressAuthUrl,
         keysUri,
-        caCertificates,
+        secretClientCertificates,
+        hostClientCertificates,
+        pvcClientCertificates,
         mongoDbUri
         )
   patch: |-

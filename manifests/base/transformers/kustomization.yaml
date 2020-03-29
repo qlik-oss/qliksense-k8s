@@ -43,4 +43,4 @@ resources:
 - collectionsUri
 - parserUri
 - dpsUri
-- caCertificates
+

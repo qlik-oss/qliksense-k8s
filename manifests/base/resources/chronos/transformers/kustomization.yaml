@@ -16,7 +16,9 @@ patches:
         mongoDbUri,
         redisUriWithPort,
         redisPassword,
-        caCertificates,
+        secretClientCertificates,
+        hostClientCertificates,
+        pvcClientCertificates,
         )
   patch: |-
     - op: replace
