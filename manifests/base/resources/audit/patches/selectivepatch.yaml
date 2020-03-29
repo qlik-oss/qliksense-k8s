@@ -9,3 +9,6 @@ patches:
       kind: Deployment
       name: audit
   - path: deployment.yaml
+    target:
+      kind: Deployment
+      name: audit

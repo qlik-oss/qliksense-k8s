@@ -25,6 +25,31 @@ patches:
                   key: mongoDbUri
                   name: secrets
 - target:
+    kind: Deployment
+  patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: component
+    spec:
+      template:
+        spec:
+          volumes:
+          - name: qliksense-secrets
+            secret:
+              secretName: secrets
+          containers:
+          - name: main
+            volumeMounts:
+            - mountPath: /run/secrets/qlik.com/qliksense
+              name: qliksense-secrets
+              readOnly: true
+            env:
+            - $patch: delete
+              name: MONGODB_URI_FILE
+            - name: MONGODB_URI_FILE
+              value: /run/secrets/qlik.com/qliksense/mongoDbUri
+- target:
     kind: CronJob
   patch: |-
     apiVersion: batch/v1beta1
@@ -44,6 +69,33 @@ patches:
                     secretKeyRef:
                       key: mongoDbUri
                       name: secrets
+- target:
+    kind: CronJob
+  patch: |-
+    apiVersion: batch/v1beta1
+    kind: CronJob
+    metadata:
+      name: component
+    spec:
+      jobTemplate:
+        spec:
+          template:
+            spec:
+              volumes:
+              - name: qliksense-secrets
+                secret:
+                  secretName: secrets
+              containers:
+              - name: main
+                volumeMounts:
+                - mountPath: /run/secrets/qlik.com/qliksense
+                  name: qliksense-secrets
+                  readOnly: true
+                env:
+                - $patch: delete
+                  name: MONGODB_URI_FILE
+                - name: MONGODB_URI_FILE
+                  value: /run/secrets/qlik.com/qliksense/mongoDbUri
 - target:
     kind: Secret
     name: .*-secrets

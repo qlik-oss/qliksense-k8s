@@ -43,6 +43,15 @@ spec:
       - name: main
         imagePullPolicy: IfNotPresent
         env:
+        - $patch: delete
+          name: MONGO_URI
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              key: mongoDbUri
+              name: qix-sessions-secrets
+        - name: MONGO_URI
+          value: $(MONGODB_URI)
         - name: SELECTORS_CONFIGMAP_NAME
           value: qix-sessions-configs
         - name: RELOAD_ENGINE_RESOURCE

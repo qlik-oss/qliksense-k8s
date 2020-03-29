@@ -1,0 +1,123 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sharing 
+spec:
+  template:
+    spec:
+      containers:
+      - name: main
+        env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: redisPassword
+              name: sharing-secrets
+        - $patch: delete
+          name: REDIS_URI
+        - name: REDIS_URI_WITH_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: redisUriWithPort
+              name: sharing-configs
+        - name: REDIS_URI
+          value: $(REDIS_URI_WITH_PORT)
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              key: mongoDbUri
+              name: sharing-secrets
+        - name: KEYS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: keysUri
+              name: sharing-configs
+        - $patch: delete
+          name: MONGO_URI
+        - name: MONGO_URI
+          value: $(MONGODB_URI)
+        - name: NATS_STREAMING_CLUSTER_ID
+          valueFrom:
+            configMapKeyRef:
+              key: natsStreamingClusterId
+              name: sharing-configs
+        - name: NATS_CLUSTER_ID
+          value: $(NATS_STREAMING_CLUSTER_ID)
+        - name: NATS_ENABLED
+          value: "true"
+        - name: NATS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: natsUri
+              name: sharing-configs
+        - name: NATS_URL
+          value: $(NATS_URI)
+        - $patch: delete
+          name: SELF_SIGNING_PRIVATE_KEY
+        - $patch: delete
+          name: KEY_IDENTIFIER
+        - name: TOKEN_AUTH_PRIVATE_KEY
+          valueFrom:
+            secretKeyRef:
+              key: tokenAuthPrivateKey
+              name: sharing-secrets
+        - name: SELF_SIGNING_PRIVATE_KEY
+          value: $(TOKEN_AUTH_PRIVATE_KEY)
+        - name: TOKEN_AUTH_PRIVATE_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              key: tokenAuthPrivateKeyId
+              name: sharing-secrets
+        - name: KEY_IDENTIFIER
+          value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
+        - name: TOKEN_AUTH_URI
+          valueFrom:
+            configMapKeyRef:
+              key: tokenAuthUri
+              name: sharing-configs
+        - name: EDGE_AUTH_URL
+          value: $(TOKEN_AUTH_URI)/v1/internal-tokens
+        - name: FEATURE_FLAGS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: featureFlagsUri
+              name: sharing-configs
+        - name: FEATUREFLAG_URL
+          value: $(FEATURE_FLAGS_URI)
+        - name: REPORTING_URI
+          valueFrom:
+            configMapKeyRef:
+              key: reportingUri
+              name: sharing-configs
+        - name: REPORTING_URL
+          value: $(REPORTING_URI)
+        - name: PDS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: pdsUri
+              name: sharing-configs
+        - name: PDS_URL
+          value: $(PDS_URI)
+        - name: INSIGHTS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: insightsUri
+              name: sharing-configs
+        - name: INSIGHTS_URL
+          value: $(INSIGHTS_URI)
+        - name: TEMPORARY_CONTENTS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: temporaryContentsUri
+              name: sharing-configs
+        - name: TEMP_CONTENT_URL
+          value: $(TEMPORARY_CONTENTS_URI)
+        - $patch: delete
+          name: ENVIRONMENT #kustomize throws "Error: <nil> is expected to be either a string or a []interface{}"
+        resources:
+           limits:
+             cpu: "0"
+             memory: "0"
+           requests:
+             cpu: "0"
+             memory: "0"

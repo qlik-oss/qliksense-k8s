@@ -3,6 +3,3 @@ kind: HelmValues
 metadata:
   name: tenants 
 releaseNamespace: $(NAMESPACE)
-values:
-  mongodb:
-    enabled: false

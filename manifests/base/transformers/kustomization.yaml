@@ -43,4 +43,9 @@ resources:
 - collectionsUri
 - parserUri
 - dpsUri
+- insightsUri
+- natsHttpUri
+- keysUriTemp
+- tokenAuthUriTemp
+- licensesUriTemp
 - caCertificates

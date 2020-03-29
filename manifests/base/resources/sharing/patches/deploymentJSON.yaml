@@ -1,0 +1,12 @@
+- op: replace
+  path: /spec/template/spec/containers/0/name
+  value: main
+- op: replace
+  path: /apiVersion
+  value: apps/v1
+- op: replace
+  path: /spec/template/spec/containers/0/args/4
+  value: --svc=$(PREFIX)-sharing
+- op: replace
+  path: /spec/template/spec/containers/0/args/6
+  value: --jwksuri=$(KEYS_URI)/keys/qlik.api.internal

@@ -14,6 +14,7 @@ patches:
     data:
       pdsUri: http://$(PREFIX)-policy-decisions:5080
       natsUri: nats://$(PREFIX)-messaging-nats-client:4222
+      natsHttpUri: http://$(PREFIX)-messaging-nats-client:4222
       featureFlagsUri: http://$(PREFIX)-feature-flags:8080
       keysUri: http://$(PREFIX)-keys:8080/v1
       tokenAuthUri: http://$(PREFIX)-edge-auth:8080
@@ -49,4 +50,5 @@ patches:
       reportingUri: "http://$(PREFIX)-reporting:8282"
       parserUri: "http://$(PREFIX)-nl-parser:30302"
       dpsUri: "http://$(PREFIX)-data-prep.svc.cluster.local:9072"
-      command: "echo \"$CUSTOM_CERTS\" >> /mnt/certs/ca-certificates.crt"
+      insightsUri: "http://$(PREFIX)-insights:9292"
+      command: "echo \"$CUSTOM_CERTS\" >> /mnt/certs/ca-certificates.crt

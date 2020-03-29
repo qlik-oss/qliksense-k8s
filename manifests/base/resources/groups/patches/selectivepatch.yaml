@@ -12,3 +12,4 @@ patches:
     target:
       kind: Deployment
       name: groups
+

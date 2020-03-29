@@ -25,6 +25,31 @@ patches:
                   key: redisUriWithPort
                   name: configs
 - target:
+    kind: Deployment
+  patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: component
+    spec:
+      template:
+        spec:
+          volumes:
+          - name: qliksense-configs
+            configMap:
+              name: configs
+          containers:
+          - name: main
+            volumeMounts:
+            - mountPath: /run/configs/qlik.com/qliksense
+              name: qliksense-configs
+              readOnly: true
+            env:
+            - $patch: delete
+              name: REDIS_URI_FILE
+            - name: REDIS_URI_FILE
+              value: /run/configs/qlik.com/qliksense/redisUriWithPort
+- target:
     kind: ConfigMap
     name: .*-configs
   patch: |-

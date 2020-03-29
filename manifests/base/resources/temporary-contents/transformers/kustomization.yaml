@@ -16,7 +16,6 @@ patches:
         ingressClass,
         ingressAuthUrl,
         featureFlagsUri,
-        authJwksUri, 
         pdsUri, 
         mongoDbUri,
         encryptionUri,

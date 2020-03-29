@@ -1,0 +1,2 @@
+This contains the chart cache directory for the operator that are pulled from public helm chart repositories during manifest generations.
+Charts that are not available publically can also be placed here manually and refered to by a HelmChart Generator.

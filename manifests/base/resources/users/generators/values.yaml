@@ -1,3 +1,4 @@
+  
 apiVersion: qlik.com/v1
 kind: HelmValues
 metadata:
