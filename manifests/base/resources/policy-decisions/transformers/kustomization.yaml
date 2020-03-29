@@ -17,7 +17,9 @@ patches:
         groupsUri,
         spacesUri,
         licensesUri,
-        caCertificates,
+        secretClientCertificates,
+        hostClientCertificates,
+        pvcClientCertificates,
         mongoDbUri
         )
   patch: |-

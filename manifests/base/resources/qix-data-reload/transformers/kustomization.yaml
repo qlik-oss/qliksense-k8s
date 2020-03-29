@@ -22,7 +22,9 @@ patches:
         engineUri,
         usersUri,
         reloadTasksUri,
-        caCertificates
+        secretClientCertificates,
+        hostClientCertificates,
+        pvcClientCertificates
         )
   patch: |-
     - op: replace

@@ -17,7 +17,9 @@ patches:
         mongoDbUri,
         keysUri,
         ingressClass,
-        caCertificates,
+        secretClientCertificates,
+        hostClientCertificates,
+        pvcClientCertificates,
       )
   patch: |-
     - op: replace

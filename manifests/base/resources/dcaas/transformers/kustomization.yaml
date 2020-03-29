@@ -31,7 +31,9 @@ patches:
         ingressAuthUrl,
         keysUri,
         spacesUri,
-        caCertificates,
+        secretClientCertificates,
+        hostClientCertificates,
+        pvcClientCertificates,
         qixDataConnectionUri
         )
   patch: |-
