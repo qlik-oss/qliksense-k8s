@@ -3,6 +3,7 @@ kind: Job
 metadata:
   name: ca-certificates 
 spec:
+  backoffLimit: 4
   template:
     spec:
       containers:
@@ -30,4 +31,3 @@ spec:
         - name: ca-certificates
           persistentVolumeClaim:
             claimName: ca-certificates
-      backoffLimit: 4
