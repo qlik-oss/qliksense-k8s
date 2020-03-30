@@ -22,7 +22,7 @@ vars:
     objref:
       apiVersion: v1
       kind: ConfigMap
-      name: engine-configs
+      name: configs
     fieldref:
       fieldpath: data.storageClassName
 configurations:
