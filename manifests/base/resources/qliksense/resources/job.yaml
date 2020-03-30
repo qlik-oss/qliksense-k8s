@@ -15,7 +15,7 @@ spec:
         - name: CERTS_COMMAND
           valueFrom:
             configMapKeyRef:
-              key: command
+              key: caCommand
               name: configs 
         - name: CUSTOM_CERTS
           valueFrom:

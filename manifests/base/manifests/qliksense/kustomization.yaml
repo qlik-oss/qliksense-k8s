@@ -18,6 +18,13 @@ vars:
       name: configs 
     fieldref:
       fieldpath: metadata.namespace
+  - name: STORAGE_CLASS_NAME
+    objref:
+      apiVersion: v1
+      kind: ConfigMap
+      name: engine-configs
+    fieldref:
+      fieldpath: data.storageClassName
 configurations:
   - ../../varreference.yaml
 resources:

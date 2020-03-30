@@ -185,3 +185,13 @@ varReference:
   path: data/collectionsUri
 - kind: ConfigMap
   path: data/reportingUri
+- path: spec/template/spec/containers/env/valueFrom/secretKeyRef/name
+  kind: Job
+- path: spec/template/spec/containers/env/valueFrom/configMapKeyRef/name
+  kind: Job
+- path: spec/template/spec/volumes/persistentVolumeClaim/claimName
+  kind: Job
+- path: metadata/name
+  kind: Job
+- path: metadata/name
+  kind: PersistentVolumeClaim
