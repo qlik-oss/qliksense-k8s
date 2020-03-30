@@ -1,0 +1,9 @@
+apiVersion: qlik.com/v1
+kind: Gomplate
+metadata:
+  name: ca-certificate
+  labels:
+    key: gomplate
+dataSource:
+  ejson:
+    filePath: ""
