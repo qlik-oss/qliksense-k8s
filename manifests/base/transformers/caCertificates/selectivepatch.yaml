@@ -1,0 +1,35 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: caCertificates
+  labels:
+    key: caCertificates
+enabled: false 
+patches:
+- target:
+    kind: Deployment
+  patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: component
+    spec:
+      template:
+        spec:
+          containers:
+          - name: main
+            volumeMounts:
+            - name: ca-certificates
+              mountPath: "/etc/ssl/certs"
+          volumes:
+          - name: ca-certificates
+            persistentVolumeClaim:
+              claimName: ca-certificates 
+- target:
+    kind: Secret
+    name: .*-secrets
+  patch: |-
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: component-secrets

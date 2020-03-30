@@ -18,9 +18,7 @@ patches:
         mongoDbUri,
         qixDataReloadUri,
         chronosUri,
-        secretClientCertificates,
-        hostClientCertificates,
-        pvcClientCertificates
+        caCertificates
         )
   patch: |-
     - op: replace
