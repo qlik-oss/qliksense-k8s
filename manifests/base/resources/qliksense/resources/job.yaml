@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: ca-certificates 
+  name: ca-certificates-(( random.String 5 "[a-z]" )) 
 spec:
   backoffLimit: 4
   template:

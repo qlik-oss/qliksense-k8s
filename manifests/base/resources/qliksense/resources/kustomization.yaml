@@ -5,3 +5,5 @@ commonLabels:
 resources:
   - job.yaml
   - pvc.yaml 
+transformers:
+  - gomplate.yaml
