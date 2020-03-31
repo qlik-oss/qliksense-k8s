@@ -7,3 +7,19 @@ labels:
 fieldSpecs:
   - path: metadata/labels
     create: true
+  - path: spec/selector/matchLabels
+    create: false
+  - path: spec/template/metadata/labels
+    create: false
+  - path: spec/selector  
+    create: false
+    kind: Service
+  - path: spec/jobTemplate/metadata/labels  
+    create: false
+    kind: CronJob
+  - path: spec/jobTemplate/spec/template/metadata/labels  
+    create: false
+    kind: CronJob
+  - path: spec/metadata/labels
+    create: false
+    kind: Engine
