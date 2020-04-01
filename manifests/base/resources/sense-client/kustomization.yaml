@@ -11,6 +11,8 @@ transformers:
   - ../qliksense/generators/configs
   - ../../../../.operator/patches
   - ../../../../configuration/patches
+  - ../../transformers/base
+  - ../../transformers/msgprefix
 images:
 - name: qlik-docker-qsefe.bintray.io/sense-client
   newName: $(IMAGE_REGISTRY)/sense-client

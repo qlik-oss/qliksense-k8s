@@ -13,6 +13,8 @@ transformers:
   - ../qliksense/generators/configs
   - ../../../../.operator/patches
   - ../../../../configuration/patches
+  - ../../transformers/base
+  - ../../transformers/msgprefix
 images:
   - name: qlik-docker-qsefe.bintray.io/reporting-web-renderer
     newName: $(IMAGE_REGISTRY)/reporting-web-renderer

@@ -12,6 +12,8 @@ transformers:
   - ../qliksense/generators/configs
   - ../../../../.operator/patches
   - ../../../../configuration/patches
+  - ../../transformers/base
+  - ../../transformers/msgprefix
 images:
   - name: qlik-docker-qsefe.bintray.io/feature-flags
     newName: $(IMAGE_REGISTRY)/feature-flags

@@ -48,20 +48,18 @@ patches:
     kind: Secret
     name: .*-secrets
   patch: |-
-    apiVersion: v1
-    kind: Secret
-    metadata:
-      name: component-secrets
-    stringData:
-      mongoDbUri: null
+    - op: add
+      path: stringData/mongoDbUri
+      value: null
+    - op: remove
+      path: stringData/mongoDbUri
 defaults:
 - target:
     kind: Secret
     name: .*-secrets
   patch: |-
-    apiVersion: v1
-    kind: Secret
-    metadata:
-      name: component-secrets
-    stringData:
-      mongoDbUri: null
+    - op: add
+      path: stringData/mongoDbUri
+      value: null
+    - op: remove
+      path: stringData/mongoDbUri
