@@ -9,3 +9,4 @@ resources:
 transformers:
   - secrets
   - configs
+  - ../../transformers/base

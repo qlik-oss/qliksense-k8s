@@ -13,6 +13,8 @@ transformers:
   - ../qliksense/generators/configs
   - ../../../../.operator/patches
   - ../../../../configuration/patches
+  - ../../transformers/base
+  - ../../transformers/msgprefix
 images:
   - name: qlik-docker-qsefe.bintray.io/data-connector-rest
     newName: $(IMAGE_REGISTRY)/data-connector-rest

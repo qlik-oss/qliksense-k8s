@@ -12,7 +12,6 @@ patches:
 - target:
     labelSelector: >-
       key notin ( 
-        tokenAuthUri,
         featureFlagsUri,
         ingressClass,
         natsUri,
@@ -21,6 +20,15 @@ patches:
         mongoDbUri,
         spacesUri
       )
+  patch: |-
+    - op: replace
+      path: /enabled
+      value: false
+    - op: replace
+      path: /default
+      value: true
+- target:
+    labelSelector: "key=tokenAuthUri,kind=Deployment"
   patch: |-
     - op: replace
       path: /enabled

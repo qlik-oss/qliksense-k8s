@@ -11,6 +11,8 @@ transformers:
   - ../qliksense/generators/secrets
   - ../../../../.operator/patches
   - ../../../../configuration/patches
+  - ../../transformers/base
+  - ../../transformers/msgprefix
 images:
   - name: qliktech-docker.jfrog.io/dcaas
     newName: $(IMAGE_REGISTRY)/dcaas
