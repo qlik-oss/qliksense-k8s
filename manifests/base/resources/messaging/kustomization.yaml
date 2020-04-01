@@ -13,6 +13,8 @@ transformers:
 - ../../../../.operator/patches
 - ../../../../configuration/patches
 - last-mile-transformers
+- ../../transformers/base
+- ../../transformers/msgprefix
 images:
 - name: qlik-docker-qsefe.bintray.io/nats-streaming
   newName: $(IMAGE_REGISTRY)/nats-streaming
