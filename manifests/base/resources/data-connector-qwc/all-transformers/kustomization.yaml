@@ -13,3 +13,5 @@ resources:
   - ../../qliksense/generators/configs
   - ../../../../../.operator/patches
   - ../../../../../configuration/patches
+  - ../../../transformers/base
+  - ../../../transformers/msgprefix
