@@ -11,6 +11,7 @@ transformers:
   - ../../../base/resources/qliksense/generators/secrets
   - ../../../../.operator/patches
   - ../../../../configuration/patches
+  - ../../../base/transformers/base
 images:
   - name: qlik-docker-qsefe.bintray.io/redis
     newName: $(IMAGE_REGISTRY)/redis
