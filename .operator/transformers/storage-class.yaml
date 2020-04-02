@@ -38,3 +38,10 @@ patches:
     - op: replace
       path: /enabled
       value: false
+- target:
+    name: storageClassName
+    labelSelector: app=qliksense
+  patch: |-
+    - op: replace
+      path: /enabled
+      value: false

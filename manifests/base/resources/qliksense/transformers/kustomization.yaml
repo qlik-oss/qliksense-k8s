@@ -1,0 +1,22 @@
+kind: Kustomization
+commonLabels:
+  app: qliksense
+resources:
+- ../../../transformers
+transformers:
+- ../../../../../.operator/transformers
+- ../../../../../configuration/transformers
+#Disable all transformers except these
+patches:
+- target:
+    labelSelector: >-
+      key notin (
+        storageClassName
+        )
+  patch: |-
+    - op: replace
+      path: /enabled
+      value: false
+    - op: replace
+      path: /default
+      value: true

@@ -8,4 +8,3 @@ spec:
   resources:
     requests:
       storage: 500Mi
-  storageClassName: $(STORAGE_CLASS_NAME)

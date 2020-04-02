@@ -10,3 +10,4 @@ transformers:
   - secrets
   - configs
   - ../../transformers/base
+  - transformers
