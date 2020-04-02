@@ -19,7 +19,7 @@ patches:
       featureFlagsUri: "http://$(PREFIX)-precedents-feature-flags:8080"
       spacesUri: "http://$(PREFIX)-precedents-spaces:6080/"
       mongoDbUri: "mongodb://$(PREFIX)-mongodb:27017/precedents"
-      
+      precedentsUri: "http://$(PREFIX)-data-prep-precedents:9054" 
       
       
 
