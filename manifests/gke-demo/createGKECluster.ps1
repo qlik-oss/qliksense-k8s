@@ -82,6 +82,7 @@ kubectl qliksense fetch $QLIKSENSE_VERSION
 kubectl qliksense crds install --all
 
 # Install Cert-manager, need to be done seperatly due to timing issue
+# BUG: Errors can be ignored
 kubectl qliksense config set profile=gke-demo/manifests/cert-manager
 kubectl qliksense install
 
