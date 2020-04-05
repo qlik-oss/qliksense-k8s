@@ -53,3 +53,5 @@ values:
     existingSecret: keycloak-secrets
     persistence:
       enabled: true
+  test:
+    enabled: false
