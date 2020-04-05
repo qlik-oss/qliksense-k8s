@@ -12,12 +12,12 @@ Before you begin, ensure you have met the following requirements:
 1. You have a `<Windows/Linux/Mac>` machine.
 2. You have a Google account with the ability to create clusters, Static IPs, DNS entries and issue Google Managed Certificate requests for Google compute engine (GCE) load balancer
 3. (Google Cloud SDK)[https://cloud.google.com/sdk/install] installed, authenticated and set to the desired project in GCP
-4. [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) at the level of the cluster install (ie. 1.15.9, see scripts below)
+4. [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) version that supports plugins well(ie. >= 1.16.8, see scripts below)
 5. You have installed the latest version of the Qlik Sense operator found [here](https://github.com/qlik-oss/sense-installer)
   - Convenience script for Linux & Mac OS bash & Windows pwsh:
     - Linux
       ```shell
-      curl -LOJ https://storage.googleapis.com/kubernetes-release/release/v1.15.9/bin/linux/amd64/kubectl
+      curl -LOJ https://storage.googleapis.com/kubernetes-release/release/v1.16.8/bin/linux/amd64/kubectl
       curl -LOJ https://raw.githubusercontent.com/qlik-oss/qliksense-k8s/master/manifests/gke-demo/createGKECluster.sh
       curl -LOJ https://raw.githubusercontent.com/qlik-oss/qliksense-k8s/master/manifests/gke-demo/createGKEClusterRC.sh
       curl -LOJ https://github.com/qlik-oss/sense-installer/releases/latest/download/qliksense-linux-amd64
@@ -28,7 +28,7 @@ Before you begin, ensure you have met the following requirements:
       ```
     - Mac OS
       ```shell
-      curl -LOJ https://storage.googleapis.com/kubernetes-release/release/v1.15.9/bin/darwin/amd64/kubectl
+      curl -LOJ https://storage.googleapis.com/kubernetes-release/release/v1.16.8/bin/darwin/amd64/kubectl
       curl -LOJ https://raw.githubusercontent.com/qlik-oss/qliksense-k8s/master/manifests/gke-demo/createGKECluster.sh
       curl -LOJ https://raw.githubusercontent.com/qlik-oss/qliksense-k8s/master/manifests/gke-demo/createGKEClusterRC.sh
       curl -LOJ https://github.com/qlik-oss/sense-installer/releases/latest/download/qliksense-darwin-amd64
@@ -39,7 +39,7 @@ Before you begin, ensure you have met the following requirements:
       ```
     - Windows
       ```shell
-      Invoke-WebRequest https://storage.googleapis.com/kubernetes-release/release/v1.15.9/bin/windows/amd64/kubectl.exe -O C:\bin\kubectl.exe
+      Invoke-WebRequest https://storage.googleapis.com/kubernetes-release/release/v1.16.8/bin/windows/amd64/kubectl.exe -O C:\bin\kubectl.exe
       Invoke-WebRequest https://github.com/qlik-oss/sense-installer/releases/latest/download/qliksense-windows-amd64.exe -O C:\bin\qliksense.exe
       Copy-Item C:\bin\qliksense.exe C:\bin\kubectl-qliksense.exe
       Invoke-WebRequest https://raw.githubusercontent.com/qlik-oss/qliksense-k8s/master/manifests/gke-demo/createGKECluster.ps1 -O C:\bin\createGKECluster.ps1
