@@ -79,9 +79,11 @@ kubectl qliksense config set-configs nfs-client-provisioner.nfsPath="/qliksense"
 kubectl qliksense fetch $QLIKSENSE_VERSION
 
 # Install CRDS
+kubectl qliksense config set profile=gke-demo
 kubectl qliksense crds install --all
 
-# Install Cert-manager, need to be done seperatly due to timing issue
+# Install Cert-manager, 
+# Need to be done seperatly due to timing issue w/ kube-api
 # BUG: Errors can be ignored
 kubectl qliksense config set profile=gke-demo/manifests/cert-manager
 kubectl qliksense install
