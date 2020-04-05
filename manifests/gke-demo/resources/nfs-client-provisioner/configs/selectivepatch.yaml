@@ -1,0 +1,16 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: nfs-client-provisioner-component-configs
+enabled: true
+patches:
+  - target:
+      kind: SuperConfigMap
+    patch: |-
+      apiVersion: qlik.com/v1
+      kind: SuperConfigMap
+      metadata:
+        name: nfs-client-provisioner-configs
+      data:
+        nfsServer: "127.0.0.1"
+        nfsPath: "/ifs/kubernetes"

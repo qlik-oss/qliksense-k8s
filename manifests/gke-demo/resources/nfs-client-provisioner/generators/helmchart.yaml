@@ -1,0 +1,10 @@
+apiVersion: qlik.com/v1
+kind: HelmChart
+metadata:
+  name: nfs-client-provisioner
+chartName: nfs-client-provisioner
+chartHome: ../../../../../charts
+chartRepo: https://kubernetes-charts.storage.googleapis.com
+chartRepoName: stable 
+releaseName: nfs-client-provisioner
+releaseNamespace: $(NAMESPACE)

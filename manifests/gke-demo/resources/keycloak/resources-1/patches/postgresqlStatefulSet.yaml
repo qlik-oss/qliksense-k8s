@@ -1,0 +1,14 @@
+kind: StatefulSet
+metadata:
+  name: keycloak-postgresql
+spec:
+  template:
+    spec:
+      containers:
+      - name: main
+        env:
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: postgresqlPassword
+              name: keycloak-secrets

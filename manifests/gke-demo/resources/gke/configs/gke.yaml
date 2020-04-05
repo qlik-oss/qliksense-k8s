@@ -1,0 +1,13 @@
+apiVersion: qlik.com/v1
+kind: SuperConfigMap
+metadata:
+  name: gke-configs
+data:
+  qlikSenseDomain: qseok.tk
+  adminEmailAddress: admin@qseok.tk
+  realmName: QSEoK
+  idpHostName: keycloak.qseok.tk
+  staticIpName: keycloak-ip
+  nfsServer: 10.241.168.202
+  nfsPath: /qseok
+  qlikSenseIp: 35.203.97.246

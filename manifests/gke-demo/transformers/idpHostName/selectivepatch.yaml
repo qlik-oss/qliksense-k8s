@@ -1,0 +1,18 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: idpHostName
+  labels:
+    key: idpHostName
+enabled: true
+patches:
+- target:
+    kind: SearchReplace
+    name: idp-hostname
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SearchReplace
+    metadata:
+      name: idp-hostname
+    replaceWithObjRef: null
+    replace: $(IDP_HOST_NAME)

@@ -1,0 +1,16 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: client-secret
+target:
+  kind: SearchReplace
+  name: client-secret
+path: replace
+search: \$\(CLIENT_SECRET\)
+replaceWithObjRef:
+  objref:
+    apiVersion: qlik.com/v1
+    kind: SuperSecret
+    name: gke-secrets
+  fieldref:
+    fieldpath: stringData.clientSecret

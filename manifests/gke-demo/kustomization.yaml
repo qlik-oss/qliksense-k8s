@@ -1,0 +1,120 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+vars:
+  - name: NAMESPACE
+    objref:
+      apiVersion: v1
+      kind: ConfigMap
+      name: configs
+    fieldref:
+      fieldpath: metadata.namespace
+  - name: PREFIX
+    objref:
+      apiVersion: v1
+      kind: ConfigMap
+      name: configs
+    fieldref:
+      fieldpath: metadata.labels.release
+  - name: INGRESS_CLASS
+    objref:
+      apiVersion: v1
+      kind: ConfigMap
+      name: configs
+    fieldref:
+      fieldpath: data.ingressClass
+  - name: IMAGE_REGISTRY
+    objref:
+      apiVersion: v1
+      kind: ConfigMap
+      name: configs
+    fieldref:
+      fieldpath: data.imageRegistry
+  - name: STORAGE_CLASS_NAME
+    objref:
+      apiVersion: v1
+      kind: ConfigMap
+      name: configs
+    fieldref:
+      fieldpath: data.storageClassName
+  - name: QLIKSENSE_DOMAIN
+    objref:
+      apiVersion: v1
+      kind: ConfigMap
+      name: gke-configs
+    fieldref:
+      fieldpath: data.qlikSenseDomain
+  - name: QLIKSENSE_IP
+    objref:
+      apiVersion: v1
+      kind: ConfigMap
+      name: elastic-infra-configs
+    fieldref:
+      fieldpath: data.qlikSenseIp
+  - name: IDP_HOST_NAME
+    objref:
+      apiVersion: v1
+      kind: ConfigMap
+      name: gke-configs
+    fieldref:
+      fieldpath: data.idpHostName
+  - name: STATIC_IP_NAME
+    objref:
+      apiVersion: v1
+      kind: ConfigMap
+      name: keycloak-configs
+    fieldref:
+      fieldpath: data.staticIpName
+configurations:
+  - ../base/varreference.yaml
+  - varreference.yaml
+resources:
+  - resources
+  - ../base/resources/qliksense
+  - ../base/resources/audit
+  - ../base/resources/chronos
+  - ../base/resources/chronos-worker
+  - ../base/resources/collections
+  - ../base/resources/data-connector-qwc
+  - ../base/resources/data-connector-odbc
+  - ../base/resources/data-connector-rest
+  - ../base/resources/data-connector-sfdc
+  - ../base/resources/data-prep
+  - ../base/resources/data-rest-source
+  - ../base/resources/dcaas
+  - ../base/resources/dcaas-web
+  - ../base/resources/edge-auth
+  - ../base/resources/encryption
+  - ../base/resources/engine
+  - ../base/resources/eventing
+  - ../base/resources/feature-flags
+  - ../base/resources/generic-links
+  - ../base/resources/geo-operations
+  - ../base/resources/groups
+  - ../base/resources/hub
+  - ../base/resources/insights
+  - ../base/resources/keys
+  - ../base/resources/licenses
+  - ../base/resources/locale
+  - ../base/resources/messaging
+  - ../base/resources/management-console
+  - ../base/resources/nl-broker
+  - ../base/resources/nl-parser
+  - ../base/resources/odag
+  - ../base/resources/policy-decisions
+  - ../base/resources/precedents
+  - ../base/resources/qix-data-connection
+  - ../base/resources/qix-datafiles
+  - ../base/resources/qix-sessions
+  - ../base/resources/qlikview-client
+  - ../base/resources/quotas
+  - ../base/resources/qix-data-reload
+  - ../docker-desktop/resources/redis
+  - ../docker-desktop/resources/mongodb
+  - ../base/resources/reload-tasks
+  - ../base/resources/reporting
+  - ../base/resources/resource-library
+  - ../base/resources/sense-client
+  - ../base/resources/spaces
+  - ../base/resources/temporary-contents
+  - ../base/resources/tenants
+  - ../base/resources/users

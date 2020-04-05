@@ -1,0 +1,24 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: keycloak
+enabled: true
+patches:
+  - path: patches/statefulSetJSON.yaml
+    target:
+      kind: StatefulSet
+  - path: patches/statefulSet.yaml
+    target:
+      kind: StatefulSet
+      labelSelector: 'app.kubernetes.io/name'
+  - path: patches/postgresqlStatefulSetJSON.yaml
+    target:
+      kind: StatefulSet
+      labelSelector: '!app.kubernetes.io/name'
+  - path: patches/postgresqlStatefulSet.yaml
+    target:
+      kind: StatefulSet
+      labelSelector: '!app.kubernetes.io/name'
+  - path: patches/ingress.yaml
+    target:
+      kind: Ingress

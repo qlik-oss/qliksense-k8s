@@ -1,0 +1,26 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: nfs-client-provisioner
+enabled: true
+patches:
+  - path: patches/deploymentJSON.yaml
+    target:
+      kind: Deployment
+      name: nfs-client-provisioner       
+  - path: patches/deployment.yaml
+    target:
+      kind: Deployment
+      name: nfs-client-provisioner
+  - path: patches/storageClass.yaml
+    target:
+      kind: StorageClass
+      name: nfs-client
+  - path: patches/clusterRoleBinding.yaml
+    target:
+      kind: ClusterRoleBinding
+      name: run-nfs-client-provisioner
+  - path: patches/roleBinding.yaml
+    target:
+      kind: RoleBinding
+      name: leader-locking-nfs-client-provisioner

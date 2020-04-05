@@ -1,0 +1,18 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: clientSecret
+  labels:
+    key: clientSecret
+enabled: true
+patches:
+- target:
+    kind: SearchReplace
+    name: client-secret
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperSecret
+    metadata:
+      name: client-secret
+    replaceWithObjRef: null
+    replace: $(CLIENT_SECRET)

@@ -1,0 +1,16 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: qliksense-domain
+target:
+  kind: SuperSecret
+  name: identity-providers-secrets
+path: stringData/idpConfigs
+search: \$\(QLIKSENSE_DOMAIN\)
+replaceWithObjRef:
+  objref:
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    mame: identity-providers-configs
+  fieldref:
+    fieldpath: data.qlikSenseDomain

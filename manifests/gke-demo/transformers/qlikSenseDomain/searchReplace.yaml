@@ -1,0 +1,16 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: qliksense-domain
+target:
+  kind: SearchReplace
+  name: qliksense-domain
+path: replace
+search: \$\(QLIKSENSE_DOMAIN\)
+replaceWithObjRef:
+  objref:
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    name: gke-configs
+  fieldref:
+    fieldpath: data.qlikSenseDomain

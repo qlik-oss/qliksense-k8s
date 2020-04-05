@@ -1,0 +1,34 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+commonLabels:
+  app: nfs-client-provisioner
+generators:
+  - generators
+transformers:
+  - patches
+  - configs
+  - transformers
+  - ../../../../.operator/patches
+  - ../../../../configuration/patches
+  - ../../../base/transformers/base
+vars:
+- name: NFS_SERVER
+  objref:
+    apiVersion: v1
+    kind: ConfigMap
+    name: nfs-client-provisioner-configs
+  fieldref:
+    fieldpath: data.nfsServer
+- name: NFS_PATH
+  objref:
+    apiVersion: v1
+    kind: ConfigMap
+    name: nfs-client-provisioner-configs
+  fieldref:
+    fieldpath: data.nfsPath
+# images:
+#   - name: quay.io/external_storage/nfs-client-provisioner
+#     newName: $(IMAGE_REGISTRY)/nfs-client-provisioner
+configurations:
+  - ../../../base/varreference.yaml
+  - ../../varreference.yaml

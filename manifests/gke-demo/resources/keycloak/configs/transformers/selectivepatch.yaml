@@ -1,0 +1,18 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: keycloak-configs
+enabled: true
+patches:
+  - target:
+      kind: SuperConfigMap
+      name: keycloak-configs
+    patch: |-
+      apiVersion: qlik.com/v1
+      kind: SuperConfigMap
+      metadata:
+        name: keycloak-configs
+      data:
+        staticIpName: keycloak-ip
+        idpHostName: keycloak.qseok.tk
+        realmName: QSEoK

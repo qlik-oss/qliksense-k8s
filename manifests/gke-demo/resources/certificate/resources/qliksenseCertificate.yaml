@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1alpha3
+kind: Certificate
+metadata:
+  name: certificate
+spec:
+  secretName: $(PREFIX)-tls
+  issuerRef:
+    name: $(PREFIX)-issuer
+  commonName: $(PREFIX).$(QLIKSENSE_DOMAIN)
+  dnsNames:
+  -  $(PREFIX).$(QLIKSENSE_DOMAIN)

@@ -1,0 +1,22 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+commonLabels:
+  app: elastic-infra
+generators:
+  - generators
+transformers:
+  - patches
+  - ../../../base/resources/elastic-infra/secrets
+  - configs
+  - ../../../base/resources/elastic-infra/transformers
+  - ../../../base/resources/qliksense/generators/secrets 
+  - ../../../base/resources/qliksense/generators/configs  
+  - ../../../../.operator/patches
+  - ../../../../configuration/patches
+  - ../../../base/transformers/base
+  - ../../../base/transformers/msgprefix
+images:
+- name: qlik-docker-qsefe.bintray.io/nginx-ingress-controller
+  newName: $(IMAGE_REGISTRY)/nginx-ingress-controller
+configurations:
+  - ../../../base/namereference.yaml
