@@ -9,12 +9,11 @@ It uses [Keycloak](https://www.keycloak.org/) as an IDP, [Google Filestore](http
 ## Prerequisites and Installation
 
 Before you begin, ensure you have met the following requirements:
-<!--- These are just example requirements. Add, duplicate or remove as required --->
-* You have a `<Windows/Linux/Mac>` machine.
-* You have a Google account with the ability to create clusters, Static IPs, DNS entries and issue Google Managed Certificate requests for Google compute engine (GCE) load balancer
-* (Google Cloud SDK)[https://cloud.google.com/sdk/install] installed, authenticated and set to the desired project in GCP
-* [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) at the level of the cluster install (ie. 1.15.9, see scripts below)
-* You have installed the latest version of the qliksense operator found [here](https://github.com/qlik-oss/sense-installer)
+1. You have a `<Windows/Linux/Mac>` machine.
+2. You have a Google account with the ability to create clusters, Static IPs, DNS entries and issue Google Managed Certificate requests for Google compute engine (GCE) load balancer
+3. (Google Cloud SDK)[https://cloud.google.com/sdk/install] installed, authenticated and set to the desired project in GCP
+4. [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) at the level of the cluster install (ie. 1.15.9, see scripts below)
+5. You have installed the latest version of the qliksense operator found [here](https://github.com/qlik-oss/sense-installer)
   - Convienence script for Linux & Mac OS bash & Windows pwsh:
     - Linux
     ```shell
@@ -46,17 +45,15 @@ Before you begin, ensure you have met the following requirements:
       Invoke-WebRequest https://raw.githubusercontent.com/qlik-oss/qliksense-k8s/master/manifests/gke-demo/createGKECluster.ps1 -O C:\bin\createGKECluster.ps1
       Invoke-WebRequest https://raw.githubusercontent.com/qlik-oss/qliksense-k8s/master/manifests/gke-demo/createGKECluster.ps1 -O C:\bin\createGKEClusterRC.ps1
       ```
-
-* The following information:
-    * A version of this repo (v0.0.8 tested to work)
-    * A Domain name (Free ones available [here](https://www.freenom.com/))
-    * A choosen hostname for the QSEoK application, and another for Keycloak
-    * 3 strong passwords for the 
-      * Keycloak Client secret
-      * The Keycloak administrator password (username: `keycloak`)
-      * Initial passwords for the tenant admin and demo users (to be set at login):
-        * The Tenant Administrator (username:  `rootadmin`)
-        * Barb Stovin (username: `barb`), Evan Highman (username: `highman`), Franklin Glamart (username: `franklin`), Harley Kiffe (username: `harley`), Marne Probetts (username: `marne`), Peta Sammon (username: `peta`), Phillie Smeed (username: `phillie`), Quinn Leeming (username: `quinn`), Sibylla Meadows (username: `sibylla`), Sim Cleaton (username: `sim`)
+6. The following information:
+   * A version of this repo (v0.0.8 tested to work)
+   * A Domain name (Free ones available [here](https://www.freenom.com/))
+   * A choosen hostname for the QSEoK application, and another for Keycloak
+   * Strong password for the Keycloak Client secret
+   *  Strong Password for the Keycloak administrator password (username: `keycloak`)
+   * Initial passwords for the tenant admin and demo users (to be set at login):
+     * The Tenant Administrator (username:  `rootadmin`)
+     * Barb Stovin (username: `barb`), Evan Highman (username: `highman`), Franklin Glamart (username: `franklin`), Harley Kiffe (username: `harley`), Marne Probetts (username: `marne`), Peta Sammon (username: `peta`), Phillie Smeed (username: `phillie`), Quinn Leeming (username: `quinn`), Sibylla Meadows (username: `sibylla`), Sim Cleaton (username: `sim`)
 
 ## GKE Demo for QSEoK
 
@@ -72,8 +69,8 @@ The process will take about 15 minutes in total. Qlik Sense will be available at
 ### Declarative
 To install <project_name>:
 
-- Run the `createGKECluster.sh/ps1` script. 
-- Provide the parameters described in the [Prerequisite](#prerequisites-and-installation) above.
+1. Run the `createGKECluster.sh/ps1` script. 
+2. Provide the parameters described in the [Prerequisite](#prerequisites-and-installation) above.
 
 This should take 5-10 minutes.
 The output of the script is a qliksense configuration resource `yaml`, named after the Qlik Sense host name, encoded with all the information collected by the script from the output of `gcloud` commands using the parmameters provided:
@@ -126,29 +123,29 @@ spec:
       value: somestrongsecret
 ```
 
-* Take the file and load it into the operator:  
+3. Take the file and load it into the operator:  
   ```shell
   qliksense load -f qliksense-dev.yaml
   ```
-* Fetch a version of Qlik Sense On Kubernetes
+4. Fetch a version of Qlik Sense On Kubernetes
   ```shell
   qliksense fetch v0.0.8
   ```
-* Install the CRDs (accepting the EULA terms). CRDs need to be installed outside of the main manifest because of timing issues.
+5. Install the CRDs (accepting the EULA terms). CRDs need to be installed outside of the main manifest because of timing issues.
   ```shell
   qliksense crds install --all
   ```
-* Further, Certificate Manager Controller has a timing issue that prevents it being installed together with an Issuer resource (in the same manifest), so it has to be installed before the manifest which contains it. The qliksense operator allows for partial manifest fragment installation updates of a release. We need to set the global manifest (`gke-demo`) to be specific to  `cert-manager` and install:
+6. Further, Certificate Manager Controller has a timing issue that prevents it being installed together with an Issuer resource (in the same manifest), so it has to be installed before the manifest which contains it. The qliksense operator allows for partial manifest fragment installation updates of a release. We need to set the global manifest (`gke-demo`) to be specific to  `cert-manager` and install:
   ```shell
   qliksense config set profile=qke-demo/manifests/cert-manager
   qliksense install
   ```
-* Now we can proceed with installing the main `gke-demo` profile by setting it back and installing.
+7. Now we can proceed with installing the main `gke-demo` profile by setting it back and installing.
   ```shell
   qliksense config set profile=qke-demo
   qliksense install
   ```
   
-  This should take an additional 5-10 minutes. Once complete Qlik Sense will be available at https://<choose hostname for qseok>.<domain name>/.
+This should take an additional 5-10 minutes. Once complete Qlik Sense will be available at https://<choose hostname for qseok>.<domain name>/.
 
   
