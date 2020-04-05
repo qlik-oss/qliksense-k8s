@@ -76,7 +76,7 @@ spec:
       value: "yes"
     gke:
     - name: realmName
-      value: QSEoK
+      value: $QLIKSENSE_HOST
     - name: idpHostName
       value: $KEYCLOAK_HOST.qseok.tk
     - name: qlikSenseDomain
