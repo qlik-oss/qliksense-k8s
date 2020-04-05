@@ -1,8 +1,8 @@
 # GKE Demo for QSEoK
 
-GKE Demo for QSEoK is an opinionated Qlik Sense on Kubernetes (QSEoK) Kubernetes manifest for Google Kubernete Engine (GKE). 
+GKE Demo for QSEoK is an opinionated Qlik Sense on Kubernetes (QSEoK) Kubernetes manifest for Google Kubernetes Engine (GKE). 
 
-It provides the components and minimal configuration for QSEoK to come up in a readily working state on Google Cloud Platform (GCP) through the use of the qliksense operator.
+It provides the components and minimal configuration for QSEoK to come up in a readily working state on Google Cloud Platform (GCP) through the use of the Qlik Sense operator.
 
 It uses [Keycloak](https://www.keycloak.org/) as an IDP, [Google Filestore](https://cloud.google.com/filestore) as file storage, Let's Encrypt [cert-manager](https://cert-manager.io/docs/) for qliksense certificates and [Google SSL Certificates](https://cloud.google.com/load-balancing/docs/ssl-certificates/google-managed-certs) for keycloak (as it is using GCE load balancer for ingress). A Kubernetes-embedded [MongoDB](https://www.mongodb.com/kubernetes) engine is being for document storage.
 
@@ -13,8 +13,8 @@ Before you begin, ensure you have met the following requirements:
 2. You have a Google account with the ability to create clusters, Static IPs, DNS entries and issue Google Managed Certificate requests for Google compute engine (GCE) load balancer
 3. (Google Cloud SDK)[https://cloud.google.com/sdk/install] installed, authenticated and set to the desired project in GCP
 4. [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) at the level of the cluster install (ie. 1.15.9, see scripts below)
-5. You have installed the latest version of the qliksense operator found [here](https://github.com/qlik-oss/sense-installer)
-  - Convienence script for Linux & Mac OS bash & Windows pwsh:
+5. You have installed the latest version of the Qlik Sense operator found [here](https://github.com/qlik-oss/sense-installer)
+  - Convenience script for Linux & Mac OS bash & Windows pwsh:
     - Linux
       ```shell
       curl -LOJ https://storage.googleapis.com/kubernetes-release/release/v1.15.9/bin/linux/amd64/kubectl
@@ -48,7 +48,7 @@ Before you begin, ensure you have met the following requirements:
 6. The following information:
    * A version of this repo (v0.0.8 tested to work)
    * A Domain name (Free ones available [here](https://www.freenom.com/))
-   * A choosen hostname for the QSEoK application, and another for Keycloak
+   * A chosen hostname for the QSEoK application, and another for Keycloak
    * Strong password for the Keycloak Client secret
    *  Strong Password for the Keycloak administrator password (username: `keycloak`)
    * Initial passwords for the tenant admin and demo users (to be set at login):
@@ -57,7 +57,7 @@ Before you begin, ensure you have met the following requirements:
 
 ## GKE Demo for QSEoK
 
-There are two routes to take, installing QSEoK imperatively or declarivily using a configuration resource.
+There are two routes to take, installing QSEoK imperatively or declaratively using a configuration resource.
 
 ### Imperative
 
@@ -73,7 +73,7 @@ To install <project_name>:
 
 This should take 5-10 minutes.
 
-The output of the script is a qliksense configuration resource `yaml`, named after the Qlik Sense host name, encoded with all the information collected by the script from the output of `gcloud` commands using the parmameters provided:
+The output of the script is a qliksense configuration resource `yaml`, named after the Qlik Sense host name, encoded with all the information collected by the script from the output of `gcloud` commands using the parameters provided:
 Ex:
 ```yaml
 apiVersion: qlik.com/v1
