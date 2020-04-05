@@ -19,6 +19,7 @@ read DEFAULT_USER_PASSWORD
 echo "What will be the Keycloak admin password?"
 read KEYCLOAK_ADMIN_PASSWORD
 
+start=`date +%s`
 # Create Cluster
 gcloud container clusters create $QLIKSENSE_HOST --zone "northamerica-northeast1-a" --no-enable-basic-auth --cluster-version "1.15.9-gke.22" --machine-type "n1-standard-16" --image-type "UBUNTU" --disk-type "pd-standard" --disk-size "100" --metadata disable-legacy-endpoints=true --num-nodes "4" --enable-stackdriver-kubernetes --enable-ip-alias --default-max-pods-per-node "110" --no-enable-master-authorized-networks --addons HorizontalPodAutoscaling,HttpLoadBalancing --enable-autoupgrade --enable-autorepair
 echo "Cluster"
@@ -61,7 +62,10 @@ echo "nfsShare: /qliksense"
 echo "nfsServer: $NFS_IP"
 
 gcloud container clusters get-credentials $QLIKSENSE_HOST --zone northamerica-northeast1-a
+end=`date +%s`
+echo "gcloud duration: $((($(date +%s)-$start)/60)) minutes"
 
+start=`date +%s`
 # Base Profile
 kubectl qliksense config set-context $QLIKSENSE_HOST 
 kubectl qliksense config set storageClassName=$QLIKSENSE_HOST-nfs-client
@@ -99,3 +103,5 @@ kubectl qliksense install
 kubectl qliksense config set profile=gke-demo
 kubectl qliksense config set rotateKeys="yes"
 kubectl qliksense install
+end=`date +%s`
+echo "qliksense duration: $((($(date +%s)-$start)/60)) minutes"
