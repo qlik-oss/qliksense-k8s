@@ -1,0 +1,15 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: elastic-infra-gke-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: elastic-infra-configs
+    data:
+      qlikSenseIp: 0.0.0.0

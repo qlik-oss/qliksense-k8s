@@ -1,0 +1,43 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+vars:
+  - name: INGRESS_CLASS 
+    objref:
+      apiVersion: v1
+      kind: ConfigMap
+      name: identity-providers-configs
+    fieldref:
+      fieldpath: data.ingressClass
+  - name: NAMESPACE
+    objref:
+      apiVersion: v1
+      kind: ConfigMap
+      name: identity-providers-configs
+    fieldref:
+      fieldpath: metadata.namespace
+  - name: PREFIX
+    objref:
+      apiVersion: v1
+      kind: ConfigMap
+      name: identity-providers-configs
+    fieldref:
+      fieldpath: metadata.labels.release
+  - name: INGRESS_AUTH_URL
+    objref:
+      apiVersion: v1
+      kind: ConfigMap
+      name: identity-providers-configs
+    fieldref:
+      fieldpath: data.ingressAuthUrl
+  - name: IMAGE_REGISTRY
+    objref:
+      apiVersion: v1
+      kind: ConfigMap
+      name: identity-providers-configs
+    fieldref:
+      fieldpath: data.imageRegistry
+configurations:
+  - ../../../base/varreference.yaml
+  - ../../varreference.yaml
+resources:
+  - ../../resources/identity-providers

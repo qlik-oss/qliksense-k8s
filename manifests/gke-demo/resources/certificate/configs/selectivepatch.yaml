@@ -1,0 +1,17 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: certificate-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: certificate-configs
+    data:
+      qlikSenseDomain: qseok.tk
+      adminEmailAddress: admin@qseok.tk
+      

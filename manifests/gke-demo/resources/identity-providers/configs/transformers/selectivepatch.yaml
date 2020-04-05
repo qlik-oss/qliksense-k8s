@@ -1,0 +1,21 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: identity-providers-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: identity-providers-configs
+    data:
+      natsUri: "nats://$(PREFIX)-identity-providers-messaging-nats-client:4222"
+      keysUri: "http://$(PREFIX)-identity-providers-keys:8080/v1"
+      tokenAuthUri: "http://$(PREFIX)-identity-providers-edge-auth:8080/v1"
+      natsStreamingClusterId: "$(PREFIX)-identity-providers-messaging-nats-streaming-cluster"
+      realmName: QSEoK
+      idpHostName: keycloak.qseok.tk
+      qlikSenseDomain: qseok.tk

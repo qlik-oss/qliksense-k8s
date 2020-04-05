@@ -1,0 +1,70 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+commonLabels:
+  app: certificate
+resources:
+- ../../../../base/transformers
+transformers:
+- ../../../../../.operator/transformers
+- ../../../../../configuration/transformers
+#Disable all transformers except these
+patches:
+- target:
+    labelSelector: >-
+      key notin ()
+  patch: |-
+    - op: replace
+      path: /enabled
+      value: false
+    - op: replace
+      path: /default
+      value: true
+# - target:
+#      name: pdsUri
+#   patch: |-
+#     - op: replace
+#       path: /enabled
+#       value: false
+# - target:
+#      name: featureFlagsUri
+#   patch: |-
+#     - op: replace
+#       path: /enabled
+#       value: false
+# - target:
+#      name: natsStreamingClusterId
+#   patch: |-
+#     - op: replace
+#       path: /enabled
+#       value: false
+# - target:
+#      name: natsUri
+#   patch: |-
+#     - op: replace
+#       path: /enabled
+#       value: false
+# - target:
+#      name: keysUri
+#   patch: |-
+#     - op: replace
+#       path: /enabled
+#       value: false
+# - target:
+#      name: natsStreamingClusterId
+#   patch: |-
+#     - op: replace
+#       path: /enabled
+#       value: false
+# - target:
+#      name: ingressClass
+#   patch: |-
+#     - op: replace
+#       path: /enabled
+#       value: true
+# - target:
+#      name: secretClientCertificates
+#   patch: |-
+#     - op: replace
+#       path: /enabled
+#       value: true
+ 

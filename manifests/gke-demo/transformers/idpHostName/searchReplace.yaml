@@ -1,0 +1,16 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: idp-hostname
+target:
+  kind: SearchReplace
+  name: idp-hostname
+path: replace
+search: \$\(IDP_HOST_NAME\)
+replaceWithObjRef:
+  objref:
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    name: gke-configs
+  fieldref:
+    fieldpath: data.idpHostName

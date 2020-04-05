@@ -1,0 +1,18 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: qlikSenseDomain
+  labels:
+    key: qlikSenseDomain
+enabled: true
+patches:
+- target:
+    kind: SearchReplace
+    name: qliksense-domain
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SearchReplace
+    metadata:
+      name: qliksense-domain
+    replaceWithObjRef: null
+    replace: $(QLIKSENSE_DOMAIN)

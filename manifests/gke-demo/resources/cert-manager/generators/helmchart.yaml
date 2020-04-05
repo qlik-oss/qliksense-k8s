@@ -1,0 +1,11 @@
+apiVersion: qlik.com/v1
+kind: HelmChart
+metadata:
+  name: cert-manager
+chartName: cert-manager
+chartHome: ../../../../../charts
+chartRepo: https://charts.jetstack.io
+chartRepoName: jetstack
+chartVersion: v0.14.1
+releaseName: cert-manager
+releaseNamespace: cert-manager

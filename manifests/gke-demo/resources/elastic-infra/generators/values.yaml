@@ -1,0 +1,24 @@
+apiVersion: qlik.com/v1
+kind: HelmValues
+metadata:
+  name: elastic-infra
+releaseNamespace: $(NAMESPACE)
+values:
+  mongodb:
+    enabled: false
+    ssl: false
+    sslValidate: false
+    checkServerIdentity: false
+
+  ## nginx-ingress dependency configuration
+  nginx-ingress:
+    controller:
+      extraArgs:
+        # TODO to be removed
+        default-ssl-certificate: "$(NAMESPACE)/$(PREFIX)-elastic-infra-elastic-infra-tls-secret"
+        configmap: $(NAMESPACE)/$(PREFIX)-elastic-infra-nginx-ingress-controller
+      ingressClass: $(INGRESS_CLASS)
+      # config:
+      #   ssl-redirect: "true"
+      #   worker-shutdown-timeout: "300s"
+      #   proxy-add-original-uri-header: "true"

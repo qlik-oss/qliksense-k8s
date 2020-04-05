@@ -1,0 +1,8 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: gce
+    kubernetes.io/ingress.global-static-ip-name: $(STATIC_IP_NAME)
+    networking.gke.io/managed-certificates: $(PREFIX)-keycloak
+  name: qliksense-keycloak

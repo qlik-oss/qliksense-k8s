@@ -1,0 +1,18 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: realmName
+  labels:
+    key: realmName
+enabled: true
+patches:
+- target:
+    kind: SearchReplace
+    name: realm-name
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SearchReplace
+    metadata:
+      name: realm-name
+    replaceWithObjRef: null
+    replace: $(REALM_NAME)

@@ -1,0 +1,16 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: keycloak-prefix
+target:
+  kind: HelmChart
+  name: keycloak
+path: releaseName
+search: \$\(PREFIX\)
+replaceWithObjRef:
+  objref:
+    apiVersion: qlik.com/v1
+    kind: HelmChart
+    mame: keycloak
+  fieldref:
+    fieldpath: metadata.labels.release
