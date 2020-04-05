@@ -61,8 +61,7 @@ There are two routes to take, installing QSEoK imperatively or declarivily using
 
 ### Imperative
 
-The `createGKECLuster.sh/ps1` script contains all the command needed to bring up the cluster. Simply run the script and provide the parameters described
-in the [Prerequisite](#prerequisites-and-installation) above.
+The `createGKECLuster.sh/ps1` script contains all the commands needed to bring up the cluster. Simply run the script and provide the parameters described in the [Prerequisite](#prerequisites-and-installation) section above.
 
 The process will take about 15 minutes in total. Qlik Sense will be available at `https://<choose hostname for qseok>.<domain name>/`
 
@@ -70,9 +69,10 @@ The process will take about 15 minutes in total. Qlik Sense will be available at
 To install <project_name>:
 
 1. Run the `createGKECluster.sh/ps1` script. 
-2. Provide the parameters described in the [Prerequisite](#prerequisites-and-installation) above.
+2. Provide the parameters described in the [Prerequisite](#prerequisites-and-installation) section above.
 
 This should take 5-10 minutes.
+
 The output of the script is a qliksense configuration resource `yaml`, named after the Qlik Sense host name, encoded with all the information collected by the script from the output of `gcloud` commands using the parmameters provided:
 Ex:
 ```yaml
