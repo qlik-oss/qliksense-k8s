@@ -41,7 +41,7 @@ Before you begin, ensure you have met the following requirements:
       ```shell
       Invoke-WebRequest https://storage.googleapis.com/kubernetes-release/release/v1.15.9/bin/windows/amd64/kubectl.exe -O C:\bin\kubectl.exe
       Invoke-WebRequest https://github.com/qlik-oss/sense-installer/releases/latest/download/qliksense-windows-amd64.exe -O C:\bin\qliksense.exe
-      Copy-Item C:\bin\qliksense.exe cp C:\bin\kubectl-qliksense.exe
+      Copy-Item C:\bin\qliksense.exe C:\bin\kubectl-qliksense.exe
       Invoke-WebRequest https://raw.githubusercontent.com/qlik-oss/qliksense-k8s/master/manifests/gke-demo/createGKECluster.ps1 -O C:\bin\createGKECluster.ps1
       Invoke-WebRequest https://raw.githubusercontent.com/qlik-oss/qliksense-k8s/master/manifests/gke-demo/createGKECluster.ps1 -O C:\bin\createGKEClusterRC.ps1
       ```
