@@ -62,18 +62,22 @@ echo "nfsServer: $NFS_IP"
 
 gcloud container clusters get-credentials $QLIKSENSE_HOST --zone northamerica-northeast1-a
 
+# Base Profile
 kubectl qliksense config set-context $QLIKSENSE_HOST 
 kubectl qliksense config set storageClassName=$QLIKSENSE_HOST-nfs-client
 kubectl qliksense config set rotateKeys="no" 
 kubectl qliksense config set-configs qliksense.acceptEULA="yes"
 kubectl qliksense config set-secrets qliksense.mongoDbUri="mongodb://$QLIKSENSE_HOST-mongodb:27017/qsefe?ssl=false"
+kubectl qliksense config set-configs elastic-infra.qlikSenseIp=$QLIKSENSE_IP
+
+#GKE Demo profile
 kubectl qliksense config set-configs gke.idpHostName=$KEYCLOAK_HOST.$DOMAIN
 kubectl qliksense config set-configs gke.realmName=$QLIKSENSE_HOST
 kubectl qliksense config set-configs gke.qlikSenseDomain=$DOMAIN
 kubectl qliksense config set-secrets gke.clientSecret=$KEYCLOAK_SECRET
 kubectl qliksense config set-configs keycloak.staticIpName=$KEYCLOAK_HOST-ip
-kubectl qliksense config set-secrets keycloak.defaultUserPassword=$DEFAULT_USER_PASSWORD
-kubectl qliksense config set-secrets keycloak.password=$KEYCLOAK_ADMIN_PASSWORD
+kubectl qliksense config set-secrets keycloak.defaultUserPassword="$DEFAULT_USER_PASSWORD"
+kubectl qliksense config set-secrets keycloak.password="$KEYCLOAK_ADMIN_PASSWORD"
 kubectl qliksense config set-configs certificate.adminEmailAddress=admin@$DOMAIN
 kubectl qliksense config set-configs nfs-client-provisioner.nfsServer=$NFS_IP
 kubectl qliksense config set-configs nfs-client-provisioner.nfsPath="/qliksense"
