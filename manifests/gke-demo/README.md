@@ -16,7 +16,7 @@ Before you begin, ensure you have met the following requirements:
 5. You have installed the latest version of the qliksense operator found [here](https://github.com/qlik-oss/sense-installer)
   - Convienence script for Linux & Mac OS bash & Windows pwsh:
     - Linux
-    ```shell
+      ```shell
       curl -LOJ https://storage.googleapis.com/kubernetes-release/release/v1.15.9/bin/linux/amd64/kubectl
       curl -LOJ https://raw.githubusercontent.com/qlik-oss/qliksense-k8s/master/manifests/gke-demo/createGKECluster.sh
       curl -LOJ https://raw.githubusercontent.com/qlik-oss/qliksense-k8s/master/manifests/gke-demo/createGKEClusterRC.sh
@@ -64,7 +64,7 @@ There are two routes to take, installing QSEoK imperatively or declarivily using
 The `createGKECLuster.sh/ps1` script contains all the command needed to bring up the cluster. Simply run the script and provide the parameters described
 in the [Prerequisite](#prerequisites-and-installation) above.
 
-The process will take about 15 minutes in total. Qlik Sense will be available at https://<choose hostname for qseok>.<domain name>/
+The process will take about 15 minutes in total. Qlik Sense will be available at `https://<choose hostname for qseok>.<domain name>/`
 
 ### Declarative
 To install <project_name>:
@@ -146,6 +146,6 @@ spec:
   qliksense install
   ```
   
-This should take an additional 5-10 minutes. Once complete Qlik Sense will be available at https://<choose hostname for qseok>.<domain name>/.
+This should take an additional 5-10 minutes. Once complete Qlik Sense will be available at h`ttps://<choose hostname for qseok>.<domain name>/`
 
   
