@@ -74,7 +74,7 @@ metadata:
   name: $QLIKSENSE_HOST
 spec:
   storageClassName: $QLIKSENSE_HOST-nfs-client
-  profile: gke
+  profile: gke-demo
   rotateKeys: "yes"
   configs:
     qliksense:
