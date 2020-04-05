@@ -83,10 +83,10 @@ kubectl qliksense crds install --all
 
 # Install Cert-manager, need to be done seperatly due to timing issue
 kubectl qliksense config set profile=gke/manifests/cert-manager
-kubectl qliskense install
+kubectl qliksense install
 
 # Could wait for kubectl --wait.. nah, should be enough time
 # Install gke profile
 kubectl qliksense config set profile=gke
 kubectl qliksense config set rotateKeys="yes"
-kubectl qliskense install
+kubectl qliksense install
