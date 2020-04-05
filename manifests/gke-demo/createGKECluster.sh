@@ -69,7 +69,6 @@ start=`date +%s`
 # Base Profile
 kubectl qliksense config set-context $QLIKSENSE_HOST 
 kubectl qliksense config set storageClassName=$QLIKSENSE_HOST-nfs-client
-kubectl qliksense config set rotateKeys="no" 
 kubectl qliksense config set-configs qliksense.acceptEULA="yes"
 kubectl qliksense config set-secrets qliksense.mongoDbUri="mongodb://$QLIKSENSE_HOST-mongodb:27017/qsefe?ssl=false"
 kubectl qliksense config set-configs elastic-infra.qlikSenseIp=$QLIKSENSE_IP
@@ -101,7 +100,6 @@ kubectl qliksense install
 # Could wait for kubectl --wait.. nah, should be enough time
 # Install gke profile
 kubectl qliksense config set profile=gke-demo
-kubectl qliksense config set rotateKeys="yes"
 kubectl qliksense install
 end=`date +%s`
 echo "qliksense duration: $((($(date +%s)-$start)/60)) minutes"

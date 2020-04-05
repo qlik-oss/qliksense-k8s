@@ -73,7 +73,7 @@ spec:
   configs:
     qliksense:
     - name: acceptEULA
-      value: "yes"
+      value: "no"
     gke:
     - name: realmName
       value: $QLIKSENSE_HOST
