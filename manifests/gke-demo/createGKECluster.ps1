@@ -48,6 +48,7 @@ Write-Host "Qliksense IP: $QLIKSENSE_IP"
 Write-Host "Keycloak Name: $KEYCLOAK_HOST.$DOMAIN."
 Write-Host "Keycloak IP: $KEYCLOAK_IP"
 
+gcloud filestore instances create $QLIKSENSE_HOST --file-share=name="qliksense",capacity=1T --network=name="default" --zone northamerica-northeast1-a
 $NFS_IP=(gcloud filestore instances describe $QLIKSENSE_HOST --zone northamerica-northeast1-a --format='value(networks[0].ipAddresses[0])')
 Write-Host "Filestore"
 Write-Host "--"
