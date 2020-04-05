@@ -14,7 +14,7 @@ $KEYCLOAK_ADMIN_PASSWORD = Read-Host -Prompt "What will be the Keycloak admin pa
 
 $measure = Measure-Command {
 # Create Cluster
-gcloud container clusters create $QLIKSENSE_HOST --zone northamerica-northeast1-a --no-enable-basic-auth --cluster-version "1.15.9-gke.22" --machine-type "n1-standard-16" --image-type "UBUNTU" --disk-type "pd-standard" --disk-size "100" --metadata disable-legacy-endpoints=true --scopes "https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append" --num-nodes "4" --enable-stackdriver-kubernetes --enable-ip-alias --network "projects/dev-elastic-charts/global/networks/default" --subnetwork "projects/dev-elastic-charts/regions/northamerica-northeast1/subnetworks/default" --default-max-pods-per-node "110" --no-enable-master-authorized-networks --addons HorizontalPodAutoscaling,HttpLoadBalancing --enable-autoupgrade --enable-autorepair
+gcloud container clusters create $QLIKSENSE_HOST --zone "northamerica-northeast1-a" --no-enable-basic-auth --cluster-version "1.15.9-gke.22" --machine-type "n1-standard-16" --image-type "UBUNTU" --disk-type "pd-standard" --disk-size "100" --metadata disable-legacy-endpoints=true --num-nodes "4" --enable-stackdriver-kubernetes --enable-ip-alias --default-max-pods-per-node "110" --no-enable-master-authorized-networks --addons HorizontalPodAutoscaling,HttpLoadBalancing --enable-autoupgrade --enable-autorepair
 
 Write-Host "Cluster"
 Write-Host "--"
@@ -48,7 +48,6 @@ Write-Host "Qliksense IP: $QLIKSENSE_IP"
 Write-Host "Keycloak Name: $KEYCLOAK_HOST.$DOMAIN."
 Write-Host "Keycloak IP: $KEYCLOAK_IP"
 
-gcloud container clusters create $QLIKSENSE_HOST --zone "northamerica-northeast1-a" --no-enable-basic-auth --cluster-version "1.15.9-gke.22" --machine-type "n1-standard-16" --image-type "UBUNTU" --disk-type "pd-standard" --disk-size "100" --metadata disable-legacy-endpoints=true --num-nodes "4" --enable-stackdriver-kubernetes --enable-ip-alias --default-max-pods-per-node "110" --no-enable-master-authorized-networks --addons HorizontalPodAutoscaling,HttpLoadBalancing --enable-autoupgrade --enable-autorepair
 $NFS_IP=(gcloud filestore instances describe $QLIKSENSE_HOST --zone northamerica-northeast1-a --format='value(networks[0].ipAddresses[0])')
 Write-Host "Filestore"
 Write-Host "--"
