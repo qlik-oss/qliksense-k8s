@@ -22,7 +22,7 @@ Before you begin, ensure you have met the following requirements:
       curl -LOJ https://raw.githubusercontent.com/qlik-oss/qliksense-k8s/master/manifests/gke-demo/createGKEClusterRC.sh
       curl -LOJ https://github.com/qlik-oss/sense-installer/releases/latest/download/qliksense-linux-amd64
       sudo mv qliksense-linux-amd64 kubectl /usr/local/bin
-      sudo chmod ugo+x createGKECluster.sh createGKEClusterRC.sh /usr/local/bin/qliksense /usr/local/bin/kubectl
+      sudo chmod ugo+x createGKECluster.sh createGKEClusterRC.sh /usr/local/bin/qliksense-linux-amd64 /usr/local/bin/kubectl
       sudo ln -s /usr/local/bin/qliksense-linux-amd64 /usr/local/bin/qliksense
       sudo ln -s /usr/local/bin/qliksense-linux-amd64 /usr/local/bin/kubectl-qliksense
       ```
@@ -33,7 +33,7 @@ Before you begin, ensure you have met the following requirements:
       curl -LOJ https://raw.githubusercontent.com/qlik-oss/qliksense-k8s/master/manifests/gke-demo/createGKEClusterRC.sh
       curl -LOJ https://github.com/qlik-oss/sense-installer/releases/latest/download/qliksense-darwin-amd64
       sudo mv qliksense-darwin-amd64 kubectl /usr/local/bin
-      sudo chmod ugo+x createGKECluster.sh createGKEClusterRC.sh /usr/local/bin/qliksense /usr/local/bin/kubectl
+      sudo chmod ugo+x createGKECluster.sh createGKEClusterRC.sh /usr/local/bin/qliksense-darwin-amd64 /usr/local/bin/kubectl
       sudo ln -s /usr/local/bin/qliksense-darwin-amd64 /usr/local/bin/qliksense
       sudo ln -s /usr/local/bin/qliksense-darwin-amd64 /usr/local/bin/kubectl-qliksense
       ```
