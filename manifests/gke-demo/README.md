@@ -11,7 +11,7 @@ It uses [Keycloak](https://www.keycloak.org/) as an IDP, [Google Filestore](http
 Before you begin, ensure you have met the following requirements:
 1. You have a `Windows/Linux/Mac` machine.
 2. You have a Google account with the ability to create clusters, Static IPs, DNS entries and issue Google Managed Certificate requests for Google compute engine (GCE) load balancer
-3. (Google Cloud SDK)[https://cloud.google.com/sdk/install] installed, authenticated and set to the desired project in GCP
+3. [Google Cloud SDK](https://cloud.google.com/sdk/install) installed, authenticated and set to the desired project in GCP
 4. [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) version that supports plugins well(ie. >= 1.16.8, see scripts below)
 5. You have installed the latest version of the Qlik Sense operator found [here](https://github.com/qlik-oss/sense-installer)
   - Convenience script for Linux & Mac OS bash & Windows pwsh:
