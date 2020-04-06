@@ -22,7 +22,7 @@ Before you begin, ensure you have met the following requirements:
       curl -LOJ https://raw.githubusercontent.com/qlik-oss/qliksense-k8s/master/manifests/gke-demo/createGKEClusterCR.sh
       curl -LOJ https://github.com/qlik-oss/sense-installer/releases/latest/download/qliksense-linux-amd64
       sudo mv qliksense-linux-amd64 kubectl /usr/local/bin
-      sudo chmod ugo+x createGKECluster.sh createGKEClusterRC.sh /usr/local/bin/qliksense-linux-amd64 /usr/local/bin/kubectl
+      sudo chmod ugo+x createGKECluster.sh createGKEClusterCR.sh /usr/local/bin/qliksense-linux-amd64 /usr/local/bin/kubectl
       sudo ln -s /usr/local/bin/qliksense-linux-amd64 /usr/local/bin/qliksense
       sudo ln -s /usr/local/bin/qliksense-linux-amd64 /usr/local/bin/kubectl-qliksense
       ```
@@ -33,7 +33,7 @@ Before you begin, ensure you have met the following requirements:
       curl -LOJ https://raw.githubusercontent.com/qlik-oss/qliksense-k8s/master/manifests/gke-demo/createGKEClusterCR.sh
       curl -LOJ https://github.com/qlik-oss/sense-installer/releases/latest/download/qliksense-darwin-amd64
       sudo mv qliksense-darwin-amd64 kubectl /usr/local/bin
-      sudo chmod ugo+x createGKECluster.sh createGKEClusterRC.sh /usr/local/bin/qliksense-darwin-amd64 /usr/local/bin/kubectl
+      sudo chmod ugo+x createGKECluster.sh createGKEClusterCR.sh /usr/local/bin/qliksense-darwin-amd64 /usr/local/bin/kubectl
       sudo ln -s /usr/local/bin/qliksense-darwin-amd64 /usr/local/bin/qliksense
       sudo ln -s /usr/local/bin/qliksense-darwin-amd64 /usr/local/bin/kubectl-qliksense
       ```
@@ -68,7 +68,7 @@ The process will take about 15 minutes in total. Qlik Sense will be available at
 ### Declarative
 To install `gke-demo`:
 
-1. Run the `createGKECluster.sh/ps1` script. 
+1. Run the `createGKEClusterCR.sh/ps1` script. 
 2. Provide the parameters described in the [Prerequisite](#prerequisites-and-installation) section above.
 
 This should take 5-10 minutes.
