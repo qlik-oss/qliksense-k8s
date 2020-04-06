@@ -20,12 +20,14 @@ spec:
               - name: PRUNE_URL
                 value: $(PRECEDENTS_URI)/v1/graph/prune
               - $patch: delete
-                name: EDGE_AUTH_URI  
-              - name: EDGE_AUTH_URI
+                name: EDGE_AUTH_URI          
+              - name: TOKEN_AUTH_URI
                 valueFrom:
                   configMapKeyRef:
                     key: tokenAuthUri
                     name: precedents-configs
+              - name: EDGE_AUTH_URI
+                value: $(TOKEN_AUTH_URI)
               - $patch: delete
                 name: KEY_IDENTIFIER
               - name: TOKEN_AUTH_PRIVATE_KEY_ID

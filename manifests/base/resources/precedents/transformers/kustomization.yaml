@@ -18,7 +18,9 @@ patches:
         natsStreamingClusterId,
         keysUri,
         mongoDbUri,
-        spacesUri
+        spacesUri,
+        precedentsUri,
+        tokenAuthUri
       )
   patch: |-
     - op: replace
@@ -28,7 +30,7 @@ patches:
       path: /default
       value: true
 - target:
-    labelSelector: "key=tokenAuthUri,kind=Deployment"
+    labelSelector: "key=precedentsUri,kind=Deployment"
   patch: |-
     - op: replace
       path: /enabled
