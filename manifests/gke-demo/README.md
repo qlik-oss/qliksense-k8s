@@ -1,6 +1,6 @@
 # GKE Demo for QSEoK
 
-GKE Demo for QSEoK is an opinionated Qlik Sense on Kubernetes (QSEoK) Kubernetes manifest for Google Kubernetes Engine (GKE). 
+GKE Demo for QSEoK is an opinionated Qlik Sense on Kubernetes (QSEoK) manifest for Google Kubernetes Engine (GKE). 
 
 It provides the components and minimal configuration for QSEoK to come up in a readily working state on Google Cloud Platform (GCP) through the use of the Qlik Sense operator.
 
