@@ -9,7 +9,7 @@ It uses [Keycloak](https://www.keycloak.org/) as an IDP, [Google Filestore](http
 ## Prerequisites and Installation
 
 Before you begin, ensure you have met the following requirements:
-1. You have a `<Windows/Linux/Mac>` machine.
+1. You have a `Windows/Linux/Mac` machine.
 2. You have a Google account with the ability to create clusters, Static IPs, DNS entries and issue Google Managed Certificate requests for Google compute engine (GCE) load balancer
 3. (Google Cloud SDK)[https://cloud.google.com/sdk/install] installed, authenticated and set to the desired project in GCP
 4. [Kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/) version that supports plugins well(ie. >= 1.16.8, see scripts below)
@@ -66,7 +66,7 @@ The `createGKECLuster.sh/ps1` script contains all the commands needed to bring u
 The process will take about 15 minutes in total. Qlik Sense will be available at `https://<choose hostname for qseok>.<domain name>/`
 
 ### Declarative
-To install <project_name>:
+To install `gke-demo`:
 
 1. Run the `createGKECluster.sh/ps1` script. 
 2. Provide the parameters described in the [Prerequisite](#prerequisites-and-installation) section above.
