@@ -19,7 +19,7 @@ Before you begin, ensure you have met the following requirements:
       ```shell
       curl -LOJ https://storage.googleapis.com/kubernetes-release/release/v1.16.8/bin/linux/amd64/kubectl
       curl -LOJ https://raw.githubusercontent.com/qlik-oss/qliksense-k8s/master/manifests/gke-demo/createGKECluster.sh
-      curl -LOJ https://raw.githubusercontent.com/qlik-oss/qliksense-k8s/master/manifests/gke-demo/createGKEClusterRC.sh
+      curl -LOJ https://raw.githubusercontent.com/qlik-oss/qliksense-k8s/master/manifests/gke-demo/createGKEClusterCR.sh
       curl -LOJ https://github.com/qlik-oss/sense-installer/releases/latest/download/qliksense-linux-amd64
       sudo mv qliksense-linux-amd64 kubectl /usr/local/bin
       sudo chmod ugo+x createGKECluster.sh createGKEClusterRC.sh /usr/local/bin/qliksense-linux-amd64 /usr/local/bin/kubectl
@@ -30,7 +30,7 @@ Before you begin, ensure you have met the following requirements:
       ```shell
       curl -LOJ https://storage.googleapis.com/kubernetes-release/release/v1.16.8/bin/darwin/amd64/kubectl
       curl -LOJ https://raw.githubusercontent.com/qlik-oss/qliksense-k8s/master/manifests/gke-demo/createGKECluster.sh
-      curl -LOJ https://raw.githubusercontent.com/qlik-oss/qliksense-k8s/master/manifests/gke-demo/createGKEClusterRC.sh
+      curl -LOJ https://raw.githubusercontent.com/qlik-oss/qliksense-k8s/master/manifests/gke-demo/createGKEClusterCR.sh
       curl -LOJ https://github.com/qlik-oss/sense-installer/releases/latest/download/qliksense-darwin-amd64
       sudo mv qliksense-darwin-amd64 kubectl /usr/local/bin
       sudo chmod ugo+x createGKECluster.sh createGKEClusterRC.sh /usr/local/bin/qliksense-darwin-amd64 /usr/local/bin/kubectl
@@ -43,7 +43,7 @@ Before you begin, ensure you have met the following requirements:
       Invoke-WebRequest https://github.com/qlik-oss/sense-installer/releases/latest/download/qliksense-windows-amd64.exe -O C:\bin\qliksense.exe
       Copy-Item C:\bin\qliksense.exe C:\bin\kubectl-qliksense.exe
       Invoke-WebRequest https://raw.githubusercontent.com/qlik-oss/qliksense-k8s/master/manifests/gke-demo/createGKECluster.ps1 -O C:\bin\createGKECluster.ps1
-      Invoke-WebRequest https://raw.githubusercontent.com/qlik-oss/qliksense-k8s/master/manifests/gke-demo/createGKECluster.ps1 -O C:\bin\createGKEClusterRC.ps1
+      Invoke-WebRequest https://raw.githubusercontent.com/qlik-oss/qliksense-k8s/master/manifests/gke-demo/createGKEClusterCR.ps1 -O C:\bin\createGKEClusterCR.ps1
       ```
 6. The following information:
    * A version of this repo (v0.0.8 tested to work)
