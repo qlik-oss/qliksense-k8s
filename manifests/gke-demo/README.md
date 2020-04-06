@@ -125,27 +125,32 @@ spec:
 
 3. Take the file and load it into the operator:  
   ```shell
-  qliksense load -f qliksense-dev.yaml
+  kubectl qliksense load -f qliksense-dev.yaml
   ```
 4. Fetch a version of Qlik Sense On Kubernetes
   ```shell
-  qliksense fetch v0.0.8
+  kkubectl qliksense fetch v0.0.8
   ```
 5. Install the CRDs (accepting the EULA terms). CRDs need to be installed outside of the main manifest because of timing issues.
   ```shell
-  qliksense crds install --all
+  kubectl qliksense crds install --all
   ```
 6. Further, Certificate Manager Controller has a timing issue that prevents it being installed together with an Issuer resource (in the same manifest), so it has to be installed before the manifest which contains it. The qliksense operator allows for partial manifest fragment installation updates of a release. We need to set the global manifest (`gke-demo`) to be specific to  `cert-manager` and install:
   ```shell
-  qliksense config set profile=qke-demo/manifests/cert-manager
-  qliksense install
+  kubectl qliksense config set profile=qke-demo/manifests/cert-manager
+  kubectl qliksense install
   ```
 7. Now we can proceed with installing the main `gke-demo` profile by setting it back and installing.
   ```shell
-  qliksense config set profile=qke-demo
-  qliksense install
+  kubectl qliksense config set profile=qke-demo
+  kubectl qliksense install
   ```
-  
-This should take an additional 5-10 minutes. Once complete Qlik Sense will be available at h`ttps://<choose hostname for qseok>.<domain name>/`
+8. Check to see that the pods are coming up and the Qliksense application installed, that represents the configuration applied
+  ```shell
+  kubectl get pods
+  kubectl get qliksense
+  ```
+This should take an additional 5-10 minutes. You may see a partial "up" state. It takes some time for the GCE load balancer fronting keycloak to obtain an SSL certificate. In the meantime, it's normal to see qliksense erroring on an IDP misconfiguration and the keycloak login page returning a bad certificate error (cipher mismatch).
+Once complete Qlik Sense will be available at h`ttps://<choose hostname for qseok>.<domain name>/`
 
   
