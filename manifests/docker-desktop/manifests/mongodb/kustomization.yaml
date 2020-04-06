@@ -15,6 +15,13 @@ vars:
       name: mongodb-configs 
     fieldref:
       fieldpath: metadata.labels.release
+  - name: IMAGE_REGISTRY
+    objref:
+      apiVersion: v1
+      kind: ConfigMap
+      name: mongodb-configs
+    fieldref:
+      fieldpath: data.imageRegistry
 configurations:
   - ../../../base/varreference.yaml
 resources:
