@@ -1,0 +1,14 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: issuer-qlik-domain
+target:
+  kind: Issuer
+path: /
+search: \$\(INGRESS_CLASS\)
+replaceWithObjRef:
+  objref:
+    apiVersion: v1
+    kind: ConfigMap
+  fieldref:
+    fieldpath: data.ingressClass

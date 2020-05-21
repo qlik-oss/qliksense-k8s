@@ -1,0 +1,14 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: certificate-qlik-domain
+target:
+  kind: Certificate
+path: /
+search: \$\(QLIKSENSE_FQDN\)
+replaceWithObjRef:
+  objref:
+    apiVersion: v1
+    kind: ConfigMap
+  fieldref:
+    fieldpath: data.qlikSenseFQDN
