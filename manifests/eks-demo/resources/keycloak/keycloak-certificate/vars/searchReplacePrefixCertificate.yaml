@@ -1,0 +1,14 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: certificate
+target:
+  kind: Certificate
+path: /
+search: \$\(PREFIX\)
+replaceWithObjRef:
+  objref:
+    apiVersion: cert-manager.io/v1alpha3
+    kind: Certificate
+  fieldref:
+    fieldpath: metadata.labels.release

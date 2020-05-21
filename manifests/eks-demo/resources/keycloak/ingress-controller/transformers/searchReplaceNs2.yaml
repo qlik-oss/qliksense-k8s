@@ -1,0 +1,10 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: ns2
+target:
+  kind: Deployment
+  name: ingress-nginx-controller
+path: /
+search: configmap=ingress-nginx
+replace: configmap=keycloak

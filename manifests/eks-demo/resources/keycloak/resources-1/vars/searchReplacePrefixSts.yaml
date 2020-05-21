@@ -1,0 +1,14 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: sts-prefix
+target:
+  kind: StatefulSet
+path: /
+search: \$\(PREFIX\)
+replaceWithObjRef:
+  objref:
+    apiVersion: apps/v1
+    kind: StatefulSet
+  fieldref:
+    fieldpath: metadata.labels.release

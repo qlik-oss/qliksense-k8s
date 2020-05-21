@@ -1,0 +1,9 @@
+resources:
+- searchReplaceClass.yaml
+- searchReplaceNameSpace.yaml
+- searchReplaceCreateNamespace.yaml
+- searchReplaceNs1.yaml
+- searchReplaceNs2.yaml
+- searchReplaceNs3.yaml
+- searchReplaceNs4.yaml
+- searchReplaceRole.yaml

@@ -1,0 +1,11 @@
+apiVersion: cert-manager.io/v1alpha3
+kind: Certificate
+metadata:
+  name: certificate
+spec:
+  secretName: $(PREFIX)-tls
+  issuerRef:
+    name: $(PREFIX)-issuer
+  commonName: $(IDP_FQDN)
+  dnsNames:
+  - $(IDP_FQDN)

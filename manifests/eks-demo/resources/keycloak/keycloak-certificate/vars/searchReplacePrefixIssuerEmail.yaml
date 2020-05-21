@@ -1,0 +1,14 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: issuer-email
+target:
+  kind: Issuer
+path: /
+search: \$\(ADMIN_EMAIL_ADDRESS\)
+replaceWithObjRef:
+  objref:
+    apiVersion: qlik.com/v1
+    kind: ConfigMap
+  fieldref:
+    fieldpath: data.adminEmailAddress

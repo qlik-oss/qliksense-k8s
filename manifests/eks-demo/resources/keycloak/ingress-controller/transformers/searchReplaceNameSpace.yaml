@@ -1,0 +1,9 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: keycloak-ingress-name
+target:
+  labelSelector: app=keycloak
+path: metadata/namespace
+search: ingress-nginx
+replace: keycloak

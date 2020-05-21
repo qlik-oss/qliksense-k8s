@@ -1,0 +1,10 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: keycloak-ingress-deploy
+target:
+  kind: Deployment
+  labelSelector: app=keycloak-ingress
+path: /
+search: ingress-class=nginx
+replace: ingress-class=keycloak-nginx

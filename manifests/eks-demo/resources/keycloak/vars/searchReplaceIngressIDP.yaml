@@ -1,0 +1,14 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: idp-fqdn
+target:
+  kind: Ingress
+path: /
+search: \$\(IDP_FQDN\)
+replaceWithObjRef:
+  objref:
+    apiVersion: v1
+    kind: ConfigMap
+  fieldref:
+    fieldpath: data.idpFQDN

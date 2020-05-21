@@ -1,0 +1,10 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+ name: keycloak
+target:
+ kind: StatefulSet
+ name: keycloak  
+path: spec/template/spec/initContainers/command
+search: keycloak-postgresql
+replace: $(PREFIX)-keycloak-postgresql

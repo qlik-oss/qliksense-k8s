@@ -1,0 +1,9 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: role
+target:
+  kind: Role
+path: /
+search: ingress-controller-leader-nginx
+replace: ingress-controller-leader-keycloak-nginx

@@ -1,0 +1,11 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: keycloak-nginx
+  name: qliksense-keycloak
+spec:
+  tls:
+  - hosts:
+      - $(IDP_FQDN)
+    secretName: keycloak-tls

@@ -1,0 +1,19 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: keycloak-configs
+enabled: true
+patches:
+  - target:
+      kind: SuperConfigMap
+      #name: keycloak-configs
+    patch: |-
+      apiVersion: qlik.com/v1
+      kind: SuperConfigMap
+      metadata:
+        name: keycloak-configs
+      data:
+        realmName: QSEoK
+        qlikSenseFQDN: qliksense.devqseok.tk
+        idpFQDN: keycloak.devqseok.tk
+        adminEmailAddress: admin@qseok.tk

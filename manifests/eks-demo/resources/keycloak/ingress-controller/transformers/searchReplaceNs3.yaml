@@ -1,0 +1,9 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: ns3
+target:
+  kind: Job
+path: /
+search: namespace=ingress-nginx
+replace: namespace=keycloak
