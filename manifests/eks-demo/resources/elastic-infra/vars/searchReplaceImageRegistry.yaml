@@ -1,0 +1,14 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: all-img-reg
+target:
+  labelSelector: app=elastic-infra
+path: /
+search: \$\(IMAGE_REGISTRY\)
+replaceWithObjRef:
+  objref:
+    apiVersion: v1
+    kind: ConfigMap
+  fieldref:
+    fieldpath: data.imageRegistry

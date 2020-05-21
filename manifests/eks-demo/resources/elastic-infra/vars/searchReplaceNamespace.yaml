@@ -1,0 +1,14 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: all-ns
+target:
+  labelSelector: app=elastic-infra
+path: /
+search: \$\(NAMESPACE\)
+replaceWithObjRef:
+  objref:
+    apiVersion: v1
+    kind: ConfigMap
+  fieldref:
+    fieldpath: metadata.namespace

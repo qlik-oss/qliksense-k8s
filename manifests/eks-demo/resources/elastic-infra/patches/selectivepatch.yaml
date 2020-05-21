@@ -1,0 +1,13 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: elastic-infra-gke
+enabled: true
+patches:
+- target:
+    kind: Service
+    name: elastic-infra-nginx-ingress-controller
+  patch: |-
+    - op: add
+      path: /spec/loadBalancerIP
+      value: $(QLIKSENSE_IP)

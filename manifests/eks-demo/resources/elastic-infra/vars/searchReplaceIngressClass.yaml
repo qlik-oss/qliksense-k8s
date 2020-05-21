@@ -1,0 +1,14 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: all-ing-cls
+target:
+  labelSelector: app=elastic-infra
+path: /
+search: \$\(INGRESS_CLASS\)
+replaceWithObjRef:
+  objref:
+    apiVersion: v1
+    kind: ConfigMap
+  fieldref:
+    fieldpath: data.ingressClass

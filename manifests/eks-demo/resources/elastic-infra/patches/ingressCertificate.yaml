@@ -1,0 +1,10 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: ingress-certificate
+target:
+  kind: Deployment
+  name: elastic-infra-nginx-ingress-controller
+path: spec/template/spec/containers/args
+search: elastic-infra-elastic-infra-tls-secret
+replace: tls

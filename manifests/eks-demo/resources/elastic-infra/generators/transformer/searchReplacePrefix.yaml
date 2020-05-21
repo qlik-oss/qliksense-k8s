@@ -1,0 +1,14 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: prefix
+target:
+  kind: SuperSecret
+path: /
+search: \$\(PREFIX\)
+replaceWithObjRef:
+  objref:
+    apiVersion: qlik.com/v1
+    kind: SuperSecret
+  fieldref:
+    fieldpath: metadata.labels.release
