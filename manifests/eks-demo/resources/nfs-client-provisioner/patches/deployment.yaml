@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-client-provisioner
+spec:
+  template:
+    spec:
+      containers:
+      - name: main
+        env:
+        - $patch: delete
+          name: NFS_SERVER
+        - $patch: delete
+          name: NFS_PATH
+        - name: NFS_SERVER
+          valueFrom:
+            configMapKeyRef:
+              key: nfsServer
+              name:  nfs-client-provisioner-configs
+        - name: NFS_PATH
+          valueFrom:
+            configMapKeyRef:
+              key: nfsPath
+              name:  nfs-client-provisioner-configs
+        - name: PROVISIONER_NAME
+          value: cluster.local/$(PREFIX)-nfs-client-provisioner
+      volumes:
+        - name: nfs-client-root
+          nfs:
+            path: $(NFS_PATH)
+            server: $(NFS_SERVER)

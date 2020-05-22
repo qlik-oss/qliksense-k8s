@@ -1,0 +1,16 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: ns-idp
+target:
+  kind: ConfigMap
+  name: identity-providers-configs
+path: /
+search: \$\(NAMESPACE\)
+replaceWithObjRef:
+  objref:
+    apiVersion: v1
+    kind: ConfigMap
+    mame: identity-providers-configs
+  fieldref:
+    fieldpath: metadata.namespace

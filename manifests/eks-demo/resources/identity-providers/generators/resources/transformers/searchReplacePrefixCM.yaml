@@ -1,0 +1,14 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: prefix-cm
+target:
+  kind: SuperConfigMap
+path: /
+search: \$\(PREFIX\)
+replaceWithObjRef:
+  objref:
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+  fieldref:
+    fieldpath: metadata.labels.release

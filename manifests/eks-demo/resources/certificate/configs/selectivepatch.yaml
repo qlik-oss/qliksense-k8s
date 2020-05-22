@@ -12,6 +12,6 @@ patches:
     metadata:
       name: certificate-configs
     data:
-      qlikSenseFQDN: qseok.tk
+      qlikSenseFQDN: qliksense.devqseok.tk
       adminEmailAddress: admin@qseok.tk
       

@@ -1,0 +1,16 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: img-reg-idp
+target:
+  kind: Deployment
+  name: identity-providers
+path: /
+search: \$\(IMAGE_REGISTRY\)
+replaceWithObjRef:
+  objref:
+    apiVersion: v1
+    kind: ConfigMap
+    mame: identity-providers-configs
+  fieldref:
+    fieldpath: data.imageRegistry

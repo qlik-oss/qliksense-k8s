@@ -1,0 +1,170 @@
+apiVersion: v1
+data:
+  idpFQDN: keycloak.devqseok.tk
+  imageRegistry: qlik-docker-qsefe.bintray.io
+  ingressAuthUrl: http://qliksense-edge-auth.default.svc.cluster.local:8080/v1/auth
+  ingressClass: qlik-nginx
+  qlikSenseFQDN: devqseok.tk
+  realmName: QSEoK
+  storageClassName: ""
+kind: ConfigMap
+metadata:
+  labels:
+    app: identity-providers
+    release: qliksense
+  name: qliksense-identity-providers-configs-9ckt6tdc89
+  namespace: default
+---
+apiVersion: v1
+data:
+  clientSecret: eHh4eA==
+  idpConfigs: WwogIHsKICAgICJyZWFsbSI6ICJRU0VvSyIsCiAgICAiY2xhaW1zTWFwcGluZyI6IHsKICAgICAgIm5hbWUiOiBbCiAgICAgICAgIm5hbWUiLAogICAgICAgICJwcmVmZXJyZWRfdXNlcm5hbWUiCiAgICAgIF0sCiAgICAgICJzdWIiOiBbCiAgICAgICAgInByZWZlcnJlZF91c2VybmFtZSIKICAgICAgXSwKICAgICAgImdyb3VwcyI6IFsKICAgICAgICAiZ3JvdXBzIgogICAgICBdCiAgICB9LAogICAgImNsaWVudElkIjogImVkZ2UtYXV0aCIsCiAgICAiY2xpZW50U2VjcmV0IjogInh4eHgiLAogICAgImhvc3RuYW1lIjogImRldnFzZW9rLnRrIiwKICAgICJkaXNjb3ZlcnlVcmwiOiAiaHR0cHM6Ly9rZXljbG9hay5kZXZxc2Vvay50ay9hdXRoL3JlYWxtcy9RU0VvSy8ud2VsbC1rbm93bi9vcGVuaWQtY29uZmlndXJhdGlvbiIsCiAgICAicG9zdExvZ291dFJlZGlyZWN0VXJpIjogImh0dHBzOi8vZGV2cXNlb2sudGsvIgogIH0KXSA=
+  something: ZWxzZQ==
+  tokenAuthPrivateKey: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1JR2tBZ0VCQkREd0JwbG1oamMxLzU0Nk8vcWxRVGlTNHBQM0lRTVdKSXF1QzVueUR0anVsa0tRN3FLYzJuZ0cKa2lDYXZLQTNmTkdnQndZRks0RUVBQ0toWkFOaUFBUngwNkIxR3lRdmpKQnh4NldTZGs4Z0xPeU9tTjZRR0pSOApITUViaHhFZERleWx3T24relRuSUdTS0lmaDdYTFowRjZzMnZGR3JGZ1NpMGNvMTNNTjJMNnB5Y0RXTWxRdDA5ClAyZFlYbkROYXhqQjRCaEw2VnU2cGJPTUx1NXB2dnc9Ci0tLS0tRU5EIEVDIFBSSVZBVEUgS0VZLS0tLS0K
+  tokenAuthPrivateKeyId: SllKNFNvUFlQTjhKV1FSN1VCdUUyb3JyMXJaRUZTYzUzQVJDMGUxbGRWbw==
+kind: Secret
+metadata:
+  labels:
+    app: identity-providers
+    release: qliksense
+  name: qliksense-identity-providers-secrets-f2gkf99985
+  namespace: default
+stringData:
+  mongoDbUri: mongodb://qliksense-mongodb:27017/identity-providers
+type: Opaque
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    prometheus.io/port: "8080"
+    prometheus.io/scrape: "true"
+  labels:
+    app: identity-providers
+    chart: identity-providers-1.8.1
+    heritage: Helm
+    release: qliksense
+  name: qliksense-identity-providers
+  namespace: default
+spec:
+  ports:
+  - name: identity-providers
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: identity-providers
+    release: qliksense
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: identity-providers
+    chart: identity-providers-1.8.1
+    heritage: Helm
+    release: qliksense
+  name: qliksense-identity-providers
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: identity-providers
+      release: qliksense
+  template:
+    metadata:
+      labels:
+        app: identity-providers
+        release: qliksense
+    spec:
+      containers:
+      - env:
+        - name: KEYS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: keysUri
+              name: qliksense-configs-fc54c2tc7f
+        - name: JWKS_ENDPOINT
+          value: $(KEYS_URI)/keys/qlik.api.internal
+        - name: TOKEN_AUTH_PRIVATE_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              key: tokenAuthPrivateKeyId
+              name: qliksense-identity-providers-secrets-f2gkf99985
+        - name: KEY_ID
+          value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
+        - name: NATS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: natsUri
+              name: qliksense-configs-fc54c2tc7f
+        - name: NATS_URL
+          value: $(NATS_URI)
+        - name: NATS_STREAMING_CLUSTER_ID
+          valueFrom:
+            configMapKeyRef:
+              key: natsStreamingClusterId
+              name: qliksense-configs-fc54c2tc7f
+        - name: NATS_CLUSTER_ID
+          value: $(NATS_STREAMING_CLUSTER_ID)
+        - name: TOKEN_AUTH_URI
+          valueFrom:
+            configMapKeyRef:
+              key: tokenAuthUri
+              name: qliksense-configs-fc54c2tc7f
+        - name: INTERNAL_TOKENS_RESOURCE
+          value: $(TOKEN_AUTH_URI)/v1
+        - name: LOG_LEVEL
+          value: verbose
+        - name: IDP_CONFIGS_FILE
+          value: /run/secret/identity-providers/idpConfigs
+        - name: ENVIRONMENT
+          value: example
+        - name: REGION
+          value: example
+        - name: ROLLBAR_ENABLED
+          value: "false"
+        - name: PRIVATE_KEY_FILE
+          value: /run/secret/identity-providers/jwtPrivateKey
+        - name: NATS_ENABLED
+          value: "true"
+        - name: NATS_CLIENT_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        image: qlik-docker-qsefe.bintray.io/identity-providers:0.2.0
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+        name: main
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: http
+        volumeMounts:
+        - mountPath: /run/secret/identity-providers
+          name: identity-providers
+          readOnly: true
+      dnsConfig:
+        options:
+        - name: timeout
+          value: "1"
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+      volumes:
+      - name: identity-providers
+        secret:
+          items:
+          - key: tokenAuthPrivateKey
+            path: jwtPrivateKey
+          - key: idpConfigs
+            path: idpConfigs
+          secretName: qliksense-identity-providers-secrets-f2gkf99985

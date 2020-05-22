@@ -1,0 +1,46 @@
+keycloak:
+  # fullnameOverride: {{ tpl .Release.Name . }}-keycloak
+  persistence:
+    deployPostgres: true
+    dbVendor: "postgres"
+  extraInitContainers: |
+    - name: theme-provider
+      image: bkuschel/qlik-keycloak-theme:5.1.0
+      imagePullPolicy: IfNotPresent
+      command:
+        - sh
+      args:
+        - -c
+        - |
+          echo "Copying theme..."
+          cp -R /qliktheme/* /theme
+      volumeMounts:
+        - name: theme
+          mountPath: /theme
+  extraVolumes: |
+    - name: realm
+      secret:
+          secretName: keycloak-realm
+    - name: theme
+      emptyDir: {}
+  extraVolumeMounts: |
+    - name: realm
+      mountPath: "/realm/"
+      readOnly: true
+    - name: theme
+      mountPath: /opt/jboss/keycloak/themes/qliktheme
+  extraArgs: -Dkeycloak.import=/realm/realm.json
+  existingSecret: keycloak-secrets
+  ingress:
+    enabled: true
+    path: /*
+    hosts:
+    - $(IDP_HOST_NAME)
+  service:
+    type: NodePort
+postgresql:
+  existingSecret: keycloak-secrets
+  persistence:
+    enabled: true
+test:
+  enabled: false
