@@ -20,7 +20,7 @@ patches:
         natsUri,
         keysUri,
         caCertificates,
-        mongoDbUri,
+        mongodbUri,
         collectionsUri
         )
   patch: |-

@@ -1,0 +1,131 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: qix-data-connection
+    chart: qix-data-connection-1.8.8
+    heritage: Helm
+    release: qix-data-connection
+  name: qix-data-connection
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qix-data-connection
+      release: qix-data-connection
+  template:
+    metadata:
+      labels:
+        app: qix-data-connection
+        release: qix-data-connection
+    spec:
+      containers:
+      - env:
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              key: mongodbUri
+              name: qix-data-connection-secrets
+        - name: KEYS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: keysUri
+              name: qix-data-connection-configs
+        - name: JWKS_ENDPOINT
+          value: $(KEYS_URI)/v1/keys/qlik.api.internal
+        - name: ENCRYPTION_URI
+          valueFrom:
+            configMapKeyRef:
+              key: encryptionUri
+              name: qix-data-connection-configs
+        - name: E2S_ADDR
+          value: $(ENCRYPTION_URI)
+        - name: SPACES_URI
+          valueFrom:
+            configMapKeyRef:
+              key: spacesUri
+              name: qix-data-connection-configs
+        - name: SPACE_URI
+          value: $(SPACES_URI)
+        - name: TOKEN_AUTH_URI
+          valueFrom:
+            configMapKeyRef:
+              key: tokenAuthUri
+              name: qix-data-connection-configs
+        - name: AUTH_URI
+          value: $(TOKEN_AUTH_URI)
+        - name: QIX_DATA_FILES_URI
+          valueFrom:
+            configMapKeyRef:
+              key: qixDataFilesUri
+              name: qix-data-connection-configs
+        - name: QIX_DATAFILES_URI
+          value: $(QIX_DATA_FILES_URI)
+        - name: TOKEN_AUTH_PRIVATE_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              key: tokenAuthPrivateKeyId
+              name: qix-data-connection-secrets
+        - name: KEY_ID
+          value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
+        - name: MONGO_URI
+          value: $(MONGODB_URI)
+        - name: MONGO_ENABLE_SSL_VALIDATE
+          value: "true"
+        - name: GET_USER_CONNECTIONS
+          value: "true"
+        - name: USER_ACCESS_CONTROL
+          value: "true"
+        - name: LOG_LEVEL
+          value: info
+        - name: ENABLE_JWT_AUTH
+          value: "true"
+        - name: ENABLE_CRYPTO
+          value: "true"
+        - name: ENABLE_DATAFILES
+          value: "true"
+        - name: ENABLE_GLOBAL_CONNECTIONS
+          value: "false"
+        - name: ENABLED_SPACE_CHECK
+          value: "true"
+        - name: ENABLE_SERVICEJWT
+          value: "true"
+        - name: PRIVATE_KEY
+          value: /mnt/key/jwtPrivateKey
+        - name: ENABLE_PROXY
+          value: "false"
+        - name: DATA_CONNECTIONS_URI
+          value: http://qix-data-connection-data-connections:9011
+        - name: FEATURE_FLAGS_URI
+          value: http://qix-data-connection-feature-flags:8080
+        - name: BYPASS_TOKEN
+          value: Qlik123456
+        image: qliktech-docker.jfrog.io/qix-data-connection:1.12.28
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 9011
+        name: main
+        ports:
+        - containerPort: 9011
+          name: http
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /mnt/key
+          name: qdc-storage
+          readOnly: true
+      dnsConfig:
+        options:
+        - name: timeout
+          value: "1"
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+      volumes:
+      - name: qdc-storage
+        secret:
+          items:
+          - key: tokenAuthPrivateKey
+            path: jwtPrivateKey
+          secretName: qix-data-connection-secrets
+---

@@ -12,6 +12,6 @@ patches:
     metadata:
       name: nl-parser-configs
     data:
-      dpsUri: "http://$(PREFIX)-nl-parser-data-prep.svc.cluster.local:9072"
+      dataPrepUri: "http://$(PREFIX)-nl-parser-data-prep.svc.cluster.local:9072"
 
 

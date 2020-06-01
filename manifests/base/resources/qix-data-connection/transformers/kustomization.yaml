@@ -18,7 +18,8 @@ patches:
         keysUri,
         encryptionUri,
         spacesUri, 
-        mongoDbUri,
+        mongodbUri,
+        caCertificates,
         tokenAuthPrivateKey,
         tokenAuthPrivateKeyId
       )

@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: management-console
+    chart: management-console-1.6.265
+    heritage: Helm
+    release: management-console
+  name: management-console
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: management-console
+      release: management-console
+  template:
+    metadata:
+      labels:
+        app: management-console
+        release: management-console
+    spec:
+      containers:
+      - env:
+        - name: PRODUCT_INFO
+          value: '{ "composition": { "deploymentEnvironment": "qsefe" } }'
+        image: qliktech-docker.jfrog.io/management-console:2.374.0
+        imagePullPolicy: null
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3024
+          initialDelaySeconds: 15
+          periodSeconds: 15
+        name: main
+        ports:
+        - containerPort: 3024
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 3024
+          initialDelaySeconds: 15
+          periodSeconds: 15
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+---

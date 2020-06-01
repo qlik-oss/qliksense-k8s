@@ -1,0 +1,23 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: data-connections-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: data-connections-configs
+    data:
+      keysUri: "http://$(PREFIX)-data-connections-keys:8080/v1/keys/qlik.api.internal"
+      natsStreamingClusterId: "$(PREFIX)-data-connections-nats-streaming-cluster"
+      natsUri: nats://$(PREFIX)-data-connections-nats-client:4222"
+      featureFlagsUri: "http://$(PREFIX)-data-connections-feature-flags:8080"
+      keysUri: "http://$(PREFIX)-data-connections-keys:8080/v1/keys/qlik.api.internal"
+      tokenAuthUri: "http://$(PREFIX)-data-connections-edge-auth:8080/v1"
+      encryptionUri: "http://$(PREFIX)-data-connections-encryption:8080"
+      qixDataFilesUri: "http://$(PREFIX)-data-connections-qix-datafiles:8080"
+      spacesUri: "http://$(PREFIX)-data-connections-spaces:6080"

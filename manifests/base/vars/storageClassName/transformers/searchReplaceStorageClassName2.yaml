@@ -1,0 +1,14 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: component-storageClass-replace2
+target:
+  kind: SearchReplace
+path: replace
+search: ACTUAL_VALUE_OF_SC
+replaceWithObjRef:
+  objref:
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+  fieldref:
+    fieldpath: data.storageClassName

@@ -17,7 +17,11 @@ patches:
         ingressAuthUrl,
         keysUri,
         natsUri,
-        natsStreamingClusterId
+        natsStreamingClusterId,
+        subscriptionsUri,
+        usersUri,
+        spacesUri,
+        featureFlagsUri,
         )
   patch: |-
     - op: replace

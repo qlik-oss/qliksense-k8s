@@ -3,24 +3,7 @@ kind: Kustomization
 commonLabels:
   app: feature-flags
 resources:
-- ../../../../../generators/feature-flags
-#- ../../../secrets # feature-flags does not have any secret yet
-- ../../../configs
+- configs
 transformers:
-#- ../secrets
 - ../configs
-- values.yaml
-patches:
-# - target:
-#     kind: SuperSecret
-#   patch: |-
-#     - op: replace
-#       path: /metadata/name
-#       value: feature-flags-secrets
-- target:
-    kind: SuperConfigMap
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: feature-flags-configs
 

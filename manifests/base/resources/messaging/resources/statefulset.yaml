@@ -1,0 +1,300 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: nats
+    chart: nats-2.4.1
+    heritage: Helm
+    release: messaging
+  name: messaging-nats
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nats
+      release: messaging
+  serviceName: messaging-nats-headless
+  template:
+    metadata:
+      annotations:
+        checksum/secrets: 55b61bb788a63c3bb18e2e2dcc1224e9a52e33b76c2e241c68ebe0b997565af9
+        prometheus.io/port: "7777"
+        prometheus.io/scrape: "false"
+      labels:
+        app: nats
+        chart: nats-2.4.1
+        release: messaging
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app: nats
+                  release: messaging
+              topologyKey: kubernetes.io/hostname
+            weight: 1
+      containers:
+      - args:
+        - -c
+        - /opt/bitnami/nats/gnatsd.conf
+        - --jwt_users_file=/opt/bitnami/nats/users.json
+        - --jwt_auth_url=$(KEYS_URI)/v1/keys/qlik.api.internal
+        command:
+        - qnatsd
+        env:
+        - name: KEYS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: keysUri
+              name: messaging-configs
+        image: qliktech-docker.jfrog.io/qnatsd:0.3.2
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 6
+          httpGet:
+            path: /
+            port: monitoring
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        name: main
+        ports:
+        - containerPort: 4222
+          name: client
+        - containerPort: 6222
+          name: cluster
+        - containerPort: 8222
+          name: monitoring
+        readinessProbe:
+          failureThreshold: 6
+          httpGet:
+            path: /
+            port: monitoring
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        resources: {}
+        volumeMounts:
+        - mountPath: /opt/bitnami/nats
+          name: config
+      - args:
+        - -connz
+        - -routez
+        - -subz
+        - -varz
+        - http://localhost:8222
+        image: qliktech-docker.jfrog.io/prometheus-nats-exporter:0.3.0
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /metrics
+            port: metrics
+          initialDelaySeconds: 15
+          timeoutSeconds: 5
+        name: metrics
+        ports:
+        - containerPort: 7777
+          name: metrics
+        readinessProbe:
+          httpGet:
+            path: /metrics
+            port: metrics
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+        resources: null
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+      volumes:
+      - configMap:
+          name: messaging-nats
+        name: config
+  updateStrategy:
+    type: RollingUpdate
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: nats-streaming
+    chart: nats-streaming-0.4.0
+    heritage: Helm
+    release: messaging
+  name: messaging-nats-streaming
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nats-streaming
+      release: messaging
+  serviceName: ""
+  template:
+    metadata:
+      annotations:
+        prometheus.io/port: "7777"
+        prometheus.io/scrape: "false"
+      labels:
+        app: nats-streaming
+        chart: nats-streaming-0.4.0
+        release: messaging
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app: nats-streaming
+                  release: messaging
+              topologyKey: kubernetes.io/hostname
+            weight: 1
+      containers:
+      - args:
+        - -cid
+        - $(NATS_STREAMING_CLUSTER_ID)
+        - -m
+        - "8222"
+        - -ns
+        - $(NATS_URI)
+        - -mc
+        - "100"
+        - -msu
+        - "1000"
+        - -mm
+        - "1000000"
+        - -mb
+        - 900mb
+        - -ma
+        - 2h
+        - -hbi
+        - 10s
+        - -hbt
+        - 10s
+        - -hbf
+        - "5"
+        - -clustered
+        - --cluster_node_id
+        - $(POD_NAME)
+        - --cluster_peers
+        - $(PREFIX)-messaging-nats-streaming-0,$(PREFIX)-messaging-nats-streaming-1,$(PREFIX)-messaging-nats-streaming-2
+        - --cluster_log_path
+        - /nats/$(PREFIX)-messaging-nats-streaming-cluster/$(POD_NAME)/raft
+        - --store
+        - file
+        - --dir
+        - /nats/$(PREFIX)-messaging-nats-streaming-cluster/$(POD_NAME)/data
+        - --file_compact_enabled
+        - --file_compact_frag
+        - "50"
+        - --file_compact_interval
+        - "300"
+        - --file_compact_min_size
+        - "1048576"
+        - --file_buffer_size
+        - "2097152"
+        - --file_crc
+        - --file_crc_poly
+        - "3988292384"
+        - --file_sync
+        - --file_slice_max_msgs
+        - "0"
+        - --file_slice_max_bytes
+        - "67108931"
+        - --file_slice_max_age
+        - "0"
+        - --file_fds_limit
+        - "0"
+        - --file_parallel_recovery
+        - "1"
+        - --user
+        - $(USER)
+        - --pass
+        - $(PASSWORD)
+        - -SD
+        env:
+        - name: NATS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: natsUri
+              name: messaging-configs
+        - name: NATS_STREAMING_CLUSTER_ID
+          valueFrom:
+            configMapKeyRef:
+              key: natsStreamingClusterId
+              name: messaging-configs
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: USER
+          valueFrom:
+            secretKeyRef:
+              key: client-user
+              name: messaging-nats-secret
+        - name: PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: client-password
+              name: messaging-nats-secret
+        image: qliktech-docker.jfrog.io/nats-streaming:0.14.2
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 6
+          httpGet:
+            path: /
+            port: monitoring
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        name: main
+        ports:
+        - containerPort: 8222
+          name: monitoring
+        readinessProbe:
+          failureThreshold: 6
+          httpGet:
+            path: /
+            port: monitoring
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 5
+        resources: {}
+        volumeMounts:
+        - mountPath: /nats
+          name: datadir
+      - args:
+        - -channelz
+        - -serverz
+        - http://localhost:8222
+        image: qliktech-docker.jfrog.io/prometheus-nats-exporter:0.3.0
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /metrics
+            port: metrics
+          initialDelaySeconds: 15
+          timeoutSeconds: 5
+        name: metrics
+        ports:
+        - containerPort: 7777
+          name: metrics
+        readinessProbe:
+          httpGet:
+            path: /metrics
+            port: metrics
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+        resources: null
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+      volumes:
+      - emptyDir: {}
+        name: datadir
+  updateStrategy:
+    type: RollingUpdate
+---

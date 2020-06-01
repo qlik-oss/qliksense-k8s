@@ -64,7 +64,7 @@ $measure = Measure-Command {
 kubectl qliksense config set-context $QLIKSENSE_HOST 
 kubectl qliksense config set storageClassName=$QLIKSENSE_HOST-nfs-client
 kubectl qliksense config set-configs qliksense.acceptEULA="yes"
-kubectl qliksense config set-secrets qliksense.mongoDbUri="mongodb://$QLIKSENSE_HOST-mongodb:27017/qsefe?ssl=false"
+kubectl qliksense config set-secrets qliksense.mongodbUri="mongodb://$QLIKSENSE_HOST-mongodb:27017/qsefe?ssl=false"
 
 #GKE Demo profile
 kubectl qliksense config set-configs elastic-infra.qlikSenseIp=$QLIKSENSE_IP

@@ -2,14 +2,17 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - audit
-  - qliksense
+  - api-keys
   - chronos
   - chronos-worker
   - collections
+  - data-connections
   - data-connector-qwc
   - data-connector-odbc
   - data-connector-rest
+  - data-connector-sap-sql
   - data-connector-sfdc
+  # - data-connector-nfs
   - data-prep
   - data-rest-source
   - dcaas
@@ -20,9 +23,9 @@ resources:
   - engine
   - eventing
   - feature-flags
-  - generic-links
   - geo-operations
   - groups
+  - generic-links
   - hub
   - identity-providers
   - insights
@@ -33,20 +36,27 @@ resources:
   - management-console
   - nl-broker
   - nl-parser
+  - notification-prep
   - odag
   - policy-decisions
   - precedents
   - qix-data-connection
   - qix-datafiles
   - qix-sessions
-  - qlikview-client
   - quotas
+  - qlikview-client
   - qix-data-reload
+  - qliksense
   - reload-tasks
   - reporting
   - resource-library
   - sense-client
   - spaces
+  - sharing
+  - subscriptions
   - temporary-contents
   - tenants
+  - transport
   - users
+  - web-security
+  - web-notifications

@@ -17,7 +17,7 @@ patches:
         ingressAuthUrl,
         natsStreamingClusterId,
         keysUri,
-        mongoDbUri,
+        mongodbUri,
         qixSessionsUri,
         engineUri,
         usersUri,
@@ -31,4 +31,3 @@ patches:
     - op: replace
       path: /default
       value: true
- 

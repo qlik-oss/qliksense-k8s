@@ -15,9 +15,10 @@ patches:
         ingressClass,
         ingressAuthUrl,
         keysUri,
-        mongoDbUri,
+        mongodbUri,
         qixDataReloadUri,
         chronosUri,
+        natsStreamingClusterId,
         caCertificates
         )
   patch: |-

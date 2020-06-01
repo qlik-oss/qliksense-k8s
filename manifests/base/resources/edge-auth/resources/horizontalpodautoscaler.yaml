@@ -1,0 +1,18 @@
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  labels:
+    app: edge-auth
+    chart: edge-auth-5.1.5
+    heritage: Helm
+    release: edge-auth
+  name: edge-auth
+  namespace: $(NAMESPACE)
+spec:
+  maxReplicas: 1
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: edge-auth
+---

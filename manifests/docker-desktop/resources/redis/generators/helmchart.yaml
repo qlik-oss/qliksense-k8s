@@ -1,0 +1,11 @@
+apiVersion: qlik.com/v1
+kind: HelmChart
+metadata:
+ name: redis
+chartName: redis
+tmpChartHome: .chartcache/redis-6.4.2
+chartRepo: https://kubernetes-charts.storage.googleapis.com
+chartRepoName: stable
+releaseName: redis
+releaseNamespace: default
+chartVersion: 6.4.2

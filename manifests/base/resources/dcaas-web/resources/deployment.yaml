@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dcaas-web
+    chart: dcaas-web-1.1.84
+    heritage: Helm
+    release: dcaas-web
+  name: dcaas-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dcaas-web
+      release: dcaas-web
+  template:
+    metadata:
+      labels:
+        app: dcaas-web
+        release: dcaas-web
+    spec:
+      containers:
+      - image: qliktech-docker.jfrog.io/dcaas-web:1.1.79
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 6384
+        name: main
+        ports:
+        - containerPort: 6384
+          name: http
+          protocol: TCP
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+---

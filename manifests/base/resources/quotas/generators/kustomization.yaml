@@ -3,24 +3,9 @@ kind: Kustomization
 commonLabels:
   app: quotas
 resources:
-- ../../../../../generators/quotas
-- ../../../secrets
-- ../../../configs
+- secrets
+- configs
 transformers:
 - ../secrets
 - ../configs
-- values.yaml
-patches:
-- target:
-    kind: SuperSecret
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: quotas-secrets
-- target:
-    kind: SuperConfigMap
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: quotas-configs
 

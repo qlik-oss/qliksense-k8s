@@ -1,8 +1,0 @@
-apiVersion: qlik.com/v1
-kind: HelmValues
-metadata:
-  name: chronos-worker
-releaseNamespace: $(NAMESPACE)
-values:
-  redis:
-    enabled: false

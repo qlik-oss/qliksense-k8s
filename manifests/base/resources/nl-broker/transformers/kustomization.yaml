@@ -12,9 +12,9 @@ patches:
 - target:
     labelSelector: >-
       key notin ( 
-        parserUri,
-        dpsUri,
-        mongoDbUri,
+        nlParserUri,
+        dataPrepUri,
+        mongodbUri,
         keysUri,
         ingressClass,
         caCertificates,

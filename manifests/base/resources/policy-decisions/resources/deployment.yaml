@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: policy-decisions
+    chart: policy-decisions-1.9.19
+    heritage: Helm
+    release: policy-decisions
+  name: policy-decisions
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: policy-decisions
+      release: policy-decisions
+  template:
+    metadata:
+      labels:
+        app: policy-decisions
+        release: policy-decisions
+    spec:
+      containers:
+      - env:
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              key: mongodbUri
+              name: policy-decisions-secrets
+        - name: MONGO_URI
+          value: $(MONGODB_URI)
+        - name: KEYS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: keysUri
+              name: policy-decisions-configs
+        - name: JWKS_ENDPOINT
+          value: $(KEYS_URI)/v1/keys/qlik.api.internal
+        - name: SPACES_URI
+          valueFrom:
+            configMapKeyRef:
+              key: spacesUri
+              name: policy-decisions-configs
+        - name: LICENSES_URI
+          valueFrom:
+            configMapKeyRef:
+              key: licensesUri
+              name: policy-decisions-configs
+        - name: GROUPS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: groupsUri
+              name: policy-decisions-configs
+        - name: SPACES__URL
+          value: $(SPACES_URI)/
+        - name: LICENSES__URL
+          value: $(LICENSES_URI)/
+        - name: GROUPS__URL
+          value: $(GROUPS_URI)/
+        - name: RULESENGINE__ENABLE
+          value: "true"
+        - name: AUTHORIZATION__ENABLE
+          value: "true"
+        - name: SWAGGER__ENABLE
+          value: "false"
+        - name: JWTAUTHENTICATION__ENABLE
+          value: "true"
+        - name: SPACES__ENABLED
+          value: "true"
+        - name: REDIS__ENABLED
+          value: "false"
+        - name: RULESFROMFILE__ENABLED
+          value: "false"
+        - name: GROUPS__ENABLED
+          value: "true"
+        image: qliktech-docker.jfrog.io/policy-decision-service:1.71.2
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5080
+        name: main
+        ports:
+        - containerPort: 5080
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 5080
+        volumeMounts: null
+      dnsConfig:
+        options:
+        - name: timeout
+          value: "1"
+        - name: single-request-reopen
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+---

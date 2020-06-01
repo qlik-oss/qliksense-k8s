@@ -11,6 +11,84 @@ patches:
       kind: SuperConfigMap
       metadata:
         name: keys-configs
-#      data:
-#        qlik.api.internal-XXX: |
-#          (( index (ds "data") "XXX" | base64.Decode ))
+      data:
+        qlik.api.internal-api-keys: |
+          (( index (ds "data") "api-keys" | base64.Decode ))
+        qlik.api.internal-audit: |
+          (( index (ds "data") "audit" | base64.Decode ))
+        qlik.api.internal-chronos-worker: |
+          (( index (ds "data") "chronos-worker" | base64.Decode ))
+        qlik.api.internal-collections: |
+          (( index (ds "data") "collections" | base64.Decode ))
+        qlik.api.internal-data-connections: |
+          (( index (ds "data") "data-connections" | base64.Decode ))
+        qlik.api.internal-edge-auth: |
+          (( index (ds "data") "edge-auth" | base64.Decode ))
+        qlik.api.internal-engine: |
+          (( index (ds "data") "engine" | base64.Decode ))
+        qlik.api.internal-eventing: |
+          (( index (ds "data") "eventing" | base64.Decode ))
+        qlik.api.internal-generic-links: |
+          (( index (ds "data") "generic-links" | base64.Decode ))
+        qlik.api.internal-geo-operations: |
+          (( index (ds "data") "geo-operations" | base64.Decode ))
+        qlik.api.internal-groups: |
+          (( index (ds "data") "groups" | base64.Decode ))
+        qlik.api.internal-identity-providers: |
+          (( index (ds "data") "identity-providers" | base64.Decode ))
+        qlik.api.internal-licenses: |
+          (( index (ds "data") "licenses" | base64.Decode ))
+        qlik.api.internal-notification-prep: |
+          (( index (ds "data") "notification-prep" | base64.Decode ))
+        qlik.api.internal-odag: |
+          (( index (ds "data") "odag" | base64.Decode ))
+        qlik.api.internal-precedents: |
+          (( index (ds "data") "precedents" | base64.Decode ))
+        qlik.api.internal-qix-data-connection: |
+          (( index (ds "data") "qix-data-connection" | base64.Decode ))
+        qlik.api.internal-qix-data-reload: |
+          (( index (ds "data") "qix-data-reload" | base64.Decode ))
+        qlik.api.internal-qix-datafiles: |
+          (( index (ds "data") "qix-datafiles" | base64.Decode ))
+        qlik.api.internal-qix-sessions: |
+          (( index (ds "data") "qix-sessions" | base64.Decode ))
+        qlik.api.internal-quotas: |
+          (( index (ds "data") "quotas" | base64.Decode ))
+        qlik.api.internal-reload-tasks: |
+          (( index (ds "data") "reload-tasks" | base64.Decode ))
+        qlik.api.internal-reporting: |
+          (( index (ds "data") "reporting" | base64.Decode ))
+        qlik.api.internal-resource-library: |
+          (( index (ds "data") "resource-library" | base64.Decode ))
+        qlik.api.internal-sharing: |
+          (( index (ds "data") "sharing" | base64.Decode ))
+        qlik.api.internal-spaces: |
+          (( index (ds "data") "spaces" | base64.Decode ))
+        qlik.api.internal-temporary-contents: |
+          (( index (ds "data") "temporary-contents" | base64.Decode ))
+        qlik.api.internal-tenants: |
+          (( index (ds "data") "tenants" | base64.Decode ))
+        qlik.api.internal-transport: |
+          (( index (ds "data") "transport" | base64.Decode ))
+        qlik.api.internal-users: |
+          (( index (ds "data") "users" | base64.Decode ))
+        qlik.api.internal-web-security: |
+          (( index (ds "data") "web-security" | base64.Decode ))
+        qlik.api.internal-data-engineering-exporter: |
+          (( index (ds "data") "data-engineering-exporter" | base64.Decode ))
+        qlik.api.internal-onboarding: |
+          (( index (ds "data") "onboarding" | base64.Decode ))
+        qlik.api.internal-nl-parser: |
+          (( index (ds "data") "nl-parser" | base64.Decode ))
+        qlik.api.internal-insights: |
+          (( index (ds "data") "insights" | base64.Decode ))
+        qlik.api.internal-invite: |
+          (( index (ds "data") "invite" | base64.Decode ))
+        qlik.api.internal-subscriptions: |
+          (( index (ds "data") "subscriptions" | base64.Decode ))
+        qlik.api.internal-web-notifications: |
+          (( index (ds "data") "web-notifications" | base64.Decode ))
+        qlik.api.internal-nl-app-search: |
+          (( index (ds "data") "nl-app-search" | base64.Decode ))
+        qlik.api.internal-user-info: |
+          (( index (ds "data") "user-info" | base64.Decode ))

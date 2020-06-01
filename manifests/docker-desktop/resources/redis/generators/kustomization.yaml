@@ -3,10 +3,11 @@ kind: Kustomization
 commonLabels:
   app: redis
 resources:
-- ../../../../../generators/redis
-- configs
-- secrets
+  - helmchart.yaml
+  - configs
+  - secrets
 transformers:
-- ../secrets
-- ../configs
-- values.yaml
+  - ../../../../../transformers
+  - ../secrets
+  - ../configs
+  - values.yaml

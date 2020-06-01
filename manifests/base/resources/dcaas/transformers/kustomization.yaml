@@ -32,7 +32,8 @@ patches:
         keysUri,
         spacesUri,
         caCertificates,
-        qixDataConnectionUri
+        qixDataConnectionUri,
+        dataConnectionsUri
         )
   patch: |-
     - op: replace

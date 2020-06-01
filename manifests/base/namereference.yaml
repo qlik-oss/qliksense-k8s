@@ -15,6 +15,8 @@ nameReference:
     kind: Engine
   - path: spec/podSpec/containers/env/valueFrom/secretKeyRef/name
     kind: Engine
+  - path: spec/template/spec/containers/env/value
+    kind: Deployment
 - kind: PersistentVolumeClaim
   version: v1
   fieldSpecs:

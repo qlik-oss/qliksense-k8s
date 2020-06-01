@@ -1,0 +1,118 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: collections
+    chart: collections-2.8.42
+    heritage: Helm
+    release: collections
+  name: collections
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: collections
+      release: collections
+  template:
+    metadata:
+      labels:
+        app: collections
+        chart: collections-2.8.42
+        heritage: Helm
+        release: collections
+    spec:
+      containers:
+      - env:
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              key: mongodbUri
+              name: collections-secrets
+        - name: MONGO_URI
+          value: $(MONGODB_URI)
+        - name: PDS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: pdsUri
+              name: collections-configs
+        - name: KEYS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: keysUri
+              name: collections-configs
+        - name: AUTH_JWKS_URI
+          value: $(KEYS_URI)/v1/keys/qlik.api.internal
+        - name: NATS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: natsUri
+              name: collections-configs
+        - name: NATS_ADDR
+          value: $(NATS_URI)
+        - name: NATS_STREAMING_CLUSTER_ID
+          valueFrom:
+            configMapKeyRef:
+              key: natsStreamingClusterId
+              name: collections-configs
+        - name: TERMINATION_GRACE_PERIOD_SECONDS
+          value: "30"
+        - name: ACCESS_CONTROL_ENABLED
+          value: "true"
+        - name: AUTH_ENABLED
+          value: "true"
+        - name: LEGACY_ROUTER_ENABLED
+          value: "false"
+        - name: AUTH_JWT_AUD
+          value: qlik.api.internal
+        - name: AUTH_JWT_ISS
+          value: qlik.api.internal
+        - name: ROLLBAR_ENABLED
+          value: "false"
+        - name: MESSAGING_ENABLED
+          value: "true"
+        - name: NATS_STREAMING_CHANNEL
+          value: system-events.engine.app
+        - name: TOKEN_AUTH_PRIVATE_KEY
+          valueFrom:
+            secretKeyRef:
+              key: tokenAuthPrivateKey
+              name: collections-secrets
+        - name: NATS_TOKEN_AUTH_PRIVATE_KEY
+          value: $(TOKEN_AUTH_PRIVATE_KEY)
+        - name: TOKEN_AUTH_PRIVATE_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              key: tokenAuthPrivateKeyId
+              name: collections-secrets
+        - name: NATS_TOKEN_AUTH_KID
+          value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
+        - name: TOKEN_AUTH_URI
+          valueFrom:
+            configMapKeyRef:
+              key: tokenAuthUri
+              name: collections-configs
+        - name: NATS_TOKEN_AUTH_URL
+          value: $(TOKEN_AUTH_URI)/v1/internal-tokens
+        - name: NATS_TOKEN_AUTH_ENABLED
+          value: "true"
+        - name: ACCESS_CONTROL_QUERY_TIMEOUT
+          value: "30"
+        - name: ACCESS_CONTROL_EVALUATE_TIMEOUT
+          value: "30"
+        image: qliktech-docker.jfrog.io/collections:1.5.6
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+        name: main
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+      terminationGracePeriodSeconds: 30
+---

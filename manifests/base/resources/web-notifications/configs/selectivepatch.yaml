@@ -1,0 +1,18 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: web-notifications-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: web-notifications-configs
+    data:
+      keysUri: "http://$(PREFIX)-web-notifications-keys:8080/v1"
+      tokenAuthUri: "http://$(PREFIX)-web-notifications-edge-auth:8080"
+      natsStreamingClusterId: "$(PREFIX)-web-notifications-messaging-nats-streaming-cluster"
+      natsUri: "nats://$(PREFIX)-web-notifications-messaging-nats-client:4222"

@@ -1,0 +1,16 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: component-ingressAuthUrl
+  labels:
+    key: ingressAuthUrl
+target:
+  kind: Ingress
+path: metadata/annotations/nginx.ingress.kubernetes.io\/auth-url
+search: \$\(INGRESS_AUTH_URL\)
+replaceWithObjRef:
+  objref:
+    apiVersion: v1
+    kind: ConfigMap
+  fieldref:
+    fieldpath: data.ingressAuthUrl

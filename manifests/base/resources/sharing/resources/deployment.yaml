@@ -1,0 +1,182 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: sharing
+    chart: sharing-1.3.32
+    heritage: Helm
+    release: sharing
+  name: sharing
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sharing
+      release: sharing
+  template:
+    metadata:
+      labels:
+        app: sharing
+        chart: sharing-1.3.32
+        heritage: Helm
+        release: sharing
+        sharing-nats-client: "true"
+    spec:
+      containers:
+      - args:
+        - server
+        - --environment=k8s
+        - --disableapi=false
+        - --listenport=8787
+        - --svc=$(PREFIX)-sharing
+        - --nojwtvalidation=false
+        - --jwksuri=$(KEYS_URI)/v1/keys/qlik.api.internal
+        - --jwtaud=qlik.api.internal
+        - --jwtiss=qlik.api.internal
+        env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: redisPassword
+              name: sharing-secrets
+        - name: REDIS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: redisUri
+              name: sharing-configs
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              key: mongodbUri
+              name: sharing-secrets
+        - name: KEYS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: keysUri
+              name: sharing-configs
+        - name: MONGO_URI
+          value: $(MONGODB_URI)
+        - name: NATS_STREAMING_CLUSTER_ID
+          valueFrom:
+            configMapKeyRef:
+              key: natsStreamingClusterId
+              name: sharing-configs
+        - name: MAX_RECIPIENTS
+          value: "25"
+        - name: MIN_RECIPIENTS
+          value: "0"
+        - name: LOG_LEVEL
+          value: debug
+        - name: NATS_CLUSTER_ID
+          value: $(NATS_STREAMING_CLUSTER_ID)
+        - name: NATS_ENABLED
+          value: "true"
+        - name: NATS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: natsUri
+              name: sharing-configs
+        - name: NATS_URL
+          value: $(NATS_URI)
+        - name: TOKEN_AUTH_PRIVATE_KEY
+          valueFrom:
+            secretKeyRef:
+              key: tokenAuthPrivateKey
+              name: sharing-secrets
+        - name: SELF_SIGNING_PRIVATE_KEY
+          value: $(TOKEN_AUTH_PRIVATE_KEY)
+        - name: TOKEN_AUTH_PRIVATE_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              key: tokenAuthPrivateKeyId
+              name: sharing-secrets
+        - name: KEY_IDENTIFIER
+          value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
+        - name: TOKEN_AUTH_URI
+          valueFrom:
+            configMapKeyRef:
+              key: tokenAuthUri
+              name: sharing-configs
+        - name: EDGE_AUTH_URL
+          value: $(TOKEN_AUTH_URI)/v1/internal-tokens
+        - name: FEATURE_FLAGS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: featureFlagsUri
+              name: sharing-configs
+        - name: FEATURE_FLAGS_URL
+          value: $(FEATURE_FLAGS_URI)
+        - name: REPORTING_URI
+          valueFrom:
+            configMapKeyRef:
+              key: reportingUri
+              name: sharing-configs
+        - name: REPORTING_URL
+          value: $(REPORTING_URI)
+        - name: PDS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: pdsUri
+              name: sharing-configs
+        - name: PDS_URL
+          value: $(PDS_URI)
+        - name: INSIGHTS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: insightsUri
+              name: sharing-configs
+        - name: INSIGHTS_URL
+          value: $(INSIGHTS_URI)
+        - name: TEMPORARY_CONTENTS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: temporaryContentsUri
+              name: sharing-configs
+        - name: TEMP_CONTENT_URL
+          value: $(TEMPORARY_CONTENTS_URI)
+        - name: ENCRYPTION_URI
+          valueFrom:
+            configMapKeyRef:
+              key: encryptionUri
+              name: sharing-configs
+        - name: ENCRYPTION_URL
+          value: $(ENCRYPTION_URI)
+        - name: STORAGE_PATH
+          value: /qlik/sharingsvc-storage
+        image: qliktech-docker.jfrog.io/sharing:3.0.52
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 10
+          httpGet:
+            path: /health
+            port: 8787
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        name: main
+        ports:
+        - containerPort: 8787
+        readinessProbe:
+          failureThreshold: 10
+          httpGet:
+            path: /ready
+            port: 8787
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        resources:
+          limits:
+            cpu: "0"
+            memory: "0"
+          requests:
+            cpu: "0"
+            memory: "0"
+        volumeMounts:
+        - mountPath: /qlik/sharingsvc-storage
+          name: sharing-files
+          readOnly: false
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+      volumes:
+      - name: sharing-files
+        persistentVolumeClaim:
+          claimName: sharing
+---

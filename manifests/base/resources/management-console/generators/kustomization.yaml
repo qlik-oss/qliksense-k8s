@@ -3,24 +3,9 @@ kind: Kustomization
 commonLabels:
   app: management-console
 resources:
-- ../../../../../generators/management-console
-#- ../../../secrets
-- ../../../configs
+- secrets
+- configs
 transformers:
-#- ../secrets
-#- ../configs
-- values.yaml
-patches:
-# - target:
-#     kind: SuperSecret
-#   patch: |-
-#     - op: replace
-#       path: /metadata/name
-#       value: management-console-secrets
-- target:
-    kind: SuperConfigMap
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: management-console-configs
+- ../secrets
+- ../configs
 

@@ -1,0 +1,26 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: sharing-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: sharing-configs
+    data:
+      redisUriWithPort: "$(PREFIX)-sharing-redis-master:6379"
+      keysUri: "http://$(PREFIX)-sharing-keys:8080/v1/keys/qlik.api.internal"
+      natsStreamingClusterId: "$(PREFIX)-sharing-nats-streaming-cluster"
+      natsUri: nats://$(PREFIX)-sharing-nats-client:4222"
+      reportingUri: "http://$(PREFIX)-sharing-reporting:8282"
+      insightsUri: "http://$(PREFIX)-sharing-insights:9292"
+      temporaryContentsUri: "http://$(PREFIX)-sharing-temporary-contents:6080"
+      pdsUri: "http://$(PREFIX)-sharing-policy-decisions:5080"
+      featureFlagsUri: "http://$(PREFIX)-sharing-feature-flags:8080"
+      keysUri: "http://$(PREFIX)-sharing-keys:8080/v1/keys/qlik.api.internal"
+      tokenAuthUri: "http://$(PREFIX)-sharing-edge-auth:8080/v1"
+  

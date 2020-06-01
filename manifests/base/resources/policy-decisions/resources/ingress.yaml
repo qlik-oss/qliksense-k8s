@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/auth-response-headers: Authorization
+    nginx.ingress.kubernetes.io/auth-url: http://policy-decisions-edge-auth.$(NAMESPACE).svc.cluster.local:8080/v1/auth
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite (?i)/api/v1/(.*) /v1/$1 break;
+  labels:
+    app: policy-decisions
+    chart: policy-decisions-1.9.19
+    heritage: Helm
+    release: policy-decisions
+  name: policy-decisions
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: policy-decisions
+          servicePort: 5080
+        path: /api/v1/rules
+      - backend:
+          serviceName: policy-decisions
+          servicePort: 5080
+        path: /api/v1/rulesets
+      - backend:
+          serviceName: policy-decisions
+          servicePort: 5080
+        path: /api/v1/policies
+---

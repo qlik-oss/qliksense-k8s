@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/auth-response-headers: Authorization
+    nginx.ingress.kubernetes.io/auth-url: http://subscriptions-edge-auth.$(NAMESPACE).svc.cluster.local:8080/v1/auth
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite (?i)/api/(.*) /$1 break;
+  labels:
+    app: subscriptions
+    chart: subscriptions-1.0.2
+    heritage: Helm
+    release: subscriptions
+  name: subscriptions
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: subscriptions
+          servicePort: 8080
+        path: /api/v1/subscriptions
+---

@@ -17,13 +17,16 @@ patches:
         featureFlagsUri,
         natsStreamingClusterId,
         natsUri,
-        keysUri,
-        mongoDbUri,
-        usersUri,
-        licensesUri,
-        tokenAuthUri,
+        keysUriTemp,
+        mongodbUri,
+        caCertificates,
+        usersUriTemp,
+        licensesUriTemp,
+        tokenAuthUriTemp,
         tokenAuthPrivateKey,
-        tokenAuthPrivateKeyId
+        tokenAuthPrivateKeyId,
+        natsUri,
+        natsStreamingClusterId
         )
   patch: |-
     - op: replace

@@ -1,0 +1,127 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: eventing
+    chart: eventing-1.3.1
+    heritage: Helm
+    release: eventing
+  name: eventing
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eventing
+      release: eventing
+  template:
+    metadata:
+      labels:
+        app: eventing
+        release: eventing
+    spec:
+      containers:
+      - env:
+        - name: KEYS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: keysUri
+              name: eventing-configs
+        - name: JWKS_ENDPOINT
+          value: $(KEYS_URI)/v1/keys/qlik.api.internal
+        - name: TOKEN_AUTH_PRIVATE_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              key: tokenAuthPrivateKeyId
+              name: eventing-secrets
+        - name: KEY_ID
+          value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
+        - name: TOKEN_AUTH_URI
+          valueFrom:
+            configMapKeyRef:
+              key: tokenAuthUri
+              name: eventing-configs
+        - name: INTERNAL_TOKENS_RESOURCE
+          value: $(TOKEN_AUTH_URI)/v1
+        - name: NATS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: natsUri
+              name: eventing-configs
+        - name: NATS_URL
+          value: $(NATS_URI)
+        - name: NATS_STREAMING_CLUSTER_ID
+          valueFrom:
+            configMapKeyRef:
+              key: natsStreamingClusterId
+              name: eventing-configs
+        - name: NATS_CLUSTER_ID
+          value: $(NATS_STREAMING_CLUSTER_ID)
+        - name: FEATURE_FLAGS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: featureFlagsUri
+              name: eventing-configs
+        - name: FEATURE_FLAGS_RESOURCE
+          value: $(FEATURE_FLAGS_URI)/v1
+        - name: SUBSCRIPTIONS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: subscriptionsUri
+              name: eventing-configs
+        - name: SUBSCRIPTIONS_RESOURCE
+          value: $(SUBSCRIPTIONS_URI)/v1
+        - name: USERS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: usersUri
+              name: eventing-configs
+        - name: USERS_RESOURCE
+          value: $(USERS_URI)/v1
+        - name: SPACES_URI
+          valueFrom:
+            configMapKeyRef:
+              key: spacesUri
+              name: eventing-configs
+        - name: SPACES_RESOURCE
+          value: $(SPACES_URI)/v1
+        - name: LOG_LEVEL
+          value: debug
+        - name: PRIVATE_KEY_FILE
+          value: /run/secret/eventing/jwtPrivateKey
+        - name: ROLLBAR_ENABLED
+          value: "false"
+        - name: NATS_ENABLED
+          value: "true"
+        - name: NATS_CLIENT_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        image: qliktech-docker.jfrog.io/eventing:0.0.17
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+        name: main
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: http
+        volumeMounts:
+        - mountPath: /run/secret/eventing
+          name: eventing-secret
+          readOnly: true
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+      volumes:
+      - name: eventing-secret
+        secret:
+          items:
+          - key: tokenAuthPrivateKey
+            path: jwtPrivateKey
+          secretName: eventing-secrets
+---

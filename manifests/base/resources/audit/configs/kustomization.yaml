@@ -1,6 +1,20 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- selectivepatch.yaml
-- ../../../../../.operator/configs
-- ../../../../../configuration/configs
+  - ../../../configs
+transformers:
+###
+#  Temporary pre processing of Super* prefix until moved to configs/secrets folder at base
+# for all components
+  #- ../../../vars/prefix
+###
+  - selectivepatch.yaml
+  - ../../../../../.operator/configs
+  - ../../../../../configuration/configs
+patches:
+  - target:
+      kind: SuperConfigMap
+    patch: |-
+      - op: replace
+        path: /metadata/name
+        value: audit-configs

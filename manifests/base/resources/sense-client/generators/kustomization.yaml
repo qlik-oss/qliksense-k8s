@@ -3,15 +3,9 @@ kind: Kustomization
 commonLabels:
   app: sense-client
 resources:
-- ../../../../../generators/sense-client
-- ../../../configs
+- secrets
+- configs
 transformers:
+- ../secrets
 - ../configs
-- values.yaml 
-patches:
-- target:
-    kind: SuperConfigMap
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: space-client-configs
+

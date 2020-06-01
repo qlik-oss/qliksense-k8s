@@ -1,6 +1,0 @@
-apiVersion: qlik.com/v1
-kind: HelmChart
-metadata:
- name: data-prep
-subChart: data-prep
-releaseName: data-prep

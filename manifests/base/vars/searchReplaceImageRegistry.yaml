@@ -1,0 +1,16 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: component-imageRegistry
+  labels:
+    key: imageRegistry
+target:
+  labelSelector: release
+path: /
+search: \$\(IMAGE_REGISTRY\)
+replaceWithObjRef:
+  objref:
+    apiVersion: v1
+    kind: ConfigMap
+  fieldref:
+    fieldpath: data.imageRegistry

@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: feature-flags
+    chart: feature-flags-1.11.1
+    heritage: Helm
+    release: feature-flags
+  name: feature-flags
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: feature-flags
+      release: feature-flags
+  template:
+    metadata:
+      labels:
+        app: feature-flags
+        release: feature-flags
+    spec:
+      containers:
+      - env:
+        - name: KEYS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: keysUri
+              name: feature-flags-configs
+        - name: JWKS_ENDPOINT
+          value: $(KEYS_URI)/v1/keys/qlik.api.internal
+        - name: FEATURES_FILE_PATH
+          value: /etc/config/feature-flags/featuresConfig
+        - name: FEATURES_POLL_INTERVAL
+          value: "120000"
+        - name: ENVIRONMENT
+          value: example
+        - name: REGION
+          value: example
+        - name: ROLLBAR_ENABLED
+          value: "false"
+        - name: LOG_LEVEL
+          value: verbose
+        image: qliktech-docker.jfrog.io/feature-flags:2.0.0
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+        name: main
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: http
+        volumeMounts:
+        - mountPath: /etc/config/feature-flags
+          name: feature-flags
+          readOnly: true
+      dnsConfig:
+        options:
+        - name: timeout
+          value: "1"
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+      volumes:
+      - configMap:
+          name: feature-flags-configmap
+        name: feature-flags
+---

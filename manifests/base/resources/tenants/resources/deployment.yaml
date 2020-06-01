@@ -1,0 +1,126 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: tenants
+    chart: tenants-4.0.17
+    heritage: Helm
+    release: tenants
+  name: tenants
+  namespace: $(NAMESPACE)
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tenants
+      release: tenants
+  template:
+    metadata:
+      annotations:
+        checksum/configs: bc0e3b34aa4ea8ebe4a0762c49e30d7040ad1462598c60562af7c3d02a1c186e
+        checksum/secrets: bc26b6f8be39d561e98ad08ce25fd78ef4f39692c97f2e83cbfb90e820a28f2f
+      labels:
+        app: tenants
+        release: tenants
+        tenants-nats-client: "true"
+    spec:
+      containers:
+      - env:
+        - name: KEYS_URI_TEMP
+          valueFrom:
+            configMapKeyRef:
+              key: keysUri
+              name: tenants-configs
+        - name: KEYS_URI
+          value: $(KEYS_URI_TEMP)/v1/keys/qlik.api.internal
+        - name: TOKEN_AUTH_URI_TEMP
+          valueFrom:
+            configMapKeyRef:
+              key: tokenAuthUri
+              name: tenants-configs
+        - name: TOKEN_AUTH_URI
+          value: $(TOKEN_AUTH_URI_TEMP)/v1
+        - name: LICENSES_URI_TEMP
+          valueFrom:
+            configMapKeyRef:
+              key: licensesUri
+              name: tenants-configs
+        - name: LICENSES_URI
+          value: $(LICENSES_URI_TEMP)/v1
+        - name: USERS_URI_TEMP
+          valueFrom:
+            configMapKeyRef:
+              key: usersUri
+              name: tenants-configs
+        - name: USERS_URI
+          value: $(USERS_URI_TEMP)/v1
+        - name: NATS_CLIENT_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: MONGODB_URI_FILE
+          value: /run/secrets/qlik.com/tenants/mongodbUri
+        - name: TOKEN_AUTH_PRIVATE_KEY_FILE
+          value: /run/secrets/qlik.com/tenants/tokenAuthPrivateKey
+        - name: TOKEN_AUTH_PRIVATE_KEY_ID_FILE
+          value: /run/secrets/qlik.com/tenants/tokenAuthPrivateKeyId
+        - name: INGRESS_AUTH_URL
+          valueFrom:
+            configMapKeyRef:
+              key: ingressAuthUrl
+              name: tenants-configs
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              key: logLevel
+              name: tenants-configs
+        - name: NATS_STREAMING_CLUSTER_ID
+          valueFrom:
+            configMapKeyRef:
+              key: natsStreamingClusterId
+              name: tenants-configs
+        - name: NATS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: natsUri
+              name: tenants-configs
+        - name: DATACENTER
+          value: example
+        - name: ENVIRONMENT
+          value: qseok
+        - name: NATS_ENABLED
+          value: "true"
+        - name: NATS_TOKEN_AUTH_ENABLED
+          value: "true"
+        - name: REGION
+          value: example
+        image: qliktech-docker.jfrog.io/tenants:2.6.4
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /live
+            port: http
+        name: main
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: http
+        volumeMounts:
+        - mountPath: /run/secrets/qlik.com/tenants
+          name: tenants-secrets
+          readOnly: true
+      dnsConfig:
+        options:
+        - name: timeout
+          value: "1"
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+      volumes:
+      - name: tenants-secrets
+        secret:
+          secretName: tenants-secrets
+---

@@ -69,9 +69,9 @@ varReference:
   kind: Secret
 - path: stringData/redis-addr
   kind: Secret
-- path: data/mongoDbUri
+- path: data/mongodbUri
   kind: Secret
-- path: stringData/mongoDbUri
+- path: stringData/mongodbUri
   kind: Secret
 - path: metadata/name
   kind: ConfigMap
@@ -93,7 +93,7 @@ varReference:
   kind: ConfigMap
 - path: data/identityProvidersUri
   kind: ConfigMap
-- path: data/identityProvidersV1Uri
+- path: data/identityProvidersExtUri
   kind: ConfigMap
 - path: data/tenantsUri
   kind: ConfigMap
@@ -120,7 +120,9 @@ varReference:
 - kind: ConfigMap
   path: data/redisUri
 - kind: ConfigMap
-  path: data/redisUriWithPort   
+  path: data/redisUriWithPort
+- kind: ConfigMap
+  path: data/redisHost
 - kind: ConfigMap
   path: data/spacesUri
 - kind: ConfigMap
@@ -166,9 +168,9 @@ varReference:
 - kind: ConfigMap
   path: data/dcaasUri
 - kind: ConfigMap
-  path: data/dpsUri
+  path: data/dataPrepUri
 - kind: ConfigMap
-  path: data/parserUri
+  path: data/nlParserUri
 - kind: Role
   path: rules/resourceNames
 - kind: RoleBinding
@@ -185,13 +187,37 @@ varReference:
   path: data/collectionsUri
 - kind: ConfigMap
   path: data/reportingUri
+- kind: ConfigMap
+  path: data/keysUriTemp
+- kind: ConfigMap
+  path: data/tokenAuthUriTemp
+- kind: ConfigMap
+  path: data/licensesUriTemp
 - path: spec/template/spec/containers/env/valueFrom/secretKeyRef/name
   kind: Job
 - path: spec/template/spec/containers/env/valueFrom/configMapKeyRef/name
   kind: Job
 - path: spec/template/spec/volumes/persistentVolumeClaim/claimName
   kind: Job
+- path: spec/jobTemplate/spec/template/spec/volumes/secret/secretName
+  kind: CronJob
 - path: metadata/name
   kind: Job
 - path: metadata/name
   kind: PersistentVolumeClaim
+- path: metadata/name
+  kind: HorizontalPodAutoscaler
+- path: spec/scaleTargetRef/name
+  kind: HorizontalPodAutoscaler
+- path: data/parse_sentinels.awk
+  kind: ConfigMap
+- path: data/sentinel.conf
+  kind: ConfigMap
+- path: data/apiKeysUri
+  kind: ConfigMap
+- path: data/insightsUri
+  kind: ConfigMap
+- path: data/subscriptionsUri
+  kind: ConfigMap
+- path: data/dataConnectionsUri
+  kind: ConfigMap

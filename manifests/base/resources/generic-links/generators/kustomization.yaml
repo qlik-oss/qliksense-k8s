@@ -3,24 +3,9 @@ kind: Kustomization
 commonLabels:
   app: generic-links
 resources:
-- ../../../../../generators/generic-links
-- ../../../secrets
-- ../../../configs
+- secrets
+- configs
 transformers:
 - ../secrets
 - ../configs
-- values.yaml
-patches:
-- target:
-    kind: SuperSecret
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: generic-links-secrets
-- target:
-    kind: SuperConfigMap
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: generic-links-configs
 

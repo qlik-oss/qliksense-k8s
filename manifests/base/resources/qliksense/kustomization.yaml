@@ -2,12 +2,15 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 commonLabels:
   app: qliksense
-generators:
-  - generators
 resources:
   - resources
+generators:
+  - generators
 transformers:
   - secrets
   - configs
-  - ../../transformers/base
   - transformers
+  - ../../transformers/release
+  - ../../vars
+  - ../../transformers/prefix
+  - ../../transformers/namespace

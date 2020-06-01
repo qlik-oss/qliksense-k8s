@@ -1,0 +1,127 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: data-prep
+    chart: data-prep-1.12.33
+    heritage: Helm
+    release: data-prep
+  name: data-prep
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: data-prep
+        release: data-prep
+    spec:
+      containers:
+      - command:
+        - /bin/sh
+        - -c
+        - |
+          export ENGINEADDRESS=`echo $(QIX_SESSIONS_URI)| cut -d'/' -f3 | cut -d':' -f1`
+          export ENGINEPORT=`echo $(QIX_SESSIONS_URI)| cut -d':' -f3 | cut -d'/' -f1`
+          export DATAFILESHOST=`echo $(DATA_FILES_URI)| cut -d'/' -f3 | cut -d':' -f1`
+          export DATAFILESPORT=`echo $(DATA_FILES_URI)| cut -d':' -f3 | cut -d'/' -f1`
+          export QIXDATAFILESHOST=`echo $(QIX_DATA_FILES_URI)| cut -d'/' -f3 | cut -d':' -f1`
+          export QIXDATAFILESPORT=`echo $(QIX_DATA_FILES_URI)| cut -d':' -f3 | cut -d'/' -f1`
+          export PRECEDENTSHOST=`echo $(PRECEDENTS_URI)| cut -d'/' -f3 | cut -d':' -f1`
+          export PRECEDENTSPORT=`echo $(PRECEDENTS_URI)| cut -d':' -f3 | cut -d'/' -f1`
+          ./start.sh
+        env:
+        - name: REDIS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: redisUri
+              name: data-prep-configs
+        - name: DPS_REDIS_URL
+          value: $(REDIS_URI)
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: redisPassword
+              name: data-prep-secrets
+        - name: DPS_REDIS_PASSWORD
+          value: $(REDIS_PASSWORD)
+        - name: KEYS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: keysUri
+              name: data-prep-configs
+        - name: AUTH_JWKS_URI
+          value: $(KEYS_URI)/v1/keys/qlik.api.internal
+        - name: FEATURE_FLAGS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: featureFlagsUri
+              name: data-prep-configs
+        - name: FEATURE_FLAG_URL
+          value: $(FEATURE_FLAGS_URI)/v1/features
+        - name: SPACES_URI
+          valueFrom:
+            configMapKeyRef:
+              key: spacesUri
+              name: data-prep-configs
+        - name: QIX_SESSIONS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: qixSessionsUri
+              name: data-prep-configs
+        - name: DATA_FILES_URI
+          valueFrom:
+            configMapKeyRef:
+              key: dataFilesUri
+              name: data-prep-configs
+        - name: QIX_DATA_FILES_URI
+          valueFrom:
+            configMapKeyRef:
+              key: qixDataFilesUri
+              name: data-prep-configs
+        - name: PRECEDENTS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: precedentsUri
+              name: data-prep-configs
+        - name: PORT
+          value: "9072"
+        - name: BINDADDRESS
+          value: '::'
+        - name: TTL
+          value: "10000"
+        - name: KEEPALIVE
+          value: "30000"
+        - name: LOGICALAPPSFOLDER
+          value: /qlik/apps
+        - name: LOGICALGEOFOLDER
+          value: /geo
+        - name: LOGPATH
+          value: /logs
+        - name: DATAPATH
+          value: /
+        - name: LOGLEVEL
+          value: verbose
+        - name: MODE
+          value: elastic
+        image: qliktech-docker.jfrog.io/data-prep-service:2.185.0
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: null
+          httpGet:
+            path: /health
+            port: 9072
+          periodSeconds: null
+        name: main
+        ports:
+        - containerPort: 9072
+        volumeMounts:
+        - mountPath: /qlik/apps
+          name: apps-storage
+        - mountPath: /Apps
+          name: apps-storage
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+      volumes:
+      - emptyDir: {}
+        name: apps-storage
+---

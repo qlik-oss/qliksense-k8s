@@ -1,0 +1,57 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: redisHost
+  labels:
+    key: redisHost
+enabled: true
+patches:
+- target:
+    kind: Deployment
+    name: "^(r(e(d(i(s(.)[^s]|$)|[^i]|$)|[^d]|$)|[^e]|$)|[^r])*$"
+  patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: component
+    spec:
+      template:
+        spec:
+          containers:
+          - name: main
+            env:
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: redisHost
+                  name: configs
+- target:
+    kind: Deployment
+    name: .*redis-slave
+  patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: redis-slave
+    spec:
+      template:
+        spec:
+          containers:
+          - name: main
+            env:
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  key: redisHost
+                  name: configs
+
+- target:
+    kind: ConfigMap
+    name: .*-configs
+  patch: |-
+    apiVersion: v1
+    kind: Config
+    metadata:
+      name: component-secrets
+    data:
+      redisHost: null

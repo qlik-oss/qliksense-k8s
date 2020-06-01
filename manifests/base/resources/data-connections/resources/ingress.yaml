@@ -1,0 +1,28 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/auth-response-headers: Authorization
+    nginx.ingress.kubernetes.io/auth-url: http://data-connections-edge-auth.$(NAMESPACE).svc.cluster.local:8080/v1/auth
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite (?i)/api/(v[0-9])/dc-(.*) /$1/$2 break;
+  labels:
+    app: data-connections
+    chart: data-connections-1.6.17
+    heritage: Helm
+    release: data-connections
+  name: data-connections
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: data-connections
+          servicePort: 9011
+        path: /api/v1/dc-dataconnections
+      - backend:
+          serviceName: data-connections
+          servicePort: 9011
+        path: /api/v1/dc-datacredentials
+---

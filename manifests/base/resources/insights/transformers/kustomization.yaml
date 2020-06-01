@@ -15,13 +15,15 @@ patches:
         pdsUri,
         collectionsUri,
         featureFlagsUri,
+        tenantsUri,
         encryptionUri,
         reportingUri,
         ingressClass,
         ingressAuthUrl,
         keysUri,
+        engineUri,
         caCertificates,
-        mongoDbUri
+        mongodbUri
         )
   patch: |-
     - op: replace

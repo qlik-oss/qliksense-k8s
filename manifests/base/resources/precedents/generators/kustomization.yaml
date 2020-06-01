@@ -3,23 +3,9 @@ kind: Kustomization
 commonLabels:
   app: precedents
 resources:
-- ../../../../../generators/precedents
-- ../../../secrets
-- ../../../configs
+- secrets
+- configs
 transformers:
 - ../secrets
 - ../configs
-- values.yaml 
-patches:
-- target:
-    kind: SuperSecret
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: precedents-secrets
-- target:
-    kind: SuperConfigMap
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: precedents-configs
+

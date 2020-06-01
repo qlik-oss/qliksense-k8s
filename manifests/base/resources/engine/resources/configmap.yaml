@@ -1,0 +1,340 @@
+apiVersion: v1
+data:
+  rules.yaml: |
+    - allow: |
+        # If app or QV app has originAppId and user is publisher in a managed space user can republish
+        resource.IsAppOrQvApp() and resource.UserIsPublisherInManagedSpace() and resource.originAppId == app.id and resource._actions={"republish"}
+        # Professional user can create an app in a personal space or in a shared space where the user is an editor.
+        resource.IsApp() and user.IsProfessional() and resource.IsOwnedInPersonalOrSharedSpace() and resource._actions={"create"}
+        # A user can delete app or QlikView app if the user is the owner in a personal space or in a shared space where the user is producer. A tenant admin can always delete an app
+        resource.IsAppOrQvApp() and (resource.IsOwnedInPersonalSpace() or resource.UserIsEditorInSharedSpace() or resource.UserIsFacilitatorInManagedSpace()) and !resource.IsPublished() and resource._actions={"delete"}
+        # A professional user can copy an app or QV app if he is copying it to a personal space or a shared space where the user is producer. Read access on the src file is implicit
+        resource.IsAppOrQvApp() and user.IsProfessional() and resource.IsOwnedInPersonalOrSharedSpace() and !resource.IsPublished() and resource._actions={"duplicate"}
+        # A professional user can import an app if the user is importing to a personal space or to a shared space where the user is producer.
+        resource.IsApp() and user.IsProfessional() and resource.IsOwnedInPersonalOrSharedSpace() and resource._actions={"import"}
+        # The app can be opened in a personal space by the owner.
+        resource.IsApp() and resource.IsOwnedInPersonalSpace() and resource._actions={"read"}
+        # A tenant admin can open all apps.
+        resource.IsApp() and user.IsTenantAdmin() and resource._actions={"read"}
+        # A tenant admin can delete all apps and QlikView apps.
+        resource.IsAppOrQvApp() and user.IsTenantAdmin() and resource._actions={"delete"}
+        # A tenant admin can change the owner and export personal apps or QlikView apps.
+        resource.IsAppOrQvApp() and user.IsTenantAdmin() and resource.MissingOrEmptyProp(spaceId) and !resource.IsPublished() and resource._actions={"change_owner","export"}
+        # A tenant admin can change the owner on apps and QlikView apps in a shared space
+        resource.IsAppOrQvApp() and user.IsTenantAdmin() and resource.IsShared() and resource._actions={"change_owner"}
+        # A tenant admin can change space on a published app or QlikView app in a managed space
+        resource.IsAppOrQvApp() and user.IsTenantAdmin() and resource.IsPublished() and resource.IsManaged() and resource._actions={"change_space"}
+        # A tenant admin can change space on distributed and private apps and QlikView apps.
+        resource.IsAppOrQvApp() and user.IsTenantAdmin() and resource.MissingOrEmptyProp(spaceId) and resource._actions={"change_space"}
+        # A tenant admin can change space on apps and QlikView apps in non existing space.
+        resource.IsAppOrQvApp() and user.IsTenantAdmin() and resource.IsInNonExistingSpace() and resource._actions={"change_space"}
+        # A user can open apps that the user has access to in a shared space
+        resource.IsApp() and resource.UserIsSharedSpaceMember() and resource._actions={"read"}
+        # A user can open apps that the user has access to in a managed space
+        resource.IsApp() and (resource.UserIsViewerInManagedSpace() or resource.UserIsFacilitatorInManagedSpace()) and resource._actions={"read"}
+        # Professional user that owns the app can edit scripts and reload the app if it's a personal space.
+        resource.IsApp() and user.IsProfessional() and resource.IsOwnedInPersonalSpace() and !resource.IsPublished() and resource._actions={"reload"}
+        # Professional user can edit scripts and reload the app if the user is an editor in the shared space
+        resource.IsApp() and user.IsProfessional() and resource.UserIsEditorInSharedSpace() and !resource.IsPublished() and resource._actions={"reload"}
+        # Professional user can reload the app if the user is facilitator in a managed space
+        resource.IsApp() and user.IsProfessional() and resource.UserIsFacilitatorInManagedSpace() and !resource.IsPublished() and resource._actions={"reload"}
+        # Professional user can update app attributes on app or QV app if the user is facilitator in a managed space
+        resource.IsAppOrQvApp() and user.IsProfessional() and resource.UserIsFacilitatorInManagedSpace() and !resource.IsPublished() and resource._actions={"update"}
+        # A user can update app attributes on apps and QV apps in a shared space as producer.
+        resource.IsAppOrQvApp() and resource.UserIsEditorInSharedSpace() and !resource.IsPublished() and resource._actions={"update"}
+        # A user can update app attributes on personal apps and QV apps.
+        resource.IsAppOrQvApp() and resource.IsOwnedInPersonalSpace() and !resource.IsPublished() and resource._actions={"update"}
+        # A facilitator can change the owner of an app and a QlikView app in a shared space.
+        resource.IsAppOrQvApp() and resource.UserIsFacilitator() and resource._actions={"change_owner"}
+        # A user can change the space on personal apps and QlikView apps or as editor of shared apps.
+        resource.IsAppOrQvApp() and resource.IsOwnedInPersonalOrSharedSpace() and resource.MissingOrEmptyProp(originAppId) and !resource.IsPublished() and resource._actions={"change_space"}
+        # A user can change the space as facilitator in managed apps and QlikView apps.
+        resource.IsAppOrQvApp() and resource.UserIsFacilitatorInManagedSpace() and !resource.MissingOrEmptyProp(originAppId) and !resource.IsPublished() and resource._actions={"change_space"}
+        # A publisher can publish an app or a QlikView app to a managed space.
+        resource.IsAppOrQvApp() and resource.UserIsPublisherInManagedSpace() and resource._actions={"publish"}
+        # Impersonator from the ODAG service can change owner. This rule will be removed when odag does not need to impersonate
+        resource.IsApp() and user.act.sub == "odag" and resource._actions={"read","change_owner"}
+        # A user can export apps that the user owns or in a shared space as producer. Only user visable (objects and data) will be exported
+        resource.IsApp() and !resource.HasSectionAccess() and resource.HasPrivilege("read") and resource.IsOwnedInPersonalOrSharedSpace() and !resource.IsPublished() and resource._actions={"export"}
+        # Professional user can import an appobject if the user is importing to a personal space or to a shared space where the user is a producer.
+        resource.IsAppObject() and user.IsProfessional() and resource.app.IsOwnedInPersonalOrSharedSpace() and resource._actions={"import"}
+        # In apps that the user has read access to, the user can read all published objects and his personal objects and all master items.
+        resource.IsAppObject() and resource.app.HasPrivilege("read") and ((resource.IsOwnedByMe() or resource.IsPublished() or resource.IsMasterObject() or resource.IsPublicObject()) and !resource.IsScriptObject()) and resource._actions={"read"}
+        # A professional user can read the script in owned personal apps or as editor in a shared space, or as facilitator in managed space.
+        resource.IsAppObject() and user.IsProfessional() and (resource.app.IsOwnedInPersonalOrSharedSpace() or resource.app.UserIsFacilitatorInManagedSpace()) and resource.IsScriptObject() and resource._actions={"read"}
+        # A professional user can update the script in owned personal apps or owned apps in a shared space.
+        resource.IsAppObject() and user.IsProfessional() and (resource.app.IsOwnedInPersonalSpace() or (resource.app.UserIsEditorInSharedSpace() and resource.IsOwnedByMe())) and resource.IsScriptObject() and resource._actions={"update"}
+        # A professional user can create any object in an unpublished app that is in a personal space or in a shared space as producer
+        resource.IsAppObject() and user.IsProfessional() and resource.app.HasPrivilege("read") and !resource.app.IsPublished() and resource.app.IsOwnedInPersonalOrSharedSpace() and resource.IsOwnedByMe() and resource._actions={"create"}
+        # In apps that a user has read access to, a professional user can update, delete master objects and other public objects.
+        resource.IsAppObject() and user.IsProfessional() and resource.app.HasPrivilege("read") and (resource.IsMasterObject() or resource.IsPublicObject()) and resource.app.IsOwnedInPersonalOrSharedSpace() and resource._actions={"update","delete"}
+        # In apps that a user has update access to, the user can update app properties.
+        resource.IsAppObject() and resource.app.HasPrivilege("update") and resource._objecttype == "appprops" and resource._actions={"update"}
+        # A professional user can update and delete any unpublished object in an unpublished app that the user owns or in a shared space as producer.
+        resource.IsAppObject() and user.IsProfessional() and resource.app.HasPrivilege("read") and resource.app.IsOwnedInPersonalOrSharedSpace() and !resource.IsPublished() and resource.IsOwnedByMe() and resource._actions={"update","delete"}
+        # A professional user can publish objects in an unpublished app that the user owns or in a shared space as producer.
+        resource.IsAppObject() and user.IsProfessional() and resource.app.HasPrivilege("read") and !resource.app.IsPublished() and resource.app.IsOwnedInPersonalOrSharedSpace() and !resource.IsScriptObject() and resource._actions={"publish"}
+        # A user can create a story object (stories, bookmarks and snapshot) in a shared space where the user is a consumer.
+        resource.IsAppObject() and resource.app.HasPrivilege("read") and resource.app.UserIsSharedSpaceMember() and resource.IsStoryObject() and !resource.IsPublished() and resource._actions={"create"}
+        # A user can update and delete an owned personal story object (stories, bookmarks and snapshot) in a shared space where the user is a consumer.
+        resource.IsAppObject() and resource.app.HasPrivilege("read") and resource.app.UserIsSharedSpaceMember() and resource.IsStoryObject() and !resource.IsPublished()  and resource.IsOwnedByMe() and resource._actions={"update","delete"}
+        # A user can duplicate objects if the user has duplicate access on the app
+        resource.IsAppObject() and resource.app.HasPrivilege("duplicate") and resource.app.IsOwnedInPersonalOrSharedSpace() and resource._actions={"duplicate"}
+        # Analyser users can create app objects of type stories, snapshot and bookmarks in managed apps
+        resource.IsAppObject() and resource.app.UserIsViewerInManagedSpace() and resource.app.HasPrivilege("read") and resource.IsStoryObject() and !resource.IsPublished() and resource._actions={"create"}
+        # Analyser users can update, duplicate and delete owned, unpublished app objects of type stories, snapshot and bookmarks in managed apps
+        resource.IsAppObject() and resource.app.UserIsViewerInManagedSpace() and resource.app.HasPrivilege("read") and resource.IsStoryObject() and !resource.IsPublished() and resource.IsOwnedByMe() and resource._actions={"update","duplicate","delete"}
+        # Professional users can create app objects of type sheets, stories, snapshot and bookmarks in managed apps
+        resource.IsAppObject() and user.IsProfessional() and resource.app.UserIsContributorInManagedSpace() and resource.app.HasPrivilege("read") and resource.IsContentObject() and resource._actions={"create"}
+        # Professional users can update and delete owned, unpublished app objects of type sheets, stories, snapshot and bookmarks in managed apps that allows self service
+        resource.IsAppObject() and user.IsProfessional() and resource.app.UserIsContributorInManagedSpace() and resource.app.HasPrivilege("read") and resource.IsContentObject() and !resource.IsPublished() and resource.IsOwnedByMe() and resource._actions={"update","delete"}
+        # Professional users can publish and unpublish app objects of type sheets, stories, snapshot and bookmarks in managed apps
+        resource.IsAppObject() and user.IsProfessional() and resource.app.UserIsContributorInManagedSpace() and resource.app.HasPrivilege("read") and resource.IsContentObject() and resource.IsOwnedByMe() and !resource.IsApproved() and resource._actions={"publish"}
+        # Analyzer users can publish and unpublish app objects of type stories, snapshot and bookmarks in managed apps
+        resource.IsAppObject() and user.IsAnalyzer() and resource.app.UserIsContributorInManagedSpace() and resource.app.HasPrivilege("read") and resource.IsStoryObject() and resource.IsOwnedByMe() and !resource.IsApproved() and resource._actions={"publish"}
+        # External services can read, import, create, update, and delete apps.
+        resource.IsAppOrAppObject() and user.IsExternal() and resource._actions={"read","import","create","update","delete"}
+        # A professional user shall be able to upload a QlikView app
+        resource.IsQvApp() and user.IsQvEnabled() and user.IsProfessional() and resource.IsOwnedInPersonalSpace() and resource._actions={"import"}
+        # External services shall have full access to QlikView apps
+        resource.IsQvApp() and user.IsExternal() and resource._actions={"read","import","create","update","delete"}
+        # The QlikView app can be opened in a personal space by the owner.
+        resource.IsQvApp() and user.IsQvEnabled() and resource.IsOwnedInPersonalSpace() and resource._actions={"read"}
+        # A tenant admin can open all QlikView apps
+        resource.IsQvApp() and user.IsQvEnabled() and user.IsTenantAdmin() and resource._actions={"read"}
+        # A user can open QlikView apps that the user has access to in a managed space
+        resource.IsQvApp() and user.IsQvEnabled() and (resource.UserIsViewerInManagedSpace() or resource.UserIsFacilitatorInManagedSpace()) and resource._actions={"read"}
+        # A user can read QlikView personal apps
+        resource.IsQvApp() and user.IsQvEnabled() and resource.IsOwnedInPersonalSpace() and resource._actions={"read"}
+        # A shared space member user can open QlikView apps in a shared space
+        resource.IsQvApp() and user.IsQvEnabled() and resource.UserIsSharedSpaceMember() and resource._actions={"read"}
+        # A shared space editor professional user can import QlikView apps to a shared space
+        resource.IsQvApp() and user.IsQvEnabled() and user.IsProfessional() and resource.UserIsEditorInSharedSpace() and resource._actions={"import"}
+        # If you have access to the QlikView app you can read all objects
+        resource.IsQvAppObject() and resource.app.HasPrivilege("read") and !resource.IsScriptObject() and resource._actions={"read"}
+        # On global API:s we allow read to everyone
+        resource._resourcetype="node" and resource._actions={"read"}
+        # On global API:s with reload access professional users should have access
+        resource._resourcetype="node" and user.IsProfessional() and resource._actions={"reload"}
+      deny: ""
+      func: |
+        # User is a professional user.
+        IsProfessional() (self._provision.accesstype == "professional")
+        # User is an analyzer user.
+        IsAnalyzer() (self._provision.accesstype == "analyzer")
+        # User is a service user (external).
+        IsExternal() (self.subType == "externalClient")
+        # User is a tenant administrator.
+        IsTenantAdmin() (self.roles =="TenantAdmin")
+        # Checks parent app privileges. Privileges on parent must currently be computed in a first pass.
+        app.HasPrivilege(x) (self.app._privileges == x)
+        # Checks if a privilege exists on a resource.
+        HasPrivilege(x) (self._actions.Matched () = x)
+        # Resource is published.
+        IsPublished() (self.published == "true")
+        # App has Section Access.
+        HasSectionAccess() (self.hassectionaccess == "true")
+        # Helper macro for detecting if a property is missing or empty string.
+        MissingOrEmptyProp(prop) (self.prop.empty() or self.prop == "")
+        # In managed space
+        IsManaged() (self.spaceId == space.id and space.type == "managed")
+        # In shared space
+        IsShared() (self.spaceId == space.id and space.type == "shared")
+        # Resource is approved.
+        IsApproved() (self.approved = "true")
+        # Resource is owned by user.
+        IsOwnedByMe() (user.subType == "user" and self.ownerId == user.userId)
+        # Is app object a master item.
+        IsMasterObject() (self._objecttype = { "masterobject", "dimension", "measure" })
+        # Is app object a story item.
+        IsStoryObject() (self._objecttype = { "story", "snapshot", "bookmark" })
+        # Is app object a content item (sheet, story, snapshot, bookmark).
+        IsContentObject() (self._objecttype = {"sheet", "story", "snapshot", "bookmark"})
+        # Public objects created outside of sheets
+        IsPublicObject() (self._objecttype = { "appprops", "colormap", "odagapplink", "loadmodel", "dynamicappview", "businessmodel"})
+        # Is it the script object.
+        IsScriptObject() (self._objecttype = "app_appscript")
+        # Is user an editor in the space this resource belongs to. Producers are the roles produce or facilitator (space owner is automatically a facilitator)
+        UserIsEditorInSharedSpace() (self.spaceId == space.id and space.type == "shared" and (space.roles == {"producer", "facilitator"} or user.userId == space.ownerId))
+        # Is is a consumer in a shared space
+        UserIsConsumerInSharedSpace() (self.spaceId == space.id and space.type == "shared" and space.roles == {"consumer"})
+        # Is user the owner of this personal space.
+        IsOwnedInPersonalSpace() (self.IsOwnedByMe() and self.MissingOrEmptyProp(spaceId))
+        # Is user member of a shared space that the resource belongs to.
+        UserIsSharedSpaceMember() (self.spaceId == space.id and space.type == "shared" and (space.roles == {"consumer", "producer", "facilitator"} or user.userId == space.ownerId))
+        # User can publish to a managed space if he has the role publisher or he is the owner of the space.
+        UserIsPublisherInManagedSpace() (self.spaceId == space.id and space.type == "managed" and (space.roles == {"publisher"} or user.userId == space.ownerId))
+        # Is user member of a managed space that the resource belongs to.
+        UserIsViewerInManagedSpace() (self.spaceId == space.id and space.type == "managed" and (space.roles == {"consumer", "contributor", "facilitator"} or user.userId == space.ownerId))
+        # Is user member of a managed space that the resource belongs to.
+        UserIsFacilitatorInManagedSpace() (self.spaceId == space.id and space.type == "managed" and (space.roles == {"facilitator"} or user.userId == space.ownerId))
+        # Is user member of a managed space that the resource belongs to.
+        UserIsContributorInManagedSpace() (self.spaceId == space.id and space.type == "managed" and (space.roles == {"contributor", "facilitator"} or user.userId == space.ownerId))
+        # Is user a facilitator on the space this resource belongs to.
+        UserIsFacilitator() (self.spaceId == space.id and space.type == {"shared", "managed"} and (space.roles == {"facilitator"} or user.userId == space.ownerId))
+        # Is owned in personal space or editor in shared space.
+        IsOwnedInPersonalOrSharedSpace() (self.IsOwnedInPersonalSpace() or self.UserIsEditorInSharedSpace())
+        # Is in a non existing space.
+        IsInNonExistingSpace() (!self.MissingOrEmptyProp(spaceId) and !(self.spaceId == space.id))
+        # Is app.
+        IsApp() (self._resourcetype=={"app"})
+        # Is app or QlikView app.
+        IsAppOrQvApp() (self._resourcetype=={"app", "qvapp"})
+        # Is app object.
+        IsAppObject() (self._resourcetype=={"app.object"})
+        # Is app or app object.
+        IsAppOrAppObject() (self._resourcetype=={"app", "app.object"})
+        # Is QlikView enabled.
+        IsQvEnabled() (self._provision.qvEnabled == "true")
+        # Is a QlikView app.
+        IsQvApp() (self._resourcetype=={"qvapp"})
+        # Is a QlikView app object.
+        IsQvAppObject() (self._resourcetype=={"qvapp.object"})
+        # Is datafile.
+        IsDataFile() (self._resourcetype=={"datafile"})
+        # Is nfs connection.
+        IsNfsConnection() (self._resourcetype=={"nfsConnection"})
+        # Is GenericLink.
+        IsGenericLink() (self._resourcetype=={"genericlink"})
+        # Is SharingService.
+        IsSharingService() (self._resourcetype=={"sharingservice"})
+        # Is SharingServiceTask.
+        IsSharingServiceTask() (self._resourcetype=={"sharingservicetask"})
+        # Is InsightLink.
+        IsInsightLink() (self._resourcetype=={"insightlink"})
+        # Is SharingServiceAlertingTask.
+        IsSharingServiceAlertingTask() (self._resourcetype=={"sharingservicealertingtask"})
+kind: ConfigMap
+metadata:
+  name: engine-engine-rules-cm
+---
+apiVersion: v1
+data:
+  master.conf: |-
+    dir /data
+    rename-command FLUSHDB ""
+    rename-command FLUSHALL ""
+  redis.conf: |-
+    # User-supplied configuration:
+    appendonly no
+    save ""
+  replica.conf: |-
+    dir /data
+    slave-read-only yes
+    rename-command FLUSHDB ""
+    rename-command FLUSHALL ""
+  sentinel.conf: |-
+    dir "/tmp"
+    bind 0.0.0.0
+    port 26379
+    sentinel monitor engine-redis-user-state $(PREFIX)-engine-redis-user-state-master-0.$(PREFIX)-engine-redis-user-state-headless.$(NAMESPACE).svc.cluster.local 6379 2
+    sentinel down-after-milliseconds engine-redis-user-state 5000
+    sentinel failover-timeout engine-redis-user-state 10000
+    sentinel parallel-syncs engine-redis-user-state 1
+kind: ConfigMap
+metadata:
+  labels:
+    app: redis-user-state
+    chart: redis-user-state-10.0.0
+    heritage: Helm
+    release: engine
+  name: engine-redis-user-state
+---
+apiVersion: v1
+data:
+  parse_sentinels.awk: |-
+    /ip/ {FOUND_IP=1}
+    /port/ {FOUND_PORT=1}
+    /runid/ {FOUND_RUNID=1}
+    !/ip|port|runid/ {
+      if (FOUND_IP==1) {
+        IP=$1; FOUND_IP=0;
+      }
+      else if (FOUND_PORT==1) {
+        PORT=$1;
+        FOUND_PORT=0;
+      } else if (FOUND_RUNID==1) {
+        printf "\nsentinel known-sentinel engine-redis-user-state %s %s %s", IP, PORT, $0; FOUND_RUNID=0;
+      }
+    }
+  ping_liveness_local.sh: |-
+    response=$(
+      timeout -s 9 $1 \
+      redis-cli \
+        -h localhost \
+        -p $REDIS_PORT \
+        ping
+    )
+    if [ "$response" != "PONG" ] && [ "$response" != "LOADING Redis is loading the dataset in memory" ]; then
+      echo "$response"
+      exit 1
+    fi
+  ping_liveness_local_and_master.sh: |-
+    script_dir="$(dirname "$0")"
+    exit_status=0
+    "$script_dir/ping_liveness_local.sh" $1 || exit_status=$?
+    "$script_dir/ping_liveness_master.sh" $1 || exit_status=$?
+    exit $exit_status
+  ping_liveness_master.sh: |-
+    response=$(
+      timeout -s 9 $1 \
+      redis-cli \
+        -h $REDIS_MASTER_HOST \
+        -p $REDIS_MASTER_PORT_NUMBER \
+        ping
+    )
+    if [ "$response" != "PONG" ] && [ "$response" != "LOADING Redis is loading the dataset in memory" ]; then
+      echo "$response"
+      exit 1
+    fi
+  ping_readiness_local.sh: |-
+    response=$(
+      timeout -s 9 $1 \
+      redis-cli \
+        -h localhost \
+        -p $REDIS_PORT \
+        ping
+    )
+    if [ "$response" != "PONG" ]; then
+      echo "$response"
+      exit 1
+    fi
+  ping_readiness_local_and_master.sh: |-
+    script_dir="$(dirname "$0")"
+    exit_status=0
+    "$script_dir/ping_readiness_local.sh" $1 || exit_status=$?
+    "$script_dir/ping_readiness_master.sh" $1 || exit_status=$?
+    exit $exit_status
+  ping_readiness_master.sh: |-
+    response=$(
+      timeout -s 9 $1 \
+      redis-cli \
+        -h $REDIS_MASTER_HOST \
+        -p $REDIS_MASTER_PORT_NUMBER \
+        ping
+    )
+    if [ "$response" != "PONG" ]; then
+      echo "$response"
+      exit 1
+    fi
+  ping_sentinel.sh: |-
+    response=$(
+      timeout -s 9 $1 \
+      redis-cli \
+        -h localhost \
+        -p $REDIS_SENTINEL_PORT \
+        ping
+    )
+    if [ "$response" != "PONG" ]; then
+      echo "$response"
+      exit 1
+    fi
+kind: ConfigMap
+metadata:
+  labels:
+    app: redis-user-state
+    chart: redis-user-state-10.0.0
+    heritage: Helm
+    release: engine
+  name: engine-redis-user-state-health
+---

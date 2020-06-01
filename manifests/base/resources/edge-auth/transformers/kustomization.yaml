@@ -17,15 +17,18 @@ patches:
         natsUri,
         keysUri,
         caCertificates,
-        mongoDbUri,
+        mongodbUri,
         identityProvidersUri,
-        identityProvidersV1Uri,
+        identityProvidersExtUri,
         ingressAuthUrl,
         ingressClass,
         groupsUri,
         corsUri,
         usersUri,
-        tenantsUri
+        tenantsUri,
+        redisUri,
+        redisPassword,
+        apiKeysUri
         )
   patch: |-
     - op: replace

@@ -1,0 +1,12 @@
+apiVersion: v1
+data:
+  csp: 'default-src ''none''; base-uri ''self''; img-src ''self'' data: maps.qlikcloud.com
+    services.arcgisonline.com ; script-src ''self'' ''unsafe-inline'' ''unsafe-eval''
+    maps.qlikcloud.com ; style-src ''self'' ''unsafe-inline'' ; font-src ''self''
+    data: ; frame-ancestors ''self''; frame-src ''self''; connect-src ''self'' api.qlikdataengineering.com
+    sqs.us-east-1.amazonaws.com maps.qlikcloud.com api.rollbar.com  ; block-all-mixed-content;
+    upgrade-insecure-requests;'
+kind: ConfigMap
+metadata:
+  name: csp-configmap
+---

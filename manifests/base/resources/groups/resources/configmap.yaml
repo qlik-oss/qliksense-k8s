@@ -1,0 +1,17 @@
+apiVersion: v1
+data:
+  ingressAuthUrl: http://groups-edge-auth.$(NAMESPACE).svc.cluster.local:8080/v1/auth
+  keysUri: http://groups-keys:8080/v1/keys/qlik.api.internal
+  logLevel: verbose
+  redisUri: groups-redis-master:6379
+  tokenAuthUri: http://groups-edge-auth:8080/v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: groups
+    chart: groups-3.0.0
+    heritage: Helm
+    release: groups
+  name: groups-configs
+  namespace: $(NAMESPACE)
+---

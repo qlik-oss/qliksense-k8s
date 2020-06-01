@@ -17,8 +17,3 @@ patches:
       tokenAuthUri: "http://$(PREFIX)-resource-library-edge-auth:8080/v1"
       keysUri: "http://$(PREFIX)-resource-library-keys:8080/v1/keys/qlik.api.internal"
       pdsUri: "http://$(PREFIX)-resource-library-policy-decisions:5080"
-      mongoDbUri: "mongodb://$(PREFIX)-mongodb:27017/resource-library"
-
-
-
-        

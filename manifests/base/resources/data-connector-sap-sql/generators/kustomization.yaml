@@ -3,23 +3,9 @@ kind: Kustomization
 commonLabels:
   app: data-connector-sap-sql
 resources:
-- ../../../../../generators/data-connector-sap-sql
-- ../../../secrets
-- ../../../configs
+- secrets
+- configs
 transformers:
 - ../secrets
 - ../configs
-- values.yaml
-patches:
-- target:
-    kind: SuperSecret
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: data-connector-sap-sql-secrets
-- target:
-    kind: SuperConfigMap
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: data-connector-sap-sql-configs
+

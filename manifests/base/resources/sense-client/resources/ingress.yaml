@@ -1,0 +1,59 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/auth-response-headers: Authorization
+    nginx.ingress.kubernetes.io/auth-signin: https://$host/login?returnto=$escaped_request_uri
+    nginx.ingress.kubernetes.io/auth-url: http://sense-client-edge-auth.$(NAMESPACE).svc.cluster.local:8080/v1/auth
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "Cache-Control" "Pragma" "X-XSS-Protection: 1; mode=block" "X-Content-Type-Options: nosniff";
+  labels:
+    app: sense-client
+    chart: sense-client-1.7.84
+    heritage: Helm
+    release: sense-client
+  name: sense-client
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: sense-client
+          servicePort: 9050
+        path: /sense
+      - backend:
+          serviceName: sense-client
+          servicePort: 9050
+        path: /dataloadeditor
+      - backend:
+          serviceName: sense-client
+          servicePort: 9050
+        path: /datamodelviewer
+      - backend:
+          serviceName: sense-client
+          servicePort: 9050
+        path: /single
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      more_set_headers "Cache-Control" "Pragma" "Access-Control-Allow-Origin: *";
+  labels:
+    app: sense-client
+    chart: sense-client-1.7.84
+    heritage: Helm
+    release: sense-client
+  name: sense-client-resources
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: sense-client
+          servicePort: 9050
+        path: /resources
+---

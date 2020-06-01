@@ -1,0 +1,19 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: notification-prep-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: notification-prep-configs
+    data:
+      keysUri: "http://$(PREFIX)-notification-prep-keys:8080/v1"
+      tokenAuthUri: "http://$(PREFIX)-notification-prep-edge-auth:8080"
+      natsStreamingClusterId: "$(PREFIX)-notification-prep-messaging-nats-streaming-cluster"
+      natsUri: "nats://$(PREFIX)-notification-prep-messaging-nats-client:4222"
+      usersUri: "http://$(PREFIX)-odag-users:8080"

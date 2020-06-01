@@ -21,7 +21,7 @@ patches:
         natsStreamingClusterId,
         natsUri,
         keysUri,
-        mongoDbUri
+        mongodbUri
         )
   patch: |-
     - op: replace

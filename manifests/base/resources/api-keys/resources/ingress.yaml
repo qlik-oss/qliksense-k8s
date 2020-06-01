@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/auth-response-headers: Authorization
+    nginx.ingress.kubernetes.io/auth-url: http://api-keys-edge-auth.$(NAMESPACE).svc.cluster.local:8080/v1/auth
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite (?i)/api/(.*) /$1 break;
+      more_clear_input_headers "X-Forwarded-Host" "X-Forwarded-For" "X-Forwarded-Proto" "X-Original-URI" "X-Original-URL";
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+  labels:
+    app: api-keys
+    chart: api-keys-3.0.0
+    heritage: Helm
+    release: api-keys
+  name: api-keys
+  namespace: $(NAMESPACE)
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: api-keys
+          servicePort: 8080
+        path: /api/v1/api-keys
+---

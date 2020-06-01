@@ -1,0 +1,193 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: reporting
+    chart: reporting-1.18.13
+    heritage: Helm
+    release: reporting
+  name: reporting
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reporting
+  template:
+    metadata:
+      labels:
+        app: reporting
+        chart: reporting-1.18.13
+        heritage: Helm
+        release: reporting
+    spec:
+      containers:
+      - args:
+        - -l=DEBUG
+        - -http-server-enable=true
+        - -http-server-host=0.0.0.0
+        - -http-server-port=9288
+        image: qliktech-docker.jfrog.io/reporting-web-renderer:2.21.1
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 9288
+        name: rwr
+      - args:
+        - -l debug
+        image: qliktech-docker.jfrog.io/reporting-composer:3.4.1
+        livenessProbe:
+          exec:
+            command:
+            - /bin/grpc_health_probe
+            - -addr=:52052
+            - -service=cmp
+          initialDelaySeconds: 10
+        name: cmp
+        readinessProbe:
+          exec:
+            command:
+            - /bin/grpc_health_probe
+            - -addr=:52052
+            - -service=cmp
+          initialDelaySeconds: 5
+      - env:
+        - name: KEYS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: keysUri
+              name: reporting-configs
+        - name: TEMPORARY_CONTENTS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: temporaryContentsUri
+              name: reporting-configs
+        - name: TEMP_CONTENTS_URL
+          value: $(TEMPORARY_CONTENTS_URI)
+        - name: FEATURE_FLAGS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: featureFlagsUri
+              name: reporting-configs
+        - name: FEATURE_FLAGS_URL
+          value: $(FEATURE_FLAGS_URI)
+        - name: REDIS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: redisUri
+              name: reporting-configs
+        - name: REDIS_URL
+          value: $(REDIS_URI)
+        - name: AUTH_JWKS_URI
+          value: $(KEYS_URI)/v1/keys/qlik.api.internal
+        - name: QIX_SESSIONS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: qixSessionsUri
+              name: reporting-configs
+        - name: SESSION_SERVICE_URL
+          value: $(QIX_SESSIONS_URI)
+        - name: TOKEN_AUTH_PRIVATE_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              key: tokenAuthPrivateKeyId
+              name: reporting-secrets
+        - name: TOKEN_AUTH_KID
+          value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
+        - name: TOKEN_AUTH_PRIVATE_KEY
+          valueFrom:
+            secretKeyRef:
+              key: tokenAuthPrivateKey
+              name: reporting-secrets
+        - name: NO_JWT_VALIDATION
+          value: "false"
+        - name: AUTH_JWT_AUD
+          value: qlik.api.internal
+        - name: AUTH_JWT_ISS
+          value: qlik.api.internal
+        - name: ENGINE_PROXY_URL
+          value: http://127.0.0.1:8001
+        - name: CLIENT_URL
+          value: http://127.0.0.1:8001
+        - name: REDIS_ENCRYPTION
+          value: "false"
+        - name: RENDERER_QUERY_STRING
+          value: ""
+        - name: TOKEN_AUTH_ENABLED
+          value: "true"
+        - name: TOKEN_AUTH_URL
+          value: $(TOKEN_AUTH_URI)/v1/internal-tokens
+        - name: REDIS_AUTH_TOKEN
+          value: $(REDIS_PASSWORD)
+        - name: NATS_URI
+          value: nats://reporting-nats-client:4222
+        - name: NATS_CLUSTER_ID
+          value: reporting-nats-streaming-cluster
+        image: qliktech-docker.jfrog.io/reporting-service:9.3.0
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 10
+          httpGet:
+            path: /health
+            port: 8282
+          initialDelaySeconds: 15
+          timeoutSeconds: 5
+        name: main
+        ports:
+        - containerPort: 8282
+        readinessProbe:
+          failureThreshold: 10
+          httpGet:
+            path: /health
+            port: 8282
+          initialDelaySeconds: 15
+          timeoutSeconds: 5
+      - env:
+        - name: ENGINE_HOST
+          value: $(PREFIX)-engine
+        - name: CLIENT_HOST
+          value: $(PREFIX)-sense-client
+        - name: FEATUREFLAGS_HOST
+          value: $(PREFIX)-feature-flags
+        - name: RESOURCELIBRARY_HOST
+          value: $(PREFIX)-resource-library
+        - name: TEMPCONTENTS_HOST
+          value: $(PREFIX)-temporary-contents
+        - name: LOCALE_HOST
+          value: $(PREFIX)-locale
+        - name: PROXY_HOST
+          value: 127.0.0.1
+        - name: PROXY_PORT
+          value: "8001"
+        - name: PROXY_METRICS_PORT
+          value: "8484"
+        - name: ENGINE_PORT
+          value: "9076"
+        - name: CLIENT_PORT
+          value: "9050"
+        - name: FEATUREFLAGS_PORT
+          value: "8080"
+        - name: RESOURCELIBRARY_PORT
+          value: "21068"
+        - name: TEMPCONTENTS_PORT
+          value: "6080"
+        - name: LOCALE_PORT
+          value: "8080"
+        image: qliktech-docker.jfrog.io/reporting-proxy:2.1.1
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8484
+        name: rpr
+        ports:
+        - containerPort: 8001
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+      volumes:
+      - name: reporting-secret
+        secret:
+          items:
+          - key: tokenAuthPrivateKey
+            path: jwtPrivateKey
+          secretName: reporting-secrets
+---

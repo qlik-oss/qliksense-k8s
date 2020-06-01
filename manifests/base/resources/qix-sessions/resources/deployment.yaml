@@ -1,0 +1,250 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: qix-sessions
+    chart: qix-sessions-5.6.7
+    heritage: Helm
+    release: qix-sessions
+  name: qix-sessions
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qix-sessions
+      release: qix-sessions
+  template:
+    metadata:
+      labels:
+        app: qix-sessions
+        release: qix-sessions
+    spec:
+      containers:
+      - command:
+        - /qix-sessions
+        - --logtostderr
+        env:
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              key: mongodbUri
+              name: qix-sessions-secrets
+        - name: MONGO_URI
+          value: $(MONGODB_URI)
+        - name: TERMINATION_GRACE_PERIOD_SECONDS
+          value: "30"
+        - name: AUTH_ENABLED
+          value: "true"
+        - name: AUTH_JWT_AUD
+          value: qlik.api.internal
+        - name: AUTH_JWT_ISS
+          value: qlik.api.internal
+        - name: ENGINE_PORT
+          value: "9076"
+        - name: CPU_MEM_ONLY_SCORE
+          value: "false"
+        - name: UPDATE_CACHE_ON_STATS_EVENT
+          value: "false"
+        - name: DYNAMIC_RELOAD_ENABLED
+          value: "true"
+        - name: RELOAD_ENGINE_GLOBAL_QUOTA
+          value: "10"
+        - name: RELOAD_ENGINE_TENANT_QUOTA
+          value: "2"
+        - name: ENABLE_PER_TENANT_DYNAMIC_POD_METRICS
+          value: "false"
+        - name: CLEAN_UP_INTERVAL_SECONDS
+          value: "60"
+        - name: CLEAN_UP_GRACE_PERIOD_SECONDS
+          value: "120"
+        - name: CLEAN_UP_SCHEDULING_GRACE_PERIOD_SECONDS
+          value: "300"
+        - name: CLEAN_UP_TIMEOUT_SECONDS
+          value: "3600"
+        - name: CLEAN_UP_ORPHAN_REPLICA_SETS
+          value: "true"
+        - name: QLIK_MANAGER_CONTROLLER_ENABLED
+          value: "true"
+        - name: KUBERNETES_CONTROLLER_ENABLED
+          value: "false"
+        - name: PROXY_ENABLED
+          value: "true"
+        - name: SELECTOR_TYPE
+          value: deterministic
+        - name: APP_SERVICE_READINESS_CHECK_ENABLED
+          value: "true"
+        - name: DEBUG_ENDPOINT_ENABLED
+          value: "false"
+        - name: DEPENDENCIES_HEALTHCHECK_TIMEOUT
+          value: "5000"
+        - name: MONITOR_UPDATE_FREQUENCY
+          value: "30"
+        - name: MONITOR_RETRIEVE_TIMEOUT
+          value: "20"
+        - name: MONITOR_ENGINE_ENTRY_EXPIRATION
+          value: "60"
+        - name: MONITOR_SYNC_APP_RECORDS
+          value: "false"
+        - name: GET_ENGINE_HEALTH_TIMEOUT
+          value: "10"
+        - name: GET_ENGINE_HEALTH_RETRY_TIMEOUT
+          value: "30"
+        - name: GET_ENGINE_SESSIONS_TIMEOUT_SECONDS
+          value: "20"
+        - name: LOCK_MAX_RETRIES
+          value: "25"
+        - name: LOCK_RETRY_INTERVAL
+          value: "50"
+        - name: USE_LOCK_FOR_ALL_REQUESTS
+          value: "false"
+        - name: MESSAGING_ENABLED
+          value: "false"
+        - name: NATS_TOKEN_AUTH_ENABLED
+          value: "true"
+        - name: STAN_ENGINE_EVENT_CHANNEL
+          value: system-events.engine.app
+        - name: ENGINE_SELECTOR_QUERY_RESULT_EXPIRATION
+          value: "30"
+        - name: SELECTORS_CONFIGMAP_NAME
+          value: qix-sessions-configs
+        - name: RELOAD_ENGINE_RESOURCE
+          value: $(PREFIX)-engine-reload
+        - name: FEATURE_FLAGS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: featureFlagsUri
+              name: qix-sessions-configs
+        - name: REDIS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: redisUri
+              name: qix-sessions-configs
+        - name: REDIS_ADDR
+          value: $(REDIS_URI)
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: redisPassword
+              name: qix-sessions-secrets
+        - name: KEYS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: keysUri
+              name: qix-sessions-configs
+        - name: AUTH_JWKS_URI
+          value: $(KEYS_URI)/v1/keys/qlik.api.internal
+        - name: PDS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: pdsUri
+              name: qix-sessions-configs
+        - name: NATS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: natsUri
+              name: qix-sessions-configs
+        - name: NATS_SERVER_ADDRESS
+          value: $(NATS_URI)
+        - name: NATS_STREAMING_CLUSTER_ID
+          valueFrom:
+            configMapKeyRef:
+              key: natsStreamingClusterId
+              name: qix-sessions-configs
+        - name: STAN_CLUSTER_ID
+          value: $(NATS_STREAMING_CLUSTER_ID)
+        - name: ENGINE_URI
+          valueFrom:
+            configMapKeyRef:
+              key: engineUri
+              name: qix-sessions-configs
+        - name: APP_SERVICE_URI
+          value: $(ENGINE_URI)
+        - name: TOKEN_AUTH_URI
+          valueFrom:
+            configMapKeyRef:
+              key: tokenAuthUri
+              name: qix-sessions-configs
+        - name: TOKEN_AUTH_PRIVATE_KEY
+          valueFrom:
+            secretKeyRef:
+              key: tokenAuthPrivateKey
+              name: qix-sessions-secrets
+        - name: TOKEN_AUTH_PRIVATE_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              key: tokenAuthPrivateKeyId
+              name: qix-sessions-secrets
+        - name: TENANT_QUOTAS_CONFIGMAP_NAME
+          value: qix-sessions-tenant-quotas-configmap
+        - name: ALLOW_EDITORS_ON_MULTI_ENGINES
+          value: "false"
+        - name: ALLOW_EDITORS_ON_MULTI_ENGINES
+          value: "false"
+        - name: REMOVE_APP_ID_SESSIONS
+          value: "false"
+        - name: ENABLE_TRACING
+          value: "false"
+        - name: ENABLE_SELECTORS_ENDPOINT
+          value: "false"
+        image: qliktech-docker.jfrog.io/qix-sessions:5.5.19
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /live
+            port: 8080
+        name: main
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+        volumeMounts:
+        - mountPath: /secrets
+          name: secrets
+          readOnly: true
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+      initContainers:
+      - command:
+        - sh
+        - -c
+        - |-
+          cat << 'EOF' > /secrets/service-key.yaml
+          privateKey: "$(TOKEN_AUTH_PRIVATE_KEY)"
+          kid: "$(TOKEN_AUTH_PRIVATE_KEY_ID)"
+          authURL: "$(TOKEN_AUTH_URI)/v1/internal-tokens"
+          algorithm: "ES384"
+          issuer: "qlik.api.internal/qix-sessions"
+          subject: "qix-sessions"
+          EOF
+        env:
+        - name: TOKEN_AUTH_URI
+          valueFrom:
+            configMapKeyRef:
+              key: tokenAuthUri
+              name: configs
+        - name: TOKEN_AUTH_PRIVATE_KEY
+          valueFrom:
+            secretKeyRef:
+              key: tokenAuthPrivateKey
+              name: qix-sessions-secrets
+        - name: TOKEN_AUTH_PRIVATE_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              key: tokenAuthPrivateKeyId
+              name: qix-sessions-secrets
+        image: alpine
+        name: secret
+        volumeMounts:
+        - mountPath: /secrets
+          name: secrets
+      serviceAccountName: $(PREFIX)-qix-sessions
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - configMap:
+          name: qix-sessions-configs
+        name: qix-sessions-configs
+      - emptyDir: {}
+        name: secrets
+---

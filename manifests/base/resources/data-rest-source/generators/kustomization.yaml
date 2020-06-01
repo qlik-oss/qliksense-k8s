@@ -3,23 +3,9 @@ kind: Kustomization
 commonLabels:
   app: data-rest-source
 resources:
-- ../../../../../generators/data-rest-source
-- ../../../secrets
-- ../../../configs
+- secrets
+- configs
 transformers:
 - ../secrets
 - ../configs
-- values.yaml
-patches:
-- target:
-    kind: SuperSecret
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: data-rest-source-secrets
-- target:
-    kind: SuperConfigMap
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: data-rest-source-configs
+

@@ -1,8 +1,0 @@
-apiVersion: qixmanager.qlik.com/v1
-kind: Engine
-metadata:
-  name: engine-reload
-spec:
-  metadata:
-    labels:
-      engine-nats-client: null

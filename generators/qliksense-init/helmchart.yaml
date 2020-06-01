@@ -1,5 +1,0 @@
-apiVersion: qlik.com/v1
-kind: HelmChart
-metadata:
- name: qliksense-init
-releaseName: qliksense-init

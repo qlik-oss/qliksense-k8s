@@ -13,8 +13,8 @@ patches:
     labelSelector: >-
       key notin (
         keysUri,
-        mongoDbUri,
-        redisUriWithPort,
+        mongodbUri,
+        redisUri,
         redisPassword,
         caCertificates,
         )

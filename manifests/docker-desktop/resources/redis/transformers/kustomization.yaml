@@ -12,7 +12,7 @@ patches:
     labelSelector: >-
       key notin (
         redisPassword,
-        redisUri
+        redisHost
         )
   patch: |-
     - op: replace

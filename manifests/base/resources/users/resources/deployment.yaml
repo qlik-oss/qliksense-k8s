@@ -1,0 +1,117 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: users
+    chart: users-2.1.22
+    heritage: Helm
+    release: users
+  name: users
+  namespace: $(NAMESPACE)
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: users
+      release: users
+  template:
+    metadata:
+      annotations:
+        checksum/configs: 3dccfc8c8a9aaedade502abc2b19a3d6d5e91e029d78c06e9c67c6236c466182
+        checksum/secrets: fc80ab37b5c1f5c308276d84233d718093298ecf6d8f368227ea09c541940c1f
+      labels:
+        app: users
+        release: users
+        users-nats-client: "true"
+    spec:
+      containers:
+      - env:
+        - name: KEYS_URI_TEMP
+          valueFrom:
+            configMapKeyRef:
+              key: keysUri
+              name: users-configs
+        - name: KEYS_URI
+          value: $(KEYS_URI_TEMP)/v1/keys
+        - name: TOKEN_AUTH_URI_TEMP
+          valueFrom:
+            configMapKeyRef:
+              key: tokenAuthUri
+              name: users-configs
+        - name: TOKEN_AUTH_URI
+          value: $(TOKEN_AUTH_URI_TEMP)/v1
+        - name: NATS_CLIENT_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: MONGODB_URI_FILE
+          value: /run/secrets/qlik.com/users/mongodbUri
+        - name: TOKEN_AUTH_PRIVATE_KEY_FILE
+          value: /run/secrets/qlik.com/users/tokenAuthPrivateKey
+        - name: TOKEN_AUTH_PRIVATE_KEY_ID_FILE
+          value: /run/secrets/qlik.com/users/tokenAuthPrivateKeyId
+        - name: FEATURE_FLAGS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: featureFlagsUri
+              name: users-configs
+        - name: INGRESS_AUTH_URL
+          valueFrom:
+            configMapKeyRef:
+              key: ingressAuthUrl
+              name: users-configs
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              key: logLevel
+              name: users-configs
+        - name: NATS_STREAMING_CLUSTER_ID
+          valueFrom:
+            configMapKeyRef:
+              key: natsStreamingClusterId
+              name: users-configs
+        - name: NATS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: natsUri
+              name: users-configs
+        - name: ENVIRONMENT
+          value: qseok
+        - name: MONGO_MAX_TIME_MS
+          value: "2000"
+        - name: MONGO_TIMEOUT_ENABLED
+          value: "true"
+        - name: NATS_ENABLED
+          value: "true"
+        - name: REGION
+          value: example
+        image: qliktech-docker.jfrog.io/users:2.5.2
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /live
+            port: http
+        name: main
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: http
+        volumeMounts:
+        - mountPath: /run/secrets/qlik.com/users
+          name: users-secrets
+          readOnly: true
+      dnsConfig:
+        options:
+        - name: timeout
+          value: "1"
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+      volumes:
+      - name: users-secrets
+        secret:
+          secretName: users-secrets
+---

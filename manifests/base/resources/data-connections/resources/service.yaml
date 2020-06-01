@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    prometheus.io/port: "9011"
+    prometheus.io/scrape: "true"
+  labels:
+    app: data-connections
+    chart: data-connections-1.6.17
+    heritage: Helm
+    release: data-connections
+  name: data-connections
+spec:
+  ports:
+  - name: data-connections
+    port: 9011
+    protocol: TCP
+    targetPort: 9011
+  selector:
+    app: data-connections
+    release: data-connections
+  type: ClusterIP
+---
