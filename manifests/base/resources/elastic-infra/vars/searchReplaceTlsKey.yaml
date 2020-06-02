@@ -9,7 +9,7 @@ path: data/tls.key
 search: (?s).*
 replaceWithObjRef:
   objref:
-    apiVersion: qlik.com/v1
+    apiVersion: v1
     kind: Secret
     mame: elastic-infra-secrets
   fieldref:
