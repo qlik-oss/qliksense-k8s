@@ -3,7 +3,8 @@ kind: Kustomization
 commonLabels:
   app: elastic-infra
 resources:
-  - ../../../transformers
+- ../../../transformers
+- ../vars
 transformers:
 - ../../../../../.operator/transformers
 - ../../../../../configuration/transformers
