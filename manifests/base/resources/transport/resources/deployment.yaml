@@ -95,7 +95,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        image: qliktech-docker.jfrog.io/transport:1.0.9
+        image: qlik-docker-qsefe.bintray.io/transport:1.0.9
         imagePullPolicy: null
         livenessProbe:
           httpGet:

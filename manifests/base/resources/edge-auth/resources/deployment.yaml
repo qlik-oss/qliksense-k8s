@@ -125,7 +125,7 @@ spec:
           value: "1800"
         - name: STATE_LIFETIME
           value: 7d
-        image: qliktech-docker.jfrog.io/edge-auth:3.1.2
+        image: qlik-docker-qsefe.bintray.io/edge-auth:3.1.2
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:

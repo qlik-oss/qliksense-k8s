@@ -94,7 +94,7 @@ spec:
           value: "true"
         - name: REGION
           value: example
-        image: qliktech-docker.jfrog.io/tenants:2.6.4
+        image: qlik-docker-qsefe.bintray.io/tenants:2.6.4
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:

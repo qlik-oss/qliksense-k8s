@@ -186,7 +186,7 @@ spec:
           value: "false"
         - name: ENABLE_SELECTORS_ENDPOINT
           value: "false"
-        image: qliktech-docker.jfrog.io/qix-sessions:5.5.19
+        image: qlik-docker-qsefe.bintray.io/qix-sessions:5.5.19
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:

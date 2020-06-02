@@ -18,5 +18,5 @@ transformers:
   - ../../transformers/prefix
   - ../../transformers/namespace
 images:
-  - name: qliktech-docker.jfrog.io/data-connector-odbc
+  - name: qlik-docker-qsefe.bintray.io/data-connector-odbc
     newName: $(IMAGE_REGISTRY)/data-connector-odbc

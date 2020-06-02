@@ -77,7 +77,7 @@ spec:
           value: qlik.api.internal
         - name: MAX_CONSECUTIVE_FAILURES
           value: "5"
-        image: qliktech-docker.jfrog.io/reload-tasks:0.1.18
+        image: qlik-docker-qsefe.bintray.io/reload-tasks:0.1.18
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:

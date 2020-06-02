@@ -75,7 +75,7 @@ spec:
           value: "false"
         - name: ENABLE_FEATUREFLAG_FILTERING
           value: "true"
-        image: qliktech-docker.jfrog.io/dcaas:1.7.2
+        image: qlik-docker-qsefe.bintray.io/dcaas:1.7.2
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:

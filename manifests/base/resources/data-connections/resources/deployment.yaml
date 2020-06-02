@@ -115,7 +115,7 @@ spec:
               key:  redisEncryptionKey
         - name: REDIS_ADDR
           value: $(REDIS_URI)
-        image: qliktech-docker.jfrog.io/data-connections:0.4.16
+        image: qlik-docker-qsefe.bintray.io/data-connections:0.4.16
         imagePullPolicy: null
         livenessProbe:
           httpGet:

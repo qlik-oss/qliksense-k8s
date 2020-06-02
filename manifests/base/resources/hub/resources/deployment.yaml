@@ -20,7 +20,7 @@ spec:
         release: hub
     spec:
       containers:
-      - image: qliktech-docker.jfrog.io/hub:1.0.166
+      - image: qlik-docker-qsefe.bintray.io/hub:1.0.166
         imagePullPolicy: IfNotPresent
         name: main
         ports:

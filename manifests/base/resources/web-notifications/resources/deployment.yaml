@@ -73,7 +73,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        image: qliktech-docker.jfrog.io/web-notifications:0.0.21
+        image: qlik-docker-qsefe.bintray.io/web-notifications:0.0.21
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:

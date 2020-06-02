@@ -42,7 +42,7 @@ spec:
           value: http://sense-client-web-security:6263/v1/csp-header
         - name: ASSETS_URL
           value: ../resources/
-        image: qliktech-docker.jfrog.io/sense-client:6.368.0
+        image: qlik-docker-qsefe.bintray.io/sense-client:6.368.0
         imagePullPolicy: IfNotPresent
         name: main
         ports:

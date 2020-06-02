@@ -64,7 +64,7 @@ spec:
           value: qseok
         - name: REGION
           value: example
-        image: qliktech-docker.jfrog.io/groups:2.0.2
+        image: qlik-docker-qsefe.bintray.io/groups:2.0.2
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:

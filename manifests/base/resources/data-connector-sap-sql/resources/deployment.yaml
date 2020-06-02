@@ -45,7 +45,7 @@ spec:
           value: INFO
         - name: SERVICE_MODE
           value: "true"
-        image: qliktech-docker.jfrog.io/data-connector-sap-sql:7.0.17
+        image: qlik-docker-qsefe.bintray.io/data-connector-sap-sql:7.0.17
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -111,7 +111,7 @@ spec:
           value: "true"
         - name: MAX_ACTIVE_RELOADS
           value: "3"
-        image: qliktech-docker.jfrog.io/data-connector-sap-sql:7.0.17
+        image: qlik-docker-qsefe.bintray.io/data-connector-sap-sql:7.0.17
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:

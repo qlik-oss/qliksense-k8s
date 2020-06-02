@@ -22,7 +22,7 @@ spec:
               value: "true"
             - name: ENVIRONMENT
               value: k8s
-            image: qliktech-docker.jfrog.io/insights:2.0.10
+            image: qlik-docker-qsefe.bintray.io/insights:2.0.10
             imagePullPolicy: IfNotPresent
             name: main
           imagePullSecrets:

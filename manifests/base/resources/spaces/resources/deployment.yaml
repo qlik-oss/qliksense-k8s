@@ -116,7 +116,7 @@ spec:
           value: "false"
         - name: FEATURE_FLAGS_ENABLED
           value: "true"
-        image: qliktech-docker.jfrog.io/spaces:1.13.1
+        image: qlik-docker-qsefe.bintray.io/spaces:1.13.1
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:

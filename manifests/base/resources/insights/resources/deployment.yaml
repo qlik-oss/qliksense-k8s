@@ -100,7 +100,7 @@ spec:
               name: insights-configs
         - name: ENGINE_URL
           value: $(ENGINE_URI_URI)
-        image: qliktech-docker.jfrog.io/insights:2.0.10
+        image: qlik-docker-qsefe.bintray.io/insights:2.0.10
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

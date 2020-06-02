@@ -49,7 +49,7 @@ spec:
             configMapKeyRef:
               key: keysUri
               name: messaging-configs
-        image: qliktech-docker.jfrog.io/qnatsd:0.3.2
+        image: qlik-docker-qsefe.bintray.io/qnatsd:0.3.2
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 6
@@ -87,7 +87,7 @@ spec:
         - -subz
         - -varz
         - http://localhost:8222
-        image: qliktech-docker.jfrog.io/prometheus-nats-exporter:0.3.0
+        image: qlik-docker-qsefe.bintray.io/prometheus-nats-exporter:0.3.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -239,7 +239,7 @@ spec:
             secretKeyRef:
               key: client-password
               name: messaging-nats-secret
-        image: qliktech-docker.jfrog.io/nats-streaming:0.14.2
+        image: qlik-docker-qsefe.bintray.io/nats-streaming:0.14.2
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 6
@@ -271,7 +271,7 @@ spec:
         - -channelz
         - -serverz
         - http://localhost:8222
-        image: qliktech-docker.jfrog.io/prometheus-nats-exporter:0.3.0
+        image: qlik-docker-qsefe.bintray.io/prometheus-nats-exporter:0.3.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:

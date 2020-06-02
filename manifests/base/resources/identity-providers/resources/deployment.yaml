@@ -74,7 +74,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        image: qliktech-docker.jfrog.io/identity-providers:0.3.0
+        image: qlik-docker-qsefe.bintray.io/identity-providers:0.3.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:

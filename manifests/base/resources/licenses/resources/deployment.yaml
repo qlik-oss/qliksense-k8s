@@ -25,7 +25,7 @@ spec:
         - --election=licenses
         - --election-namespace=$(NAMESPACE)
         - --http=0.0.0.0:4040
-        image: qliktech-docker.jfrog.io/leader-elector:1.5
+        image: qlik-docker-qsefe.bintray.io/leader-elector:1.5
         name: election
         ports:
         - containerPort: 4040
@@ -118,7 +118,7 @@ spec:
           value: "true"
         - name: SQS_ENABLED
           value: "false"
-        image: qliktech-docker.jfrog.io/licenses:3.17.0
+        image: qlik-docker-qsefe.bintray.io/licenses:3.17.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:

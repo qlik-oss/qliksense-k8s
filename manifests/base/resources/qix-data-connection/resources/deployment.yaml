@@ -100,7 +100,7 @@ spec:
           value: http://qix-data-connection-feature-flags:8080
         - name: BYPASS_TOKEN
           value: Qlik123456
-        image: qliktech-docker.jfrog.io/qix-data-connection:1.12.28
+        image: qlik-docker-qsefe.bintray.io/qix-data-connection:1.12.28
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:

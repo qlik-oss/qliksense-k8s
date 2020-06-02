@@ -34,7 +34,7 @@ spec:
           value: "true"
         - name: NLU_MULTI_LINGUAL
           value: "false"
-        image: qliktech-docker.jfrog.io/nl-parser:0.56.0
+        image: qlik-docker-qsefe.bintray.io/nl-parser:0.56.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 3

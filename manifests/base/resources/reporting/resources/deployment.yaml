@@ -26,7 +26,7 @@ spec:
         - -http-server-enable=true
         - -http-server-host=0.0.0.0
         - -http-server-port=9288
-        image: qliktech-docker.jfrog.io/reporting-web-renderer:2.21.1
+        image: qlik-docker-qsefe.bintray.io/reporting-web-renderer:2.21.1
         livenessProbe:
           httpGet:
             path: /health
@@ -34,7 +34,7 @@ spec:
         name: rwr
       - args:
         - -l debug
-        image: qliktech-docker.jfrog.io/reporting-composer:3.4.1
+        image: qlik-docker-qsefe.bintray.io/reporting-composer:3.4.1
         livenessProbe:
           exec:
             command:
@@ -122,7 +122,7 @@ spec:
           value: nats://reporting-nats-client:4222
         - name: NATS_CLUSTER_ID
           value: reporting-nats-streaming-cluster
-        image: qliktech-docker.jfrog.io/reporting-service:9.3.0
+        image: qlik-docker-qsefe.bintray.io/reporting-service:9.3.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10
@@ -172,7 +172,7 @@ spec:
           value: "6080"
         - name: LOCALE_PORT
           value: "8080"
-        image: qliktech-docker.jfrog.io/reporting-proxy:2.1.1
+        image: qlik-docker-qsefe.bintray.io/reporting-proxy:2.1.1
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:

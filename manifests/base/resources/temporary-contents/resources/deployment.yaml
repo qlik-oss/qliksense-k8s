@@ -91,7 +91,7 @@ spec:
           value: "true"
         - name: STORAGE_PATH
           value: /qlik/temp-contents
-        image: qliktech-docker.jfrog.io/temporary-contents:1.4.4
+        image: qlik-docker-qsefe.bintray.io/temporary-contents:1.4.4
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:

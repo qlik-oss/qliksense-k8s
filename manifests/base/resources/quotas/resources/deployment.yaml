@@ -73,7 +73,7 @@ spec:
           value: "false"
         - name: SPACES_ENABLED
           value: "false"
-        image: qliktech-docker.jfrog.io/quotas:0.8.0
+        image: qlik-docker-qsefe.bintray.io/quotas:0.8.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:

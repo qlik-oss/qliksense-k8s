@@ -48,7 +48,7 @@ spec:
           value: INFO
         - name: QWC_ALLOW_REFERENCE_CONNECTOR
           value: "true"
-        image: qliktech-docker.jfrog.io/data-connector-qwc:0.77.0
+        image: qlik-docker-qsefe.bintray.io/data-connector-qwc:0.77.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -123,7 +123,7 @@ spec:
           value: "false"
         - name: SHUTDOWN_TIMEOUT
           value: "30"
-        image: qliktech-docker.jfrog.io/data-connector-qwc:0.77.0
+        image: qlik-docker-qsefe.bintray.io/data-connector-qwc:0.77.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -191,7 +191,7 @@ spec:
         #   name: QWC_REDIS_PASSWORD
         - name: QWC_REDIS_PASSWORD
           value: $(REDIS_PASSWORD)
-        image: qliktech-docker.jfrog.io/data-connector-qwc-web:0.77.0
+        image: qlik-docker-qsefe.bintray.io/data-connector-qwc-web:0.77.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:

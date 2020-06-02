@@ -303,7 +303,7 @@ spec:
           value: "9090"
         - name: GRPC_DNS_RESOLVER
           value: native
-        image: qliktech-docker.jfrog.io/engine:12.665.0
+        image: qlik-docker-qsefe.bintray.io/engine:12.665.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 3
@@ -670,7 +670,7 @@ spec:
           value: "9090"
         - name: GRPC_DNS_RESOLVER
           value: native
-        image: qliktech-docker.jfrog.io/engine-qv:12.665.0
+        image: qlik-docker-qsefe.bintray.io/engine-qv:12.665.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 3

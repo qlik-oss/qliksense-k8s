@@ -112,7 +112,7 @@ spec:
           value: "true"
         - name: PROMETHEUS_PORT
           value: "8080"
-        image: qliktech-docker.jfrog.io/qix-data-reload:1.3.9
+        image: qlik-docker-qsefe.bintray.io/qix-data-reload:1.3.9
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:

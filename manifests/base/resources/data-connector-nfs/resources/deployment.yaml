@@ -47,7 +47,7 @@ spec:
               name: data-connector-nfs-configs
         - name: AUTH_ENABLED
           value: "true"
-        image: qliktech-docker.jfrog.io/data-connector-nfs:1.0.1
+        image: qlik-docker-qsefe.bintray.io/data-connector-nfs:1.0.1
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:

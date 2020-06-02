@@ -111,7 +111,7 @@ spec:
               fieldPath: metadata.name
         - name: NATS_AUTHENABLED
           value: "true"
-        image: qliktech-docker.jfrog.io/qix-datafiles:2.0.15
+        image: qlik-docker-qsefe.bintray.io/qix-datafiles:2.0.15
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:

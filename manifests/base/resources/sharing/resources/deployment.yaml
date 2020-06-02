@@ -143,7 +143,7 @@ spec:
           value: $(ENCRYPTION_URI)
         - name: STORAGE_PATH
           value: /qlik/sharingsvc-storage
-        image: qliktech-docker.jfrog.io/sharing:3.0.52
+        image: qlik-docker-qsefe.bintray.io/sharing:3.0.52
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 10

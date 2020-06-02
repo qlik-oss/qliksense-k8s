@@ -99,7 +99,7 @@ spec:
           value: "30"
         - name: ACCESS_CONTROL_EVALUATE_TIMEOUT
           value: "30"
-        image: qliktech-docker.jfrog.io/collections:1.5.6
+        image: qlik-docker-qsefe.bintray.io/collections:1.5.6
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
