@@ -1,0 +1,13 @@
+apiVersion: builtin
+kind: AnnotationsTransformer
+metadata:
+  name: common-annotations
+annotations:
+  app.kubernetes.io/name: qliksense
+  app.kubernetes.io/instance: $(PREFIX)
+  app.kubernetes.io/version: 0.0.0
+  app.kubernetes.io/managed-by: qliksense-operator
+fieldSpecs:
+  - path: metadata/annotations
+    create: true
+
