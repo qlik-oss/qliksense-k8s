@@ -1,9 +1,0 @@
-apiVersion: qlik.com/v1
-kind: SearchReplace
-metadata:
-  name: component-storageClass
-target:
-  kind: PersistentVolumeClaim
-path: /
-search: \$\(STORAGE_CLASS_NAME\)
-replace: $(STORAGE_CLASS_NAME)

@@ -1,14 +1,16 @@
 apiVersion: qlik.com/v1
 kind: SearchReplace
 metadata:
-  name: component-storageClass-replace2
+  name: storageClassName
 target:
   kind: SearchReplace
+  labelSelector: key=storageClassName
 path: replace
-search: ACTUAL_VALUE_OF_SC
+search: \$\(STORAGE_CLASS_NAME\)
 replaceWithObjRef:
   objref:
     apiVersion: qlik.com/v1
     kind: SuperConfigMap
+    name: configs
   fieldref:
     fieldpath: data.storageClassName

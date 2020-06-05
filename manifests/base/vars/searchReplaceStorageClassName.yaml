@@ -4,7 +4,7 @@ metadata:
   name: component-storageClass
 target:
   kind: PersistentVolumeClaim
-path: /
+path: spec/storageClassName
 search: \$\(STORAGE_CLASS_NAME\)
 replaceWithObjRef:
   objref:

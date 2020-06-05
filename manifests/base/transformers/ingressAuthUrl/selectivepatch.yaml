@@ -4,7 +4,7 @@ metadata:
   name: ingressAuthUrl
   labels:
     key: ingressAuthUrl
-enabled: false
+enabled: true
 default: true
 patches:
 - target:

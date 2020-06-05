@@ -11,6 +11,6 @@ transformers:
   - configs
   - transformers
   - ../../transformers/release
-  - ../../vars
+  - vars
   - ../../transformers/prefix
   - ../../transformers/namespace

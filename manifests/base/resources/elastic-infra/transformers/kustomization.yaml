@@ -4,7 +4,6 @@ commonLabels:
   app: elastic-infra
 resources:
 - ../../../transformers
-- ../vars
 transformers:
 - ../../../../../.operator/transformers
 - ../../../../../configuration/transformers

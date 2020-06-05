@@ -4,7 +4,7 @@ metadata:
   name: storageClassName
   labels:
     key: storageClassName
-enabled: false
+enabled: true
 patches:
 - target:
     kind: PersistentVolumeClaim
@@ -15,3 +15,13 @@ patches:
       name: component
     spec:
       storageClassName: $(STORAGE_CLASS_NAME)
+- target:
+    kind: SearchReplace
+    labelSelector: key=ingressAuthUrl
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SearchReplace
+    metadata:
+      name: storageClassName
+    replaceWithObjRef: null
+    replace: $(STORAGE_CLASS_NAME)

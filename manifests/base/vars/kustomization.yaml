@@ -8,6 +8,6 @@ resources:
 - searchReplaceIngressAuthUrl.yaml
 - searchReplaceIngressClass.yaml
 - searchReplaceImageRegistry.yaml
+- searchReplaceStorageClassName.yaml
 - prefix
 - namespace
-- storageClassName

@@ -11,7 +11,7 @@ transformers:
   - ../../../../.operator/patches
   - ../../../../configuration/patches
   - ../../transformers/release
-  - ../../vars
+  - vars
   - ../../transformers/msgprefix
   - ../../transformers/prefix
 

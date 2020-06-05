@@ -13,7 +13,7 @@ transformers:
 - ../../../../configuration/patches
 - last-mile-transformers
 - ../../transformers/release
-- ../../vars
+- vars
 - ../../transformers/msgprefix
 - ../../transformers/prefix
 - ../../transformers/namespace
