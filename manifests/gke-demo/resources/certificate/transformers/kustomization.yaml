@@ -11,7 +11,9 @@ transformers:
 patches:
 - target:
     labelSelector: >-
-      key notin ()
+      key notin (
+        imageRegistry 
+      )
   patch: |-
     - op: replace
       path: /enabled

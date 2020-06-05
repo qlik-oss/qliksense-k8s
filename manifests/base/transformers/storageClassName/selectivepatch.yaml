@@ -5,16 +5,8 @@ metadata:
   labels:
     key: storageClassName
 enabled: true
+default: true
 patches:
-- target:
-    kind: PersistentVolumeClaim
-  patch: |-
-    apiVersion: v1
-    kind: PersistentVolumeClaim
-    metadata:
-      name: component
-    spec:
-      storageClassName: $(STORAGE_CLASS_NAME)
 - target:
     kind: SearchReplace
     labelSelector: key=ingressAuthUrl
@@ -25,3 +17,13 @@ patches:
       name: storageClassName
     replaceWithObjRef: null
     replace: $(STORAGE_CLASS_NAME)
+defaults:
+- target:
+    kind: PersistentVolumeClaim
+  patch: |-
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    metadata:
+      name: component
+    spec:
+      storageClassName: $(STORAGE_CLASS_NAME)

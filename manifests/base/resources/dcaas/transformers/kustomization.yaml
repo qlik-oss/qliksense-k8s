@@ -24,6 +24,7 @@ patches:
 - target:
     labelSelector: >-
       key notin (
+        imageRegistry,
         dcaasRedisPassword,
         dcaasRedisUri,
         featureFlagsUri,

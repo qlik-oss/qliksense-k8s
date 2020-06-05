@@ -11,6 +11,7 @@ patches:
 - target:
     labelSelector: >-
       key notin (
+        imageRegistry,
         ingressClass,
         ingressAuthUrl
         )

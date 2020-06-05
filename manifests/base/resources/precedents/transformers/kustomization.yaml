@@ -11,7 +11,8 @@ transformers:
 patches:
 - target:
     labelSelector: >-
-      key notin ( 
+      key notin (
+        imageRegistry, 
         featureFlagsUri,
         ingressClass,
         natsUri,

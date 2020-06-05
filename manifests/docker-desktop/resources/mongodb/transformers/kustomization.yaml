@@ -1,29 +1,18 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 commonLabels:
-  app: transport
+  app: redis
 resources:
-- ../../../transformers
+- ../../../../base/transformers
 transformers:
 - ../../../../../.operator/transformers
 - ../../../../../configuration/transformers
-#Disable all transformers except these
 patches:
 - target:
     labelSelector: >-
       key notin (
-        imageRegistry,
-        tokenAuthUri,
-        ingressClass,
-        ingressAuthUrl,
-        keysUri,
-        caCertificates,
-        mongodbUri,
-        temporaryContentsUri,
-        encryptionUri,
-        natsUri,
-        natsStreamingClusterId
-        )
+        imageRegistry
+      )
   patch: |-
     - op: replace
       path: /enabled
@@ -31,4 +20,3 @@ patches:
     - op: replace
       path: /default
       value: true
-      

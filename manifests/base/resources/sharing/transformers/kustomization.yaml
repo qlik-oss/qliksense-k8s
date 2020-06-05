@@ -12,6 +12,7 @@ patches:
 - target:
     labelSelector: >-
       key notin (
+        imageRegistry,
         tokenAuthUri,
         pdsUri,
         featureFlagsUri,
@@ -28,6 +29,7 @@ patches:
         temporaryContentsUri,
         natsUri,
         natsStreamingClusterId,
+        storageClassName
         )
   patch: |-
     - op: replace
