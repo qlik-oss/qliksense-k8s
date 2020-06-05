@@ -1,9 +1,0 @@
-apiVersion: qlik.com/v1
-kind: SearchReplace
-metadata:
-  name: component-imageRegistry
-target:
-  labelSelector: release
-path: /
-search: \$\(IMAGE_REGISTRY\)
-replace: $(IMAGE_REGISTRY)
