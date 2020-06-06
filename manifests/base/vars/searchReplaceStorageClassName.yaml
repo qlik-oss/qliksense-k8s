@@ -2,6 +2,8 @@ apiVersion: qlik.com/v1
 kind: SearchReplace
 metadata:
   name: component-storageClass
+  labels:
+    key: storageClassName
 target:
   kind: PersistentVolumeClaim
 path: spec/storageClassName
@@ -12,3 +14,13 @@ replaceWithObjRef:
     kind: ConfigMap
   fieldref:
     fieldpath: data.storageClassName
+---
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: component-storageClass-removeEmpty
+target:
+  kind: PersistentVolumeClaim
+path: spec
+search: '(?s),"storageClassName":""'
+replace: ""
