@@ -4,6 +4,7 @@ commonLabels:
   app: hub
 resources:
 - ../../../transformers/ingressClass
+- ../../../transformers/imageRegistry
 transformers:
 - ../../../../../.operator/transformers
 - ../../../../../configuration/transformers
