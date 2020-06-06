@@ -15,7 +15,8 @@ patches:
     labelSelector: >-
       key notin (
         dcaasRedisPassword,
-        dcaasRedisUri
+        dcaasRedisUri,
+        imageRegistry
       )
   patch: |-
     - op: add 
