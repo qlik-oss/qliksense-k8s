@@ -16,7 +16,7 @@ patches:
         imageRegistry,
         dcaasRedisUri,
         dcaasRedisPassword
-        )
+      )
   patch: |-
     - op: replace
       path: /enabled

@@ -14,3 +14,6 @@ transformers:
   - vars
   - ../../transformers/prefix
   - ../../transformers/namespace
+images:
+  - name: qlik-docker-qsefe.bintray.io/edge-auth
+    newName: $(IMAGE_REGISTRY)/edge-auth

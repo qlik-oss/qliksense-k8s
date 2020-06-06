@@ -22,3 +22,5 @@ transformers:
 images:
   - name: qlik-docker-qsefe.bintray.io/data-connector-qwc
     newName: $(IMAGE_REGISTRY)/data-connector-qwc
+  - name: qlik-docker-qsefe.bintray.io/data-connector-qwc-web
+    newName: $(IMAGE_REGISTRY)/data-connector-qwc-web

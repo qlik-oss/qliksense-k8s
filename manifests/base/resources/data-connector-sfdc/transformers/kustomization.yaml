@@ -8,12 +8,15 @@ transformers:
 - ../../../../../.operator/transformers
 - ../../../../../configuration/transformers
 patches:
-  - target:
-      kind: SelectivePatch
-    patch: |-
-      - op: replace
-        path: /enabled
-        value: false
-      - op: replace
-        path: /default
-        value: true
+- target:
+    labelSelector: >-
+      key notin (
+        imageRegistry
+      )
+  patch: |-
+    - op: replace
+      path: /enabled
+      value: false
+    - op: replace
+      path: /default
+      value: true

@@ -20,3 +20,5 @@ transformers:
 images:
 - name: qlik-docker-qsefe.bintray.io/odag
   newName: $(IMAGE_REGISTRY)/odag
+- name: qlik-docker-qsefe.bintray.io/leader-elector
+  newName: $(IMAGE_REGISTRY)/leader-elector
