@@ -1,7 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 commonLabels:
-  app: data-connector-odbc
+  app: data-connector-qwc
 resources:
 - ../../../transformers
 - ../../dcaas/transformers/redisUri
@@ -14,6 +14,8 @@ patches:
     labelSelector: >-
       key notin (
         imageRegistry,
+        ingressClass,
+        ingressAuthUrl,
         dcaasRedisUri,
         dcaasRedisPassword
       )

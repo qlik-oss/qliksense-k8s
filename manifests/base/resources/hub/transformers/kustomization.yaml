@@ -12,7 +12,8 @@ patches:
 - target:
     labelSelector: >-
       key notin (
-        imageRegistry
+        imageRegistry,
+        ingressClass
       )
   patch: |-
     - op: replace
