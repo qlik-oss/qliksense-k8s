@@ -8,7 +8,7 @@ enabled: true
 patches:
 - target:
     kind: SearchReplace
-    name: qliksense-domain
+    labelSelector: key=qliksense-domain
   patch: |-
     apiVersion: qlik.com/v1
     kind: SearchReplace

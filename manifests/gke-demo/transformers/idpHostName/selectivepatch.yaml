@@ -8,7 +8,7 @@ enabled: true
 patches:
 - target:
     kind: SearchReplace
-    name: idpHostName
+    labelSelector: key=idpHostName
   patch: |-
     apiVersion: qlik.com/v1
     kind: SearchReplace
