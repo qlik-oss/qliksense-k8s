@@ -1,0 +1,16 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: component-qlikSenseDomain
+  labels:
+    key: qlikSenseDomain
+target:
+  kind: Certificate
+path: spec
+search: \$\(QLIKSENSE_DOMAIN\)
+replaceWithObjRef:
+  objref:
+    apiVersion: v1
+    kind: ConfigMap
+  fieldref:
+    fieldpath: data.qlikSenseDomain

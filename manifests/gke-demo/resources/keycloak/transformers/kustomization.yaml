@@ -15,8 +15,10 @@ patches:
       key notin (
         imageRegistry,
         ingressAuthUrl,
+        idpHostName,
         realmName,
-        clientSecret
+        clientSecret,
+        staticIpName
       )
   patch: |-
     - op: replace

@@ -3,6 +3,7 @@ kind: Kustomization
 commonLabels:
   app: certificate
 resources:
+- ../../../transformers
 - ../../../../base/transformers
 transformers:
 - ../../../../../.operator/transformers
@@ -12,7 +13,8 @@ patches:
 - target:
     labelSelector: >-
       key notin (
-        imageRegistry 
+        imageRegistry,
+        qlikSenseDomain
       )
   patch: |-
     - op: replace
