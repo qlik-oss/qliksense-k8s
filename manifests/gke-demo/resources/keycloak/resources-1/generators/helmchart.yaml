@@ -53,5 +53,7 @@ values:
     existingSecret: keycloak-secrets
     persistence:
       enabled: true
+    shmVolume:
+      enabled: false
   test:
     enabled: false
