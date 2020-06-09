@@ -1,7 +1,9 @@
 apiVersion: qlik.com/v1
 kind: SearchReplace
 metadata:
-  name: realm-name
+  name: component-realmName
+  labels:
+    key: realmName
 target:
   kind: SuperSecret
   name: keycloak-realm

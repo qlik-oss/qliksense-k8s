@@ -3,7 +3,6 @@ kind: Kustomization
 commonLabels:
   app: keycloak
 resources:
-- namespace.yaml
 - ../../../transformers
 - ../../../../base/transformers
 transformers:

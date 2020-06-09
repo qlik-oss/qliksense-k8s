@@ -13,6 +13,6 @@ patches:
     apiVersion: qlik.com/v1
     kind: SearchReplace
     metadata:
-      name: realm-name
+      name: realmName
     replaceWithObjRef: null
     replace: $(REALM_NAME)

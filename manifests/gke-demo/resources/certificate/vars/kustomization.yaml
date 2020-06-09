@@ -1,9 +1,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- realmSecret.yaml
-- resources
+- searchAdminEmailAddress.yaml
+- ../../../../base/vars
 transformers:
-- ../../../../base/transformers/release
-- transformers
-
+- ../transformers

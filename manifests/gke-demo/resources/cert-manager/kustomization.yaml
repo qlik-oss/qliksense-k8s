@@ -9,5 +9,3 @@ resources:
 # images:
 #   - name: quay.io/external_storage/nfs-client-provisioner
 #     newName: $(IMAGE_REGISTRY)/nfs-client-provisioner
-configurations:
-  - ../../varreference.yaml

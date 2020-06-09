@@ -1,0 +1,16 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: component-qlikSenseIp
+  labels:
+    key: qlikSenseIp
+target:
+  kind: Service
+path: spec/loadBalancerIP
+search: \$\(QLIKSENSE_IP\)
+replaceWithObjRef:
+  objref:
+    apiVersion: v1
+    kind: ConfigMap
+  fieldref:
+    fieldpath: data.qlikSenseIp

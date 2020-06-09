@@ -5,7 +5,7 @@ commonLabels:
 resources:
 - helmchart.yaml
 transformers:
-- transformers
+- ../../../../../base/transformers/release
 - ../../../../transformers
 - searchReplacePrefix.yaml
 

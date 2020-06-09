@@ -1,18 +1,18 @@
 apiVersion: qlik.com/v1
 kind: SelectivePatch
 metadata:
-  name: idpHostName
+  name: staticIpName
   labels:
-    key: idpHostName
+    key: staticIpName
 enabled: true
 patches:
 - target:
     kind: SearchReplace
-    name: idpHostName
+    name: staticIpName
   patch: |-
     apiVersion: qlik.com/v1
     kind: SearchReplace
     metadata:
-      name: idpHostName
+      name: staticIpName
     replaceWithObjRef: null
-    replace: $(IDP_HOST_NAME)
+    replace: $(STATIC_IP_NAME)

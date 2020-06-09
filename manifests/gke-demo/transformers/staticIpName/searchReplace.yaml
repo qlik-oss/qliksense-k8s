@@ -1,16 +1,16 @@
 apiVersion: qlik.com/v1
 kind: SearchReplace
 metadata:
-  name: clientSecret
+  name: staticIpName
 target:
   kind: SearchReplace
-  labelSelector: key=clientSecret
+  labelSelector: key=staticIpName
 path: replace
-search: \$\(CLIENT_SECRET\)
+search: \$\(STATIC_IP_NAME\)
 replaceWithObjRef:
   objref:
     apiVersion: qlik.com/v1
-    kind: SuperSecret
-    name: gke-secrets
+    kind: SuperConfigMap
+    name: gke-configs
   fieldref:
-    fieldpath: stringData.clientSecret
+    fieldpath: data.staticIpName

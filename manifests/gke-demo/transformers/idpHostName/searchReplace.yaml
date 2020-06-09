@@ -1,10 +1,10 @@
 apiVersion: qlik.com/v1
 kind: SearchReplace
 metadata:
-  name: idp-hostname
+  name: idpHostName
 target:
   kind: SearchReplace
-  name: idp-hostname
+  labelSelector: key=idpHostName
 path: replace
 search: \$\(IDP_HOST_NAME\)
 replaceWithObjRef:

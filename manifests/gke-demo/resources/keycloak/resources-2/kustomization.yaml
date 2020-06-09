@@ -9,4 +9,7 @@ resources:
 transformers:
   - ../secrets/transformers
   - ../configs/transformers
-  - ../../../../base/transformers/base
+  - ../../../../../.operator/patches
+  - ../../../../../configuration/patches
+  - ../../../../base/transformers/release
+  - ../../../../base/transformers/prefix

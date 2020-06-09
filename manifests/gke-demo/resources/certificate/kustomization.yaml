@@ -11,18 +11,7 @@ transformers:
   - transformers
   - ../../../../.operator/patches
   - ../../../../configuration/patches
-  - ../../../base/transformers/base
-vars:
-- name: ADMIN_EMAIL_ADDRESS
-  objref:
-    apiVersion: v1
-    kind: ConfigMap
-    name: certificate-configs
-  fieldref:
-    fieldpath: data.adminEmailAddress
-# images:
-#   - name: quay.io/external_storage/nfs-client-provisioner
-#     newName: $(IMAGE_REGISTRY)/nfs-client-provisioner
-configurations:
-  - ../../../base/varreference.yaml
-  - ../../varreference.yaml
+  - ../../../base/transformers/release
+  - vars
+  - ../../../base/transformers/msgprefix
+  - ../../../base/transformers/prefix

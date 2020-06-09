@@ -1,8 +1,0 @@
-apiVersion: builtin
-kind: NamespaceTransformer
-metadata:
-  name: qliksense 
-  namespace: default
-fieldSpecs:
-- path: metadata/namespace
-  create: true
