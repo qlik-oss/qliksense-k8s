@@ -135,9 +135,9 @@ spec:
   ```shell
   kubectl qliksense crds install --all
   ```
-6. Further, Certificate Manager Controller has a timing issue that prevents it being installed together with an Issuer resource (in the same manifest), so it has to be installed before the manifest which contains it. The qliksense operator allows for partial manifest fragment installation updates of a release. We need to set the global manifest (`gke-demo`) to be specific to  `cert-manager` and install:
+6. Further, Certificate Manager Controller has a timing issue that prevents it being installed together with an Issuer resource (in the same manifest), so it has to be installed before the manifest which contains it. The qliksense operator allows for partial manifest fragment installation updates of a release. We need to set the global manifest (`gke-demo`) to be specific to the `cert-manager` resource and install:
   ```shell
-  kubectl qliksense config set profile=qke-demo/manifests/cert-manager
+  kubectl qliksense config set profile=qke-demo/resources/cert-manager
   kubectl qliksense install
   ```
 7. Now we can proceed with installing the main `gke-demo` profile by setting it back and installing.
