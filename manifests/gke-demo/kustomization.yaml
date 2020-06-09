@@ -51,3 +51,17 @@ resources:
   - ../base/resources/temporary-contents
   - ../base/resources/tenants
   - ../base/resources/users
+patches:
+- target:
+    kind: Service
+    labelSelector: app=edge-auth
+  patch: |-
+    - op: remove
+      path: /spec/ports/1
+- target:
+    kind: Deployment
+    labelSelector: app=edge-auth
+  patch: |-
+    - op: remove
+      path: /spec/template/spec/containers/1
+
