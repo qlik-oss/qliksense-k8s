@@ -14,7 +14,7 @@ patches:
       key in (
         imageRegistry,
         storageClassName
-        ), 
+        )
   patch: |-
     - op: replace
       path: /enabled
@@ -27,7 +27,7 @@ patches:
       key notin (
         imageRegistry,
         storageClassName
-        ), 
+        )
   patch: |-
     - op: replace
       path: /enabled
