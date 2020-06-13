@@ -1,0 +1,17 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: nats-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: nats-configs
+    data:
+      keysUri: "http://$(PREFIX)-nats-keys:8080/v1/keys/qlik.api.internal"
+      natsUri: "nats://$(PREFIX)-nats-nats-client:4222"
+      natsStreamingClusterId: "$(PREFIX)-nats-nats-streaming-cluster"

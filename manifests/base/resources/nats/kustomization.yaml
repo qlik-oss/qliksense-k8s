@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+commonLabels:
+  app: nats
+commonAnnotations:
+  app.kubernetes.io/part-of: base
+  app.kubernetes.io/component: nats
+resources:
+  - resources
+generators:
+  - generators
+transformers:
+- transformers
+- ../../transformers/release
+- vars
+images:
+  - name:  qlik-docker-qsefe.bintray.io/qnatsd
+    newName: $(IMAGE_REGISTRY)/qnatsd

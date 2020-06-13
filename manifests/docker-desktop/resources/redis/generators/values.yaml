@@ -11,7 +11,3 @@ values:
   master:
     securityContext:
       enabled: false
-  image:
-    registry: qlik-docker-qsefe.bintray.io
-    repository: redis
-    tag: 4.0-debian-10

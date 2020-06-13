@@ -13,14 +13,14 @@ metadata:
   namespace: $(NAMESPACE)
 spec:
   ports:
-  - name: data-connector-nfs
-    port: 8080
-    protocol: TCP
-    targetPort: 8080
-  - name: grpc
-    port: 50051
-    protocol: TCP
-    targetPort: 50051
+    - name: data-connector-nfs
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    - name: grpc
+      port: 50051
+      protocol: TCP
+      targetPort: 50051
   selector:
     app: data-connector-nfs
     release: data-connector-nfs

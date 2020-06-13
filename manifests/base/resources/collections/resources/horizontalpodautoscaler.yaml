@@ -1,0 +1,18 @@
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  labels:
+    app: collections
+    chart: collections-3.1.1
+    heritage: Helm
+    release: collections
+  name: collections
+  namespace: $(NAMESPACE)
+spec:
+  maxReplicas: 1
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: collections
+---

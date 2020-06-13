@@ -1,0 +1,16 @@
+apiVersion: qlik.com/v1
+kind: EnvUpsert
+metadata:
+  name: engineVariantEnvUpdate-edgeAuthUri
+  labels:
+    key: edgeAuthUri
+enabled: true
+target:
+  kind: EngineVariant
+path: spec/env
+env:
+  - name: EDGE_AUTH_URI
+    valueFrom:
+      configMapKeyRef:
+        key: edgeAuthUri
+        name: configs

@@ -13,8 +13,8 @@ patches:
     labelSelector: >-
       key notin (
         imageRegistry,
-        tokenAuthUri,
-        pdsUri,
+        edgeAuthUri,
+        policyDecisionsUri,
         featureFlagsUri,
         ingressClass,
         ingressAuthUrl,
@@ -27,6 +27,7 @@ patches:
         redisPassword,
         reportingUri,
         temporaryContentsUri,
+        tenantsUri,
         natsUri,
         natsStreamingClusterId,
         storageClassName

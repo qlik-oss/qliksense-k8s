@@ -12,32 +12,32 @@ metadata:
     nginx.org/client-max-body-size: 500m
   labels:
     app: engine
-    chart: engine-1.66.39
+    chart: engine-1.70.2
     heritage: Helm
     release: engine
   name: engine
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: engine
-          servicePort: 9076
-        path: /api/v1/apps/import
-      - backend:
-          serviceName: engine
-          servicePort: 9076
-        path: /api/v1/apps
-      - backend:
-          serviceName: engine
-          servicePort: 9076
-        path: /api/engine/openapi
-      - backend:
-          serviceName: engine
-          servicePort: 9076
-        path: /api/engine/openrpc
-      - backend:
-          serviceName: engine
-          servicePort: 9076
-        path: /api/engine/asyncapi
+    - http:
+        paths:
+          - backend:
+              serviceName: engine
+              servicePort: 9076
+            path: /api/v1/apps/import
+          - backend:
+              serviceName: engine
+              servicePort: 9076
+            path: /api/v1/apps
+          - backend:
+              serviceName: engine
+              servicePort: 9076
+            path: /api/engine/openapi
+          - backend:
+              serviceName: engine
+              servicePort: 9076
+            path: /api/engine/openrpc
+          - backend:
+              serviceName: engine
+              servicePort: 9076
+            path: /api/engine/asyncapi
 ---

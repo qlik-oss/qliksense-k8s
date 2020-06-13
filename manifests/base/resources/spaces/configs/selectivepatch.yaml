@@ -16,8 +16,8 @@ patches:
       natsStreamingClusterId: "$(PREFIX)-spaces-messaging-nats-streaming-cluster"
       featureFlagsUri: "http://$(PREFIX)-spaces-feature-flags:8080"
       keysUri: "http://$(PREFIX)-spaces-keys:8080/v1/keys/qlik.api.internal"
-      tokenAuthUri: "http://$(PREFIX)-spaces-edge-auth:8080"
-      pdsUri: "http://$(PREFIX)-spaces-policy-decisions:5080"
+      edgeAuthUri: "http://$(PREFIX)-spaces-edge-auth:8080"
+      policyDecisionsUri: "http://$(PREFIX)-spaces-policy-decisions:5080"
       groupsUri: "http://$(PREFIX)-spaces-groups:8080"
       quotasUri: "http://$(PREFIX)-spaces-quotas:6080"
 

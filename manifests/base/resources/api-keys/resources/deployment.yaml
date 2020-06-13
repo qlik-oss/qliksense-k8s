@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: api-keys
-    chart: api-keys-3.0.0
+    chart: api-keys-3.0.7
     heritage: Helm
     release: api-keys
   name: api-keys
@@ -17,106 +17,106 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/configs: 7408db85bd27b2d61cdc57eeb5ea62f849a17428654879872e96619aa6d42cb3
-        checksum/secrets: 930ff4b20a046a016c520508b4ccd162d5ab02a5f4501729e8958f2c6d57b939
+        checksum/configs: f61f4743410fb37b0d35e0aae4eb3de8c3d35a0d2b5694bf0590363dfdc94c61
+        checksum/secrets: 31fc8f9ca36383b55456aedcd50a9c7c4d0133421741eb577da148c7a464feb8
       labels:
         api-keys-nats-client: "true"
         app: api-keys
         release: api-keys
     spec:
       containers:
-      - env:
-        - name: KEYS_URI_TEMP
-          valueFrom:
-            configMapKeyRef:
-              key: keysUri
-              name: api-keys-configs
-        - name: KEYS_URI
-          value: $(KEYS_URI_TEMP)/v1
-        - name: JWKS_ENDPOINT
-          value: $(KEYS_URI_TEMP)/v1/keys/qlik.api.internal
-        - name: NATS_CLIENT_ID
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
-        - name: MONGODB_URI_FILE
-          value: /run/secrets/qlik.com/api-keys/mongodbUri
-        - name: TOKEN_AUTH_PRIVATE_KEY_FILE
-          value: /run/secrets/qlik.com/api-keys/tokenAuthPrivateKey
-        - name: TOKEN_AUTH_PRIVATE_KEY_ID_FILE
-          value: /run/secrets/qlik.com/api-keys/tokenAuthPrivateKeyId
-        - name: INGRESS_AUTH_URL
-          valueFrom:
-            configMapKeyRef:
-              key: ingressAuthUrl
-              name: api-keys-configs
-        - name: LOG_LEVEL
-          valueFrom:
-            configMapKeyRef:
-              key: logLevel
-              name: api-keys-configs
-        - name: NATS_STREAMING_CLUSTER_ID
-          valueFrom:
-            configMapKeyRef:
-              key: natsStreamingClusterId
-              name: api-keys-configs
-        - name: NATS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: natsUri
-              name: api-keys-configs
-        - name: REDIS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: redisUri
-              name: api-keys-configs
-        - name: TOKEN_AUTH_URI_TEMP
-          valueFrom:
-            configMapKeyRef:
-              key: tokenAuthUri
-              name: api-keys-configs
-        - name: TOKEN_AUTH_URI
-          value: $(TOKEN_AUTH_URI_TEMP)/v1
-        - name: USERS_URI_TEMP
-          valueFrom:
-            configMapKeyRef:
-              key: usersUri
-              name: api-keys-configs
-        - name: USERS_URI
-          value: $(USERS_URI_TEMP)/v1
-        - name: ENVIRONMENT
-          value: qseok
-        - name: NATS_ENABLED
-          value: "true"
-        - name: REGION
-          value: example
-        image: qlik-docker-qsefe.bintray.io/api-keys:2.0.2
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          httpGet:
-            path: /live
-            port: http
-        name: main
-        ports:
-        - containerPort: 8080
-          name: http
-          protocol: TCP
-        readinessProbe:
-          httpGet:
-            path: /ready
-            port: http
-        volumeMounts:
-        - mountPath: /run/secrets/qlik.com/api-keys
-          name: api-keys-secrets
-          readOnly: true
+        - env:
+            - name: KEYS_URI_TEMP
+              valueFrom:
+                configMapKeyRef:
+                  key: keysUri
+                  name: api-keys-configs
+            - name: KEYS_URI
+              value: $(KEYS_URI_TEMP)/v1
+            - name: JWKS_ENDPOINT
+              value: $(KEYS_URI_TEMP)/v1/keys/qlik.api.internal
+            - name: EDGE_AUTH_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: edgeAuthUri
+                  name: api-keys-configs
+            - name: TOKEN_AUTH_URI
+              value: $(EDGE_AUTH_URI)/v1
+            - name: USERS_URI_TEMP
+              valueFrom:
+                configMapKeyRef:
+                  key: usersUri
+                  name: api-keys-configs
+            - name: USERS_URI
+              value: $(USERS_URI_TEMP)/v1
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: MONGODB_URI_FILE
+              value: /run/secrets/qlik.com/api-keys/mongodbUri
+            - name: TOKEN_AUTH_PRIVATE_KEY_FILE
+              value: /run/secrets/qlik.com/api-keys/tokenAuthPrivateKey
+            - name: TOKEN_AUTH_PRIVATE_KEY_ID_FILE
+              value: /run/secrets/qlik.com/api-keys/tokenAuthPrivateKeyId
+            - name: INGRESS_AUTH_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: ingressAuthUrl
+                  name: api-keys-configs
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  key: logLevel
+                  name: api-keys-configs
+            - name: NATS_STREAMING_CLUSTER_ID
+              valueFrom:
+                configMapKeyRef:
+                  key: natsStreamingClusterId
+                  name: api-keys-configs
+            - name: NATS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: natsUri
+                  name: api-keys-configs
+            - name: REDIS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: redisUri
+                  name: api-keys-configs
+            - name: ENVIRONMENT
+              value: qseok
+            - name: NATS_ENABLED
+              value: "true"
+            - name: REGION
+              value: example
+          image: qlik-docker-qsefe.bintray.io/api-keys:2.3.0
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: http
+          name: main
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: http
+          volumeMounts:
+            - mountPath: /run/secrets/qlik.com/api-keys
+              name: api-keys-secrets
+              readOnly: true
       dnsConfig:
         options:
-        - name: timeout
-          value: "1"
+          - name: timeout
+            value: "1"
       imagePullSecrets:
-      - name: artifactory-docker-secret
+        - name: artifactory-docker-secret
       volumes:
-      - name: api-keys-secrets
-        secret:
-          secretName: api-keys-secrets
+        - name: api-keys-secrets
+          secret:
+            secretName: api-keys-secrets
 ---

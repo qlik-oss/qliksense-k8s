@@ -13,16 +13,16 @@ metadata:
     nginx.org/client-max-body-size: 500m
   labels:
     app: qix-datafiles
-    chart: qix-datafiles-1.10.39
+    chart: qix-datafiles-1.10.47
     heritage: Helm
     release: qix-datafiles
   name: qix-datafiles
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: qix-datafiles
-          servicePort: 8080
-        path: /api/v1/qix-datafiles
+    - http:
+        paths:
+          - backend:
+              serviceName: qix-datafiles
+              servicePort: 8080
+            path: /api/v1/qix-datafiles
 ---

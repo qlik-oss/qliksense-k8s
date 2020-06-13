@@ -9,20 +9,20 @@ metadata:
       rewrite (?i)/api/(v[0-9])/dc-(.*) /$1/$2 break;
   labels:
     app: data-connections
-    chart: data-connections-1.6.17
+    chart: data-connections-1.7.8
     heritage: Helm
     release: data-connections
   name: data-connections
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: data-connections
-          servicePort: 9011
-        path: /api/v1/dc-dataconnections
-      - backend:
-          serviceName: data-connections
-          servicePort: 9011
-        path: /api/v1/dc-datacredentials
+    - http:
+        paths:
+          - backend:
+              serviceName: data-connections
+              servicePort: 9011
+            path: /api/v1/dc-dataconnections
+          - backend:
+              serviceName: data-connections
+              servicePort: 9011
+            path: /api/v1/dc-datacredentials
 ---

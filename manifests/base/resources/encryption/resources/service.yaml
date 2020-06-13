@@ -6,16 +6,16 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: encryption
-    chart: encryption-2.5.4
+    chart: encryption-2.5.5
     heritage: Helm
     release: encryption
   name: encryption
 spec:
   ports:
-  - name: encryption
-    port: 8080
-    protocol: TCP
-    targetPort: 8080
+    - name: encryption
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
   selector:
     app: encryption
     release: encryption

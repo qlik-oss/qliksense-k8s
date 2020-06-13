@@ -12,10 +12,10 @@ metadata:
   name: data-rest-source
 spec:
   ports:
-  - name: data-rest-source
-    port: 8080
-    protocol: TCP
-    targetPort: 8080
+    - name: data-rest-source
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
   selector:
     app: data-rest-source
     release: data-rest-source

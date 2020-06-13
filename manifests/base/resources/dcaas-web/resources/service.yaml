@@ -6,16 +6,16 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: dcaas-web
-    chart: dcaas-web-1.1.84
+    chart: dcaas-web-1.1.93
     heritage: Helm
     release: dcaas-web
   name: dcaas-web
 spec:
   ports:
-  - name: dcaas-web
-    port: 6384
-    protocol: TCP
-    targetPort: 6384
+    - name: dcaas-web
+      port: 6384
+      protocol: TCP
+      targetPort: 6384
   selector:
     app: dcaas-web
     release: dcaas-web

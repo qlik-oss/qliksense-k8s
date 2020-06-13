@@ -13,20 +13,16 @@ metadata:
     nginx.ingress.kubernetes.io/enable-cors: "true"
   labels:
     app: feature-flags
-    chart: feature-flags-1.11.1
+    chart: feature-flags-2.0.14
     heritage: Helm
     release: feature-flags
   name: feature-flags
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: feature-flags
-          servicePort: 8080
-        path: /api/v0/features
-      - backend:
-          serviceName: feature-flags
-          servicePort: 8080
-        path: /api/v1/features
+    - http:
+        paths:
+          - backend:
+              serviceName: feature-flags
+              servicePort: 8080
+            path: /api/v1/features
 ---

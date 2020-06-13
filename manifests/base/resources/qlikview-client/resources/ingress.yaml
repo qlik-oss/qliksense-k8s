@@ -6,18 +6,18 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /$1
   labels:
     app: qlikview-client
-    chart: qlikview-client-1.0.23
+    chart: qlikview-client-1.0.30
     heritage: Helm
     release: qlikview-client
   name: qlikview-client
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: qlikview-client
-          servicePort: 9003
-        path: /qv/?(.*)
+    - http:
+        paths:
+          - backend:
+              serviceName: qlikview-client
+              servicePort: 9003
+            path: /qv/?(.*)
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -26,16 +26,16 @@ metadata:
     kubernetes.io/ingress.class: nginx
   labels:
     app: qlikview-client
-    chart: qlikview-client-1.0.23
+    chart: qlikview-client-1.0.30
     heritage: Helm
     release: qlikview-client
   name: qlikview-client-ajax
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: qlikview-client
-          servicePort: 9003
-        path: /QvAjaxZfc
+    - http:
+        paths:
+          - backend:
+              serviceName: qlikview-client
+              servicePort: 9003
+            path: /QvAjaxZfc
 ---

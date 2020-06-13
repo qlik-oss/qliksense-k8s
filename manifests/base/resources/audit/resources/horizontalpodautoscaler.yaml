@@ -1,0 +1,18 @@
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  labels:
+    app: audit
+    chart: audit-3.5.0
+    heritage: Helm
+    release: audit
+  name: audit
+  namespace: $(NAMESPACE)
+spec:
+  maxReplicas: 1
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: audit
+---

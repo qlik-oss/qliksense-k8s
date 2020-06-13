@@ -9,24 +9,24 @@ metadata:
       rewrite (?i)/api/v1/(.*) /v1/$1 break;
   labels:
     app: policy-decisions
-    chart: policy-decisions-1.9.19
+    chart: policy-decisions-2.0.2
     heritage: Helm
     release: policy-decisions
   name: policy-decisions
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: policy-decisions
-          servicePort: 5080
-        path: /api/v1/rules
-      - backend:
-          serviceName: policy-decisions
-          servicePort: 5080
-        path: /api/v1/rulesets
-      - backend:
-          serviceName: policy-decisions
-          servicePort: 5080
-        path: /api/v1/policies
+    - http:
+        paths:
+          - backend:
+              serviceName: policy-decisions
+              servicePort: 5080
+            path: /api/v1/rules
+          - backend:
+              serviceName: policy-decisions
+              servicePort: 5080
+            path: /api/v1/rulesets
+          - backend:
+              serviceName: policy-decisions
+              servicePort: 5080
+            path: /api/v1/policies
 ---

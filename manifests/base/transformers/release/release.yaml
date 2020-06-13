@@ -23,3 +23,6 @@ fieldSpecs:
   - path: spec/metadata/labels
     create: false
     kind: Engine
+  - path: spec/labels
+    create: false
+    kind: EngineTemplate

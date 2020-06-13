@@ -12,16 +12,16 @@ metadata:
       }
   labels:
     app: management-console
-    chart: management-console-1.6.265
+    chart: management-console-1.6.318
     heritage: Helm
     release: management-console
   name: management-console
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: management-console
-          servicePort: 3024
-        path: /console
+    - http:
+        paths:
+          - backend:
+              serviceName: management-console
+              servicePort: 3024
+            path: /console
 ---

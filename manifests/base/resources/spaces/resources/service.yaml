@@ -6,16 +6,16 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: spaces
-    chart: spaces-2.8.25
+    chart: spaces-2.8.34
     heritage: Helm
     release: spaces
   name: spaces
 spec:
   ports:
-  - name: spaces
-    port: 6080
-    protocol: TCP
-    targetPort: 6080
+    - name: spaces
+      port: 6080
+      protocol: TCP
+      targetPort: 6080
   selector:
     app: spaces
     release: spaces

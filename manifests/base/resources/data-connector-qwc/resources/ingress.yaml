@@ -8,20 +8,20 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /$1/$2
   labels:
     app: data-connector-qwc
-    chart: data-connector-qwc-2.3.0
+    chart: data-connector-qwc-3.0.4
     heritage: Helm
     release: data-connector-qwc
   name: data-connector-qwc-web
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: data-connector-qwc-web
-          servicePort: 6384
-        path: /customdata/64/(QvWebConnectorPackage)/(.+)
-      - backend:
-          serviceName: data-connector-qwc-web
-          servicePort: 6384
-        path: /customdata/64/(QvWebStorageProviderConnectorPackage)/(.+)
+    - http:
+        paths:
+          - backend:
+              serviceName: data-connector-qwc-web
+              servicePort: 6384
+            path: /customdata/64/(QvWebConnectorPackage)/(.+)
+          - backend:
+              serviceName: data-connector-qwc-web
+              servicePort: 6384
+            path: /customdata/64/(QvWebStorageProviderConnectorPackage)/(.+)
 ---

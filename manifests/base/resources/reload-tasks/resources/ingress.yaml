@@ -9,16 +9,16 @@ metadata:
       rewrite (?i)/api/(.*) /$1 break;
   labels:
     app: reload-tasks
-    chart: reload-tasks-1.6.4
+    chart: reload-tasks-1.6.5
     heritage: Helm
     release: reload-tasks
   name: reload-tasks
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: reload-tasks
-          servicePort: 8080
-        path: /api/v1/reload-tasks
+    - http:
+        paths:
+          - backend:
+              serviceName: reload-tasks
+              servicePort: 8080
+            path: /api/v1/reload-tasks
 ---

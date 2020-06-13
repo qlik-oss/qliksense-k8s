@@ -16,5 +16,5 @@ patches:
       qixSessionsUri: "http://$(PREFIX)-qix-data-reload-qix-sessions:8080"
       engineUri: "http://$(PREFIX)-qix-data-reload-engine:9076"
       usersUri: http://$(PREFIX)-qix-data-reload-users:8080
-      tokenAuthUri: "http://$(PREFIX)-qix-data-reload-edge-auth:8080"
+      edgeAuthUri: "http://$(PREFIX)-qix-data-reload-edge-auth:8080"
       natsStreamingClusterId: "$(PREFIX)-qix-data-reload-messaging-nats-streaming-cluster"

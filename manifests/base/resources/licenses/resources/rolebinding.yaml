@@ -3,7 +3,7 @@ kind: RoleBinding
 metadata:
   labels:
     app: licenses
-    chart: licenses-1.19.0
+    chart: licenses-1.21.9
     heritage: Helm
     release: licenses
   name: licenses
@@ -13,6 +13,6 @@ roleRef:
   kind: Role
   name: licenses
 subjects:
-- kind: ServiceAccount
-  name: licenses
+  - kind: ServiceAccount
+    name: licenses
 ---

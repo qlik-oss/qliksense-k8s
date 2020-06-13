@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: locale
-    chart: locale-1.3.6
+    chart: locale-1.3.7
     heritage: Helm
     release: locale
   name: locale
@@ -20,11 +20,11 @@ spec:
         release: locale
     spec:
       containers:
-      - image: qlik-docker-qsefe.bintray.io/locale:1.0.9
-        imagePullPolicy: IfNotPresent
-        name: main
-        ports:
-        - containerPort: 8080
+        - image: qlik-docker-qsefe.bintray.io/locale:1.0.10
+          imagePullPolicy: IfNotPresent
+          name: main
+          ports:
+            - containerPort: 8080
       imagePullSecrets:
-      - name: artifactory-docker-secret
+        - name: artifactory-docker-secret
 ---

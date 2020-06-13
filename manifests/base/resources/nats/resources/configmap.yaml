@@ -1,0 +1,54 @@
+apiVersion: v1
+data:
+  gnatsd.conf: |-
+    listen: 0.0.0.0:4222
+    http: 0.0.0.0:8222
+    client_advertise: $(PREFIX)-nats-client:4222
+
+    # Authorization for client connections
+    authorization {
+      timeout:  1
+      users: [
+        {
+          user: "nats_client",
+          password: "T0pS3cr3t",
+        }
+      ]
+    }
+
+    # Logging options
+    debug: false
+    trace: false
+    logtime: false
+
+    # Pid file
+    pid_file: "/tmp/gnatsd.pid"
+
+    # Some system overides
+
+
+    # Clustering definition
+    cluster {
+      listen: 0.0.0.0:6222
+
+      no_advertise: false
+
+      # Authorization for cluster connections
+
+      # Routes are actively solicited and connected to from this server.
+      # Other servers can connect to us if they supply the correct credentials
+      # in their routes definitions from above
+      routes = [
+        nats://$(PREFIX)-nats-cluster:6222
+      ]
+    }
+  users.json: '[{"stanPermissions":{"subscribe":["system-events.odag.request","system-events.engine.app","system-events.user-session","system-events.spaces","system-events.licenses","system-events.generic-links","system-events.api-keys","system-events.user-identity","system-events.web-security","system-events.tenants","system-events.users"]},"user":"audit"},{"stanPermissions":{"publish":["chronos-worker.\u003e"]},"user":"chronos-worker"},{"stanPermissions":{"subscribe":["system-events.\u003e"]},"user":"data-engineering-exporter"},{"stanPermissions":{"publish":["system-events.user-session","system-events.user-identity"],"subscribe":["system-events.users","system-events.user-session","system-events.identity-providers","private.idp-sync"]},"user":"edge-auth"},{"stanPermissions":{"publish":["com.qlik.app","com.qlik.engine.session","com.qlik.engine.system","system-events.engine.app","system-events.engine.session","system-events.engine.system"],"subscribe":["system-events.engine.app"]},"user":"engine"},{"stanPermissions":{"publish":["private.idp-sync","system-events.identity-providers"]},"user":"identity-providers"},{"stanPermissions":{"publish":["system-events.invite"],"subscribe":["system-events.users"]},"user":"invite"},{"stanPermissions":{"subscribe":["system-events.engine.app"]},"user":"nl-parser"},{"stanPermissions":{"publish":["system-events.odag.request","odag.\u003e"],"subscribe":["odag.\u003e","system-events.engine.app","system-events.reloadResults"]},"user":"odag"},{"stanPermissions":{"publish":["reload","system-events.reloadResults"],"subscribe":["reload"]},"user":"qix-data-reload"},{"stanPermissions":{"publish":["system-events.resource-library"]},"user":"resource-library"},{"stanPermissions":{"publish":["system-events.tenants","system-events.web-integrations"]},"user":"tenants"},{"stanPermissions":{"publish":["system-events.users"]},"user":"users"},{"stanPermissions":{"publish":["system-events.api-keys"],"subscribe":["system-events.users"]},"user":"api-keys"},{"stanPermissions":{"publish":["system-events.items"],"subscribe":["system-events.engine.app","system-events.generic-links"]},"user":"collections"},{"stanPermissions":{"publish":["system-events.licenses"],"subscribe":["system-events.licenses"]},"user":"licenses"},{"stanPermissions":{"publish":["system-events.spaces"],"subscribe":["system-events.users"]},"user":"spaces"},{"stanPermissions":{"subscribe":["system-events.engine.app"]},"user":"precedents"},{"stanPermissions":{"publish":["system-events.notification-request"],"subscribe":["system-events.engine.app","system-events.spaces","system-events.web-notifications","system-events.sharing"]},"user":"eventing"},{"stanPermissions":{"subscribe":["system-events.engine.app","system-events.engine.session","system-events.engine.system","system-events.reloadResults"]},"user":"qix-sessions"},{"stanPermissions":{"publish":["system-events.datafiles"],"subscribe":["system-events.engine.app","system-events.spaces"]},"user":"qix-datafiles"},{"stanPermissions":{"publish":["system-events.notification-request","system-events.sharing"],"subscribe":["system-events.engine.app"]},"user":"sharing"},{"stanPermissions":{"subscribe":["system-events.engine.app"]},"user":"subscriptions"},{"stanPermissions":{"publish":["system-events.transport-request"],"subscribe":["system-events.notification-request"]},"user":"notification-prep"},{"stanPermissions":{"publish":["system-events.web-notifications"],"subscribe":["system-events.transport-request"]},"user":"web-notifications"},{"stanPermissions":{"publish":["system-events.generic-links"],"subscribe":["system-events.users"]},"user":"generic-links"},{"stanPermissions":{"subscribe":["system-events.spaces"]},"user":"data-connections"},{"stanPermissions":{"publish":["system-events.transport-response","system-events.notification-request"],"subscribe":["system-events.transport-request"]},"user":"transport"},{"stanPermissions":{"publish":["system-events.web-security"]},"user":"web-security"},{"stanPermissions":{"subscribe":["system-events.engine.app"]},"user":"reload-tasks"},{"stanPermissions":{"publish":["reporting.\u003e"]},"user":"reporting"},{"stanPermissions":{"publish":["nl-app-search.\u003e"],"subscribe":["system-events.engine.app","system-events.reloadResults","nl-app-search.\u003e"]},"user":"nl-app-search"},{"stanPermissions":{"subscribe":["system-events.spaces"]},"user":"policy-decisions"},{"stanPermissions":{"publish":["system-events.catalog","events.catalog"],"subscribe":["system-events.catalog","events.catalog"]},"user":"catalog"},{"stanPermissions":{"publish":[],"subscribe":[]},"user":"data-condition-evaluator"},{"stanPermissions":{"publish":["system-events.condition-manager"]},"user":"condition-manager"}]'
+kind: ConfigMap
+metadata:
+  labels:
+    app: nats
+    chart: nats-1.0.14
+    heritage: Helm
+    release: $(PREFIX)
+  name: $(PREFIX)-nats
+---

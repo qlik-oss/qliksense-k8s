@@ -10,16 +10,16 @@ metadata:
     nginx.ingress.kubernetes.io/enable-cors: "true"
   labels:
     app: spaces
-    chart: spaces-2.8.25
+    chart: spaces-2.8.34
     heritage: Helm
     release: spaces
   name: spaces
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: spaces
-          servicePort: 6080
-        path: /api/v1/spaces
+    - http:
+        paths:
+          - backend:
+              serviceName: spaces
+              servicePort: 6080
+            path: /api/v1/spaces
 ---

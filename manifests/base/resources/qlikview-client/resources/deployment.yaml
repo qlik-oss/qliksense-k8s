@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: qlikview-client
-    chart: qlikview-client-1.0.23
+    chart: qlikview-client-1.0.30
     heritage: Helm
     release: qlikview-client
   name: qlikview-client
@@ -20,15 +20,15 @@ spec:
         release: qlikview-client
     spec:
       containers:
-      - image: qlik-docker-qsefe.bintray.io/qlikview-client:12.58.0
-        imagePullPolicy: null
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 9003
-        name: main
-        ports:
-        - containerPort: 9003
+        - image: qlik-docker-qsefe.bintray.io/qlikview-client:12.65.0
+          imagePullPolicy: null
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 9003
+          name: main
+          ports:
+            - containerPort: 9003
       imagePullSecrets:
-      - name: artifactory-docker-secret
+        - name: artifactory-docker-secret
 ---

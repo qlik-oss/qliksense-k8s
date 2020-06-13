@@ -7,21 +7,20 @@ transformers:
 - ../../../../../.operator/transformers
 - ../../../../../configuration/transformers
 #Disable all transformers except these
-#qliksense is special case, all of its transformers are forced on
 patches:
-- target:
-    labelSelector: >-
-      key in (
-        imageRegistry,
-        storageClassName
-        )
-  patch: |-
-    - op: replace
-      path: /enabled
-      value: true
-    - op: replace
-      path: /default
-      value: false
+#- target:
+#    labelSelector: >-
+#      key in (
+#        imageRegistry,
+#        storageClassName
+#        )
+#  patch: |-
+#    - op: replace
+#      path: /enabled
+#      value: true
+#    - op: replace
+#      path: /default
+#      value: false
 - target:
     labelSelector: >-
       key notin (
@@ -35,4 +34,3 @@ patches:
     - op: replace
       path: /default
       value: false
-

@@ -1,0 +1,9 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: fix-dcaas-name
+target:
+  labelSelector: release
+path: /
+search: dcaas-dcaas
+replace: dcaas

@@ -6,16 +6,16 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: management-console
-    chart: management-console-1.6.265
+    chart: management-console-1.6.318
     heritage: Helm
     release: management-console
   name: management-console
 spec:
   ports:
-  - name: management-console
-    port: 3024
-    protocol: TCP
-    targetPort: 3024
+    - name: management-console
+      port: 3024
+      protocol: TCP
+      targetPort: 3024
   selector:
     app: management-console
     release: management-console

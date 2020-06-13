@@ -4,7 +4,7 @@ metadata:
   name: temporary-contents
 spec:
   accessModes:
-  - ReadWriteMany
+    - ReadWriteMany
   resources:
     requests:
       storage: 5Gi

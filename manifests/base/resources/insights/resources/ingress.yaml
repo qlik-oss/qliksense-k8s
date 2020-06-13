@@ -7,20 +7,21 @@ metadata:
     nginx.ingress.kubernetes.io/auth-url: http://insights-edge-auth.$(NAMESPACE).svc.cluster.local:8080/v1/auth
     nginx.ingress.kubernetes.io/configuration-snippet: |
       rewrite (?i)/api/(.*) /$1 break;
+    nginx.ingress.kubernetes.io/proxy-body-size: 50m
   labels:
     app: insights
-    chart: insights-1.9.0
+    chart: insights-1.9.2
     heritage: Helm
     release: insights
   name: insights-api
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: insights
-          servicePort: 9292
-        path: /api/v1/insights
+    - http:
+        paths:
+          - backend:
+              serviceName: insights
+              servicePort: 9292
+            path: /api/v1/insights
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -33,18 +34,18 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /insight
   labels:
     app: insights
-    chart: insights-1.9.0
+    chart: insights-1.9.2
     heritage: Helm
     release: insights
   name: insights-insight
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: insights
-          servicePort: 9292
-        path: /insight
+    - http:
+        paths:
+          - backend:
+              serviceName: insights
+              servicePort: 9292
+            path: /insight
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -57,16 +58,16 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /share
   labels:
     app: insights
-    chart: insights-1.9.0
+    chart: insights-1.9.2
     heritage: Helm
     release: insights
   name: insights-share
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: insights
-          servicePort: 9292
-        path: /share
+    - http:
+        paths:
+          - backend:
+              serviceName: insights
+              servicePort: 9292
+            path: /share
 ---

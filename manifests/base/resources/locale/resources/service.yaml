@@ -6,16 +6,16 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: locale
-    chart: locale-1.3.6
+    chart: locale-1.3.7
     heritage: Helm
     release: locale
   name: locale
 spec:
   ports:
-  - name: locale
-    port: 8080
-    protocol: TCP
-    targetPort: 8080
+    - name: locale
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
   selector:
     app: locale
     release: locale

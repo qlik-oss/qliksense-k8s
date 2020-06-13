@@ -1,0 +1,14 @@
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: qliksense-engine-template
+target:
+  kind: EngineTemplate
+patch: |-
+  kind: EngineTemplate
+  metadata:
+    name: component
+  spec:
+    labels:
+      $(PREFIX)-nats-client: "true"
+

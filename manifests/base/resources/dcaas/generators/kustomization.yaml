@@ -3,11 +3,9 @@ kind: Kustomization
 commonLabels:
   app: dcaas
 resources:
-- helmchart.yaml
 - configs
 - secrets
 transformers:
 - ../../../../../transformers
 - ../secrets
 - ../configs
-- redisvalues.yaml

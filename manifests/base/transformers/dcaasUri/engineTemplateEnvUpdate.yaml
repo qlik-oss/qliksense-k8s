@@ -1,0 +1,17 @@
+apiVersion: qlik.com/v1
+kind: EnvUpsert
+metadata:
+  name: engineTemplateEnvUpdate-dcaasUri
+  labels:
+    key: dcaasUri
+enabled: true
+target:
+  kind: EngineTemplate
+  name: engine-template-default
+path: spec/podSpec/containers/env
+env:
+- name: DCAAS_URI
+  valueFrom:
+    configMapKeyRef:
+      key: dcaasUri
+      name: configs

@@ -1,17 +1,25 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-# commonLabels:
-#   app: engine
+commonAnnotations:
+  app.kubernetes.io/part-of: base
+  app.kubernetes.io/component: engine
 resources:
   - resources
 generators:
   - generators
 transformers:
   - all-transformers
+  - retain-variant-names
 images:
 - name: qlik-docker-qsefe.bintray.io/engine
   newName: $(IMAGE_REGISTRY)/engine
 - name: qlik-docker-qsefe.bintray.io/engine-qv
   newName: $(IMAGE_REGISTRY)/engine-qv
-# configurations:
-#   - ../../namereference.yaml
+- name: docker.io/bitnami/redis
+  newName: $(IMAGE_REGISTRY)/redis
+- name: docker.io/bitnami/redis-sentinel
+  newName: $(IMAGE_REGISTRY)/redis-sentinel
+- name: docker.io/bitnami/redis-exporter
+  newName: $(IMAGE_REGISTRY)/redis-exporter
+configurations:
+  - ../../namereference.yaml

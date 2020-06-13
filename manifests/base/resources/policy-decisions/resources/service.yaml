@@ -6,16 +6,16 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: policy-decisions
-    chart: policy-decisions-1.9.19
+    chart: policy-decisions-2.0.2
     heritage: Helm
     release: policy-decisions
   name: policy-decisions
 spec:
   ports:
-  - name: policy-decisions
-    port: 5080
-    protocol: TCP
-    targetPort: 5080
+    - name: policy-decisions
+      port: 5080
+      protocol: TCP
+      targetPort: 5080
   selector:
     app: policy-decisions
     release: policy-decisions

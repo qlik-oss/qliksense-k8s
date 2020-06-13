@@ -18,7 +18,10 @@ patches:
         mongodbUri,
         keysUri,
         ingressClass,
+        ingressAuthUrl,
         caCertificates,
+        reportingUri,
+        qixSessionsUri
       )
   patch: |-
     - op: replace

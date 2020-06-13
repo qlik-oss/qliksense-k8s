@@ -20,11 +20,7 @@ patches:
         caCertificates,
         redisUri,
         redisPassword,
-        tokenAuthUriTemp,
-        tokenAuthPrivateKey,
-        tokenAuthPrivateKeyId,
-        natsUri,
-        natsStreamingClusterId
+        edgeAuthUri
         )
   patch: |-
     - op: replace

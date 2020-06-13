@@ -13,7 +13,7 @@ patches:
       name: engine-configs
     data:
       keysUri: "http://$(PREFIX)-engine-keys:8080/v1/keys/qlik.api.internal"
-      tokenAuthUri: "http://$(PREFIX)-engine-edge-auth:8080/v1"
+      edgeAuthUri: "http://$(PREFIX)-engine-edge-auth:8080/v1"
       licensesUri: http://$(PREFIX)-engine-licenses:9200
       spacesUri: http://$(PREFIX)-engine-spaces:6080
       featureFlagsUri: "http://$(PREFIX)-engine-feature-flags:8080"

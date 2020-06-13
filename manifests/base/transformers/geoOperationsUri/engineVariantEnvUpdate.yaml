@@ -1,0 +1,16 @@
+apiVersion: qlik.com/v1
+kind: EnvUpsert
+metadata:
+  name: engineVariantEnvUpdate-geoOperationsUri
+  labels:
+    key: geoOperationsUri
+enabled: true
+target:
+  kind: EngineVariant
+path: spec/env
+env:
+- name: GEO_OPERATIONS_URI
+  valueFrom:
+    configMapKeyRef:
+      key: geoOperationsUri
+      name: configs

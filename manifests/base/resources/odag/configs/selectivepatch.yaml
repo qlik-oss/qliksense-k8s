@@ -14,7 +14,7 @@ patches:
     data:
       natsUri: "nats://$(PREFIX)-odag-messaging-nats-client:4222"
       natsStreamingClusterId: "$(PREFIX)-odag-messaging-nats-streaming-cluster"
-      tokenAuthUri: "http://$(PREFIX)-odag-edge-auth:8080"
+      edgeAuthUri: "http://$(PREFIX)-odag-edge-auth:8080"
       keysUri: "http://$(PREFIX)-odag-keys:8080/v1/keys/qlik.api.internal"
       engineUri: "http://$(PREFIX)-odag-engine:9076"
       qixSessionsUri: "http://$(PREFIX)-odag-qix-sessions:8080"

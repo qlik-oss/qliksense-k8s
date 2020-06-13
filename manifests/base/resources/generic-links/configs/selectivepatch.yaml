@@ -12,9 +12,9 @@ patches:
     metadata:
       name: generic-links-configs
     data:
-      pdsUri: "http://$(PREFIX)-generic-links-policy-decisions:5080"
+      policyDecisionsUri: "http://$(PREFIX)-generic-links-policy-decisions:5080"
       natsUri: "nats://$(PREFIX)-generic-links-messaging-nats-client:4222"
       keysUri: "http://$(PREFIX)-generic-links-keys:8080/v1/keys/qlik.api.internal"
-      tokenAuthUri: "http://$(PREFIX)-generic-links-edge-auth:8080/v1"
+      edgeAuthUri: "http://$(PREFIX)-generic-links-edge-auth:8080/v1"
       natsStreamingClusterId: "$(PREFIX)-generic-links-messaging-nats-streaming-cluster"
       collectionsUri: "http://$(PREFIX)-generic-links-collections:8080"

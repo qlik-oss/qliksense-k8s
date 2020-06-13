@@ -13,17 +13,17 @@ metadata:
     nginx.ingress.kubernetes.io/enable-cors: "true"
   labels:
     app: users
-    chart: users-2.1.22
+    chart: users-2.1.36
     heritage: Helm
     release: users
   name: users
   namespace: $(NAMESPACE)
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: users
-          servicePort: 8080
-        path: /api/v1/users
+    - http:
+        paths:
+          - backend:
+              serviceName: users
+              servicePort: 8080
+            path: /api/v1/users
 ---

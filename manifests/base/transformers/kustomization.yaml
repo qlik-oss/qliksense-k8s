@@ -14,12 +14,12 @@ resources:
 - mongodbUri
 - natsStreamingClusterId
 - natsUri
-- pdsUri
+- policyDecisionsUri
 - redisPassword
 - redisUri
 - tenantsUri
 - spacesUri
-- tokenAuthUri
+- edgeAuthUri
 - usersUri
 - qixSessionsUri
 - qixDataFilesUri
@@ -43,7 +43,6 @@ resources:
 - dataPrepUri
 - insightsUri
 - keysUriTemp
-- tokenAuthUriTemp
 - licensesUriTemp
 - caCertificates
 - redisHost
@@ -51,3 +50,7 @@ resources:
 - usersUriTemp
 - subscriptionsUri
 - dataConnectionsUri
+- dataConnectorNfsUri
+- featureFlagsUriTemp
+- webSecurityUri
+- nlAppSearchUri

@@ -14,12 +14,12 @@ patches:
     data:
       redisUri: $(PREFIX)-redis-master:6379
       redisHost: $(PREFIX)-redis-master
-      natsUri: nats://$(PREFIX)-messaging-nats-client:4222
-      pdsUri: http://$(PREFIX)-policy-decisions.$(NAMESPACE).svc.cluster.local:5080
+      natsUri: nats://$(PREFIX)-nats-client:4222
+      policyDecisionsUri: http://$(PREFIX)-policy-decisions.$(NAMESPACE).svc.cluster.local:5080
       dataPrepUri: http://$(PREFIX)-data-prep.$(NAMESPACE).svc.cluster.local:9072
       featureFlagsUri: http://$(PREFIX)-feature-flags.$(NAMESPACE).svc.cluster.local:8080
       keysUri: http://$(PREFIX)-keys.$(NAMESPACE).svc.cluster.local:8080
-      tokenAuthUri: http://$(PREFIX)-edge-auth.$(NAMESPACE).svc.cluster.local:8080
+      edgeAuthUri: http://$(PREFIX)-edge-auth.$(NAMESPACE).svc.cluster.local:8080
       natsStreamingClusterId: $(PREFIX)-nats-streaming-cluster
       identityProvidersUri: http://$(PREFIX)-identity-providers.$(NAMESPACE).svc.cluster.local:8080
       identityProvidersExtUri: http://$(PREFIX)-identity-providers-ext.$(NAMESPACE).svc.cluster.local:8080
@@ -48,6 +48,9 @@ patches:
       qixDataReloadUri: http://$(PREFIX)-qix-data-reload.$(NAMESPACE).svc.cluster.local:8080
       qixDataFilesUri: http://$(PREFIX)-qix-datafiles.$(NAMESPACE).svc.cluster.local:8080
       subscriptionsUri: http://$(PREFIX)-subscriptions.$(NAMESPACE).svc.cluster.local:8080
+      dataConnectorNfsUri: http://$(PREFIX)-data-connector-nfs.$(NAMESPACE).svc.cluster.local:50051
+      webSecurityUri: http://$(PREFIX)-web-security.$(NAMESPACE).svc.cluster.local:6263
+      nlAppSearchUri: http://$(PREFIX)-nl-app-search.$(NAMESPACE).svc.cluster.local:9085
       acceptEULA: "yes"
       # overrideDefaultCAChain
       # caCommand: echo \$CUSTOM_CERTS\ > /mnt/certs/ca-certificates.crt

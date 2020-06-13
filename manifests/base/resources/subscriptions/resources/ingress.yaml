@@ -9,16 +9,16 @@ metadata:
       rewrite (?i)/api/(.*) /$1 break;
   labels:
     app: subscriptions
-    chart: subscriptions-1.0.2
+    chart: subscriptions-1.0.3
     heritage: Helm
     release: subscriptions
   name: subscriptions
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: subscriptions
-          servicePort: 8080
-        path: /api/v1/subscriptions
+    - http:
+        paths:
+          - backend:
+              serviceName: subscriptions
+              servicePort: 8080
+            path: /api/v1/subscriptions
 ---

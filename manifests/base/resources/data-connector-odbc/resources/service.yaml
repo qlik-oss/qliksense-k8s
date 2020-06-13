@@ -7,20 +7,20 @@ metadata:
   labels:
     action: command
     app: data-connector-odbc
-    chart: data-connector-odbc-1.4.4
+    chart: data-connector-odbc-1.5.3
     heritage: Helm
     release: data-connector-odbc
   name: data-connector-odbc-cmd
 spec:
   ports:
-  - name: grpc
-    port: 50060
-    protocol: TCP
-    targetPort: 50060
-  - name: http
-    port: 3005
-    protocol: TCP
-    targetPort: 3005
+    - name: grpc
+      port: 50060
+      protocol: TCP
+      targetPort: 50060
+    - name: http
+      port: 3005
+      protocol: TCP
+      targetPort: 3005
   selector:
     action: command
     app: data-connector-odbc
@@ -36,20 +36,20 @@ metadata:
   labels:
     action: reload
     app: data-connector-odbc
-    chart: data-connector-odbc-1.4.4
+    chart: data-connector-odbc-1.5.3
     heritage: Helm
     release: data-connector-odbc
   name: data-connector-odbc-rld
 spec:
   ports:
-  - name: grpc
-    port: 50060
-    protocol: TCP
-    targetPort: 50060
-  - name: http
-    port: 3005
-    protocol: TCP
-    targetPort: 3005
+    - name: grpc
+      port: 50060
+      protocol: TCP
+      targetPort: 50060
+    - name: http
+      port: 3005
+      protocol: TCP
+      targetPort: 3005
   selector:
     action: reload
     app: data-connector-odbc

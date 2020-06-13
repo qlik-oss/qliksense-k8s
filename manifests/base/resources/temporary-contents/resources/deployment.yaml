@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: temporary-contents
-    chart: temporary-contents-1.3.14
+    chart: temporary-contents-1.3.17
     heritage: Helm
     release: temporary-contents
   name: temporary-contents
@@ -20,99 +20,99 @@ spec:
         release: temporary-contents
     spec:
       containers:
-      - env:
-        - name: MONGODB_URI
-          valueFrom:
-            secretKeyRef:
-              key: mongodbUri
-              name: temporary-contents-secrets
-        - name: KEYS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: keysUri
-              name: temporary-contents-configs
-        - name: TOKEN_AUTH_URI
-          valueFrom:
-            configMapKeyRef:
-              key: keysUri
-              name: temporary-contents-configs
-        - name: TOKEN_AUTH_PRIVATE_KEY_ID
-          valueFrom:
-            secretKeyRef:
-              key: tokenAuthPrivateKeyId
-              name: temporary-contents-secrets
-        - name: TOKEN_AUTH_PRIVATE_KEY
-          valueFrom:
-            secretKeyRef:
-              key: tokenAuthPrivateKey
-              name: temporary-contents-secrets
-        - name: PDS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: pdsUri
-              name: temporary-contents-configs
-        - name: ENCRYPTION_URI
-          valueFrom:
-            configMapKeyRef:
-              key: encryptionUri
-              name: temporary-contents-configs
-        - name: AUTH_JWKS_URI
-          value: $(KEYS_URI)/v1/keys/qlik.api.internal
-        - name: TOKEN_URI
-          value: $(TOKEN_AUTH_URI)
-        - name: TOKEN_AUTH_KID
-          value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
-        - name: TERMINATION_GRACE_PERIOD_SECONDS
-          value: "30"
-        - name: CONTENT_TIME_TO_LIVE
-          value: "10000"
-        - name: LOG_LEVEL
-          value: info
-        - name: AUTH_ENABLED
-          value: "true"
-        - name: AUTH_JWT_AUD
-          value: qlik.api.internal
-        - name: AUTH_JWT_ISS
-          value: qlik.api.internal
-        - name: TOKEN_AUTH_ENABLED
-          value: "true"
-        - name: TOKEN_AUTH_URL
-          value: $(TOKEN_AUTH_URI)/v1/internal-tokens
-        - name: MONGO_URI
-          value: $(MONGODB_URI)
-        - name: FEATURE_FLAGS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: featureFlagsUri
-              name: temporary-contents-configs
-        - name: ENCRYPTION_CLIENT
-          value: encryption
-        - name: ACCESS_CONTROL_ENABLED
-          value: "true"
-        - name: STORAGE_PATH
-          value: /qlik/temp-contents
-        image: qlik-docker-qsefe.bintray.io/temporary-contents:1.4.4
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 6080
-        name: main
-        ports:
-        - containerPort: 6080
-        readinessProbe:
-          httpGet:
-            path: /ready
-            port: 6080
-        volumeMounts:
-        - mountPath: /qlik/temp-contents
-          name: temp-files
-          readOnly: false
+        - env:
+            - name: MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  key: mongodbUri
+                  name: temporary-contents-secrets
+            - name: MONGO_URI
+              value: $(MONGODB_URI)
+            - name: KEYS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: keysUri
+                  name: temporary-contents-configs
+            - name: AUTH_JWKS_URI
+              value: $(KEYS_URI)/v1/keys/qlik.api.internal
+            - name: TOKEN_AUTH_PRIVATE_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  key: tokenAuthPrivateKeyId
+                  name: temporary-contents-secrets
+            - name: TOKEN_AUTH_KID
+              value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
+            - name: TOKEN_AUTH_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: tokenAuthPrivateKey
+                  name: temporary-contents-secrets
+            - name: EDGE_AUTH_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: edgeAuthUri
+                  name: temporary-contents-configs
+            - name: TOKEN_AUTH_URL
+              value: $(EDGE_AUTH_URI)/v1/internal-tokens
+            - name: ENCRYPTION_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: encryptionUri
+                  name: temporary-contents-configs
+            - name: POLICY_DECISIONS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: policyDecisionsUri
+                  name: temporary-contents-configs
+            - name: PDS_URI
+              value: $(POLICY_DECISIONS_URI)
+            - name: FEATURE_FLAGS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: featureFlagsUri
+                  name: temporary-contents-configs
+            - name: TERMINATION_GRACE_PERIOD_SECONDS
+              value: "30"
+            - name: CONTENT_TIME_TO_LIVE
+              value: "10000"
+            - name: LOG_LEVEL
+              value: info
+            - name: AUTH_ENABLED
+              value: "true"
+            - name: AUTH_JWT_AUD
+              value: qlik.api.internal
+            - name: AUTH_JWT_ISS
+              value: qlik.api.internal
+            - name: TOKEN_AUTH_ENABLED
+              value: "true"
+            - name: ENCRYPTION_CLIENT
+              value: encryption
+            - name: ACCESS_CONTROL_ENABLED
+              value: "true"
+            - name: STORAGE_PATH
+              value: /qlik/temp-contents
+          image: qlik-docker-qsefe.bintray.io/temporary-contents:1.4.8
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 6080
+          name: main
+          ports:
+            - containerPort: 6080
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 6080
+          volumeMounts:
+            - mountPath: /qlik/temp-contents
+              name: temp-files
+              readOnly: false
       imagePullSecrets:
-      - name: artifactory-docker-secret
+        - name: artifactory-docker-secret
       terminationGracePeriodSeconds: 30
       volumes:
-      - name: temp-files
-        persistentVolumeClaim:
-          claimName: temporary-contents
+        - name: temp-files
+          persistentVolumeClaim:
+            claimName: temporary-contents
 ---

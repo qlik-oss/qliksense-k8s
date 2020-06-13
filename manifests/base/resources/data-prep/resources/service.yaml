@@ -6,16 +6,16 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: data-prep
-    chart: data-prep-1.12.33
+    chart: data-prep-2.0.9
     heritage: Helm
     release: data-prep
   name: data-prep
 spec:
   ports:
-  - name: data-prep
-    port: 9072
-    protocol: TCP
-    targetPort: 9072
+    - name: data-prep
+      port: 9072
+      protocol: TCP
+      targetPort: 9072
   selector:
     app: data-prep
     release: data-prep

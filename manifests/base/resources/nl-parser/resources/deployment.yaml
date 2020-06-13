@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: nl-parser
-    chart: nl-parser-1.1.0
+    chart: nl-parser-1.3.3
     heritage: Helm
     release: nl-parser
   name: nl-parser
@@ -20,34 +20,39 @@ spec:
         release: nl-parser
     spec:
       containers:
-      - env:
-        - name: LOG_LEVEL
-          value: info
-        - name: DATA_PREP_URI
-          valueFrom:
-            configMapKeyRef:
-              key: dataPrepUri
-              name: nl-parser-configs
-        - name: DPS_URI
-          value: $(DATA_PREP_URI)
-        - name: DPS_ROUTING_ENABLED
-          value: "true"
-        - name: NLU_MULTI_LINGUAL
-          value: "false"
-        image: qlik-docker-qsefe.bintray.io/nl-parser:0.56.0
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          failureThreshold: 3
-          httpGet:
-            path: /health
-            port: 30302
-          initialDelaySeconds: 30
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 5
-        name: main
-        ports:
-        - containerPort: 30302
+        - env:
+            - name: LOG_LEVEL
+              value: info
+            - name: DATA_PREP_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: dataPrepUri
+                  name: nl-parser-configs
+            - name: DPS_URI
+              value: $(DATA_PREP_URI)
+            - name: NL_APP_SEARCH_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: nlAppSearchUri
+                  name: nl-parser-configs
+            - name: DPS_ROUTING_ENABLED
+              value: "true"
+            - name: NLU_MULTI_LINGUAL
+              value: "false"
+          image: qlik-docker-qsefe.bintray.io/nl-parser:0.63.0
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health
+              port: 30302
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          name: main
+          ports:
+            - containerPort: 30302
       imagePullSecrets:
-      - name: artifactory-docker-secret
+        - name: artifactory-docker-secret
 ---

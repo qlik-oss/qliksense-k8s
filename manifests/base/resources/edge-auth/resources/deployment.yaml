@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: edge-auth
-    chart: edge-auth-5.1.5
+    chart: edge-auth-6.2.12
     heritage: Helm
     release: edge-auth
   name: edge-auth
@@ -17,164 +17,164 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/configs: b360cc35e98d1e1364c5f9a5d18031d4e44f24ecdba27b65f1fd526768b4798d
-        checksum/secrets: 2ab06944a90dff421f61de7905081785de6460427fb5f35e1db492e23469e854
+        checksum/configs: 491023097c694307503b84694769fddab4c9ebbe49eafd6cff7b34389e566723
+        checksum/secrets: 5c384d08bdcf6b8e52fbe11e5fbae537c9a4a4e86f7cfeec7644b6597b845291
       labels:
         app: edge-auth
         edge-auth-nats-client: "true"
         release: edge-auth
     spec:
       containers:
-      - env:
-        - name: NATS_CLIENT_ID
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
-        - name: COOKIES_KEYS_FILE
-          value: /run/secrets/qlik.com/edge-auth/cookiesKeys
-        - name: LOGIN_STATE_KEY_FILE
-          value: /run/secrets/qlik.com/edge-auth/loginStateKey
-        - name: MONGODB_URI_FILE
-          value: /run/secrets/qlik.com/edge-auth/mongodbUri
-        - name: TOKEN_AUTH_PRIVATE_KEY_FILE
-          value: /run/secrets/qlik.com/edge-auth/tokenAuthPrivateKey
-        - name: API_KEYS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: apiKeysUri
-              name: edge-auth-configs
-        - name: FEATURE_FLAGS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: featureFlagsUri
-              name: edge-auth-configs
-        - name: GROUPS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: groupsUri
-              name: edge-auth-configs
-        - name: IDENTITY_PROVIDERS_EXT_URI
-          valueFrom:
-            configMapKeyRef:
-              key: identityProvidersExtUri
-              name: edge-auth-configs
-        - name: IDENTITY_PROVIDERS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: identityProvidersUri
-              name: edge-auth-configs
-        - name: INGRESS_AUTH_URL
-          valueFrom:
-            configMapKeyRef:
-              key: ingressAuthUrl
-              name: edge-auth-configs
-        - name: KEYS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: keysUri
-              name: edge-auth-configs
-        - name: LOG_LEVEL
-          valueFrom:
-            configMapKeyRef:
-              key: logLevel
-              name: edge-auth-configs
-        - name: NATS_STREAMING_CLUSTER_ID
-          valueFrom:
-            configMapKeyRef:
-              key: natsStreamingClusterId
-              name: edge-auth-configs
-        - name: NATS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: natsUri
-              name: edge-auth-configs
-        - name: REDIS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: redisUri
-              name: edge-auth-configs
-        - name: TENANTS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: tenantsUri
-              name: edge-auth-configs
-        - name: USERS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: usersUri
-              name: edge-auth-configs
-        - name: CACHE_MAX_AGE
-          value: "7.2e+06"
-        - name: CACHE_MAX_SIZE
-          value: "250"
-        - name: CACHE_REDIS_ENABLED
-          value: "false"
-        - name: ENFORCE_TLS
-          value: "true"
-        - name: ENVIRONMENT
-          value: qseok
-        - name: NATS_ENABLED
-          value: "true"
-        - name: REGION
-          value: example
-        - name: SECURE_COOKIES
-          value: "true"
-        - name: SESSION_MAX_LIFETIME
-          value: "86400"
-        - name: SESSION_TTL
-          value: "1800"
-        - name: STATE_LIFETIME
-          value: 7d
-        image: qlik-docker-qsefe.bintray.io/edge-auth:3.1.2
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: http
-        name: main
-        ports:
-        - containerPort: 8080
-          name: http
-          protocol: TCP
-        readinessProbe:
-          httpGet:
-            path: /ready
-            port: http
-        volumeMounts:
-        - mountPath: /run/secrets/qlik.com/edge-auth
-          name: edge-auth-secrets
-          readOnly: true
-      - env:
-        - name: NATS_CLIENT_ID
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
-        - name: REDIRECTS
-          valueFrom:
-            configMapKeyRef:
-              key: redirects
-              name: edge-auth-configs
-        - name: PORT
-          value: "32123"
-        image: qlik/simple-oidc-provider:0.2.2
-        imagePullPolicy: IfNotPresent
-        name: oidc
-        ports:
-        - containerPort: 32123
-          name: http
-          protocol: TCP
+        - env:
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: COOKIES_KEYS_FILE
+              value: /run/secrets/qlik.com/edge-auth/cookiesKeys
+            - name: LOGIN_STATE_KEY_FILE
+              value: /run/secrets/qlik.com/edge-auth/loginStateKey
+            - name: MONGODB_URI_FILE
+              value: /run/secrets/qlik.com/edge-auth/mongodbUri
+            - name: TOKEN_AUTH_PRIVATE_KEY_FILE
+              value: /run/secrets/qlik.com/edge-auth/tokenAuthPrivateKey
+            - name: API_KEYS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: apiKeysUri
+                  name: edge-auth-configs
+            - name: FEATURE_FLAGS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: featureFlagsUri
+                  name: edge-auth-configs
+            - name: GROUPS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: groupsUri
+                  name: edge-auth-configs
+            - name: IDENTITY_PROVIDERS_EXT_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: identityProvidersExtUri
+                  name: edge-auth-configs
+            - name: IDENTITY_PROVIDERS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: identityProvidersUri
+                  name: edge-auth-configs
+            - name: INGRESS_AUTH_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: ingressAuthUrl
+                  name: edge-auth-configs
+            - name: KEYS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: keysUri
+                  name: edge-auth-configs
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  key: logLevel
+                  name: edge-auth-configs
+            - name: NATS_STREAMING_CLUSTER_ID
+              valueFrom:
+                configMapKeyRef:
+                  key: natsStreamingClusterId
+                  name: edge-auth-configs
+            - name: NATS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: natsUri
+                  name: edge-auth-configs
+            - name: REDIS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: redisUri
+                  name: edge-auth-configs
+            - name: TENANTS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: tenantsUri
+                  name: edge-auth-configs
+            - name: USERS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: usersUri
+                  name: edge-auth-configs
+            - name: CACHE_MAX_AGE
+              value: "7.2e+06"
+            - name: CACHE_MAX_SIZE
+              value: "250"
+            - name: CACHE_REDIS_ENABLED
+              value: "false"
+            - name: ENFORCE_TLS
+              value: "true"
+            - name: ENVIRONMENT
+              value: qseok
+            - name: NATS_ENABLED
+              value: "true"
+            - name: REGION
+              value: example
+            - name: SECURE_COOKIES
+              value: "true"
+            - name: SESSION_MAX_LIFETIME
+              value: "86400"
+            - name: SESSION_TTL
+              value: "1800"
+            - name: STATE_LIFETIME
+              value: 7d
+          image: qlik-docker-qsefe.bintray.io/edge-auth:4.0.15
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: http
+          name: main
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: http
+          volumeMounts:
+            - mountPath: /run/secrets/qlik.com/edge-auth
+              name: edge-auth-secrets
+              readOnly: true
+        - env:
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: REDIRECTS
+              valueFrom:
+                configMapKeyRef:
+                  key: redirects
+                  name: edge-auth-configs
+            - name: PORT
+              value: "32123"
+          image: qlik/simple-oidc-provider:0.2.2
+          imagePullPolicy: IfNotPresent
+          name: oidc
+          ports:
+            - containerPort: 32123
+              name: http
+              protocol: TCP
       dnsConfig:
         options:
-        - name: timeout
-          value: "1"
+          - name: timeout
+            value: "1"
       hostAliases:
-      - hostnames:
-        - elastic.example
-        ip: 127.0.0.1
+        - hostnames:
+            - elastic.example
+          ip: 127.0.0.1
       imagePullSecrets:
-      - name: artifactory-docker-secret
+        - name: artifactory-docker-secret
       volumes:
-      - name: edge-auth-secrets
-        secret:
-          secretName: edge-auth-secrets
+        - name: edge-auth-secrets
+          secret:
+            secretName: edge-auth-secrets
 ---

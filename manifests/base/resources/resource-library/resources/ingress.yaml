@@ -14,24 +14,24 @@ metadata:
     nginx.org/client-max-body-size: 250m
   labels:
     app: resource-library
-    chart: resource-library-1.10.10
+    chart: resource-library-1.10.11
     heritage: Helm
     release: resource-library
   name: resource-library
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: resource-library
-          servicePort: 21068
-        path: /extensions
-      - backend:
-          serviceName: resource-library
-          servicePort: 21068
-        path: /api/v1/extensions
-      - backend:
-          serviceName: resource-library
-          servicePort: 21068
-        path: /api/v1/themes
+    - http:
+        paths:
+          - backend:
+              serviceName: resource-library
+              servicePort: 21068
+            path: /extensions
+          - backend:
+              serviceName: resource-library
+              servicePort: 21068
+            path: /api/v1/extensions
+          - backend:
+              serviceName: resource-library
+              servicePort: 21068
+            path: /api/v1/themes
 ---

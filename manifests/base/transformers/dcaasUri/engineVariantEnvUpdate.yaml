@@ -1,0 +1,16 @@
+apiVersion: qlik.com/v1
+kind: EnvUpsert
+metadata:
+  name: engineVariantEnvUpdate-dcaasUri
+  labels:
+    key: dcaasUri
+enabled: true
+target:
+  kind: EngineVariant
+path: spec/env
+env:
+- name: DCAAS_URI
+  valueFrom:
+    configMapKeyRef:
+      key: dcaasUri
+      name: configs

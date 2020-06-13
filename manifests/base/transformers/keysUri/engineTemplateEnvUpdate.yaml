@@ -1,0 +1,17 @@
+apiVersion: qlik.com/v1
+kind: EnvUpsert
+metadata:
+  name: engineTemplateEnvUpdate-keysUri
+  labels:
+    key: keysUri
+enabled: true
+target:
+  kind: EngineTemplate
+  name: engine-template-default
+path: spec/podSpec/containers/env
+env:
+  - name: KEYS_URI
+    valueFrom:
+      configMapKeyRef:
+        key: keysUri
+        name: configs

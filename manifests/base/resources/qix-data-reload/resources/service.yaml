@@ -6,16 +6,16 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: qix-data-reload
-    chart: reloads-1.7.3
+    chart: reloads-1.7.12
     heritage: Helm
     release: reloads
   name: qix-data-reload
 spec:
   ports:
-  - name: qix-data-reload
-    port: 8080
-    protocol: TCP
-    targetPort: 8080
+    - name: qix-data-reload
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
   selector:
     app: qix-data-reload
     release: reloads

@@ -13,7 +13,8 @@ patches:
     labelSelector: >-
       key notin (
         imageRegistry,
-        pdsUri,
+        policyDecisionsUri,
+        edgeAuthUri,
         collectionsUri,
         featureFlagsUri,
         tenantsUri,
@@ -34,7 +35,7 @@ patches:
       path: /default
       value: true
 - target:
-    labelSelector: "key=tokenAuthUri,kind=Deployment"
+    labelSelector: "key=edgeAuthUri,kind=Deployment"
   patch: |-
     - op: replace
       path: /enabled

@@ -11,7 +11,7 @@ kind: ConfigMap
 metadata:
   labels:
     app: users
-    chart: users-2.1.22
+    chart: users-2.1.36
     heritage: Helm
     release: users
   name: users-configs

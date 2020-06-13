@@ -6,15 +6,15 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: chronos
-    chart: chronos-1.6.0
+    chart: chronos-1.6.4
     heritage: Helm
     release: chronos
   name: chronos
 spec:
   ports:
-  - name: chronos
-    port: 8585
-    targetPort: 8585
+    - name: chronos
+      port: 8585
+      targetPort: 8585
   selector:
     app: chronos
 ---

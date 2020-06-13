@@ -1,0 +1,117 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: nats
+    chart: nats-1.0.14
+    heritage: Helm
+    release: $(PREFIX)
+  name: $(PREFIX)-nats
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nats
+      release: $(PREFIX)
+  serviceName: $(PREFIX)-nats-headless
+  template:
+    metadata:
+      annotations:
+        checksum/secrets: 55b61bb788a63c3bb18e2e2dcc1224e9a52e33b76c2e241c68ebe0b997565af9
+        prometheus.io/port: "7777"
+        prometheus.io/scrape: "false"
+      labels:
+        app: nats
+        chart: nats-1.0.14
+        release: $(PREFIX)
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app: nats
+                    release: $(PREFIX)
+                topologyKey: kubernetes.io/hostname
+              weight: 1
+      containers:
+        - args:
+            - -c
+            - /opt/bitnami/nats/gnatsd.conf
+            - --jwt_users_file=/opt/bitnami/nats/users.json
+            - --jwt_auth_url=$(KEYS_URI)/v1/keys/qlik.api.internal
+          command:
+            - qnatsd
+          env:
+            - name: KEYS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: keysUri
+                  name: nats-configs
+          image: qlik-docker-qsefe.bintray.io/qnatsd:0.3.3
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: 6
+            httpGet:
+              path: /
+              port: monitoring
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          name: main
+          ports:
+            - containerPort: 4222
+              name: client
+            - containerPort: 6222
+              name: cluster
+            - containerPort: 8222
+              name: monitoring
+          readinessProbe:
+            failureThreshold: 6
+            httpGet:
+              path: /
+              port: monitoring
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+          resources: {}
+          volumeMounts:
+            - mountPath: /opt/bitnami/nats
+              name: config
+        - args:
+            - -connz
+            - -routez
+            - -subz
+            - -varz
+            - http://localhost:8222
+          image: qlik-docker-qsefe.bintray.io/prometheus-nats-exporter:0.3.0
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /metrics
+              port: metrics
+            initialDelaySeconds: 15
+            timeoutSeconds: 5
+          name: metrics
+          ports:
+            - containerPort: 7777
+              name: metrics
+          readinessProbe:
+            httpGet:
+              path: /metrics
+              port: metrics
+            initialDelaySeconds: 5
+            timeoutSeconds: 1
+          resources: null
+      imagePullSecrets:
+        - name: artifactory-docker-secret
+      volumes:
+        - configMap:
+            name: $(PREFIX)-nats
+          name: config
+  updateStrategy:
+    type: RollingUpdate
+---

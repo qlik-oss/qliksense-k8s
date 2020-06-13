@@ -6,20 +6,20 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: geo-operations
-    chart: geo-operations-1.1.3
+    chart: geo-operations-1.1.4
     heritage: Helm
     release: geo-operations
   name: geo-operations
 spec:
   ports:
-  - name: grpc
-    port: 50072
-    protocol: TCP
-    targetPort: 50072
-  - name: http
-    port: 40072
-    protocol: TCP
-    targetPort: 40072
+    - name: grpc
+      port: 50072
+      protocol: TCP
+      targetPort: 50072
+    - name: http
+      port: 40072
+      protocol: TCP
+      targetPort: 40072
   selector:
     app: geo-operations
     release: geo-operations

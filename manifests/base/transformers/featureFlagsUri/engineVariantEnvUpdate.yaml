@@ -1,0 +1,16 @@
+apiVersion: qlik.com/v1
+kind: EnvUpsert
+metadata:
+  name: engineVariantEnvUpdate-featureFlagsUri
+  labels:
+    key: featureFlagsUri
+enabled: true
+target:
+  kind: EngineVariant
+path: spec/env
+env:
+- name: FEATURE_FLAGS_URI
+  valueFrom:
+    configMapKeyRef:
+      key: featureFlagsUri
+      name: configs

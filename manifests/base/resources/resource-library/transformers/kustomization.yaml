@@ -14,15 +14,15 @@ patches:
       key notin (
         imageRegistry,
         ingressClass,
+        ingressAuthUrl,
         natsUri,
         natsStreamingClusterId,
         keysUri,
-        pdsUri,
+        policyDecisionsUri,
         mongodbUri,
-        tokenAuthUri,
-        tokenAuthPrivateKey,
-        tokenAuthPrivateKeyId,
-        storageClassName
+        edgeAuthUri,
+        storageClassName,
+        caCertificates
       )
   patch: |-
     - op: replace

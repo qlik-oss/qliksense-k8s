@@ -13,8 +13,8 @@ patches:
     labelSelector: >-
       key notin (
         imageRegistry,
-        tokenAuthUri,
-        pdsUri,
+        edgeAuthUri,
+        policyDecisionsUri,
         ingressClass,
         ingressAuthUrl,
         natsStreamingClusterId,

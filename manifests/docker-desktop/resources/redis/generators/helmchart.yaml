@@ -3,9 +3,9 @@ kind: HelmChart
 metadata:
  name: redis
 chartName: redis
-tmpChartHome: .chartcache/redis-6.4.2
+chartHome: ../../../../../charts/redis-10.5.6
 chartRepo: https://kubernetes-charts.storage.googleapis.com
 chartRepoName: stable
 releaseName: redis
 releaseNamespace: default
-chartVersion: 6.4.2
+chartVersion: 10.5.6

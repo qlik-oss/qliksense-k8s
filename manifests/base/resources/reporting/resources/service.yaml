@@ -6,15 +6,15 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: reporting
-    chart: reporting-1.18.13
+    chart: reporting-1.18.33
     heritage: Helm
     release: reporting
   name: reporting
 spec:
   ports:
-  - name: reporting
-    port: 8282
-    targetPort: 8282
+    - name: reporting
+      port: 8282
+      targetPort: 8282
   selector:
     app: reporting
 ---
@@ -29,9 +29,9 @@ metadata:
   name: reporting-cmp
 spec:
   ports:
-  - name: reporting-cmp
-    port: 8383
-    targetPort: 8383
+    - name: reporting-cmp
+      port: 8383
+      targetPort: 8383
   selector:
     app: reporting
 ---
@@ -46,9 +46,9 @@ metadata:
   name: reporting-rpr
 spec:
   ports:
-  - name: reporting-rpr
-    port: 8484
-    targetPort: 8484
+    - name: reporting-rpr
+      port: 8484
+      targetPort: 8484
   selector:
     app: reporting
 ---
@@ -60,9 +60,9 @@ metadata:
   name: reporting-rwr
 spec:
   ports:
-  - name: reporting-rwr
-    port: 9288
-    targetPort: 9288
+    - name: reporting-rwr
+      port: 9288
+      targetPort: 9288
   selector:
     app: reporting
 ---

@@ -24,7 +24,7 @@ patches:
       path: /default
       value: true
 # - target:
-#      name: pdsUri
+#      name: policyDecisionsUri
 #   patch: |-
 #     - op: replace
 #       path: /enabled

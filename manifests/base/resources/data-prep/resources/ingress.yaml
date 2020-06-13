@@ -11,16 +11,16 @@ metadata:
     nginx.ingress.kubernetes.io/enable-cors: "true"
   labels:
     app: data-prep
-    chart: data-prep-1.12.33
+    chart: data-prep-2.0.9
     heritage: Helm
     release: data-prep
   name: data-prep
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: data-prep
-          servicePort: 9072
-        path: /api/dataprepservice/v1/openapi
+    - http:
+        paths:
+          - backend:
+              serviceName: data-prep
+              servicePort: 9072
+            path: /api/dataprepservice/v1/openapi
 ---

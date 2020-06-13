@@ -8,4 +8,3 @@ resources:
 transformers:
 - ../secrets
 - ../configs
-

@@ -15,10 +15,10 @@ metadata:
   name: notification-prep
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: notification-prep
-          servicePort: 8080
-        path: /api/v1/notification-prep
+    - http:
+        paths:
+          - backend:
+              serviceName: notification-prep
+              servicePort: 8080
+            path: /api/v1/notification-prep
 ---

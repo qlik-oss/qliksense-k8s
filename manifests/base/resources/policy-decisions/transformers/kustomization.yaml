@@ -14,12 +14,16 @@ patches:
       key notin (
         imageRegistry,
         ingressClass,
+        ingressAuthUrl,
         keysUri,
         groupsUri,
         spacesUri,
         licensesUri,
         caCertificates,
-        mongodbUri
+        mongodbUri,
+        natsUri,
+        natsStreamingClusterId,
+        edgeAuthUri,
         )
   patch: |-
     - op: replace

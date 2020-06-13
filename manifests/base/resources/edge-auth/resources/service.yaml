@@ -7,22 +7,22 @@ metadata:
     prometheus.io/scrape_high_cardinality: "true"
   labels:
     app: edge-auth
-    chart: edge-auth-5.1.5
+    chart: edge-auth-6.2.12
     heritage: Helm
     release: edge-auth
   name: edge-auth
   namespace: $(NAMESPACE)
 spec:
   ports:
-  - name: edge-auth
-    port: 8080
-    protocol: TCP
-    targetPort: 8080
-  - name: oidc
-    nodePort: 32123
-    port: 32123
-    protocol: TCP
-    targetPort: 32123
+    - name: edge-auth
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    - name: oidc
+      nodePort: 32123
+      port: 32123
+      protocol: TCP
+      targetPort: 32123
   selector:
     app: edge-auth
     release: edge-auth

@@ -12,7 +12,7 @@ patches:
   - target:
       labelSelector: >-
         key notin (
-          imageRegistry,
+        imageRegistry,
           licensesUri
           )
     patch: |-

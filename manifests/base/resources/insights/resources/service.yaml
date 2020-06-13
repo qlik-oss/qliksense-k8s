@@ -6,15 +6,15 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: insights
-    chart: insights-1.9.0
+    chart: insights-1.9.2
     heritage: Helm
     release: insights
   name: insights
 spec:
   ports:
-  - name: insights
-    port: 9292
-    targetPort: 9292
+    - name: insights
+      port: 9292
+      targetPort: 9292
   selector:
     app: insights
 ---

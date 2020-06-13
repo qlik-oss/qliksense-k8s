@@ -12,10 +12,10 @@ metadata:
   name: notification-prep
 spec:
   ports:
-  - name: notification-prep
-    port: 8080
-    protocol: TCP
-    targetPort: 8080
+    - name: notification-prep
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
   selector:
     app: notification-prep
     release: notification-prep

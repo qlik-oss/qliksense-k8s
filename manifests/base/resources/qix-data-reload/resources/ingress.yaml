@@ -10,16 +10,16 @@ metadata:
     nginx.ingress.kubernetes.io/enable-cors: "true"
   labels:
     app: qix-data-reload
-    chart: reloads-1.7.3
+    chart: reloads-1.7.12
     heritage: Helm
     release: reloads
   name: qix-data-reload
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: qix-data-reload
-          servicePort: 8080
-        path: /api/v1/reloads
+    - http:
+        paths:
+          - backend:
+              serviceName: qix-data-reload
+              servicePort: 8080
+            path: /api/v1/reloads
 ---

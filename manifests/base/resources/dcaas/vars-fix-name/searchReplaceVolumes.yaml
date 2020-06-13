@@ -1,0 +1,9 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: fix-dcaas-name-in-volumes
+target:
+  kind: StatefulSet
+path: spec/template/spec/volumes
+search: dcaas-redis
+replace: $(PREFIX)-dcaas-redis

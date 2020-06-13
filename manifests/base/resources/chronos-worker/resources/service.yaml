@@ -6,15 +6,15 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: chronos-worker
-    chart: chronos-worker-1.4.9
+    chart: chronos-worker-1.4.10
     heritage: Helm
     release: chronos-worker
   name: chronos-worker
 spec:
   ports:
-  - name: chronos-worker
-    port: 8080
-    targetPort: 8080
+    - name: chronos-worker
+      port: 8080
+      targetPort: 8080
   selector:
     app: chronos-worker
 ---

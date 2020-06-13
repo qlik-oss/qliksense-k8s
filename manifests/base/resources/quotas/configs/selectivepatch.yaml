@@ -13,4 +13,4 @@ patches:
       name: quotas-configs
     data:
       keysUri: "http://$(PREFIX)-quotas-keys:8080/v1"
-      tokenAuthUri: "http://$(PREFIX)-quotas-edge-auth:8080"
+      edgeAuthUri: "http://$(PREFIX)-quotas-edge-auth:8080"

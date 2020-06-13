@@ -9,16 +9,20 @@ metadata:
       rewrite (?i)/api/(.*) /$1 break;
   labels:
     app: transport
-    chart: transport-1.3.3
+    chart: transport-1.7.0
     heritage: Helm
     release: transport
   name: transport
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: transport
-          servicePort: 8080
-        path: /api/v1/transport
+    - http:
+        paths:
+          - backend:
+              serviceName: transport
+              servicePort: 8080
+            path: /api/v1/transport
+          - backend:
+              serviceName: transport
+              servicePort: 8080
+            path: /api/v1/notification-channels
 ---

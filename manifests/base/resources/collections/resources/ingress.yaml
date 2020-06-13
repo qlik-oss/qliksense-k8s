@@ -10,20 +10,21 @@ metadata:
     nginx.ingress.kubernetes.io/enable-cors: "true"
   labels:
     app: collections
-    chart: collections-2.8.42
+    chart: collections-3.1.1
     heritage: Helm
     release: collections
   name: collections
+  namespace: $(NAMESPACE)
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: collections
-          servicePort: 8080
-        path: /api/v1/collections
-      - backend:
-          serviceName: collections
-          servicePort: 8080
-        path: /api/v1/items
+    - http:
+        paths:
+          - backend:
+              serviceName: collections
+              servicePort: 8080
+            path: /api/v1/collections
+          - backend:
+              serviceName: collections
+              servicePort: 8080
+            path: /api/v1/items
 ---

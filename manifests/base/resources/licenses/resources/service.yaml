@@ -6,16 +6,16 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: licenses
-    chart: licenses-1.19.0
+    chart: licenses-1.21.9
     heritage: Helm
     release: licenses
   name: licenses
 spec:
   ports:
-  - name: licenses
-    port: 9200
-    protocol: TCP
-    targetPort: 9200
+    - name: licenses
+      port: 9200
+      protocol: TCP
+      targetPort: 9200
   selector:
     app: licenses
     release: licenses

@@ -1,0 +1,16 @@
+apiVersion: qlik.com/v1
+kind: EnvUpsert
+metadata:
+  name: engineVariantEnvUpdate-keysUri
+  labels:
+    key: keysUri
+enabled: true
+target:
+  kind: EngineVariant
+path: spec/env
+env:
+  - name: KEYS_URI
+    valueFrom:
+      configMapKeyRef:
+        key: keysUri
+        name: configs

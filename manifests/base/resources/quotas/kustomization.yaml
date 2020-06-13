@@ -2,6 +2,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 commonLabels:
   app: quotas
+commonAnnotations:
+  app.kubernetes.io/part-of: base
+  app.kubernetes.io/component: quotas
 resources:
   - resources
 generators:

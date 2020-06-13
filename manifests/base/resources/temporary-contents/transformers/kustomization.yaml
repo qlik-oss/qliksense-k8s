@@ -17,13 +17,11 @@ patches:
         ingressClass,
         ingressAuthUrl,
         featureFlagsUri,
-        pdsUri, 
+        policyDecisionsUri,
         mongodbUri,
         caCertificates,
         encryptionUri,
-        tokenAuthUri,
-        tokenAuthPrivateKey,
-        tokenAuthPrivateKeyId,
+        edgeAuthUri,
         storageClassName
       )
   patch: |-

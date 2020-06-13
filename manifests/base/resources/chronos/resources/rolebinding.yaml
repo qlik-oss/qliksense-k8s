@@ -3,7 +3,7 @@ kind: RoleBinding
 metadata:
   labels:
     app: chronos
-    chart: chronos-1.6.0
+    chart: chronos-1.6.4
     heritage: Helm
     release: chronos
   name: chronos
@@ -13,6 +13,6 @@ roleRef:
   kind: Role
   name: chronos
 subjects:
-- kind: ServiceAccount
-  name: chronos
+  - kind: ServiceAccount
+    name: chronos
 ---

@@ -18,6 +18,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: 500m
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/server-snippet: |
+      opentracing on;
       gzip on;
       gzip_min_length 10240;
       gzip_proxied expired no-cache no-store private auth;
@@ -64,6 +65,7 @@ metadata:
         # Pass the extracted client certificate to the auth provider
 
         set $target http://$(PREFIX)-edge-auth.$(NAMESPACE).svc.cluster.local:8080/v1/auth;
+        opentracing_propagate_context;
         proxy_pass $target;
       }
 
@@ -74,6 +76,7 @@ metadata:
         proxy_set_header            Content-Type "application/json";
 
         set $target http://$(PREFIX)-data-prep.$(NAMESPACE).svc.cluster.local:9072/session/route;
+        opentracing_propagate_context;
         proxy_pass $target;
       }
 
@@ -96,19 +99,27 @@ metadata:
       #
       location ~ ^/(qv)?app/(SessionApp_)?([a-zA-Z0-9\-]+|%3Ftransient%3D)(/identity/)?([a-zA-Z0-9\-]+)?.* {
         set $engine_path '';
-
+        set $app_path $1;
         set $session_app $2;
         set $app_id $3;
         set $session_id $5;
-
         set $auth_path http://$(PREFIX)-edge-auth.$(NAMESPACE).svc.cluster.local:8080/v1/auth;
         set $qix_session_path http://$(PREFIX)-qix-sessions.$(NAMESPACE).svc.cluster.local:8080/v1/engine-sessions;
 
         access_by_lua_block {
+          local bridge_tracer = require("opentracing_bridge_tracer")
+          local tracer = bridge_tracer.new_from_global()
+          local parent_context = tracer:binary_extract(ngx.var.opentracing_binary_context)
+          local span = tracer:start_span("qix_sessions_lua_ws", {["references"] = { {"child_of", parent_context} } })
+
           local http = require "resty.http"
           local httpc = http.new()
-          local headers = {}
 
+          local headers = {}
+          -- Copy incoming headers
+          for h,v in pairs(ngx.req.get_headers()) do
+              headers[h] = v
+          end
           -- Set specific headers
           headers["X-Forwarded-Proto"] = ""
           headers["X-Original-URL"] = string.format("%s://%s%s", ngx.var.scheme, ngx.var.http_host, ngx.var.request_uri)
@@ -120,28 +131,31 @@ metadata:
           headers["X-Auth-Request-Redirect"] = ngx.var.request_uri
           headers["Host"] = "edge-auth.$(NAMESPACE).svc.cluster.local"
           headers["qlik-web-integration-id"] = ngx.req.get_uri_args()["qlik-web-integration-id"]
-
-          -- Copy incoming headers
-          for h,v in pairs(ngx.req.get_headers()) do
-              headers[h] = v
-          end
+          tracer:http_headers_inject(span:context(), headers)
 
           -- Authenticate
           local authres, err = httpc:request_uri(ngx.var.auth_path, { headers = headers })
 
           if err then
-            ngx.log(ngx.ERR, "Error calling edge_auth - " .. tostring(err))
+            ngx.log(ngx.ERR, "error calling edge_auth: " .. tostring(err))
+            span:set_tag("error", true)
+            span:finish()
             ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)
+            return
           end
 
-          if authres.status == ngx.HTTP_UNAUTHORIZED or authres.status == ngx.HTTP_FORBIDDEN then
-            ngx.log(ngx.NOTICE, authres.status .. " received from edge_auth")
-            ngx.exit(authres.status)
-          end
-
+          span:set_tag("auth.status", authres.status)
           if authres.status ~= ngx.HTTP_OK then
-            ngx.log(ngx.ERR, "Didn't receive valid responseCode from edge-auth")
-            ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)
+            ngx.log(ngx.ERR, authres.status .. " received from edge_auth")
+            span:set_tag("error", true)
+            span:finish()
+            if authres.status == ngx.HTTP_UNAUTHORIZED or authres.status == ngx.HTTP_FORBIDDEN then
+              ngx.exit(authres.status)
+              return
+            else
+              ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)
+              return
+            end
           end
 
           -- Set upstream Authorization header
@@ -164,6 +178,7 @@ metadata:
           local reqHeaders = {}
           reqHeaders["Content-Type"] = "application/json"
           reqHeaders["Authorization"] = authres.headers["Authorization"]
+          tracer:http_headers_inject(span:context(), reqHeaders)
 
           local qix_session_res, qix_session_err = httpc:request_uri(ngx.var.qix_session_path, {
             method = "POST",
@@ -172,13 +187,20 @@ metadata:
           })
 
           if qix_session_err then
-            ngx.log(ngx.ERR, "Error calling qix_session " .. tostring(qix_session_err))
+            ngx.log(ngx.ERR, "error calling qix-sessions: " .. tostring(qix_session_err))
+            span:set_tag("error", true)
+            span:finish()
             ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)
+            return
           end
 
+          span:set_tag("qix.sessions.status", qix_session_res.status)
           if qix_session_res.status ~= ngx.HTTP_CREATED then
-            ngx.log(ngx.ERR, "Error from qix_session request = " .. qix_session_res.status)
+            ngx.log(ngx.ERR, qix_session_res.status .. " received from qix-sessions")
+            span:set_tag("error", true)
+            span:finish()
             ngx.exit(qix_session_res.status)
+            return
           end
 
           local cjson = require "cjson";
@@ -188,8 +210,11 @@ metadata:
           if qix_sessions_route_data.links.engineUrl.href then
             engine_path = qix_sessions_route_data.links.engineUrl.href .. "/TTL/120"
           else
-            ngx.log(ngx.ERR, "Invalid or empty engine path received from qix-sessions")
-            return ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)
+            ngx.log(ngx.ERR, "invalid or empty engine path received from qix-sessions")
+            span:set_tag("error", true)
+            span:finish()
+            ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)
+            return
           end
 
           local app_placement_type = qix_sessions_route_data.placementDetails.appPlacementType
@@ -207,7 +232,6 @@ metadata:
           end
           parsed_selectors = parsed_selectors .. "]"
 
-
           if app_placement_type and parsed_selectors and selector_used then
             resp_value = "{\"appPlacementType\":\"" .. app_placement_type .. "\"," .. "\"selectors\":" .. parsed_selectors .. "," .. "\"selectorUsed\":\"" .. selector_used .. "\"," .. "\"fromCache\":\"" .. from_cache .. "\"}"
             ngx.header["Placement-Details"] = resp_value
@@ -215,6 +239,29 @@ metadata:
 
           ngx.var.engine_path = engine_path
           ngx.log(ngx.NOTICE, "forwarding request to url " .. engine_path)
+
+          -- Some of these span tags should be logs but as soon as span:log_kv is called the qix_sessions_lua_ws span
+          -- does not show up in jeager.
+          -- Some of these span tags shoulg be set much earlier but if we do that, unsuccessful spans to edge auth or
+          -- qix-sessions do not show up in jaeger.
+          span:set_tag("engine.path", engine_path)
+          span:set_tag("response.sessionId", qix_sessions_route_data.id)
+          span:set_tag("selector", selector_used)
+          span:set_tag("from.cache", from_cache)
+
+          if "qv" == ngx.var.app_path then
+            span:set_tag("resource.type", "qvapp")
+          else
+            span:set_tag("resource.type", "app")
+          end
+          span:set_tag("appId", ngx.var.app_id)
+          span:set_tag("request.sessionId", ngx.var.session_id)
+          if "SessionApp_" == ngx.var.session_app then
+            span:set_tag("session.app", true)
+          else
+            span:set_tag("session.app", false)
+          end
+          span:finish()
         }
 
         proxy_set_header X-Real-IP $proxy_protocol_addr;
@@ -229,6 +276,7 @@ metadata:
         proxy_read_timeout 7d;
         proxy_send_timeout 7d;
         proxy_http_version 1.1;
+        opentracing_propagate_context;
         proxy_pass $engine_path;
       }
 
@@ -239,40 +287,74 @@ metadata:
         set $app_id $1;
 
         access_by_lua_block {
-          local authres = ngx.location.capture("/_external-auth-engine")
+          local bridge_tracer = require("opentracing_bridge_tracer")
+          local tracer = bridge_tracer.new_from_global()
+          local parent_context = tracer:binary_extract(ngx.var.opentracing_binary_context)
+          local span = tracer:start_span("dataprep_lua_ws", {["references"] = { {"child_of", parent_context} } })
 
-          if authres.status == ngx.HTTP_UNAUTHORIZED or authres.status == ngx.HTTP_FORBIDDEN then
-            ngx.log(ngx.NOTICE, authres.status .. " received from edge_auth")
-            ngx.exit(authres.status)
+          local headers = {}
+          for h,v in pairs(ngx.req.get_headers()) do
+              headers[h] = v
           end
+          tracer:http_headers_inject(span:context(), headers)
 
+          local authres = ngx.location.capture("/_external-auth-engine", { headers = headers })
+
+          span:set_tag("auth.status", authres.status)
           if authres.status ~= ngx.HTTP_OK then
-            ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)
+            ngx.log(ngx.ERR, authres.status .. " received from edge_auth")
+            span:set_tag("error", true)
+            span:finish()
+            if authres.status == ngx.HTTP_UNAUTHORIZED or authres.status == ngx.HTTP_FORBIDDEN then
+              ngx.exit(authres.status)
+              return
+            else
+              ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)
+              return
+            end
           end
 
+          -- Set upstream Authorization header
           ngx.req.set_header("Authorization", authres.header["Authorization"])
+
+          local dpsHeaders = {}
+          for h,v in pairs(ngx.req.get_headers()) do
+              dpsHeaders[h] = v
+          end
+          dpsHeaders["Authorization"] = authres.header["Authorization"]
+          tracer:http_headers_inject(span:context(), dpsHeaders)
 
           local reqBody = "{\"appId\":\"" .. ngx.var.app_id .. "\"}"
           local dps_res = ngx.location.capture("/_dataprepservice_special", {
             method = ngx.HTTP_POST,
+            headers = dpsHeaders,
             body = reqBody
           })
 
+          span:set_tag("data.prep.status", dps_res.status)
           if dps_res.status ~= ngx.HTTP_OK then
-            ngx.log(ngx.ERR, "Error from dataprepservice route request = " .. dps_res.status)
+            ngx.log(ngx.ERR, "error from dataprepservice route request = " .. dps_res.status)
+            span:set_tag("error", true)
+            span:finish()
             ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)
+            return
           end
 
           local cjson = require "cjson";
           local dps_route_data = cjson.decode(dps_res.body);
           local dps_path = dps_route_data.url
           if not dps_path then
-            ngx.log(ngx.ERR, "Invalid or empty path received from dataprepservice")
+            ngx.log(ngx.ERR, "invalid or empty path received from dataprepservice")
+            span:set_tag("error", true)
+            span:finish()
             ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)
+            return
           end
 
           ngx.var.dps_path = string.format("%s/app/%s", dps_path, ngx.var.app_id)
-          ngx.log(ngx.ERR, "Forwarding dataprepservice WS request to url " .. ngx.var.dps_path)
+          ngx.log(ngx.NOTICE, "forwarding dataprepservice WS request to url " .. ngx.var.dps_path)
+          span:set_tag("data.prep.path", ngx.var.dps_path)
+          span:finish()
         }
 
         proxy_set_header X-Real-IP $proxy_protocol_addr;
@@ -287,6 +369,7 @@ metadata:
         proxy_read_timeout 7d;
         proxy_send_timeout 7d;
         proxy_http_version 1.1;
+        opentracing_propagate_context;
         proxy_pass $dps_path;
       }
 
@@ -302,13 +385,19 @@ metadata:
         set $redir https://$best_http_host$request_uri;
         # enforce ssl on server side
         access_by_lua_block {
+          local bridge_tracer = require("opentracing_bridge_tracer")
+          local tracer = bridge_tracer.new_from_global()
+          local parent_context = tracer:binary_extract(ngx.var.opentracing_binary_context)
+          local span = tracer:start_span("dataprep_lua_rest", {["references"] = { {"child_of", parent_context} } })
 
           local function redirect_to_https()
             return ngx.var.pass_access_scheme == "http" and (ngx.var.scheme == "http" or ngx.var.scheme == "https")
           end
 
           if redirect_to_https() then
+            span:finish()
             ngx.redirect(ngx.var.redir, ngx.HTTP_MOVED_PERMANETLY)
+            return
           end
 
           local http = require "resty.http"
@@ -328,7 +417,6 @@ metadata:
           for h,v in pairs(ngx.req.get_headers()) do
             headers[h] = v
           end
-
           headers["Host"] = "edge-auth.$(NAMESPACE).svc.cluster.local"
           headers["X-Original-URL"] = string.format("%s://%s%s", ngx.var.scheme, ngx.var.http_host, ngx.var.request_uri)
           headers["X-Original-Method"] = ngx.var.request_method
@@ -336,7 +424,8 @@ metadata:
           headers["X-Real-IP"] = ngx.var.the_real_ip
           headers["X-Forwarded-For"] = ngx.var.the_real_ip
           headers["X-Auth-Request-Redirect"] = ngx.var.request_uri
-          headers["X-DataPrep-Lua-Request-ID"] = guid();
+          headers["X-DataPrep-Lua-Request-ID"] = guid()
+          tracer:http_headers_inject(span:context(), headers)
 
           local res, err = httpc:request_uri(ngx.var.auth_path, {
               headers = headers,
@@ -346,33 +435,40 @@ metadata:
               keepalive_pool = 10 })
 
           if err then
-            ngx.log(ngx.ERR, "Error calling edge_auth " .. tostring(err))
             local hdrStr = ""
             for key,value in pairs(headers) do
               if string.lower(key) ~= "cookie"  then
                 hdrStr = hdrStr .. key .. ":" .. value .. " "
               end
             end
-            ngx.log(ngx.ERR, "Auth Headers " .. hdrStr)
-            ngx.log(ngx.ERR, "Edge Auth URI " .. ngx.var.auth_path)
-
+            ngx.log(ngx.ERR, "error calling edge_auth " .. tostring(err) .. " auth headers: " .. hdrStr .. " edge_auth URI: " .. ngx.var.auth_path)
+            span:set_tag("error", true)
+            span:finish()
             ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)
+            return
           end
 
-          if res.status == ngx.HTTP_UNAUTHORIZED or res.status == ngx.HTTP_FORBIDDEN then
-            ngx.log(ngx.NOTICE, res.status .. " received from edge_auth")
-            ngx.exit(res.status)
-          end
-
+          span:set_tag("auth.status", res.status)
           if res.status ~= ngx.HTTP_OK then
-            ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)
+            ngx.log(ngx.ERR, res.status .. " received from edge_auth")
+            span:set_tag("error", true)
+            span:finish()
+            if res.status == ngx.HTTP_UNAUTHORIZED or res.status == ngx.HTTP_FORBIDDEN then
+              ngx.exit(res.status)
+              return
+            else
+              ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)
+              return
+            end
           end
 
+          -- Set upstream Authorization header
           ngx.req.set_header("Authorization", res.headers["Authorization"])
 
           local reqHeaders = {}
           reqHeaders["Content-Type"] = "application/json"
           reqHeaders["Authorization"] = res.headers["Authorization"]
+          tracer:http_headers_inject(span:context(), reqHeaders)
 
           local reqBody = "{\"appId\":\"" .. ngx.var.app_id .. "\"}"
 
@@ -381,21 +477,33 @@ metadata:
             headers = reqHeaders,
             body = reqBody
           })
+
           if dps_err then
-            ngx.log(ngx.ERR, "Error calling dataprepservice " .. tostring(dps_err))
+            ngx.log(ngx.ERR, "error calling dataprepservice: " .. tostring(dps_err))
+            span:set_tag("error", true)
+            span:finish()
             ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)
+            return
           end
+
+          span:set_tag("data.prep.status", dps_res.status)
           if dps_res.status ~= ngx.HTTP_OK then
-            ngx.log(ngx.ERR, "Error from dataprepservice route request = " .. dps_res.status)
+            ngx.log(ngx.ERR, "error from dataprepservice route request: " .. dps_res.status)
+            span:set_tag("error", true)
+            span:finish()
             ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)
+            return
           end
 
           local cjson = require "cjson";
           local dps_route_data = cjson.decode(dps_res.body);
           local dps_path = dps_route_data.url
           if not dps_path then
-            ngx.log(ngx.ERR, "Invalid or empty path received from dataprepservice")
+            ngx.log(ngx.ERR, "invalid or empty path received from dataprepservice")
+            span:set_tag("error", true)
+            span:finish()
             ngx.exit(ngx.HTTP_INTERNAL_SERVER_ERROR)
+            return
           end
 
           local query_params = ngx.encode_args(ngx.req.get_uri_args())
@@ -404,7 +512,9 @@ metadata:
           end
 
           ngx.var.dps_path = string.format("%s/v1/apps/%s/%s%s", dps_path, ngx.var.app_id, ngx.var.end_point, query_params)
-          ngx.log(ngx.NOTICE, "Forwarding dataprepservice request to url " .. ngx.var.dps_path)
+          ngx.log(ngx.NOTICE, "forwarding dataprepservice request to url " .. ngx.var.dps_path)
+          span:set_tag("data.prep.path", ngx.var.dps_path)
+          span:finish()
         }
 
         proxy_set_header X-Real-IP $proxy_protocol_addr;
@@ -416,21 +526,22 @@ metadata:
         proxy_connect_timeout 7d;
         proxy_read_timeout 7d;
         proxy_send_timeout 7d;
+        opentracing_propagate_context;
         proxy_pass $dps_path;
       }
     nginx.org/client-max-body-size: 500m
   labels:
     app: elastic-infra
-    chart: elastic-infra-3.0.1
+    chart: elastic-infra-3.0.6
     heritage: Helm
     release: elastic-infra
   name: elastic-infra-elastic-infra-api-404
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: elastic-infra-nginx-ingress-controller
-          servicePort: 80
-        path: /api
+    - http:
+        paths:
+          - backend:
+              serviceName: elastic-infra-nginx-ingress-controller
+              servicePort: 80
+            path: /api
 ---

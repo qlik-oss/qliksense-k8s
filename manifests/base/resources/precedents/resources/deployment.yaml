@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: precedents
-    chart: precedents-1.1.30
+    chart: precedents-1.1.32
     heritage: Helm
     release: precedents
   name: precedents
@@ -16,113 +16,109 @@ spec:
         release: precedents
     spec:
       containers:
-      - env:
-        - name: MONGODB_URI
-          valueFrom:
-            secretKeyRef:
-              key: mongodbUri
-              name: precedents-secrets
-        - name: MONGO_URI
-          value: $(MONGODB_URI)
-        - name: TOKEN_AUTH_PRIVATE_KEY_ID
-          valueFrom:
-            secretKeyRef:
-              key: tokenAuthPrivateKeyId
-              name: precedents-secrets
-        - name: KEY_IDENTIFIER
-          value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
-        - name: TOKEN_AUTH_PRIVATE_KEY
-          valueFrom:
-            secretKeyRef:
-              key: tokenAuthPrivateKey
-              name: precedents-secrets
-        - name: SELF_SIGNING_PRIVATE_KEY
-          value: $(TOKEN_AUTH_PRIVATE_KEY)
-        - name: KEYS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: keysUri
-              name: precedents-configs
-        - name: AUTH_JWKS_URI
-          value: $(KEYS_URI)/v1/keys/qlik.api.internal
-        - name: TOKEN_AUTH_URI
-          valueFrom:
-            configMapKeyRef:
-              key: tokenAuthUri
-              name: precedents-configs
-        - name: EDGE_AUTH_URI
-          value: $(TOKEN_AUTH_URI)
-        - name: NATS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: natsUri
-              name: precedents-configs
-        - name: NATS_URL
-          value: $(NATS_URI)
-        - name: NATS_STREAMING_CLUSTER_ID
-          valueFrom:
-            configMapKeyRef:
-              key: natsStreamingClusterId
-              name: precedents-configs
-        - name: NATS_CLUSTER_ID
-          value: $(NATS_STREAMING_CLUSTER_ID)
-        - name: ENGINEADDRESS
-          value: http://$(PREFIX)-qix-sessions
-        - name: FEATURE_FLAGS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: featureFlagsUri
-              name: precedents-configs
-        - name: FEATURE_FLAG_URL
-          value: $(FEATURE_FLAGS_URI)/v1/features
-        - name: SPACES_URI
-          valueFrom:
-            configMapKeyRef:
-              key: spacesUri
-              name: precedents-configs
-        - name: PORT
-          value: "9054"
-        - name: MODE
-          value: elastic
-        - name: ENGINEPORT
-          value: "8080"
-        - name: PROTOCOL
-          value: http
-        - name: SINGLE_PROCESS
-          value: "true"
-        - name: LOGLEVEL
-          value: ""
-        - name: GRPC
-          value: "true"
-        - name: CAYLEYSTART
-          value: "true"
-        - name: CAYLEYPORT
-          value: "50051"
-        - name: CAYLEYHTTPPORT
-          value: "50052"
-        - name: CAYLEYSTORE
-          value: mongo
-        - name: NATS_CLIENT_ID
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
-        image: qlik-docker-qsefe.bintray.io/precedents:0.79.0
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          failureThreshold: null
-          httpGet:
-            path: /health
-            port: 9054
-          periodSeconds: null
-        name: main
-        ports:
-        - containerPort: 9054
-        readinessProbe:
-          failureThreshold: null
-          httpGet:
-            path: /ready
-            port: 9054
-          periodSeconds: null
+        - env:
+            - name: MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  key: mongodbUri
+                  name: precedents-secrets
+            - name: MONGO_URI
+              value: $(MONGODB_URI)
+            - name: TOKEN_AUTH_PRIVATE_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  key: tokenAuthPrivateKeyId
+                  name: precedents-secrets
+            - name: KEY_IDENTIFIER
+              value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
+            - name: TOKEN_AUTH_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: tokenAuthPrivateKey
+                  name: precedents-secrets
+            - name: SELF_SIGNING_PRIVATE_KEY
+              value: $(TOKEN_AUTH_PRIVATE_KEY)
+            - name: KEYS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: keysUri
+                  name: precedents-configs
+            - name: AUTH_JWKS_URI
+              value: $(KEYS_URI)/v1/keys/qlik.api.internal
+            - name: EDGE_AUTH_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: edgeAuthUri
+                  name: precedents-configs
+            - name: NATS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: natsUri
+                  name: precedents-configs
+            - name: NATS_URL
+              value: $(NATS_URI)
+            - name: NATS_STREAMING_CLUSTER_ID
+              valueFrom:
+                configMapKeyRef:
+                  key: natsStreamingClusterId
+                  name: precedents-configs
+            - name: NATS_CLUSTER_ID
+              value: $(NATS_STREAMING_CLUSTER_ID)
+            - name: ENGINEADDRESS
+              value: http://$(PREFIX)-qix-sessions
+            - name: FEATURE_FLAGS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: featureFlagsUri
+                  name: precedents-configs
+            - name: FEATURE_FLAG_URL
+              value: $(FEATURE_FLAGS_URI)/v1/features
+            - name: SPACES_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: spacesUri
+                  name: precedents-configs
+            - name: PORT
+              value: "9054"
+            - name: MODE
+              value: elastic
+            - name: ENGINEPORT
+              value: "8080"
+            - name: PROTOCOL
+              value: http
+            - name: SINGLE_PROCESS
+              value: "true"
+            - name: GRPC
+              value: "true"
+            - name: CAYLEYSTART
+              value: "true"
+            - name: CAYLEYPORT
+              value: "50051"
+            - name: CAYLEYHTTPPORT
+              value: "50052"
+            - name: CAYLEYSTORE
+              value: mongo
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          image: qlik-docker-qsefe.bintray.io/precedents:0.81.0
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            failureThreshold: null
+            httpGet:
+              path: /health
+              port: 9054
+            periodSeconds: null
+          name: main
+          ports:
+            - containerPort: 9054
+          readinessProbe:
+            failureThreshold: null
+            httpGet:
+              path: /ready
+              port: 9054
+            periodSeconds: null
       imagePullSecrets:
-      - name: artifactory-docker-secret
+        - name: artifactory-docker-secret
 ---

@@ -1,8 +1,16 @@
 apiVersion: v1
 data:
+  enable-opentracing: "true"
+  http-snippet: |
+    # set some custom opentracing tags
+    opentracing_tag http.user_agent $http_user_agent;
+    opentracing_tag http.proto $server_protocol;
+    opentracing_tag nginx.request_id $request_id;
+  jaeger-collector-host: $JAEGER_AGENT_HOST
+  jaeger-service-name: elastic-infra-nginx-ingress
   proxy-add-original-uri-header: "true"
-  worker-shutdown-timeout: 300s
   ssl-redirect: "true"
+  worker-shutdown-timeout: 300s
 kind: ConfigMap
 metadata:
   labels:

@@ -6,16 +6,16 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: precedents
-    chart: precedents-1.1.30
+    chart: precedents-1.1.32
     heritage: Helm
     release: precedents
   name: precedents
 spec:
   ports:
-  - name: precedents
-    port: 9054
-    protocol: TCP
-    targetPort: 9054
+    - name: precedents
+      port: 9054
+      protocol: TCP
+      targetPort: 9054
   selector:
     app: precedents
     release: precedents
@@ -29,16 +29,16 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: precedents
-    chart: precedents-1.1.30
+    chart: precedents-1.1.32
     heritage: Helm
     release: precedents
   name: precedents-cayley
 spec:
   ports:
-  - name: precedents
-    port: 50052
-    protocol: TCP
-    targetPort: 50052
+    - name: precedents
+      port: 50052
+      protocol: TCP
+      targetPort: 50052
   selector:
     app: precedents
     release: precedents

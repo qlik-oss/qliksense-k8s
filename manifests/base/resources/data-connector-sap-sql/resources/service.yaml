@@ -7,20 +7,20 @@ metadata:
   labels:
     action: command
     app: data-connector-sap-sql
-    chart: data-connector-sap-sql-1.1.17
+    chart: data-connector-sap-sql-1.1.18
     heritage: Helm
     release: data-connector-sap-sql
   name: data-connector-sap-sql-cmd
 spec:
   ports:
-  - name: grpc
-    port: 50060
-    protocol: TCP
-    targetPort: 50060
-  - name: http
-    port: 3005
-    protocol: TCP
-    targetPort: 3005
+    - name: grpc
+      port: 50060
+      protocol: TCP
+      targetPort: 50060
+    - name: http
+      port: 3005
+      protocol: TCP
+      targetPort: 3005
   selector:
     action: command
     app: data-connector-sap-sql
@@ -36,20 +36,20 @@ metadata:
   labels:
     action: reload
     app: data-connector-sap-sql
-    chart: data-connector-sap-sql-1.1.17
+    chart: data-connector-sap-sql-1.1.18
     heritage: Helm
     release: data-connector-sap-sql
   name: data-connector-sap-sql-rld
 spec:
   ports:
-  - name: grpc
-    port: 50060
-    protocol: TCP
-    targetPort: 50060
-  - name: http
-    port: 3005
-    protocol: TCP
-    targetPort: 3005
+    - name: grpc
+      port: 50060
+      protocol: TCP
+      targetPort: 50060
+    - name: http
+      port: 3005
+      protocol: TCP
+      targetPort: 3005
   selector:
     action: reload
     app: data-connector-sap-sql

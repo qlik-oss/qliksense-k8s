@@ -24,13 +24,13 @@ patches:
       value: true
 #patches:
 # - target:
-#      name: tokenAuthUri
+#      name: edgeAuthUri
 #   patch: |-
 #     - op: replace
 #       path: /enabled
 #       value: false
 # - target:
-#      name: pdsUri
+#      name: policyDecisionsUri
 #   patch: |-
 #     - op: replace
 #       path: /enabled

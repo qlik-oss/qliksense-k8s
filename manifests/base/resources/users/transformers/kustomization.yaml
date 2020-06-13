@@ -15,15 +15,13 @@ patches:
         imageRegistry,
         ingressClass,
         ingressAuthUrl,
-        featureFlagsUri,
+        featureFlagsUriTemp,
         natsStreamingClusterId,
         natsUri,
         keysUriTemp,
         mongodbUri,
         caCertificates,
-        tokenAuthUriTemp,
-        tokenAuthPrivateKey,
-        tokenAuthPrivateKeyId,
+        edgeAuthUri
         )
   patch: |-
     - op: replace

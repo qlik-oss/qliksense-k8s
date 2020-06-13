@@ -6,16 +6,17 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: collections
-    chart: collections-2.8.42
+    chart: collections-3.1.1
     heritage: Helm
     release: collections
   name: collections
+  namespace: $(NAMESPACE)
 spec:
   ports:
-  - name: collections
-    port: 8080
-    protocol: TCP
-    targetPort: 8080
+    - name: collections
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
   selector:
     app: collections
     release: collections

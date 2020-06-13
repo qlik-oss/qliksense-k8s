@@ -4,7 +4,7 @@ metadata:
   name: qix-datafiles
 spec:
   accessModes:
-  - ReadWriteMany
+    - ReadWriteMany
   resources:
     requests:
       storage: 5Gi

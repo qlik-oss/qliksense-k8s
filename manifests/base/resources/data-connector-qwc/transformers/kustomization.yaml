@@ -14,11 +14,11 @@ patches:
     labelSelector: >-
       key notin (
         imageRegistry,
-        ingressClass,
-        ingressAuthUrl,
         dcaasRedisUri,
-        dcaasRedisPassword
-      )
+        dcaasRedisPassword,
+        ingressClass,
+        ingressAuthUrl
+        )
   patch: |-
     - op: replace
       path: /enabled

@@ -10,16 +10,16 @@ metadata:
     nginx.ingress.kubernetes.io/enable-cors: "true"
   labels:
     app: generic-links
-    chart: generic-links-1.1.17
+    chart: generic-links-1.2.1
     heritage: Helm
     release: generic-links
   name: generic-links
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: generic-links
-          servicePort: 6080
-        path: /api/v1/generic-links
+    - http:
+        paths:
+          - backend:
+              serviceName: generic-links
+              servicePort: 6080
+            path: /api/v1/generic-links
 ---
