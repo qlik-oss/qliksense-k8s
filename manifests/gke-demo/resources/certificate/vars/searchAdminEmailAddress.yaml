@@ -1,0 +1,16 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: component-adminEmailAddress
+  labels:
+    key: adminEmailAddress
+target:
+  kind: Issuer
+path: spec/acme/email
+search: \$\(ADMIN_EMAIL_ADDRESS\)
+replaceWithObjRef:
+  objref:
+    apiVersion: v1
+    kind: ConfigMap
+  fieldref:
+    fieldpath: data.adminEmailAddress

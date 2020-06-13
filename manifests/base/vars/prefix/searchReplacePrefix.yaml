@@ -1,0 +1,9 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: prefix
+target:
+  labelSelector: release
+path: /
+search: \$\(PREFIX\)
+replace: $(PREFIX)

@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/auth-response-headers: Authorization
+    nginx.ingress.kubernetes.io/auth-url: http://spaces-edge-auth.$(NAMESPACE).svc.cluster.local:8080/v1/auth
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite (?i)/api/v1/(.*) /v1/$1 break;
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+  labels:
+    app: spaces
+    chart: spaces-2.8.25
+    heritage: Helm
+    release: spaces
+  name: spaces
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: spaces
+          servicePort: 6080
+        path: /api/v1/spaces
+---

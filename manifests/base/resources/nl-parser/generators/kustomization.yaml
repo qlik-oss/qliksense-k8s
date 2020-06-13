@@ -3,22 +3,9 @@ kind: Kustomization
 commonLabels:
   app: nl-parser
 resources:
-- ../../../../../generators/nl-parser
-- ../../../secrets
-- ../../../configs
+- secrets
+- configs
 transformers:
+- ../secrets
 - ../configs
-- values.yaml 
-patches:
-- target:
-    kind: SuperSecret
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: nl-parser-secrets
-- target:
-    kind: SuperConfigMap
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: nl-parser-configs
+

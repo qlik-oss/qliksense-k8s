@@ -4,3 +4,4 @@ resources:
 - ../../dcaas/generators/configs
 transformers:
 - patchTransformer.yaml
+- ../../../vars

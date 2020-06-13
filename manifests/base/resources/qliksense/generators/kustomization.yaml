@@ -3,3 +3,6 @@ kind: Kustomization
 resources:
 - secrets
 - configs
+transformers:
+- ../../../vars/prefix
+- ../../../vars/namespace

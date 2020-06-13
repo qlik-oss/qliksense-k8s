@@ -1,0 +1,31 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+commonLabels:
+  app: subscriptions
+resources:
+- ../../../transformers
+transformers:
+- ../../../../../.operator/transformers
+- ../../../../../configuration/transformers
+#Disable all transformers except these
+patches:
+- target:
+    labelSelector: >-
+      key notin (
+        imageRegistry,
+        tokenAuthUri,
+        ingressClass,
+        ingressAuthUrl,
+        keysUri,
+        natsUri,
+        natsStreamingClusterId,
+        mongodbUri,
+        caCertificates,
+        )
+  patch: |-
+    - op: replace
+      path: /enabled
+      value: false
+    - op: replace
+      path: /default
+      value: true

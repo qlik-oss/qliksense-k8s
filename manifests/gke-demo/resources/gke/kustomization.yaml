@@ -6,4 +6,5 @@ generators:
   - generators
 transformers:
   - transformers
-  - ../../../base/transformers/base
+  - ../../../base/transformers/release
+  - ../../../base/transformers/prefix

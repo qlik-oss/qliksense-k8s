@@ -7,11 +7,12 @@ transformers:
   - secrets
   - configs
   - transformers
-  - ../../../base/resources/qliksense/generators/configs
-  - ../../../base/resources/qliksense/generators/secrets
   - ../../../../.operator/patches
   - ../../../../configuration/patches
-  - ../../../base/transformers/base
+  - ../../../base/transformers/release
+  - ../../../base/vars
+  - ../../../base/transformers/prefix
+  - ../../../base/transformers/namespace
 images:
   - name: qlik-docker-qsefe.bintray.io/redis
     newName: $(IMAGE_REGISTRY)/redis

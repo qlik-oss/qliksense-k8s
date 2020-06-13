@@ -1,7 +1,9 @@
 apiVersion: qlik.com/v1
 kind: SearchReplace
 metadata:
-  name: realm-name
+  name: component-realmName
+  labels:
+    key: realmName
 target:
   kind: SuperSecret
   name: identity-providers-secrets
@@ -11,6 +13,6 @@ replaceWithObjRef:
   objref:
     apiVersion: qlik.com/v1
     kind: SuperConfigMap
-    mame: identity-providers-configs
+    name: identity-providers-configs
   fieldref:
     fieldpath: data.realmName

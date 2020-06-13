@@ -1,0 +1,28 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/auth-response-headers: Authorization
+    nginx.ingress.kubernetes.io/auth-url: http://qix-datafiles-edge-auth.$(NAMESPACE).svc.cluster.local:8080/v1/auth
+    nginx.ingress.kubernetes.io/client-body-buffer-size: 10m
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite (?i)/api/(.*) /$1 break;
+    nginx.ingress.kubernetes.io/proxy-body-size: 500m
+    nginx.ingress.kubernetes.io/proxy-request-buffering: "off"
+    nginx.org/client-max-body-size: 500m
+  labels:
+    app: qix-datafiles
+    chart: qix-datafiles-1.10.39
+    heritage: Helm
+    release: qix-datafiles
+  name: qix-datafiles
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: qix-datafiles
+          servicePort: 8080
+        path: /api/v1/qix-datafiles
+---

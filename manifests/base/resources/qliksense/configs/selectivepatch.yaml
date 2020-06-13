@@ -12,43 +12,43 @@ patches:
     metadata:
       name: all-configs
     data:
-      pdsUri: http://$(PREFIX)-policy-decisions:5080
+      redisUri: $(PREFIX)-redis-master:6379
+      redisHost: $(PREFIX)-redis-master
       natsUri: nats://$(PREFIX)-messaging-nats-client:4222
-      featureFlagsUri: http://$(PREFIX)-feature-flags:8080
-      keysUri: http://$(PREFIX)-keys:8080/v1
-      tokenAuthUri: http://$(PREFIX)-edge-auth:8080
-      natsStreamingClusterId: $(PREFIX)-messaging-nats-streaming-cluster
-      identityProvidersUri: http://$(PREFIX)-identity-providers.$(NAMESPACE).svc.cluster.local:8080/v0
-      identityProvidersV1Uri: http://$(PREFIX)-identity-providers-ext.$(NAMESPACE).svc.cluster.local:8080/v1
-      usersUri: http://$(PREFIX)-users.$(NAMESPACE).svc.cluster.local:8080/v1
-      tenantsUri: http://$(PREFIX)-tenants.$(NAMESPACE).svc.cluster.local:8080/v1
+      pdsUri: http://$(PREFIX)-policy-decisions.$(NAMESPACE).svc.cluster.local:5080
+      dataPrepUri: http://$(PREFIX)-data-prep.$(NAMESPACE).svc.cluster.local:9072
+      featureFlagsUri: http://$(PREFIX)-feature-flags.$(NAMESPACE).svc.cluster.local:8080
+      keysUri: http://$(PREFIX)-keys.$(NAMESPACE).svc.cluster.local:8080
+      tokenAuthUri: http://$(PREFIX)-edge-auth.$(NAMESPACE).svc.cluster.local:8080
+      natsStreamingClusterId: $(PREFIX)-nats-streaming-cluster
+      identityProvidersUri: http://$(PREFIX)-identity-providers.$(NAMESPACE).svc.cluster.local:8080
+      identityProvidersExtUri: http://$(PREFIX)-identity-providers-ext.$(NAMESPACE).svc.cluster.local:8080
+      usersUri: http://$(PREFIX)-users.$(NAMESPACE).svc.cluster.local:8080
+      tenantsUri: http://$(PREFIX)-tenants.$(NAMESPACE).svc.cluster.local:8080
       groupsUri: http://$(PREFIX)-groups.$(NAMESPACE).svc.cluster.local:8080
-      corsUri: http://$(PREFIX)-tenants.$(NAMESPACE).svc.cluster.local:8080/v1
-      qixSessionsUri: "http://$(PREFIX)-qix-sessions:8080"
-      dataFilesUri: "http://$(PREFIX)-datafiles:8080"
-      qixDataFilesUri: "http://$(PREFIX)-qix-datafiles:8080"
-      precedentsUri: "http://$(PREFIX)-precedents:9054"
-      redisUri: $(PREFIX)-redis-master
-      redisUriWithPort: $(PREFIX)-redis-master:6379
-      encryptionUri: "http://$(PREFIX)-encryption:8080"
-      acceptEULA: "no"
-      licensesUri: "http://$(PREFIX)-licenses:9200"
-      spacesUri: "http://$(PREFIX)-spaces:6080"
-      quotasUri: "http://$(PREFIX)-quotas:6080"
-      temporaryContentsUri: "http://$(PREFIX)-temporary-contents:6080"
-      engineUri: "http://$(PREFIX)-engine:9076"
-      dcaasUri: http://$(PREFIX)-dcaas:9026
-      qixDataConnectionUri: http://$(PREFIX)-qix-data-connection:9011
-      #it does not have http prefix
-      geoOperationsUri: $(PREFIX)-geo-operations:50072
-      encryptionUri: "http://$(PREFIX)-encryption:8080"
-      reloadTasksUri: "http://$(PREFIX)-reload-tasks:8080"
-      qixDataReloadUri: "http://$(PREFIX)-qix-data-reload:8080"
-      chronosUri: "http://$(PREFIX)-chronos:8585"
-      collectionsUri: "http://$(PREFIX)-collections:8080"
-      reportingUri: "http://$(PREFIX)-reporting:8282"
-      parserUri: "http://$(PREFIX)-nl-parser:30302"
-      dpsUri: "http://$(PREFIX)-data-prep.svc.cluster.local:9072"
+      apiKeysUri: http://$(PREFIX)-api-keys.$(NAMESPACE).svc.cluster.local:8080
+      qixSessionsUri: http://$(PREFIX)-qix-sessions.$(NAMESPACE).svc.cluster.local:8080
+      precedentsUri: http://$(PREFIX)-precedents.$(NAMESPACE).svc.cluster.local:9054
+      spacesUri: http://$(PREFIX)-spaces.$(NAMESPACE).svc.cluster.local:6080
+      collectionsUri: http://$(PREFIX)-collections.$(NAMESPACE).svc.cluster.local:8080
+      engineUri: http://$(PREFIX)-engine.$(NAMESPACE).svc.cluster.local:9076
+      temporaryContentsUri: http://$(PREFIX)-temporary-contents.$(NAMESPACE).svc.cluster.local:6080
+      quotasUri: http://$(PREFIX)-quotas.$(NAMESPACE).svc.cluster.local:6080
+      geoOperationsUri: http://$(PREFIX)-geo-operations.$(NAMESPACE).svc.cluster.local:50072
+      encryptionUri: http://$(PREFIX)-encryption.$(NAMESPACE).svc.cluster.local:8080
+      reloadTasksUri: http://$(PREFIX)-reload-tasks.$(NAMESPACE).svc.cluster.local:8080
+      insightsUri: http://$(PREFIX)-insights.$(NAMESPACE).svc.cluster.local:9292
+      reportingUri: http://$(PREFIX)-reporting.$(NAMESPACE).svc.cluster.local:8282
+      licensesUri: http://$(PREFIX)-licenses.$(NAMESPACE).svc.cluster.local:9200
+      dcaasUri: http://$(PREFIX)-dcaas.$(NAMESPACE).svc.cluster.local:9026
+      qixDataConnectionUri: http://$(PREFIX)-qix-data-connection.$(NAMESPACE).svc.cluster.local:9011
+      dataConnectionsUri: http://$(PREFIX)-data-connections.$(NAMESPACE).svc.cluster.local:9011
+      chronosUri: http://$(PREFIX)-chronos.$(NAMESPACE).svc.cluster.local:8585
+      nlParserUri: http://$(PREFIX)-nl-parser.$(NAMESPACE).svc.cluster.local:30302
+      qixDataReloadUri: http://$(PREFIX)-qix-data-reload.$(NAMESPACE).svc.cluster.local:8080
+      qixDataFilesUri: http://$(PREFIX)-qix-datafiles.$(NAMESPACE).svc.cluster.local:8080
+      subscriptionsUri: http://$(PREFIX)-subscriptions.$(NAMESPACE).svc.cluster.local:8080
+      acceptEULA: "yes"
       # overrideDefaultCAChain
-      # caCommand: "echo \"$CUSTOM_CERTS\" > /mnt/certs/ca-certificates.crt"
-      caCommand: "echo \"$CUSTOM_CERTS\" >> /mnt/certs/ca-certificates.crt"
+      # caCommand: echo \$CUSTOM_CERTS\ > /mnt/certs/ca-certificates.crt
+      caCommand: echo "$CUSTOM_CERTS" >> /mnt/certs/ca-certificates.crt

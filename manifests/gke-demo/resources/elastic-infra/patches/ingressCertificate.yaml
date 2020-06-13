@@ -5,6 +5,6 @@ metadata:
 target:
   kind: Deployment
   name: elastic-infra-nginx-ingress-controller
-path: spec/template/spec/containers/args
+path: spec/template/spec/containers/env
 search: elastic-infra-elastic-infra-tls-secret
-replace: tls
+replace: $(PREFIX)-tls

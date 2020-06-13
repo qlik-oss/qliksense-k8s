@@ -1,0 +1,36 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: nlParserUri
+  labels:
+    key: nlParserUri
+enabled: true
+patches:
+- target:
+    kind: Deployment
+  patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: component
+    spec:
+      template:
+        spec:
+          containers:
+          - name: main
+            env:
+            - name: NL_PARSER_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: nlParserUri
+                  name: configs
+- target:
+    kind: ConfigMap
+    name: .*-configs
+  patch: |-
+    apiVersion: v1
+    kind: ConfigMap 
+    metadata:
+      name: component-configs
+    data:
+      nlParserUri: null

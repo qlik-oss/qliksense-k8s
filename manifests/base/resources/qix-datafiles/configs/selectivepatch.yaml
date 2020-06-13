@@ -17,7 +17,6 @@ patches:
       tokenAuthUri: "http://$(PREFIX)-qix-datafiles-edge-auth:8080/v1"
       keysUri: "http://$(PREFIX)-qix-datafiles-keys:8080/v1/keys/qlik.api.internal"
       pdsUri: "http://$(PREFIX)-qix-datafiles-policy-decisions:5080"
-      mongoDbUri: "mongodb://$(PREFIX)-mongodb:27017/qix-datafiles"
       usersUri: "http://$(PREFIX)-qix-datafiles-users:8080"
       spacesUri: "http://$(PREFIX)-qix-datafiles-spaces:6080"
       featureFlagsUri: "http://$(PREFIX)-qix-datafiles-feature-flags:8080"

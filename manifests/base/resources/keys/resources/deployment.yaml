@@ -1,0 +1,151 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: keys
+    chart: keys-1.5.8
+    heritage: Helm
+    release: keys
+  name: keys
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: keys
+      release: keys
+  template:
+    metadata:
+      annotations:
+        checksum/config: 5aa620c262c34187780958b621486ddf370a33c270e828157e74d7398940561b
+      labels:
+        app: keys
+        release: keys
+    spec:
+      containers:
+      - env:
+        - name: KEYS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: keysUri
+              name: keys-configs
+        - name: AUTH_JWKS_URI
+          value: $(KEYS_URI)/v1/keys/qlik.api.internal
+        - name: KEY_FILES_PATH
+          value: /etc/config/keys
+        - name: ENVIRONMENT
+          value: example
+        - name: REGION
+          value: example
+        - name: ROLLBAR_ENABLED
+          value: "false"
+        image: qlik-docker-qsefe.bintray.io/keys:1.0.6
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+        name: main
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: http
+        volumeMounts:
+        - mountPath: /etc/config/keys
+          name: keys
+          readOnly: true
+      dnsConfig:
+        options:
+        - name: timeout
+          value: "1"
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+      volumes:
+      - configMap:
+          items:
+          - key: qlik.api.internal-api-keys
+            path: qlik.api.internal/api-keys
+          - key: qlik.api.internal-audit
+            path: qlik.api.internal/audit
+          - key: qlik.api.internal-chronos-worker
+            path: qlik.api.internal/chronos-worker
+          - key: qlik.api.internal-collections
+            path: qlik.api.internal/collections
+          - key: qlik.api.internal-data-connections
+            path: qlik.api.internal/data-connections
+          - key: qlik.api.internal-data-engineering-exporter
+            path: qlik.api.internal/data-engineering-exporter
+          - key: qlik.api.internal-edge-auth
+            path: qlik.api.internal/edge-auth
+          - key: qlik.api.internal-engine
+            path: qlik.api.internal/engine
+          - key: qlik.api.internal-eventing
+            path: qlik.api.internal/eventing
+          - key: qlik.api.internal-generic-links
+            path: qlik.api.internal/generic-links
+          - key: qlik.api.internal-geo-operations
+            path: qlik.api.internal/geo-operations
+          - key: qlik.api.internal-groups
+            path: qlik.api.internal/groups
+          - key: qlik.api.internal-identity-providers
+            path: qlik.api.internal/identity-providers
+          - key: qlik.api.internal-insights
+            path: qlik.api.internal/insights
+          - key: qlik.api.internal-invite
+            path: qlik.api.internal/invite
+          - key: qlik.api.internal-licenses
+            path: qlik.api.internal/licenses
+          - key: qlik.api.internal-nl-app-search
+            path: qlik.api.internal/nl-app-search
+          - key: qlik.api.internal-nl-parser
+            path: qlik.api.internal/nl-parser
+          - key: qlik.api.internal-notification-prep
+            path: qlik.api.internal/notification-prep
+          - key: qlik.api.internal-odag
+            path: qlik.api.internal/odag
+          - key: qlik.api.internal-onboarding
+            path: qlik.api.internal/onboarding
+          - key: qlik.api.internal-precedents
+            path: qlik.api.internal/precedents
+          - key: qlik.api.internal-qix-data-connection
+            path: qlik.api.internal/qix-data-connection
+          - key: qlik.api.internal-qix-data-reload
+            path: qlik.api.internal/qix-data-reload
+          - key: qlik.api.internal-qix-datafiles
+            path: qlik.api.internal/qix-datafiles
+          - key: qlik.api.internal-qix-sessions
+            path: qlik.api.internal/qix-sessions
+          - key: qlik.api.internal-quotas
+            path: qlik.api.internal/quotas
+          - key: qlik.api.internal-reload-tasks
+            path: qlik.api.internal/reload-tasks
+          - key: qlik.api.internal-reporting
+            path: qlik.api.internal/reporting
+          - key: qlik.api.internal-resource-library
+            path: qlik.api.internal/resource-library
+          - key: qlik.api.internal-sharing
+            path: qlik.api.internal/sharing
+          - key: qlik.api.internal-spaces
+            path: qlik.api.internal/spaces
+          - key: qlik.api.internal-subscriptions
+            path: qlik.api.internal/subscriptions
+          - key: qlik.api.internal-temporary-contents
+            path: qlik.api.internal/temporary-contents
+          - key: qlik.api.internal-tenants
+            path: qlik.api.internal/tenants
+          - key: qlik.api.internal-transport
+            path: qlik.api.internal/transport
+          - key: qlik.api.internal-user-info
+            path: qlik.api.internal/user-info
+          - key: qlik.api.internal-users
+            path: qlik.api.internal/users
+          - key: qlik.api.internal-web-notifications
+            path: qlik.api.internal/web-notifications
+          - key: qlik.api.internal-web-security
+            path: qlik.api.internal/web-security
+          name: keys-configs
+        name: keys
+---

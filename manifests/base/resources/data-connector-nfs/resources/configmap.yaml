@@ -1,0 +1,16 @@
+apiVersion: v1
+data:
+  keysUri: http://data-connector-nfs-keys:8080
+  logLevel: debug
+  pdsUri: http://data-connector-nfs-policy-decisions:5080
+  spacesUri: http://data-connector-nfs-spaces:6080
+kind: ConfigMap
+metadata:
+  labels:
+    app: data-connector-nfs
+    chart: data-connector-nfs-1.2.1
+    heritage: Helm
+    release: data-connector-nfs
+  name: data-connector-nfs-configs
+  namespace: $(NAMESPACE)
+---

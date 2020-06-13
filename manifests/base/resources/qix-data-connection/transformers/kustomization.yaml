@@ -11,14 +11,16 @@ transformers:
 patches:
 - target:
     labelSelector: >-
-      key notin ( 
+      key notin (
+        imageRegistry, 
         ingressClass,
         qixDataFilesUri,
         tokenAuthUri,
         keysUri,
         encryptionUri,
         spacesUri, 
-        mongoDbUri,
+        mongodbUri,
+        caCertificates,
         tokenAuthPrivateKey,
         tokenAuthPrivateKeyId
       )

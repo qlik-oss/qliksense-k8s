@@ -1,0 +1,18 @@
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  labels:
+    app: licenses
+    chart: licenses-1.19.0
+    heritage: Helm
+    release: licenses
+  name: licenses
+  namespace: $(NAMESPACE)
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: licenses
+subjects:
+- kind: ServiceAccount
+  name: licenses
+---

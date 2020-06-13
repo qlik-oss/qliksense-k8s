@@ -12,10 +12,11 @@ patches:
 - target:
     labelSelector: >-
       key notin (
+        imageRegistry,
         tokenAuthUri,
         natsStreamingClusterId,
         natsUri,
-        redisUriWithPort,
+        redisUri,
         redisPassword
       )
   patch: |-

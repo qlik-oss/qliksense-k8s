@@ -4,8 +4,20 @@ metadata:
   name: storageClassName
   labels:
     key: storageClassName
-enabled: false
+enabled: true
+default: true
 patches:
+- target:
+    kind: SearchReplace
+    labelSelector: key=storageClassName
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SearchReplace
+    metadata:
+      name: storageClassName
+    replaceWithObjRef: null
+    replace: $(STORAGE_CLASS_NAME)
+defaults:
 - target:
     kind: PersistentVolumeClaim
   patch: |-

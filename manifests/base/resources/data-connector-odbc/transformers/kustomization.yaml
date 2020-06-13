@@ -9,7 +9,10 @@ transformers:
 - ../../../../../configuration/transformers
 patches:
 - target:
-    kind: SelectivePatch
+    labelSelector: >-
+      key notin (
+        imageRegistry
+      )
   patch: |-
     - op: replace
       path: /enabled

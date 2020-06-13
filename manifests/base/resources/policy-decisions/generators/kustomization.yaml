@@ -3,24 +3,9 @@ kind: Kustomization
 commonLabels:
   app: policy-decisions
 resources:
-- ../../../../../generators/policy-decisions
-- ../../../secrets
-- ../../../configs
+- secrets
+- configs
 transformers:
 - ../secrets
 - ../configs
-- values.yaml
-patches:
-- target:
-    kind: SuperSecret
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: policy-decisions-secrets
-- target:
-    kind: SuperConfigMap
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: policy-decisions-configs
 

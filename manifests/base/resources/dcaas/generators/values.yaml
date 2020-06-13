@@ -1,9 +1,0 @@
-apiVersion: qlik.com/v1
-kind: HelmValues
-metadata:
-  name: dcaas
-releaseName: dcaas
-releaseNamespace: $(NAMESPACE) 
-values:
-  dcaas-redis:
-    enabled: false

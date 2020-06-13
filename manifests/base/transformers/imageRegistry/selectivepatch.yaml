@@ -1,0 +1,19 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: imageRegistry
+  labels:
+    key: imageRegistry
+enabled: true
+patches:
+- target:
+    kind: SearchReplace
+    labelSelector: key=imageRegistry
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SearchReplace
+    metadata:
+      name: imageRegistry
+    replaceWithObjRef: null
+    replace: $(IMAGE_REGISTRY)
+

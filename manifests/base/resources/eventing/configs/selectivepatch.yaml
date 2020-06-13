@@ -16,3 +16,7 @@ patches:
       tokenAuthUri: "http://$(PREFIX)-eventing-edge-auth:8080"
       natsStreamingClusterId: "$(PREFIX)-eventing-messaging-nats-streaming-cluster"
       natsUri: "nats://$(PREFIX)-eventing-messaging-nats-client:4222"
+      subscriptionsUri: "http://$(PREFIX)-eventing-subscriptions:8080/v1"
+      usersUri: "http://$(PREFIX)-eventing-users:8080/v1"
+      spacesUri: "http://$(PREFIX)-eventing-spaces:6080/v1"
+      featureFlagsUri: "http://$(PREFIX)-eventing-feature-flags:8080/v1"

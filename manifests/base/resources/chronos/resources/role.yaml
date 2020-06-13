@@ -1,0 +1,19 @@
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: Role
+metadata:
+  labels:
+    app: chronos
+    chart: chronos-1.6.0
+    heritage: Helm
+    release: chronos
+  name: chronos
+  namespace: $(NAMESPACE)
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - endpoints
+  verbs:
+  - get
+  - update
+---

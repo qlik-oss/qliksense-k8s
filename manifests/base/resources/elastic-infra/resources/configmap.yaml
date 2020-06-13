@@ -1,0 +1,15 @@
+apiVersion: v1
+data:
+  proxy-add-original-uri-header: "true"
+  worker-shutdown-timeout: 300s
+  ssl-redirect: "true"
+kind: ConfigMap
+metadata:
+  labels:
+    app: nginx-ingress
+    chart: nginx-ingress-1.36.2
+    component: controller
+    heritage: Helm
+    release: elastic-infra
+  name: elastic-infra-nginx-ingress-controller
+---

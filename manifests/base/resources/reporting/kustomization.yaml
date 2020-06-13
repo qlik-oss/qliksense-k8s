@@ -2,19 +2,21 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 commonLabels:
   app: reporting
+resources:
+  - resources
 generators:
   - generators
 transformers:
-  - patches
   - secrets
   - configs
   - transformers
-  - ../qliksense/generators/secrets
-  - ../qliksense/generators/configs
   - ../../../../.operator/patches
   - ../../../../configuration/patches
-  - ../../transformers/base
+  - ../../transformers/release
+  - vars
   - ../../transformers/msgprefix
+  - ../../transformers/prefix
+  - ../../transformers/namespace
 images:
   - name: qlik-docker-qsefe.bintray.io/reporting-web-renderer
     newName: $(IMAGE_REGISTRY)/reporting-web-renderer
@@ -24,4 +26,3 @@ images:
     newName: $(IMAGE_REGISTRY)/reporting-service
   - name: qlik-docker-qsefe.bintray.io/reporting-proxy
     newName: $(IMAGE_REGISTRY)/reporting-proxy
-

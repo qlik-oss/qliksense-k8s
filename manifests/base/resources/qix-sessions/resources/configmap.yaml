@@ -1,0 +1,16 @@
+apiVersion: v1
+data:
+  appPlacement: |-
+    selectors:
+    - qlik.com/default
+kind: ConfigMap
+metadata:
+  name: qix-sessions-configs
+---
+apiVersion: v1
+data:
+  quotas: 'tenants: null'
+kind: ConfigMap
+metadata:
+  name: qix-sessions-tenant-quotas-configmap
+---

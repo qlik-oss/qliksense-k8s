@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+###
+# Temporary pre processing of Super* prefix until moved to configs/secrets folder at base
+- globals
+###
+- searchReplaceIngressAuthUrl.yaml
+- searchReplaceIngressClass.yaml
+- searchReplaceImageRegistry.yaml
+- searchReplaceStorageClassName.yaml
+- prefix
+- namespace

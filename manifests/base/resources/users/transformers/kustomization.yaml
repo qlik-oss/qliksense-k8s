@@ -12,16 +12,18 @@ patches:
 - target:
     labelSelector: >-
       key notin (
+        imageRegistry,
         ingressClass,
         ingressAuthUrl,
         featureFlagsUri,
         natsStreamingClusterId,
         natsUri,
-        keysUri,
-        mongoDbUri,
-        tokenAuthUri,
+        keysUriTemp,
+        mongodbUri,
+        caCertificates,
+        tokenAuthUriTemp,
         tokenAuthPrivateKey,
-        tokenAuthPrivateKeyId
+        tokenAuthPrivateKeyId,
         )
   patch: |-
     - op: replace

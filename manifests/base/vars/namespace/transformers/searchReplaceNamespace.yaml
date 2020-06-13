@@ -1,0 +1,15 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: namespace-replace
+target:
+  kind: SearchReplace
+path: replace
+search: \$\(NAMESPACE\)
+replaceWithObjRef:
+  objref:
+    apiVersion: qlik.com/v1
+    kind: SearchReplace
+    name: component-namespace
+  fieldref:
+    fieldpath: metadata.namespace

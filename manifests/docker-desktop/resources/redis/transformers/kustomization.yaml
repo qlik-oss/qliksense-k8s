@@ -11,8 +11,9 @@ patches:
 - target:
     labelSelector: >-
       key notin (
+        imageRegistry,,
         redisPassword,
-        redisUri
+        redisHost
         )
   patch: |-
     - op: replace

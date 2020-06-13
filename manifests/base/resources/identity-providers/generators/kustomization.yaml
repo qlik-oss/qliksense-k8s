@@ -3,24 +3,9 @@ kind: Kustomization
 commonLabels:
   app: identity-providers
 resources:
-- ../../../../../generators/identity-providers
-- ../../../secrets
-- ../../../configs
+- secrets
+- configs
 transformers:
 - ../secrets
 - ../configs
-- values.yaml
-patches:
-- target:
-    kind: SuperSecret
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: identity-providers-secrets
-- target:
-    kind: SuperConfigMap
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: identity-providers-configs
 

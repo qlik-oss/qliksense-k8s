@@ -97,7 +97,7 @@ spec:
       value: $QLIKSENSE_IP
   secrets:
     qliksense:
-    - name: mongoDbUri
+    - name: mongodbUri
       value: "mongodb://$QLIKSENSE_HOST-mongodb:27017/qsefe?ssl=false"
     gke:
     - name: clientSecret

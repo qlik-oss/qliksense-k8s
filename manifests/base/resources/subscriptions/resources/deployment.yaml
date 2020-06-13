@@ -1,0 +1,106 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: subscriptions
+    chart: subscriptions-1.0.2
+    heritage: Helm
+    release: subscriptions
+  name: subscriptions
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: subscriptions
+      release: subscriptions
+  template:
+    metadata:
+      labels:
+        app: subscriptions
+        release: subscriptions
+    spec:
+      containers:
+      - env:
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              key: mongodbUri
+              name: subscriptions-secrets
+        - name: MONGO_URI
+          value: $(MONGODB_URI)
+        - name: KEYS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: keysUri
+              name: subscriptions-configs
+        - name: JWKS_ENDPOINT
+          value: $(KEYS_URI)/v1/keys/qlik.api.internal
+        - name: TOKEN_AUTH_PRIVATE_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              key: tokenAuthPrivateKeyId
+              name: subscriptions-secrets
+        - name: KEY_ID
+          value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
+        - name: TOKEN_AUTH_URI
+          valueFrom:
+            configMapKeyRef:
+              key: tokenAuthUri
+              name: subscriptions-configs
+        - name: INTERNAL_TOKENS_RESOURCE
+          value: $(TOKEN_AUTH_URI)/v1
+        - name: NATS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: natsUri
+              name: subscriptions-configs
+        - name: NATS_URL
+          value: $(NATS_URI)
+        - name: NATS_STREAMING_CLUSTER_ID
+          valueFrom:
+            configMapKeyRef:
+              key: natsStreamingClusterId
+              name: subscriptions-configs
+        - name: NATS_CLUSTER_ID
+          value: $(NATS_STREAMING_CLUSTER_ID)
+        - name: LOG_LEVEL
+          value: debug
+        - name: PRIVATE_KEY_FILE
+          value: /run/secret/subscriptions/jwtPrivateKey
+        - name: ROLLBAR_ENABLED
+          value: "false"
+        - name: NATS_ENABLED
+          value: "true"
+        - name: NATS_CLIENT_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        image: qlik-docker-qsefe.bintray.io/subscriptions:0.0.6
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+        name: main
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: http
+        volumeMounts:
+        - mountPath: /run/secret/subscriptions
+          name: subscriptions-secret
+          readOnly: true
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+      volumes:
+      - name: subscriptions-secret
+        secret:
+          items:
+          - key: tokenAuthPrivateKey
+            path: jwtPrivateKey
+          secretName: subscriptions-secrets
+---

@@ -15,7 +15,8 @@ patches:
     labelSelector: >-
       key notin (
         dcaasRedisPassword,
-        dcaasRedisUri
+        dcaasRedisUri,
+        imageRegistry
       )
   patch: |-
     - op: add 
@@ -24,6 +25,7 @@ patches:
 - target:
     labelSelector: >-
       key notin (
+        imageRegistry,
         dcaasRedisPassword,
         dcaasRedisUri,
         featureFlagsUri,
@@ -32,7 +34,8 @@ patches:
         keysUri,
         spacesUri,
         caCertificates,
-        qixDataConnectionUri
+        qixDataConnectionUri,
+        dataConnectionsUri
         )
   patch: |-
     - op: replace

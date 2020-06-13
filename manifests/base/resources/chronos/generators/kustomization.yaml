@@ -3,11 +3,9 @@ kind: Kustomization
 commonLabels:
   app: chronos
 resources:
-- ../../../../../generators/chronos
 - secrets
 - configs
 transformers:
 - ../secrets
 - ../configs
-- values.yaml
 

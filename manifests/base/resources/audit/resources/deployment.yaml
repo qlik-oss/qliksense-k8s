@@ -1,0 +1,122 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: audit
+    chart: audit-3.3.4
+    heritage: Helm
+    release: audit
+  name: audit
+  namespace: $(NAMESPACE)
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: audit
+      release: audit
+  template:
+    metadata:
+      annotations:
+        checksum/configs: 210a84a0c729579a90a28a917d12396be5a497b21f964b2e3e0f90151f6db269
+        checksum/secrets: 58218b0ccec1553699e9e19c6fa2d3d51dc569f1bcaf96fea8ad627496c2ceb6
+      labels:
+        app: audit
+        audit-nats-client: "true"
+        release: audit
+    spec:
+      containers:
+      - env:
+        - name: KEYS_URI_TEMP
+          valueFrom:
+            configMapKeyRef:
+              key: keysUri
+              name: audit-configs
+        - name: KEYS_URI
+          value: $(KEYS_URI_TEMP)/v1/keys/qlik.api.internal
+        - name: TOKEN_AUTH_URI_TEMP
+          valueFrom:
+            configMapKeyRef:
+              key: tokenAuthUri
+              name: audit-configs
+        - name: TOKEN_AUTH_URI
+          value: $(TOKEN_AUTH_URI_TEMP)/v1/internal-tokens
+        - name: MONGODB_URI_FILE
+          value: /run/secrets/qlik.com/audit/mongodbUri
+        - name: TOKEN_AUTH_PRIVATE_KEY_FILE
+          value: /run/secrets/qlik.com/audit/tokenAuthPrivateKey
+        - name: TOKEN_AUTH_PRIVATE_KEY_ID_FILE
+          value: /run/secrets/qlik.com/audit/tokenAuthPrivateKeyId
+        - name: FEATURE_FLAGS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: featureFlagsUri
+              name: audit-configs
+        - name: INGRESS_AUTH_URL
+          valueFrom:
+            configMapKeyRef:
+              key: ingressAuthUrl
+              name: audit-configs
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              key: logLevel
+              name: audit-configs
+        - name: NATS_STREAMING_CLUSTER_ID
+          valueFrom:
+            configMapKeyRef:
+              key: natsStreamingClusterId
+              name: audit-configs
+        - name: NATS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: natsUri
+              name: audit-configs
+        - name: PDS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: pdsUri
+              name: audit-configs
+        - name: STORAGE_BUCKET
+          valueFrom:
+            configMapKeyRef:
+              key: storageBucket
+              name: audit-configs
+        - name: STORAGE_ENDPOINT
+          valueFrom:
+            configMapKeyRef:
+              key: storageEndpoint
+              name: audit-configs
+        - name: STORAGE_REGION
+          valueFrom:
+            configMapKeyRef:
+              key: storageRegion
+              name: audit-configs
+        - name: NATS_CHANNELS
+          value: system-events.engine.app,system-events.user-session,system-events.spaces,system-events.licenses,system-events.generic-links,system-events.api-keys,system-events.web-security,system-events.user-identity,system-events.tenants
+        image: qlik-docker-qsefe.bintray.io/audit:1.16.1
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 6080
+        name: main
+        ports:
+        - containerPort: 6080
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 6080
+        resources:
+          limits: null
+          requests: null
+        volumeMounts:
+        - mountPath: /run/secrets/qlik.com/audit
+          name: audit-secrets
+          readOnly: true
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+      volumes:
+      - name: audit-secrets
+        secret:
+          secretName: audit-secrets
+---

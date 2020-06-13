@@ -3,15 +3,25 @@ kind: Kustomization
 commonLabels:
   app: engine
 resources:
-  - ../patches
   - ../configs
-  - ../secrets
+  #- ../../../secrets
   - ../transformers
-  - ../../qliksense/generators/secrets
-  - ../../qliksense/generators/configs
+  #- ../../qliksense/generators/secrets
+  #- ../../qliksense/generators/configs
   - ../../../../../.operator/patches
   - ../../../../../configuration/patches
-  - ../../../transformers/base
+  - ../../../transformers/release
+  - ../vars
   - ../../../transformers/msgprefix
+  - ../../../transformers/prefix
+  - ../../../transformers/namespace
 transformers:
   - selectivepatch.yaml
+  - ../secrets
+patches:
+- target:
+    kind: SuperSecret
+  patch: |-
+    - op: replace
+      path: /metadata/name
+      value: engine-secrets

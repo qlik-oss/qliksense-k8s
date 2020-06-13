@@ -8,11 +8,11 @@ enabled: true
 patches:
 - target:
     kind: SearchReplace
-    name: idp-hostname
+    labelSelector: key=idpHostName
   patch: |-
     apiVersion: qlik.com/v1
     kind: SearchReplace
     metadata:
-      name: idp-hostname
+      name: idpHostName
     replaceWithObjRef: null
     replace: $(IDP_HOST_NAME)

@@ -1,0 +1,11 @@
+apiVersion: qlik.com/v1
+kind: HelmChart
+metadata:
+ name: mongodb
+chartName: mongodb
+tmpChartHome: .chartcache/mongo-4.5.0
+chartRepo: https://kubernetes-charts.storage.googleapis.com
+chartRepoName: stable
+releaseName: mongodb
+releaseNamespace: default
+chartVersion: 4.5.0

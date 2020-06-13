@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nginx-ingress
+    chart: nginx-ingress-1.36.2
+    component: controller
+    heritage: Helm
+    release: elastic-infra
+  name: elastic-infra-nginx-ingress-controller
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: http
+  - name: https
+    port: 443
+    protocol: TCP
+    targetPort: https
+  selector:
+    app: nginx-ingress
+    app.kubernetes.io/component: controller
+    release: elastic-infra
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    prometheus.io/port: "10254"
+    prometheus.io/scrape: "true"
+  labels:
+    app: nginx-ingress
+    chart: nginx-ingress-1.36.2
+    component: controller
+    heritage: Helm
+    release: elastic-infra
+  name: elastic-infra-nginx-ingress-controller-metrics
+spec:
+  ports:
+  - name: metrics
+    port: 9913
+    targetPort: metrics
+  selector:
+    app: nginx-ingress
+    app.kubernetes.io/component: controller
+    release: elastic-infra
+  type: ClusterIP
+---

@@ -1,0 +1,16 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: component-ingressClass
+  labels:
+    key: ingressClass
+target:
+  labelSelector: release
+path: /
+search: \$\(INGRESS_CLASS\)
+replaceWithObjRef:
+  objref:
+    apiVersion: v1
+    kind: ConfigMap
+  fieldref:
+    fieldpath: data.ingressClass

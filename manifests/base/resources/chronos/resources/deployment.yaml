@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: chronos
+    chart: chronos-1.6.0
+    heritage: Helm
+    release: chronos
+  name: chronos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chronos
+      release: chronos
+  template:
+    metadata:
+      labels:
+        app: chronos
+        chart: chronos-1.6.0
+        heritage: Helm
+        release: chronos
+    spec:
+      containers:
+      - args:
+        - --election=$(PREFIX)-chronos
+        - --election-namespace=$(NAMESPACE)
+        - --http=0.0.0.0:4040
+        image: qlik-docker-qsefe.bintray.io/leader-elector:1.5
+        imagePullPolicy: IfNotPresent
+        name: election
+        ports:
+        - containerPort: 4040
+      - args:
+        - server
+        - --environment=k8s
+        - --disableapi=false
+        - --listenport=8585
+        - --svc=$(PREFIX)-chronos
+        - --nojwtvalidation=false
+        - --jwksuri=$(KEYS_URI)/v1/keys/qlik.api.internal
+        - --jwtaud=qlik.api.internal
+        - --jwtiss=qlik.api.internal
+        - --loglevel=info
+        env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: redisPassword
+              name: chronos-secrets
+        - name: REDIS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: redisUri
+              name: chronos-configs
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              key: mongodbUri
+              name: chronos-secrets
+        - name: KEYS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: keysUri
+              name: chronos-configs
+        - name: MONGO_URI
+          value: $(MONGODB_URI)
+        image: qlik-docker-qsefe.bintray.io/chronos:0.12.5
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 10
+          httpGet:
+            path: /health
+            port: 8585
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        name: main
+        ports:
+        - containerPort: 8585
+        readinessProbe:
+          failureThreshold: 10
+          httpGet:
+            path: /ready
+            port: 8585
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        resources:
+          limits:
+            cpu: "0"
+            memory: "0"
+          requests:
+            cpu: "0"
+            memory: "0"
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+      serviceAccountName: chronos
+---

@@ -1,0 +1,167 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: odag
+    chart: odag-1.9.0
+    heritage: Helm
+    release: odag
+  name: odag
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: odag
+      release: odag
+  template:
+    metadata:
+      labels:
+        app: odag
+        release: odag
+    spec:
+      containers:
+      - args:
+        - --election=$(PREFIX)-odag
+        - --election-namespace=$(NAMESPACE)
+        - --http=0.0.0.0:4040
+        image: qlik-docker-qsefe.bintray.io/leader-elector:1.5
+        name: election
+        ports:
+        - containerPort: 4040
+      - env:
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              key: mongodbUri
+              name: odag-secrets
+        - name: TOKEN_AUTH_PRIVATE_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              key: tokenAuthPrivateKeyId
+              name: odag-secrets
+        - name: KEY_IDENTIFIER
+          value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
+        - name: TOKEN_AUTH_PRIVATE_KEY
+          valueFrom:
+            secretKeyRef:
+              key: tokenAuthPrivateKey
+              name: odag-secrets
+        - name: SELF_SIGNING_PRIVATE_KEY
+          value: $(TOKEN_AUTH_PRIVATE_KEY)
+        - name: KEYS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: keysUri
+              name: odag-configs
+        - name: AUTH_JWKS_URI
+          value: $(KEYS_URI)/v1/keys/qlik.api.internal
+        - name: TOKEN_AUTH_URI
+          valueFrom:
+            configMapKeyRef:
+              key: tokenAuthUri
+              name: odag-configs
+        - name: EDGE_AUTH_URL
+          value: $(TOKEN_AUTH_URI)
+        - name: ENGINE_URI
+          valueFrom:
+            configMapKeyRef:
+              key: engineUri
+              name: odag-configs
+        - name: ENGINE_URL
+          value: $(ENGINE_URI)
+        - name: NATS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: natsUri
+              name: odag-configs
+        - name: NATS_URL
+          value: $(NATS_URI)
+        - name: NATS_STREAMING_CLUSTER_ID
+          valueFrom:
+            configMapKeyRef:
+              key: natsStreamingClusterId
+              name: odag-configs
+        - name: NATS_CLUSTER_ID
+          value: $(NATS_STREAMING_CLUSTER_ID)
+        - name: QIX_SESSIONS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: qixSessionsUri
+              name: odag-configs
+        - name: QIX_SESSION_URL
+          value: $(QIX_SESSIONS_URI)
+        - name: QIX_DATA_RELOAD_URI
+          valueFrom:
+            configMapKeyRef:
+              key: qixDataReloadUri
+              name: odag-configs
+        - name: RELOAD_SERVICE_URL
+          value: $(QIX_DATA_RELOAD_URI)
+        - name: USERS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: usersUri
+              name: odag-configs
+        - name: USER_SERVICE_URL
+          value: $(USERS_URI)
+        - name: COLLECTIONS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: collectionsUri
+              name: odag-configs
+        - name: COLLECTIONS_URL
+          value: $(COLLECTIONS_URI)
+        - name: FEATURE_FLAGS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: featureFlagsUri
+              name: odag-configs
+        - name: FEATURE_FLAG_URL
+          value: $(FEATURE_FLAGS_URI)
+        - name: ENCRYPTION_URI
+          valueFrom:
+            configMapKeyRef:
+              key: encryptionUri
+              name: odag-configs
+        - name: ENCRYPTION_URL
+          value: $(ENCRYPTION_URI)
+        - name: MONGO_URI
+          value: $(MONGODB_URI)
+        - name: AUTH_ENABLED
+          value: "true"
+        - name: AUTH_JWT_AUD
+          value: qlik.api.internal
+        - name: AUTH_JWT_ISS
+          value: qlik.api.internal
+        - name: NATS_ENABLED
+          value: "true"
+        - name: NATS_CLIENT_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: NATS_AUTH_ENABLED
+          value: "true"
+        - name: USE_INTERNAL_RELOAD
+          value: "true"
+        - name: RELOAD_WORKLOAD_TYPE
+          value: odag
+        image: qlik-docker-qsefe.bintray.io/odag:1.29.0
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+        name: main
+        ports:
+        - containerPort: 9098
+          name: http
+          protocol: TCP
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: http
+        resources: {}
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+      serviceAccountName: odag
+---

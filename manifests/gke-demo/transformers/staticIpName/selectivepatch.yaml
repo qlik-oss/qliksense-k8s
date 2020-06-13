@@ -1,0 +1,18 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: staticIpName
+  labels:
+    key: staticIpName
+enabled: false
+patches:
+- target:
+    kind: SearchReplace
+    labelSelector: key=staticIpName
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SearchReplace
+    metadata:
+      name: staticIpName
+    replaceWithObjRef: null
+    replace: $(STATIC_IP_NAME)

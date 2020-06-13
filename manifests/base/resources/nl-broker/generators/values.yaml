@@ -1,9 +1,0 @@
-apiVersion: qlik.com/v1
-kind: HelmValues
-metadata:
-  name: nl-broker
-releaseNamespace: $(NAMESPACE)
-values:
-  mongodb:
-    enabled: false
-

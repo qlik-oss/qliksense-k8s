@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+commonLabels:
+  app: data-connector-nfs
+resources:
+  - resources
+transformers:
+  - secrets
+  - configs
+  - transformers
+  - ../../../../.operator/patches
+  - ../../../../configuration/patches
+  - ../../transformers/release
+  - vars
+  - ../../transformers/msgprefix
+  - ../../transformers/prefix
+  - ../../transformers/namespace
+images:
+  - name: qlik-docker-qsefe.bintray.io/data-connector-nfs
+    newName: $(IMAGE_REGISTRY)/data-connector-nfs

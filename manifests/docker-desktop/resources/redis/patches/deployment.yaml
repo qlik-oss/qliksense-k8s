@@ -22,11 +22,11 @@ spec:
               name: redis-secrets
         - $patch: delete
           name: REDIS_MASTER_HOST
-        - name: REDIS_URI
+        - name: REDIS_HOST
           valueFrom:
             configMapKeyRef:
               key: redisUri
               name: redis-configs
         - name: REDIS_MASTER_HOST
-          value: $(REDIS_URI)
+          value: $(REDIS_HOST)
 

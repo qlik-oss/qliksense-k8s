@@ -1,0 +1,13 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: data-connector-sfdc-component-configs
+enabled: true
+patches:
+- target:
+    kind: SuperConfigMap
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    metadata:
+      name: data-connector-rest-configs

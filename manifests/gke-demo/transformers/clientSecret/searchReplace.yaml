@@ -1,10 +1,10 @@
 apiVersion: qlik.com/v1
 kind: SearchReplace
 metadata:
-  name: client-secret
+  name: clientSecret
 target:
   kind: SearchReplace
-  name: client-secret
+  labelSelector: key=clientSecret
 path: replace
 search: \$\(CLIENT_SECRET\)
 replaceWithObjRef:

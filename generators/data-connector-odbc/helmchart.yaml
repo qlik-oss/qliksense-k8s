@@ -1,6 +1,0 @@
-apiVersion: qlik.com/v1
-kind: HelmChart
-metadata:
- name: data-connector-odbc
-subChart: data-connector-odbc
-releaseName: data-connector-odbc

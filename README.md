@@ -378,7 +378,7 @@ To pull a secret from vault, a special type of patch needs to be used. We will u
 ]
 ```
 
-The patch consists of files (that are added to the patches kustomization.yaml). As this is not a patch on the kubernetes resource API, but rather a patch on a kuztomize custom kind called `SuperSecret` used to generate the kubernetes `Secret` kind, it is specified in a different location: `configuration/secrets`. 
+The patch consists of files (that are added to the patches kustomization.yaml). As this is not a patch on the kubernetes resource API, but rather a patch on a kuztomize custom kind called `SuperSecret` used to generate the kubernetes `Secret` kind, it is specified in a different location: `configuration/secrets`.
 Two resources will be created, a gomplate transformer, that instructs `kustomize` to execute gomplate on the resources according to this specification:
 ```yaml
 apiVersion: qlik.com/v1

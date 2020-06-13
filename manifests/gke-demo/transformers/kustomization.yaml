@@ -6,3 +6,4 @@ resources:
 - idpHostName
 - qlikSenseDomain
 - realmName
+- staticIpName

@@ -14,7 +14,6 @@ patches:
     data:
       pdsUri: "http://$(PREFIX)-collections-policy-decisions:5080"
       natsUri: "nats://$(PREFIX)-collections-messaging-nats-client:4222"
-      featureFlagsUri: "http://$(PREFIX)-collections-feature-flags:8080"
       keysUri: "http://$(PREFIX)-collections-keys:8080/v1/keys/qlik.api.internal"
       tokenAuthUri: "http://$(PREFIX)-collections-edge-auth:8080/v1"
       natsStreamingClusterId: "$(PREFIX)-collections-messaging-nats-streaming-cluster"

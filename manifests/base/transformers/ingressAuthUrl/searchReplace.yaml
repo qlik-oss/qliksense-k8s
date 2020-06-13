@@ -1,0 +1,16 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: ingressAuthUrl
+target:
+  kind: SearchReplace
+  labelSelector: key=ingressAuthUrl
+path: replace
+search: \$\(INGRESS_AUTH_URL\)
+replaceWithObjRef:
+  objref:
+    apiVersion: qlik.com/v1
+    kind: SuperConfigMap
+    name: configs
+  fieldref:
+    fieldpath: data.ingressAuthUrl

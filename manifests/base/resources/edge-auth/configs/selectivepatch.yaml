@@ -3,23 +3,3 @@ kind: SelectivePatch
 metadata:
   name: edge-auth-component-configs
 enabled: true
-patches:
-- target:
-    kind: SuperConfigMap
-  patch: |-
-    apiVersion: qlik.com/v1
-    kind: SuperConfigMap
-    metadata:
-      name: edge-auth-configs
-    data:
-      featureFlagsUri: "http://$(PREFIX)-edge-auth-feature-flags.$(NAMESPACE).svc.cluster.local:8080/v1" # env FEATURES_RESOURCE
-      identityProvidersUri: "http://$(PREFIX)-edge-auth-identity-providers.$(NAMESPACE).svc.cluster.local:8080/v0" # env IDENTITY_PROVIDERS_RESOURCE
-      identityProvidersV1Uri: "http://$(PREFIX)-edge-auth-identity-providers-ext.$(NAMESPACE).svc.cluster.local:8080/v1" # env IDENTITY_PROVIDERS_EXT_RESOURCE
-      usersUri: "http://$(PREFIX)-edge-auth-users.$(NAMESPACE).svc.cluster.local:8080/v1" # env USERS_RESOURCE
-      tenantsUri: "http://$(PREFIX)-edge-auth-tenants.$(NAMESPACE).svc.cluster.local:8080/v1" # env  TENANTS_RESOURCE
-      groupsUri: "http://$(PREFIX)-edge-auth-groups.$(NAMESPACE).svc.cluster.local:8080/v1" # env  GROUPS_RESOURCE
-      keysUri: "http://$(PREFIX)-edge-auth-keys:8080/v1"  # env KEYS_RESOURCE
-      corsUri: "http://$(PREFIX)-edge-auth-tenants.$(NAMESPACE).svc.cluster.local:8080/v1" # env CORS_RESOURCE
-      natsUri: "nats://$(PREFIX)-edge-auth-nats-client:4222" # env NATS_URL
-      natsStreamingClusterId: "$(PREFIX)-edge-auth-nats-streaming-cluster" # env NATS_CLUSTER_ID
-      oidcRedirectUri: "https://elastic.example/login/callback"

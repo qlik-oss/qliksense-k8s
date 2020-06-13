@@ -10,7 +10,10 @@ transformers:
 #Disable all transformers except these
 patches:
 - target:
-    labelSelector: key notin ( )
+    labelSelector: >-
+      key notin ( 
+        imageRegistry 
+      )
   patch: |-
     - op: replace
       path: /enabled

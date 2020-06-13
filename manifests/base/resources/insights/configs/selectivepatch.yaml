@@ -14,8 +14,10 @@ patches:
     data:
       pdsUri: "http://$(PREFIX)-insights-policy-decisions:5080"
       featureFlagsUri: "http://$(PREFIX)-insights-feature-flags:8080"
+      tenantsUri: "http://$(PREFIX)-insights-tenants:8080"
       keysUri: "http://$(PREFIX)-insights-keys:8080/v1/keys/qlik.api.internal"
       tokenAuthUri: "http://$(PREFIX)-insights-edge-auth:8080/v1"
       collectionsUri: "http://$(PREFIX)-insights-collections:8080"
       encryptionUri: "http://$(PREFIX)-insights-encryption:8080"
       reportingUri: "http://$(PREFIX)-insights-reporting:8282"
+      engineUri: "http://$(PREFIX)-insights-engine:9076"

@@ -69,5 +69,5 @@ patches:
     kind: Secret
     metadata:
       name: component-secrets
-    stringData:
-      redisPassword: null
+#    stringData:
+#      redisPassword: null

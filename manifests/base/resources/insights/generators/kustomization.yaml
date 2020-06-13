@@ -3,24 +3,9 @@ kind: Kustomization
 commonLabels:
   app: insights
 resources:
-- ../../../../../generators/insights
-- ../../../secrets
-- ../../../configs
+- secrets
+- configs
 transformers:
 - ../secrets
 - ../configs
-- values.yaml
-patches:
-- target:
-    kind: SuperConfigMap
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: insights-configs
-- target:
-    kind: SuperSecret
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: insights-secrets
 

@@ -3,23 +3,9 @@ kind: Kustomization
 commonLabels:
   app: temporary-contents
 resources:
-- ../../../../../generators/temporary-contents
-- ../../../secrets
-- ../../../configs
+- secrets
+- configs
 transformers:
 - ../secrets
 - ../configs
-- values.yaml 
-patches:
-- target:
-    kind: SuperSecret
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: temporary-contents-secrets
-- target:
-    kind: SuperConfigMap
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: temporary-contents-configs
+

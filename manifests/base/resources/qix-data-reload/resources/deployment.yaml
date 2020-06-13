@@ -1,0 +1,138 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: qix-data-reload
+    chart: reloads-1.7.3
+    heritage: Helm
+    release: reloads
+  name: qix-data-reload
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qix-data-reload
+      release: reloads
+  template:
+    metadata:
+      labels:
+        app: qix-data-reload
+        release: reloads
+        reloads-nats-client: "true"
+    spec:
+      containers:
+      - env:
+        - name: KEYS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: keysUri
+              name: qix-data-reload-configs
+        - name: AUTH_JWKS_URI
+          value: $(KEYS_URI)/v1/keys/qlik.api.internal
+        - name: QIX_SESSIONS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: qixSessionsUri
+              name: qix-data-reload-configs
+        - name: QIX_SESSION_URL
+          value: $(QIX_SESSIONS_URI)
+        - name: RELOAD_TASKS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: reloadTasksUri
+              name: qix-data-reload-configs
+        - name: RELOAD_TASKS_URL
+          value: $(RELOAD_TASKS_URI)
+        - name: NATS_SERVICE_NAME
+          value: $(PREFIX)-messaging-nats-client
+        - name: NATS_STREAMING_CLUSTER_ID
+          valueFrom:
+            configMapKeyRef:
+              key: natsStreamingClusterId
+              name: qix-data-reload-configs
+        - name: NATS_CLUSTER_ID
+          value: $(NATS_STREAMING_CLUSTER_ID)
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              key: mongodbUri
+              name: qix-data-reload-secrets
+        - name: MONGO_URI
+          value: $(MONGODB_URI)
+        - name: TOKEN_AUTH_PRIVATE_KEY
+          valueFrom:
+            secretKeyRef:
+              key: tokenAuthPrivateKey
+              name: qix-data-reload-secrets
+        - name: SELF_SIGNING_PRIVATE_KEY
+          value: $(TOKEN_AUTH_PRIVATE_KEY)
+        - name: TOKEN_AUTH_PRIVATE_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              key: tokenAuthPrivateKeyId
+              name: qix-data-reload-secrets
+        - name: KEY_IDENTIFIER
+          value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
+        - name: ENGINE_URI
+          valueFrom:
+            configMapKeyRef:
+              key: engineUri
+              name: qix-data-reload-configs
+        - name: ENGINE_URL
+          value: $(ENGINE_URI)
+        - name: USERS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: usersUri
+              name: qix-data-reload-configs
+        - name: USERS_URL
+          value: $(USERS_URI)
+        - name: TOKEN_AUTH_URI
+          valueFrom:
+            configMapKeyRef:
+              key: tokenAuthUri
+              name: qix-data-reload-configs
+        - name: EDGE_AUTH_URL
+          value: $(TOKEN_AUTH_URI)
+        - name: LOG_LEVEL
+          value: debug
+        - name: MAX_SIMULTANEOUS_RELOADS
+          value: "100"
+        - name: AUTH_ENABLED
+          value: "true"
+        - name: AUTH_JWT_AUD
+          value: qlik.api.internal
+        - name: AUTH_JWT_ISS
+          value: qlik.api.internal
+        - name: NATS_CLIENT_ID
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: NATS_AUTH_ENABLED
+          value: "true"
+        - name: PROMETHEUS_PORT
+          value: "8080"
+        image: qlik-docker-qsefe.bintray.io/qix-data-reload:1.3.9
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+        name: main
+        ports:
+        - containerPort: 8080
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+        volumeMounts: null
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - configMap:
+          defaultMode: 493
+          name: qix-data-reload-prestop-hook
+          optional: true
+        name: reloads-prestop-hook
+---

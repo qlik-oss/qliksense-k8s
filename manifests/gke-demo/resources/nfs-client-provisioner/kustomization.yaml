@@ -10,25 +10,11 @@ transformers:
   - transformers
   - ../../../../.operator/patches
   - ../../../../configuration/patches
-  - ../../../base/transformers/base
-vars:
-- name: NFS_SERVER
-  objref:
-    apiVersion: v1
-    kind: ConfigMap
-    name: nfs-client-provisioner-configs
-  fieldref:
-    fieldpath: data.nfsServer
-- name: NFS_PATH
-  objref:
-    apiVersion: v1
-    kind: ConfigMap
-    name: nfs-client-provisioner-configs
-  fieldref:
-    fieldpath: data.nfsPath
+  - ../../../base/transformers/release
+  - vars
+  - ../../../base/transformers/msgprefix
+  - ../../../base/transformers/prefix
+  - ../../../base/transformers/namespace
 # images:
 #   - name: quay.io/external_storage/nfs-client-provisioner
 #     newName: $(IMAGE_REGISTRY)/nfs-client-provisioner
-configurations:
-  - ../../../base/varreference.yaml
-  - ../../varreference.yaml

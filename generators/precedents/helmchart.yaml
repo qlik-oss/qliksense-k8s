@@ -1,6 +1,0 @@
-apiVersion: qlik.com/v1
-kind: HelmChart
-metadata:
- name: precedents
-subChart: precedents
-releaseName: precedents

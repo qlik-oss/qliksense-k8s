@@ -12,9 +12,10 @@ patches:
 - target:
     labelSelector: >-
       key notin (
+        imageRegistry,
         keysUri,
-        mongoDbUri,
-        redisUriWithPort,
+        mongodbUri,
+        redisUri,
         redisPassword,
         caCertificates,
         )

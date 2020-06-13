@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nl-broker
+    chart: nl-broker-1.2.0
+    heritage: Helm
+    release: nl-broker
+  name: nl-broker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nl-broker
+      release: nl-broker
+  template:
+    metadata:
+      labels:
+        app: nl-broker
+        release: nl-broker
+    spec:
+      containers:
+      - env:
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              key: mongodbUri
+              name: nl-broker-secrets
+        - name: KEYS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: keysUri
+              name: nl-broker-configs
+        - name: AUTH_JWKS_URI
+          value: $(KEYS_URI)/v1/keys/qlik.api.internal
+        - name: MONGO_URI
+          value: $(MONGODB_URI)
+        - name: DATA_PREP_URI
+          valueFrom:
+            configMapKeyRef:
+              key: dataPrepUri
+              name: nl-broker-configs
+        - name: DPS_URI
+          value: $(DATA_PREP_URI)
+        - name: NL_PARSER_URI
+          valueFrom:
+            configMapKeyRef:
+              key: nlParserUri
+              name: nl-broker-configs
+        - name: PARSER_URI
+          value: $(NL_PARSER_URI)
+        - name: AUTH_JWT_AUD
+          value: qlik.api.internal
+        - name: AUTH_JWT_ISS
+          value: qlik.api.internal
+        - name: DPS_ROUTING
+          value: "true"
+        image: qlik-docker-qsefe.bintray.io/nl-broker:1.12.0
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /health
+            port: 30301
+          periodSeconds: 10
+        name: main
+        ports:
+        - containerPort: 30301
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /ready
+            port: 30301
+          periodSeconds: 10
+        volumeMounts: null
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+      volumes: null
+---

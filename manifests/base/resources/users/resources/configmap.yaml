@@ -1,0 +1,19 @@
+apiVersion: v1
+data:
+  featureFlagsUri: http://users-feature-flags:8080/v1
+  ingressAuthUrl: http://users-edge-auth.$(NAMESPACE).svc.cluster.local:8080/v1/auth
+  keysUri: http://users-keys:8080/v1/keys
+  logLevel: verbose
+  natsStreamingClusterId: users-nats-streaming-cluster
+  natsUri: nats://users-nats-client:4222
+  tokenAuthUri: http://users-edge-auth:8080/v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: users
+    chart: users-2.1.22
+    heritage: Helm
+    release: users
+  name: users-configs
+  namespace: $(NAMESPACE)
+---

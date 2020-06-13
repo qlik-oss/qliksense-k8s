@@ -3,16 +3,3 @@ kind: SelectivePatch
 metadata:
   name: groups-component-configs
 enabled: true
-patches:
-- target:
-    kind: SuperConfigMap
-  patch: |-
-    apiVersion: qlik.com/v1
-    kind: SuperConfigMap
-    metadata:
-      name: groups-configs
-    data:
-      featureFlagsUri: http://groups-feature-flags:8080
-      keysUri: http://groups-keys:8080/v1/keys/qlik.api.internal
-      tokenAuthUri: http://groups-edge-auth:8080/v1/internal-tokens
-      usersUri: http://groups-users:8080/v1

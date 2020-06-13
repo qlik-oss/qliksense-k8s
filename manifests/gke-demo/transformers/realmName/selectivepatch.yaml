@@ -8,11 +8,11 @@ enabled: true
 patches:
 - target:
     kind: SearchReplace
-    name: realm-name
+    labelSelector: key=realmName
   patch: |-
     apiVersion: qlik.com/v1
     kind: SearchReplace
     metadata:
-      name: realm-name
+      name: realmName
     replaceWithObjRef: null
     replace: $(REALM_NAME)

@@ -1,0 +1,132 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: insights
+    chart: insights-1.9.0
+    heritage: Helm
+    release: insights
+  name: insights
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: insights
+  template:
+    metadata:
+      labels:
+        app: insights
+        chart: insights-1.9.0
+        heritage: Helm
+        release: insights
+    spec:
+      containers:
+      - env:
+        - name: MONGODB_URI
+          valueFrom:
+            secretKeyRef:
+              key: mongodbUri
+              name: insights-secrets
+        - name: MONGO_URI
+          value: $(MONGODB_URI)
+        - name: KEYS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: keysUri
+              name: insights-configs
+        - name: AUTH_JWKS_URI
+          value: $(KEYS_URI)/v1/keys/qlik.api.internal
+        - name: TOKEN_AUTH_URI
+          valueFrom:
+            configMapKeyRef:
+              key: tokenAuthUri
+              name: insights-configs
+        - name: ENVIRONMENT
+          value: k8s
+        - name: NO_JWT_VALIDATION
+          value: "false"
+        - name: AUTH_JWT_AUD
+          value: qlik.api.internal
+        - name: AUTH_JWT_ISS
+          value: qlik.api.internal
+        - name: JWT_AUTH_URL
+          value: $(TOKEN_AUTH_URI)/v1/internal-tokens
+        - name: COLLECTIONS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: collectionsUri
+              name: insights-configs
+        - name: COLLECTIONS_URL
+          value: $(COLLECTIONS_URI)
+        - name: FEATURE_FLAGS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: featureFlagsUri
+              name: insights-configs
+        - name: FEATURE_FLAGS_URL
+          value: $(FEATURE_FLAGS_URI)
+        - name: ENCRYPTION_URI
+          valueFrom:
+            configMapKeyRef:
+              key: encryptionUri
+              name: insights-configs
+        - name: ENCRYPTION_URL
+          value: $(ENCRYPTION_URI)
+        - name: REPORTING_URI
+          valueFrom:
+            configMapKeyRef:
+              key: reportingUri
+              name: insights-configs
+        - name: REPORTING_URL
+          value: $(REPORTING_URI)
+        - name: PDS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: pdsUri
+              name: insights-configs
+        - name: PDS_URL
+          value: $(PDS_URI)
+        - name: TENANTS_URI
+          valueFrom:
+            configMapKeyRef:
+              key: tenantsUri
+              name: insights-configs
+        - name: TENANTS_URL
+          value: $(TENANTS_URI)
+        - name: ENGINE_URI
+          valueFrom:
+            configMapKeyRef:
+              key: engineUri
+              name: insights-configs
+        - name: ENGINE_URL
+          value: $(ENGINE_URI_URI)
+        image: qlik-docker-qsefe.bintray.io/insights:2.0.10
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          failureThreshold: 10
+          httpGet:
+            path: /health
+            port: 9292
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        name: main
+        ports:
+        - containerPort: 9292
+        readinessProbe:
+          failureThreshold: 10
+          httpGet:
+            path: /health
+            port: 9292
+          initialDelaySeconds: 30
+          timeoutSeconds: 5
+        resources:
+          limits:
+            cpu: 400m
+            memory: 600Mi
+          requests:
+            cpu: 250m
+            memory: 300Mi
+      imagePullPolicy: null
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+---

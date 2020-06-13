@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: locale
+    chart: locale-1.3.6
+    heritage: Helm
+    release: locale
+  name: locale
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: locale
+      release: locale
+  template:
+    metadata:
+      labels:
+        app: locale
+        release: locale
+    spec:
+      containers:
+      - image: qlik-docker-qsefe.bintray.io/locale:1.0.9
+        imagePullPolicy: IfNotPresent
+        name: main
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+---

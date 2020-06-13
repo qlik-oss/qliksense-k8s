@@ -4,7 +4,7 @@ metadata:
   name: ingressAuthUrl
   labels:
     key: ingressAuthUrl
-enabled: false
+enabled: true
 default: true
 patches:
 - target:
@@ -16,6 +16,16 @@ patches:
       name: component
       annotations:
         nginx.ingress.kubernetes.io/auth-url: $(INGRESS_AUTH_URL)
+- target:
+    kind: SearchReplace
+    labelSelector: key=ingressAuthUrl
+  patch: |-
+    apiVersion: qlik.com/v1
+    kind: SearchReplace
+    metadata:
+      name: ingressAuthUrl
+    replaceWithObjRef: null
+    replace: $(INGRESS_AUTH_URL)
 defaults:
 - target:
     kind: Ingress 

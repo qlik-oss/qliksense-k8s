@@ -18,7 +18,6 @@ patches:
       keysUri: "http://$(PREFIX)-spaces-keys:8080/v1/keys/qlik.api.internal"
       tokenAuthUri: "http://$(PREFIX)-spaces-edge-auth:8080"
       pdsUri: "http://$(PREFIX)-spaces-policy-decisions:5080"
-      mongoDbUri: "mongodb://$(PREFIX)-mongodb:27017/spaces"
       groupsUri: "http://$(PREFIX)-spaces-groups:8080"
       quotasUri: "http://$(PREFIX)-spaces-quotas:6080"
 

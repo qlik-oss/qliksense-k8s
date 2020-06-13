@@ -4,7 +4,7 @@ metadata:
   name: caCertificates
   labels:
     key: caCertificates
-enabled: false
+enabled: true
 patches:
 - target:
     kind: Deployment

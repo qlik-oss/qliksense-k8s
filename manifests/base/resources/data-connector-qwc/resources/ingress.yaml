@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/auth-signin: https://$host/login?returnto=$escaped_request_uri
+    nginx.ingress.kubernetes.io/auth-url: http://data-connector-qwc-edge-auth.$(NAMESPACE).svc.cluster.local:8080/v1/auth
+    nginx.ingress.kubernetes.io/rewrite-target: /$1/$2
+  labels:
+    app: data-connector-qwc
+    chart: data-connector-qwc-2.3.0
+    heritage: Helm
+    release: data-connector-qwc
+  name: data-connector-qwc-web
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: data-connector-qwc-web
+          servicePort: 6384
+        path: /customdata/64/(QvWebConnectorPackage)/(.+)
+      - backend:
+          serviceName: data-connector-qwc-web
+          servicePort: 6384
+        path: /customdata/64/(QvWebStorageProviderConnectorPackage)/(.+)
+---

@@ -3,23 +3,9 @@ kind: Kustomization
 commonLabels:
   app: encryption
 resources:
-- ../../../../../generators/encryption
-- ../../../secrets
-- ../../../configs
+- secrets
+- configs
 transformers:
-  - ../configs
-  - ../secrets
-  - values.yaml
-patches:
-- target:
-    kind: SuperSecret
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: encryption-secrets
-- target:
-    kind: SuperConfigMap
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: encryption-configs
+- ../secrets
+- ../configs
+

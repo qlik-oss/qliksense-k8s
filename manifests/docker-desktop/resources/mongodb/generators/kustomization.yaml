@@ -3,25 +3,13 @@ kind: Kustomization
 commonLabels:
   app: mongodb
 resources:
-- ../../../../../generators/mongodb
-- ../../../../base/secrets
-- ../../../../base/configs
+  - helmchart.yaml
+  - configs
+  - secrets
 transformers:
-- ../secrets
-- ../configs
-- values.yaml
-patches:
-- target:
-    kind: SuperSecret
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: mongodb-secrets
-- target:
-    kind: SuperConfigMap
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: mongodb-configs
+  - ../../../../../transformers
+  - ../secrets
+  - ../configs
+  - values.yaml
 
 

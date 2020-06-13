@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    prometheus.io/port: "8080"
+    prometheus.io/scrape: "true"
+  labels:
+    app: qix-datafiles
+    chart: qix-datafiles-1.10.39
+    heritage: Helm
+    release: qix-datafiles
+  name: qix-datafiles
+spec:
+  ports:
+  - name: qix-datafiles
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  - name: grpc
+    port: 50051
+    protocol: TCP
+    targetPort: 50051
+  selector:
+    app: qix-datafiles
+    release: qix-datafiles
+  type: ClusterIP
+---

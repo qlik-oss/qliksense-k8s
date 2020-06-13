@@ -12,12 +12,13 @@ patches:
 - target:
     labelSelector: >-
       key notin (
+        imageRegistry,
         ingressClass,
         keysUri,
         qixSessionsUri,
         temporaryContentsUri,
         featureFlagsUri,
-        redisUriWithPort,
+        redisUri,
         redisPassword,
         tokenAuthUri,
         tokenAuthPrivateKey,

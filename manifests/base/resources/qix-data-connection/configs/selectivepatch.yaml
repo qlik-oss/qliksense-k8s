@@ -13,8 +13,7 @@ patches:
       name: qix-data-connection-configs
     data:
       qixDataFilesUri: "http://$(PREFIX)-qix-data-connection-qix-datafiles:8080"
-      tokenAuthUri: "http://$(PREFIX)-qix-data-connection-edge-auth:8080/v1"
+      tokenAuthUri: "http://$(PREFIX)-qix-data-connection-edge-auth:8080"
       keysUri: "http://$(PREFIX)-qix-data-connection-keys:8080/v1/keys/qlik.api.internal"
       encryptionUri: "http://$(PREFIX)-qix-data-connection-encryption:8080"
-      mongoDbUri: "mongodb://$(PREFIX)-mongodb:27017/qix-data-connection"
       spacesUri: "http://$(PREFIX)-qix-data-connection-spaces:6080"

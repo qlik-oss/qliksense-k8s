@@ -1,6 +1,0 @@
-apiVersion: qlik.com/v1
-kind: HelmChart
-metadata:
- name: management-console
-subChart: management-console
-releaseName: management-console

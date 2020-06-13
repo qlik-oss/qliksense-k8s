@@ -1,0 +1,26 @@
+apiVersion: v1
+data:
+  apiKeysUri: http://edge-auth-api-keys.$(NAMESPACE).svc.cluster.local:8080
+  featureFlagsUri: http://edge-auth-feature-flags.$(NAMESPACE).svc.cluster.local:8080
+  groupsUri: http://edge-auth-groups.$(NAMESPACE).svc.cluster.local:8080
+  identityProvidersExtUri: http://edge-auth-identity-providers-ext.$(NAMESPACE).svc.cluster.local:8080
+  identityProvidersUri: http://edge-auth-identity-providers.$(NAMESPACE).svc.cluster.local:8080
+  ingressAuthUrl: http://edge-auth-edge-auth.$(NAMESPACE).svc.cluster.local:8080/v1/auth
+  keysUri: http://edge-auth-keys.$(NAMESPACE).svc.cluster.local:8080
+  logLevel: verbose
+  natsStreamingClusterId: edge-auth-nats-streaming-cluster
+  natsUri: nats://edge-auth-nats-client:4222
+  redirects: https://elastic.example/login/callback
+  redisUri: edge-auth-redis-master:6379
+  tenantsUri: http://edge-auth-tenants.$(NAMESPACE).svc.cluster.local:8080
+  usersUri: http://edge-auth-users.$(NAMESPACE).svc.cluster.local:8080
+kind: ConfigMap
+metadata:
+  labels:
+    app: edge-auth
+    chart: edge-auth-5.1.5
+    heritage: Helm
+    release: edge-auth
+  name: edge-auth-configs
+  namespace: $(NAMESPACE)
+---

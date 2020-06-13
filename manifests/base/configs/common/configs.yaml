@@ -6,6 +6,8 @@ assumeTargetWillExist: true
 prefix: $(PREFIX)-
 metadata:
   name: configs
+  labels:
+    release: qliksense
 data:
   ingressClass: qlik-nginx
   imageRegistry: qlik-docker-qsefe.bintray.io

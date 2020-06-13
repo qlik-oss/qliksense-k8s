@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/auth-signin: https://$host/login?returnto=$escaped_request_uri
+    nginx.ingress.kubernetes.io/auth-url: http://dcaas-web-edge-auth.$(NAMESPACE).svc.cluster.local:8080/v1/auth
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite (?i)/customdata/64/?(.*) /$1 break;
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  labels:
+    app: dcaas-web
+    chart: dcaas-web-1.1.84
+    heritage: Helm
+    release: dcaas-web
+  name: dcaas-web
+spec:
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: dcaas-web
+          servicePort: 6384
+        path: /customdata/64
+---

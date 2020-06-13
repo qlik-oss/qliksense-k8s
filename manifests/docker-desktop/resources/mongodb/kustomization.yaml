@@ -6,7 +6,10 @@ generators:
 - generators
 transformers:
 - patches
-- ../../../base/transformers/base
+- ../../../base/transformers/release
+- ../../../base/vars
+- ../../../base/transformers/prefix
+- ../../../base/transformers/namespace
 images:
   - name: docker.io/bitnami/mongodb
     newName: $(IMAGE_REGISTRY)/mongodb

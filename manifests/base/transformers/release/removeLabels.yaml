@@ -1,0 +1,16 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: removeLabels
+enabled: true
+patches:
+- target:
+    labelSelector: chart
+  patch: |-
+    - op: remove
+      path: /metadata/labels/chart
+- target:
+    labelSelector: heritage
+  patch: |-
+    - op: remove
+      path: /metadata/labels/heritage

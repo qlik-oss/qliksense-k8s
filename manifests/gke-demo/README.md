@@ -111,7 +111,7 @@ spec:
       value: 123.123.123.123
   secrets:
     qliksense:
-    - name: mongoDbUri
+    - name: mongodbUri
       value: "mongodb://qliksense-dev-mongodb:27017/qsefe?ssl=false"
     gke:
     - name: clientSecret
@@ -135,14 +135,14 @@ spec:
   ```shell
   kubectl qliksense crds install --all
   ```
-6. Further, Certificate Manager Controller has a timing issue that prevents it being installed together with an Issuer resource (in the same manifest), so it has to be installed before the manifest which contains it. The qliksense operator allows for partial manifest fragment installation updates of a release. We need to set the global manifest (`gke-demo`) to be specific to  `cert-manager` and install:
+6. Further, Certificate Manager Controller has a timing issue that prevents it being installed together with an Issuer resource (in the same manifest), so it has to be installed before the manifest which contains it. The qliksense operator allows for partial manifest fragment installation updates of a release. We need to set the global manifest (`gke-demo`) to be specific to the `cert-manager` resource and install:
   ```shell
-  kubectl qliksense config set profile=gke-demo/manifests/cert-manager
+  kubectl qliksense config set profile=qke-demo/resources/cert-manager
   kubectl qliksense install
   ```
 7. Now we can proceed with installing the main `gke-demo` profile by setting it back and installing.
   ```shell
-  kubectl qliksense config set profile=gke-demo
+  kubectl qliksense config set profile=qke-demo
   kubectl qliksense install
   ```
 8. Check to see that the pods are coming up and the Qliksense application installed, that represents the configuration applied

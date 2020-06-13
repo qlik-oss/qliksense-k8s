@@ -3,23 +3,9 @@ kind: Kustomization
 commonLabels:
   app: spaces
 resources:
-- ../../../../../generators/spaces
-- ../../../secrets
-- ../../../configs
+- secrets
+- configs
 transformers:
 - ../secrets
 - ../configs
-- values.yaml 
-patches:
-- target:
-    kind: SuperSecret
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: spaces-secrets
-- target:
-    kind: SuperConfigMap
-  patch: |-
-    - op: replace
-      path: /metadata/name
-      value: spaces-configs
+

@@ -11,7 +11,8 @@ patches:
     kind: SuperConfigMap
     metadata:
       name: keys-configs
-    # data:
+    data:
+      keysUri: "http://$(PREFIX)-keys-keys:8080/v1/keys/qlik.api.internal"
     #   qlik.api.internal-audit: ""
     #   qlik.api.internal-chronos-worker: ""
     #   qlik.api.internal-collections: ""

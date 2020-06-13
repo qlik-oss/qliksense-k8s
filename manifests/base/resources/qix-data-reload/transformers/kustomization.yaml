@@ -12,12 +12,13 @@ patches:
 - target:
     labelSelector: >-
       key notin (
+        imageRegistry,
         tokenAuthUri,
         ingressClass,
         ingressAuthUrl,
         natsStreamingClusterId,
         keysUri,
-        mongoDbUri,
+        mongodbUri,
         qixSessionsUri,
         engineUri,
         usersUri,
@@ -31,4 +32,3 @@ patches:
     - op: replace
       path: /default
       value: true
- 

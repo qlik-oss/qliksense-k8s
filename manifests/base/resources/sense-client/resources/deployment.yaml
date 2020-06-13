@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: sense-client
+    chart: sense-client-1.7.84
+    heritage: Helm
+    release: sense-client
+  name: sense-client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sense-client
+      release: sense-client
+  template:
+    metadata:
+      labels:
+        app: sense-client
+        release: sense-client
+    spec:
+      containers:
+      - env:
+        - name: PRODUCT_INFO
+          value: '{ "composition": { "productName": "Qlik Cloud Services", "senseId":
+            "QlikCloudServices", "releaseLabel": "-", "deploymentEnvironment": "qsefe"
+            }, "components": [{ "component": "Client", "version": "6.368.0" }], "externalUrls":
+            { "serverHelpBaseUrl": "http://help.qlik.com/en-US/cloud-services/csh/",
+            "personalHelpBaseUrl": "http://help.qlik.com/en-US/cloud-services/csh/",
+            "cloudBaseUrl": "https://qlikcloud.com/", "cloudUploadUrl": "https://qlikcloud.com/upload?",
+            "personalUpgradeBase": "qlik.com/QlikSenseDesktopUpgrade", "personalUpgradeUrl":
+            "http://qlik.com/QlikSenseDesktopUpgrade", "qlikWebPageUrl": "https://www.qlik.com/"
+            } }'
+        - name: CSP_FALLBACK
+          valueFrom:
+            configMapKeyRef:
+              key: csp
+              name: csp-configmap
+        - name: CSP_ENABLED
+          value: "true"
+        - name: CSP_FETCH_URL
+          value: http://sense-client-web-security:6263/v1/csp-header
+        - name: ASSETS_URL
+          value: ../resources/
+        image: qlik-docker-qsefe.bintray.io/sense-client:6.368.0
+        imagePullPolicy: IfNotPresent
+        name: main
+        ports:
+        - containerPort: 9050
+          name: http
+          protocol: TCP
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+---

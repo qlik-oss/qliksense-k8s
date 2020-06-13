@@ -5,12 +5,13 @@ commonLabels:
 generators:
   - generators
 transformers:
-  - generators/transformers
   - patches
+# secrets/config reference updates
   - ../resources-2/generators
   - ../transformers
   - ../../../../../.operator/patches
   - ../../../../../configuration/patches
+  - ../../../../base/transformers/release
 # images:
 #   - name: docker.io/bitnami/postgresql
 #     newName: $(IMAGE_REGISTRY)/postgresql
