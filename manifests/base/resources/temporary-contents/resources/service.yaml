@@ -6,16 +6,16 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: temporary-contents
-    chart: temporary-contents-1.3.14
+    chart: temporary-contents-1.3.17
     heritage: Helm
     release: temporary-contents
   name: temporary-contents
 spec:
   ports:
-  - name: temporary-contents
-    port: 6080
-    protocol: TCP
-    targetPort: 6080
+    - name: temporary-contents
+      port: 6080
+      protocol: TCP
+      targetPort: 6080
   selector:
     app: temporary-contents
     release: temporary-contents

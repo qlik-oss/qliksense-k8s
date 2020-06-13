@@ -18,17 +18,13 @@ patches:
         natsUri,
         natsStreamingClusterId,
         featureFlagsUri,
-        tokenUri,
-        accessControlPdsUri, 
         mongodbUri,
         caCertificates,
         groupsUri, 
         quotasUri,
-        tokenAuthUri,
-        tokenAuthPrivateKey,
-        tokenAuthPrivateKeyId,
+        edgeAuthUri,
         keysUri,
-        pdsUri
+        policyDecisionsUri
       )
   patch: |-
     - op: replace

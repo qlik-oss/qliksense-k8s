@@ -10,16 +10,16 @@ metadata:
     nginx.ingress.kubernetes.io/enable-cors: "true"
   labels:
     app: precedents
-    chart: precedents-1.1.30
+    chart: precedents-1.1.32
     heritage: Helm
     release: precedents
   name: precedents
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: precedents
-          servicePort: 9054
-        path: /api/precedent
+    - http:
+        paths:
+          - backend:
+              serviceName: precedents
+              servicePort: 9054
+            path: /api/precedent
 ---

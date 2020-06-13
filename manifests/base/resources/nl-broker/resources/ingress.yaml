@@ -9,16 +9,16 @@ metadata:
       rewrite (?i)/api/v1/(.*) /v1/$1 break;
   labels:
     app: nl-broker
-    chart: nl-broker-1.2.0
+    chart: nl-broker-1.2.9
     heritage: Helm
     release: nl-broker
   name: nl-broker
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: nl-broker
-          servicePort: 30301
-        path: /api/v1/sentences
+    - http:
+        paths:
+          - backend:
+              serviceName: nl-broker
+              servicePort: 30301
+            path: /api/v1/sentences
 ---

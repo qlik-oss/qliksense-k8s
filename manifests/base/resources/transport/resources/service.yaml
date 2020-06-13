@@ -6,16 +6,16 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: transport
-    chart: transport-1.3.3
+    chart: transport-1.7.0
     heritage: Helm
     release: transport
   name: transport
 spec:
   ports:
-  - name: transport
-    port: 8080
-    protocol: TCP
-    targetPort: 8080
+    - name: transport
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
   selector:
     app: transport
     release: transport

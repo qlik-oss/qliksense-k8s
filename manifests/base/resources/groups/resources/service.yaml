@@ -6,17 +6,17 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: groups
-    chart: groups-3.0.0
+    chart: groups-3.0.3
     heritage: Helm
     release: groups
   name: groups
   namespace: $(NAMESPACE)
 spec:
   ports:
-  - name: groups
-    port: 8080
-    protocol: TCP
-    targetPort: 8080
+    - name: groups
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
   selector:
     app: groups
     release: groups

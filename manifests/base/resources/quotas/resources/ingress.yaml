@@ -10,16 +10,16 @@ metadata:
     nginx.ingress.kubernetes.io/enable-cors: "true"
   labels:
     app: quotas
-    chart: quotas-1.0.3
+    chart: quotas-1.1.0
     heritage: Helm
     release: quotas
   name: quotas
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: quotas
-          servicePort: 6080
-        path: /api/v1/quotas
+    - http:
+        paths:
+          - backend:
+              serviceName: quotas
+              servicePort: 6080
+            path: /api/v1/quotas
 ---

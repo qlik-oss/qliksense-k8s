@@ -11,14 +11,14 @@ data:
   natsStreamingClusterId: edge-auth-nats-streaming-cluster
   natsUri: nats://edge-auth-nats-client:4222
   redirects: https://elastic.example/login/callback
-  redisUri: edge-auth-redis-master:6379
+  redisUri: redis://edge-auth-redis-master:6379
   tenantsUri: http://edge-auth-tenants.$(NAMESPACE).svc.cluster.local:8080
   usersUri: http://edge-auth-users.$(NAMESPACE).svc.cluster.local:8080
 kind: ConfigMap
 metadata:
   labels:
     app: edge-auth
-    chart: edge-auth-5.1.5
+    chart: edge-auth-6.2.12
     heritage: Helm
     release: edge-auth
   name: edge-auth-configs

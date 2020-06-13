@@ -4,8 +4,14 @@ nameReference:
   fieldSpecs:
   - path: spec/podSpec/containers/env/valueFrom/configMapKeyRef/name
     kind: Engine
+  - path: spec/podSpec/containers/env/valueFrom/configMapKeyRef/name
+    kind: EngineTemplate
+  - path: spec/env/valueFrom/configMapKeyRef/name
+    kind: EngineVariant
   - path: spec/podSpec/volumes/configMap/name
     kind: Engine
+  - path: spec/podSpec/volumes/configMap/name
+    kind: EngineTemplate
   - path: spec/template/spec/containers/env/value
     kind: Deployment
 - kind: Secret
@@ -17,11 +23,19 @@ nameReference:
     kind: Engine
   - path: spec/template/spec/containers/env/value
     kind: Deployment
+  - path: spec/podSpec/containers/env/valueFrom/secretKeyRef/name
+    kind: EngineTemplate
+  - path: spec/env/valueFrom/secretKeyRef/name
+    kind: EngineVariant
+  - path: spec/podSpec/volumes/secret/secretName
+    kind: EngineTemplate
 - kind: PersistentVolumeClaim
   version: v1
   fieldSpecs:
   - path: spec/podSpec/volumes/persistentVolumeClaim/claimName
     kind: Engine
+  - path: spec/podSpec/volumes/persistentVolumeClaim/claimName
+    kind: EngineTemplate
 - kind: ServiceAccount
   version: v1
   fieldSpecs:

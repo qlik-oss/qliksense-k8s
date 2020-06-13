@@ -6,17 +6,17 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: users
-    chart: users-2.1.22
+    chart: users-2.1.36
     heritage: Helm
     release: users
   name: users
   namespace: $(NAMESPACE)
 spec:
   ports:
-  - name: users
-    port: 8080
-    protocol: TCP
-    targetPort: 8080
+    - name: users
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
   selector:
     app: users
     release: users

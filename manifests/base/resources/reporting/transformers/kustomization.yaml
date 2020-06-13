@@ -20,9 +20,9 @@ patches:
         featureFlagsUri,
         redisUri,
         redisPassword,
-        tokenAuthUri,
-        tokenAuthPrivateKey,
-        tokenAuthPrivateKeyId
+        edgeAuthUri,
+        natsUri,
+        natsStreamingClusterId
       )
   patch: |-
     - op: replace

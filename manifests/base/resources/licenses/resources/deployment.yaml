@@ -4,7 +4,7 @@ metadata:
   annotations: null
   labels:
     app: licenses
-    chart: licenses-1.19.0
+    chart: licenses-1.21.9
     heritage: Helm
     release: licenses
   name: licenses
@@ -21,121 +21,129 @@ spec:
         release: licenses
     spec:
       containers:
-      - args:
-        - --election=licenses
-        - --election-namespace=$(NAMESPACE)
-        - --http=0.0.0.0:4040
-        image: qlik-docker-qsefe.bintray.io/leader-elector:1.5
-        name: election
-        ports:
-        - containerPort: 4040
-        resources: {}
-      - env:
-        - name: PDS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: pdsUri
-              name: licenses-configs
-        - name: NATS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: natsUri
-              name: licenses-configs
-        - name: FEATURE_FLAGS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: featureFlagsUri
-              name: licenses-configs
-        - name: MONGODB_URI
-          valueFrom:
-            secretKeyRef:
-              key: mongodbUri
-              name: licenses-secrets
-        - name: KEYS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: keysUri
-              name: licenses-configs
-        - name: TOKEN_AUTH_URI
-          valueFrom:
-            configMapKeyRef:
-              key: tokenAuthUri
-              name: licenses-configs
-        - name: TOKEN_AUTH_PRIVATE_KEY
-          valueFrom:
-            secretKeyRef:
-              key: tokenAuthPrivateKey
-              name: licenses-secrets
-        - name: TOKEN_AUTH_PRIVATE_KEY_ID
-          valueFrom:
-            secretKeyRef:
-              key: tokenAuthPrivateKeyId
-              name: licenses-secrets
-        - name: NATS_STREAMING_CLUSTER_ID
-          valueFrom:
-            configMapKeyRef:
-              key: natsStreamingClusterId
-              name: licenses-configs
-        - name: TOKEN_AUTH_KID
-          value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
-        - name: TOKEN_AUTH_URL
-          value: $(TOKEN_AUTH_URI)/v1/internal-tokens
-        - name: NATS_CLUSTER
-          value: $(NATS_STREAMING_CLUSTER_ID)
-        - name: NATS_SERVERS
-          value: $(NATS_URI)
-        - name: LICENSES_MONGODB_URI
-          value: $(MONGODB_URI)
-        - name: LICENSES_FEATURES_URI
-          value: $(FEATURE_FLAGS_URI)/v1/features
-        - name: JWKS_ENDPOINT
-          value: $(KEYS_URI)/v1/keys/qlik.api.internal
-        - name: LICENSES_LOG_LEVEL
-          value: info
-        - name: LICENSES_SERIAL_NBR
-          value: ""
-        - name: LICENSES_CONTROL_NBR
-          value: ""
-        - name: LICENSE_KEY
-          value: ""
-        - name: LICENSES_TRACING_ENABLED
-          value: "false"
-        - name: LICENSES_TEST_MODE
-          value: ""
-        - name: IS_QCS
-          value: ""
-        - name: LICENSES_FEATURES_CACHE
-          value: "false"
-        - name: ASS_SYNC_ENABLED
-          value: "true"
-        - name: EXCESS_ENABLED
-          value: "true"
-        - name: NATS_ENABLED
-          value: "true"
-        - name: NATS_CONNECT_ATTEMPTS
-          value: "3"
-        - name: TOKEN_AUTH_ENABLED
-          value: "true"
-        - name: SQS_ENABLED
-          value: "false"
-        image: qlik-docker-qsefe.bintray.io/licenses:3.17.0
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 9200
-        name: main
-        ports:
-        - containerPort: 9200
-        readinessProbe:
-          httpGet:
-            path: /ready
-            port: 9200
+        - args:
+            - --election=$(PREFIX)-licenses
+            - --election-namespace=$(NAMESPACE)
+            - --http=0.0.0.0:4040
+          image: qlik-docker-qsefe.bintray.io/leader-elector:1.8.0
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 4040
+          name: election
+          ports:
+            - containerPort: 4040
+          resources: {}
+        - env:
+            - name: POLICY_DECISIONS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: policyDecisionsUri
+                  name: licenses-configs
+            - name: PDS_URI
+              value: $(POLICY_DECISIONS_URI)
+            - name: NATS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: natsUri
+                  name: licenses-configs
+            - name: FEATURE_FLAGS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: featureFlagsUri
+                  name: licenses-configs
+            - name: MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  key: mongodbUri
+                  name: licenses-secrets
+            - name: KEYS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: keysUri
+                  name: licenses-configs
+            - name: EDGE_AUTH_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: edgeAuthUri
+                  name: licenses-configs
+            - name: TOKEN_AUTH_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: tokenAuthPrivateKey
+                  name: licenses-secrets
+            - name: TOKEN_AUTH_PRIVATE_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  key: tokenAuthPrivateKeyId
+                  name: licenses-secrets
+            - name: NATS_STREAMING_CLUSTER_ID
+              valueFrom:
+                configMapKeyRef:
+                  key: natsStreamingClusterId
+                  name: licenses-configs
+            - name: TOKEN_AUTH_KID
+              value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
+            - name: TOKEN_AUTH_URL
+              value: $(EDGE_AUTH_URI)/v1/internal-tokens
+            - name: NATS_CLUSTER
+              value: $(NATS_STREAMING_CLUSTER_ID)
+            - name: NATS_SERVERS
+              value: $(NATS_URI)
+            - name: LICENSES_MONGODB_URI
+              value: $(MONGODB_URI)
+            - name: LICENSES_FEATURES_URI
+              value: $(FEATURE_FLAGS_URI)/v1/features
+            - name: JWKS_ENDPOINT
+              value: $(KEYS_URI)/v1/keys/qlik.api.internal
+            - name: LICENSES_LOG_LEVEL
+              value: info
+            - name: ENVIRONMENT
+              value: ""
+            - name: LICENSES_SERIAL_NBR
+              value: ""
+            - name: LICENSES_CONTROL_NBR
+              value: ""
+            - name: LICENSE_KEY
+              value: ""
+            - name: LICENSES_TRACING_ENABLED
+              value: "false"
+            - name: LICENSES_TEST_MODE
+              value: ""
+            - name: IS_QCS
+              value: ""
+            - name: LICENSES_FEATURES_CACHE
+              value: "false"
+            - name: ASS_SYNC_ENABLED
+              value: "true"
+            - name: EXCESS_ENABLED
+              value: "true"
+            - name: NATS_ENABLED
+              value: "true"
+            - name: NATS_CONNECT_ATTEMPTS
+              value: "3"
+            - name: TOKEN_AUTH_ENABLED
+              value: "true"
+            - name: SQS_ENABLED
+              value: "false"
+          image: qlik-docker-qsefe.bintray.io/licenses:3.25.0
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 9200
+          name: main
+          ports:
+            - containerPort: 9200
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 9200
       dnsConfig:
         options:
-        - name: timeout
-          value: "1"
+          - name: timeout
+            value: "1"
       imagePullSecrets:
-      - name: artifactory-docker-secret
+        - name: artifactory-docker-secret
       serviceAccountName: licenses
 ---

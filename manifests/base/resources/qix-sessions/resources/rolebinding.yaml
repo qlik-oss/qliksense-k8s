@@ -3,7 +3,7 @@ kind: RoleBinding
 metadata:
   labels:
     app: qix-sessions
-    chart: qix-sessions-5.6.7
+    chart: qix-sessions-6.6.4
     heritage: Helm
     release: qix-sessions
   name: qix-sessions
@@ -13,6 +13,6 @@ roleRef:
   kind: Role
   name: qix-sessions
 subjects:
-- kind: ServiceAccount
-  name: qix-sessions
+  - kind: ServiceAccount
+    name: qix-sessions
 ---

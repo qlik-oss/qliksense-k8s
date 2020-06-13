@@ -9,16 +9,16 @@ metadata:
       rewrite (?i)/api/(.*) /$1 break;
   labels:
     app: eventing
-    chart: eventing-1.3.1
+    chart: eventing-1.3.6
     heritage: Helm
     release: eventing
   name: eventing
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: eventing
-          servicePort: 8080
-        path: /api/v1/events
+    - http:
+        paths:
+          - backend:
+              serviceName: eventing
+              servicePort: 8080
+            path: /api/v1/events
 ---

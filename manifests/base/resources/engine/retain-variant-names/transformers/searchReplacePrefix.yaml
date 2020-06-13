@@ -1,0 +1,14 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: prefix-replace
+target:
+  kind: SearchReplace
+path: search
+search: \$\(PREFIX\)
+replaceWithObjRef:
+  objref:
+    apiVersion: qlik.com/v1
+    kind: SearchReplace
+  fieldref:
+    fieldpath: metadata.labels.release

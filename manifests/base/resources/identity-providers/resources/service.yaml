@@ -6,16 +6,16 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: identity-providers
-    chart: identity-providers-1.8.29
+    chart: identity-providers-1.8.33
     heritage: Helm
     release: identity-providers
   name: identity-providers
 spec:
   ports:
-  - name: identity-providers
-    port: 8080
-    protocol: TCP
-    targetPort: 8080
+    - name: identity-providers
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
   selector:
     app: identity-providers
     release: identity-providers

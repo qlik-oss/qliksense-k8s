@@ -1,0 +1,16 @@
+apiVersion: qlik.com/v1
+kind: EnvUpsert
+metadata:
+  name: engineVariantEnvUpdate-acceptEULA
+  labels:
+    key: acceptEULA
+enabled: true
+target:
+  kind: EngineVariant
+path: spec/env
+env:
+  - name: ACCEPT_EULA
+    valueFrom:
+      configMapKeyRef:
+        key: acceptEULA
+        name: configs

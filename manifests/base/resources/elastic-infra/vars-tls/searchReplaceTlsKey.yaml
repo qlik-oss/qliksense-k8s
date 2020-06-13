@@ -1,0 +1,16 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: elastic-infra-secrets-key
+target:
+  kind: Secret
+  name: elastic-infra-tls-secret
+path: data/tls.key
+search: (?s).*
+replaceWithObjRef:
+  objref:
+    apiVersion: v1
+    kind: Secret
+    name: elastic-infra-secrets
+  fieldref:
+    fieldpath: data[tls.key]

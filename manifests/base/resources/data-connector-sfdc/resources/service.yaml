@@ -7,20 +7,20 @@ metadata:
   labels:
     action: command
     app: data-connector-sfdc
-    chart: data-connector-sfdc-1.6.0
+    chart: data-connector-sfdc-1.6.3
     heritage: Helm
     release: data-connector-sfdc
   name: data-connector-sfdc-cmd
 spec:
   ports:
-  - name: grpc
-    port: 50060
-    protocol: TCP
-    targetPort: 50060
-  - name: http
-    port: 3005
-    protocol: TCP
-    targetPort: 3005
+    - name: grpc
+      port: 50060
+      protocol: TCP
+      targetPort: 50060
+    - name: http
+      port: 3005
+      protocol: TCP
+      targetPort: 3005
   selector:
     action: command
     app: data-connector-sfdc
@@ -36,20 +36,20 @@ metadata:
   labels:
     action: reload
     app: data-connector-sfdc
-    chart: data-connector-sfdc-1.6.0
+    chart: data-connector-sfdc-1.6.3
     heritage: Helm
     release: data-connector-sfdc
   name: data-connector-sfdc-rld
 spec:
   ports:
-  - name: grpc
-    port: 50060
-    protocol: TCP
-    targetPort: 50060
-  - name: http
-    port: 3005
-    protocol: TCP
-    targetPort: 3005
+    - name: grpc
+      port: 50060
+      protocol: TCP
+      targetPort: 50060
+    - name: http
+      port: 3005
+      protocol: TCP
+      targetPort: 3005
   selector:
     action: reload
     app: data-connector-sfdc

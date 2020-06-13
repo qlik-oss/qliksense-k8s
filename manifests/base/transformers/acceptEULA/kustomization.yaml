@@ -3,3 +3,5 @@ kind: Kustomization
 resources:
   - selectivepatch.yaml
   - engineEnvUpdate.yaml
+  - engineVariantEnvUpdate.yaml
+  - engineTemplateEnvUpdate.yaml

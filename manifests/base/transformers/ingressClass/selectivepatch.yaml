@@ -5,16 +5,8 @@ metadata:
   labels:
     key: ingressClass
 enabled: true
+default: true
 patches:
-- target:
-    kind: Ingress 
-  patch: |-
-    apiVersion: extensions/v1beta1
-    kind: Ingress
-    metadata:
-      name: component
-      annotations:
-        kubernetes.io/ingress.class: $(INGRESS_CLASS)
 - target:
     kind: SearchReplace
     labelSelector: key=ingressClass
@@ -25,4 +17,13 @@ patches:
       name: ingressClass
     replaceWithObjRef: null
     replace: $(INGRESS_CLASS)
-
+defaults:
+- target:
+    kind: Ingress 
+  patch: |-
+    apiVersion: extensions/v1beta1
+    kind: Ingress
+    metadata:
+      name: component
+      annotations:
+        kubernetes.io/ingress.class: $(INGRESS_CLASS)

@@ -13,4 +13,4 @@ replaceWithObjRef:
     kind: SuperConfigMap
     name: configs
   fieldref:
-    fieldpath: data.storageClassName
+    fieldpath: data.storageClassName 

@@ -9,7 +9,7 @@ kind: ConfigMap
 metadata:
   labels:
     app: groups
-    chart: groups-3.0.0
+    chart: groups-3.0.3
     heritage: Helm
     release: groups
   name: groups-configs

@@ -2,5 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 commonLabels:
   app: qliksense-init
+commonAnnotations:
+  app.kubernetes.io/part-of: crd
+  app.kubernetes.io/component: qliksense-init
 resources:
   - resources

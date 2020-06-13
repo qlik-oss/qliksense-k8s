@@ -24,52 +24,52 @@ spec:
         release: data-connector-nfs
     spec:
       containers:
-      - env:
-        - name: KEYS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: keysUri
-              name: data-connector-nfs-configs
-        - name: LOG_LEVEL
-          valueFrom:
-            configMapKeyRef:
-              key: logLevel
-              name: data-connector-nfs-configs
-        - name: PDS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: pdsUri
-              name: data-connector-nfs-configs
-        - name: SPACES_URI
-          valueFrom:
-            configMapKeyRef:
-              key: spacesUri
-              name: data-connector-nfs-configs
-        - name: AUTH_ENABLED
-          value: "true"
-        image: qlik-docker-qsefe.bintray.io/data-connector-nfs:1.0.1
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 8080
-        name: main
-        ports:
-        - containerPort: 8080
-          name: http
-          protocol: TCP
-        - containerPort: 50051
-          name: grpc
-          protocol: TCP
-        readinessProbe:
-          httpGet:
-            path: /ready
-            port: 8080
-        resources: null
+        - env:
+            - name: KEYS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: keysUri
+                  name: data-connector-nfs-configs
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  key: logLevel
+                  name: data-connector-nfs-configs
+            - name: PDS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: pdsUri
+                  name: data-connector-nfs-configs
+            - name: SPACES_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: spacesUri
+                  name: data-connector-nfs-configs
+            - name: AUTH_ENABLED
+              value: "true"
+          image: qlik-docker-qsefe.bintray.io/data-connector-nfs:1.0.1
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+          name: main
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+            - containerPort: 50051
+              name: grpc
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8080
+          resources: null
       imagePullSecrets:
-      - name: artifactory-docker-secret
+        - name: artifactory-docker-secret
       volumes:
-      - name: data-connector-nfs-secrets
-        secret:
-          secretName: data-connector-nfs-secrets
+        - name: data-connector-nfs-secrets
+          secret:
+            secretName: data-connector-nfs-secrets
 ---

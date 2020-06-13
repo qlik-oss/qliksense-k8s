@@ -3,7 +3,7 @@ kind: HelmChart
 metadata:
  name: mongodb
 chartName: mongodb
-tmpChartHome: .chartcache/mongo-4.5.0
+chartHome: ../../../../../charts/mongo-4.5.0
 chartRepo: https://kubernetes-charts.storage.googleapis.com
 chartRepoName: stable
 releaseName: mongodb

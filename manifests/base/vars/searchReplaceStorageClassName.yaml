@@ -6,7 +6,7 @@ metadata:
     key: storageClassName
 target:
   kind: PersistentVolumeClaim
-path: spec/storageClassName
+path: /
 search: \$\(STORAGE_CLASS_NAME\)
 replaceWithObjRef:
   objref:
@@ -19,6 +19,8 @@ apiVersion: qlik.com/v1
 kind: SearchReplace
 metadata:
   name: component-storageClass-removeEmpty
+  labels:
+    key: storageClassName
 target:
   kind: PersistentVolumeClaim
 path: spec

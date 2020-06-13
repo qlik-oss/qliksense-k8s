@@ -2,15 +2,21 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 commonLabels:
   app: elastic-infra
+commonAnnotations:
+  app.kubernetes.io/part-of: base
+  app.kubernetes.io/component: elastic-infra
 resources:
   - resources
 generators:
   - generators
 transformers:
+  - vars-rename
   - secrets
+  - vars-tls
   - transformers
   - ../../../../.operator/patches
   - ../../../../configuration/patches
+  - add-prefix
   - ../../transformers/release
   - vars
   - ../../transformers/msgprefix
@@ -19,5 +25,3 @@ transformers:
 images:
   - name: qlik-docker-qsefe.bintray.io/nginx-ingress-controller
     newName: $(IMAGE_REGISTRY)/nginx-ingress-controller
-configurations:
-  - ../../namereference.yaml

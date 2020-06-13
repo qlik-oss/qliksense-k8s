@@ -13,13 +13,11 @@ patches:
     labelSelector: >-
       key notin (
         imageRegistry,
-        tokenAuthUriTemp,
-        pdsUri,
+        policyDecisionsUri,
         spacesUri,
         ingressClass,
         ingressAuthUrl,
-        keysUriTemp,
-        keysUri,
+        keysUri
         )
   patch: |-
     - op: replace

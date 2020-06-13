@@ -12,9 +12,9 @@ patches:
     metadata:
       name: licenses-configs
     data:
-      pdsUri: "http://$(PREFIX)-licenses-policy-decisions:5080"
+      policyDecisionsUri: "http://$(PREFIX)-licenses-policy-decisions:5080"
       natsUri: "nats://$(PREFIX)-licenses-messaging-nats-client:4222"
       featureFlagsUri: "http://$(PREFIX)-licenses-feature-flags:8080"
       keysUri: "http://$(PREFIX)-licenses-keys:8080/v1/keys/qlik.api.internal"
-      tokenAuthUri: "http://$(PREFIX)-licenses-edge-auth:8080/v1"
+      edgeAuthUri: "http://$(PREFIX)-licenses-edge-auth:8080/v1"
       natsStreamingClusterId: "$(PREFIX)-licenses-messaging-nats-streaming-cluster"

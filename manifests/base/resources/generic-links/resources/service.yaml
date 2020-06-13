@@ -6,16 +6,16 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: generic-links
-    chart: generic-links-1.1.17
+    chart: generic-links-1.2.1
     heritage: Helm
     release: generic-links
   name: generic-links
 spec:
   ports:
-  - name: generic-links
-    port: 6080
-    protocol: TCP
-    targetPort: 6080
+    - name: generic-links
+      port: 6080
+      protocol: TCP
+      targetPort: 6080
   selector:
     app: generic-links
     release: generic-links

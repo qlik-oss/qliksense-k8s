@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: transport
-    chart: transport-1.3.3
+    chart: transport-1.7.0
     heritage: Helm
     release: transport
   name: transport
@@ -21,98 +21,129 @@ spec:
         transport-nats-client: "true"
     spec:
       containers:
-      - env:
-        - name: MONGODB_URI
-          valueFrom:
-            secretKeyRef:
-              key: mongodbUri
-              name: transport-secrets
-        - name: MONGO_URI
-          value: $(MONGODB_URI)
-        - name: KEYS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: keysUri
-              name: transport-configs
-        - name: JWKS_ENDPOINT
-          value: $(KEYS_URI)/v1/keys/qlik.api.internal
-        - name: NATS_STREAMING_CLUSTER_ID
-          valueFrom:
-            configMapKeyRef:
-              key: natsStreamingClusterId
-              name: transport-configs
-        - name: NATS_CLUSTER_ID
-          value: $(NATS_STREAMING_CLUSTER_ID)
-        - name: NATS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: natsUri
-              name: transport-configs
-        - name: NATS_URL
-          value: $(NATS_URI)
-        - name: TOKEN_AUTH_PRIVATE_KEY
-          valueFrom:
-            secretKeyRef:
-              key: tokenAuthPrivateKey
-              name: transport-secrets
-        - name: PRIVATE_KEY
-          value: $(TOKEN_AUTH_PRIVATE_KEY)
-        - name: TOKEN_AUTH_PRIVATE_KEY_ID
-          valueFrom:
-            secretKeyRef:
-              key: tokenAuthPrivateKeyId
-              name: transport-secrets
-        - name: KEY_ID
-          value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
-        - name: TOKEN_AUTH_URI
-          valueFrom:
-            configMapKeyRef:
-              key: tokenAuthUri
-              name: transport-configs
-        - name: INTERNAL_TOKENS_RESOURCE
-          value: $(TOKEN_AUTH_URI)
-        - name: TEMPORARY_CONTENTS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: temporaryContentsUri
-              name: transport-configs
-        - name: TEMPORARY_CONTENTS_RESOURCE
-          value: $(TEMPORARY_CONTENTS_URI)
-        - name: ENCRYPTION_URI
-          valueFrom:
-            configMapKeyRef:
-              key: encryptionUri
-              name: transport-configs
-        - name: E2S_ADDR
-          value: $(ENCRYPTION_URI)
-        - name: ROLLBAR_ENABLED
-          value: "false"
-        - name: NATS_ENABLED
-          value: "true"
-        - name: NATS_TOKEN_AUTH_ENABLED
-          value: "true"
-        - name: NATS_CLIENT_ID
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
-        image: qlik-docker-qsefe.bintray.io/transport:1.0.9
-        imagePullPolicy: null
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 8080
-        name: main
-        ports:
-        - containerPort: 8080
-          name: http
-          protocol: TCP
-        readinessProbe:
-          httpGet:
-            path: /ready
-            port: 8080
-        resources:
-          limits: {}
-          requests: {}
+        - env:
+            - name: MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  key: mongodbUri
+                  name: transport-secrets
+            - name: MONGO_URI
+              value: $(MONGODB_URI)
+            - name: KEYS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: keysUri
+                  name: transport-configs
+            - name: JWKS_ENDPOINT
+              value: $(KEYS_URI)/v1/keys/qlik.api.internal
+            - name: NATS_STREAMING_CLUSTER_ID
+              valueFrom:
+                configMapKeyRef:
+                  key: natsStreamingClusterId
+                  name: transport-configs
+            - name: NATS_CLUSTER_ID
+              value: $(NATS_STREAMING_CLUSTER_ID)
+            - name: NATS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: natsUri
+                  name: transport-configs
+            - name: NATS_URL
+              value: $(NATS_URI)
+            - name: TOKEN_AUTH_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: tokenAuthPrivateKey
+                  name: transport-secrets
+            - name: PRIVATE_KEY
+              value: $(TOKEN_AUTH_PRIVATE_KEY)
+            - name: TOKEN_AUTH_PRIVATE_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  key: tokenAuthPrivateKeyId
+                  name: transport-secrets
+            - name: KEY_ID
+              value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
+            - name: EDGE_AUTH_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: edgeAuthUri
+                  name: transport-configs
+            - name: INTERNAL_TOKENS_RESOURCE
+              value: $(EDGE_AUTH_URI)
+            - name: TEMPORARY_CONTENTS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: temporaryContentsUri
+                  name: transport-configs
+            - name: TEMPORARY_CONTENTS_RESOURCE
+              value: $(TEMPORARY_CONTENTS_URI)
+            - name: ENCRYPTION_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: encryptionUri
+                  name: transport-configs
+            - name: E2S_ADDR
+              value: $(ENCRYPTION_URI)
+            - name: POLICY_DECISIONS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: policyDecisionsUri
+                  name: transport-configs
+            - name: PDS_URI
+              value: $(POLICY_DECISIONS_URI)
+            - name: FEATURE_FLAGS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: featureFlagsUri
+                  name: transport-configs
+            - name: FEATURES_URI
+              value: $(FEATURE_FLAGS_URI)
+            - name: TENANTS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: tenantsUri
+                  name: transport-configs
+            - name: USERS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: usersUri
+                  name: transport-configs
+            - name: LICENSES_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: licensesUri
+                  name: transport-configs
+            - name: NOTIFICATION_GATEWAY_URI
+              value: https://stage.firebase.qlik-stage.com
+            - name: ROLLBAR_ENABLED
+              value: "false"
+            - name: NATS_ENABLED
+              value: "true"
+            - name: NATS_TOKEN_AUTH_ENABLED
+              value: "true"
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+          image: qlik-docker-qsefe.bintray.io/transport:1.1.2
+          imagePullPolicy: null
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+          name: main
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8080
+          resources:
+            limits: {}
+            requests: {}
       imagePullSecrets:
-      - name: artifactory-docker-secret
+        - name: artifactory-docker-secret
 ---

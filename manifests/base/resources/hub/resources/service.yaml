@@ -6,16 +6,16 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: hub
-    chart: hub-1.3.92
+    chart: hub-1.3.116
     heritage: Helm
     release: hub
   name: hub
 spec:
   ports:
-  - name: hub
-    port: 3023
-    protocol: TCP
-    targetPort: 3023
+    - name: hub
+      port: 3023
+      protocol: TCP
+      targetPort: 3023
   selector:
     app: hub
     release: hub

@@ -3,7 +3,7 @@ kind: HorizontalPodAutoscaler
 metadata:
   labels:
     app: edge-auth
-    chart: edge-auth-5.1.5
+    chart: edge-auth-6.2.12
     heritage: Helm
     release: edge-auth
   name: edge-auth

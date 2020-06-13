@@ -10,16 +10,16 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
   labels:
     app: dcaas-web
-    chart: dcaas-web-1.1.84
+    chart: dcaas-web-1.1.93
     heritage: Helm
     release: dcaas-web
   name: dcaas-web
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: dcaas-web
-          servicePort: 6384
-        path: /customdata/64
+    - http:
+        paths:
+          - backend:
+              serviceName: dcaas-web
+              servicePort: 6384
+            path: /customdata/64
 ---

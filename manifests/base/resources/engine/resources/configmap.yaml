@@ -235,7 +235,7 @@ kind: ConfigMap
 metadata:
   labels:
     app: redis-user-state
-    chart: redis-user-state-10.0.0
+    chart: redis-user-state-10.5.6
     heritage: Helm
     release: engine
   name: engine-redis-user-state
@@ -333,7 +333,7 @@ kind: ConfigMap
 metadata:
   labels:
     app: redis-user-state
-    chart: redis-user-state-10.0.0
+    chart: redis-user-state-10.5.6
     heritage: Helm
     release: engine
   name: engine-redis-user-state-health

@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: qix-datafiles
-    chart: qix-datafiles-1.10.39
+    chart: qix-datafiles-1.10.47
     heritage: Helm
     release: qix-datafiles
   name: qix-datafiles
@@ -20,123 +20,123 @@ spec:
         release: qix-datafiles
     spec:
       containers:
-      - env:
-        - name: NATS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: natsUri
-              name: qix-datafiles-configs
-        - name: NATS_STREAMING_CLUSTER_ID
-          valueFrom:
-            configMapKeyRef:
-              key: natsStreamingClusterId
-              name: qix-datafiles-configs
-        - name: MONGODB_URI
-          valueFrom:
-            secretKeyRef:
-              key: mongodbUri
-              name: qix-datafiles-secrets
-        - name: KEYS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: keysUri
-              name: qix-datafiles-configs
-        - name: PDS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: pdsUri
-              name: qix-datafiles-configs
-        - name: TOKEN_AUTH_URI
-          valueFrom:
-            configMapKeyRef:
-              key: tokenAuthUri
-              name: qix-datafiles-configs
-        - name: USERS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: usersUri
-              name: qix-datafiles-configs
-        - name: SPACES_URI
-          valueFrom:
-            configMapKeyRef:
-              key: spacesUri
-              name: qix-datafiles-configs
-        - name: FEATURE_FLAGS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: featureFlagsUri
-              name: qix-datafiles-configs
-        - name: FEATUREFLAGS_URI
-          value: $(FEATURE_FLAGS_URI)
-        - name: ENCRYPTION_URI
-          valueFrom:
-            configMapKeyRef:
-              key: encryptionUri
-              name: qix-datafiles-configs
-        - name: EDGEAUTH_TOKEN_URI
-          value: $(TOKEN_AUTH_URI)
-        - name: POLICYDECISIONS_URI
-          value: $(PDS_URI)
-        - name: JWTAUTHENTICATION_JWKS_URI
-          value: $(KEYS_URI)/v1/keys/qlik.api.internal
-        - name: NATS_CLUSTERID
-          value: $(NATS_STREAMING_CLUSTER_ID)
-        - name: TOKEN_AUTH_PRIVATE_KEY_ID
-          valueFrom:
-            secretKeyRef:
-              key: tokenAuthPrivateKeyId
-              name: qix-datafiles-secrets
-        - name: EDGEAUTH_TOKEN_KID
-          value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
-        - name: TOKEN_AUTH_PRIVATE_KEY
-          valueFrom:
-            secretKeyRef:
-              key: tokenAuthPrivateKey
-              name: qix-datafiles-secrets
-        - name: EDGEAUTH_TOKEN_PRIVATE_KEY
-          value: $(TOKEN_AUTH_PRIVATE_KEY)
-        - name: MONGO_URI
-          value: $(MONGODB_URI)
-        - name: JWTAUTHENTICATION_ENABLE
-          value: "true"
-        - name: DATA_DIRECTORY
-          value: /qlik/qix-datafiles
-        - name: NATS_ENABLED
-          value: "true"
-        - name: NATS_SPACEEVENTSENABLED
-          value: "true"
-        - name: NATS_CLIENTID
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
-        - name: NATS_AUTHENABLED
-          value: "true"
-        image: qlik-docker-qsefe.bintray.io/qix-datafiles:2.0.15
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: http
-        name: main
-        ports:
-        - containerPort: 8080
-          name: http
-          protocol: TCP
-        - containerPort: 50051
-          name: grpc
-          protocol: TCP
-        resources: {}
-        volumeMounts:
-        - mountPath: /qlik/qix-datafiles
-          name: qix-datafiles-storage
-        - mountPath: /tmp
-          name: tmpdir
+        - env:
+            - name: NATS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: natsUri
+                  name: qix-datafiles-configs
+            - name: NATS_STREAMING_CLUSTER_ID
+              valueFrom:
+                configMapKeyRef:
+                  key: natsStreamingClusterId
+                  name: qix-datafiles-configs
+            - name: NATS_CLUSTERID
+              value: $(NATS_STREAMING_CLUSTER_ID)
+            - name: MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  key: mongodbUri
+                  name: qix-datafiles-secrets
+            - name: MONGO_URI
+              value: $(MONGODB_URI)
+            - name: KEYS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: keysUri
+                  name: qix-datafiles-configs
+            - name: JWTAUTHENTICATION_JWKS_URI
+              value: $(KEYS_URI)/v1/keys/qlik.api.internal
+            - name: POLICY_DECISIONS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: policyDecisionsUri
+                  name: qix-datafiles-configs
+            - name: POLICYDECISIONS_URI
+              value: $(POLICY_DECISIONS_URI)
+            - name: EDGE_AUTH_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: edgeAuthUri
+                  name: qix-datafiles-configs
+            - name: EDGEAUTH_TOKEN_URI
+              value: $(EDGE_AUTH_URI)
+            - name: USERS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: usersUri
+                  name: qix-datafiles-configs
+            - name: SPACES_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: spacesUri
+                  name: qix-datafiles-configs
+            - name: FEATURE_FLAGS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: featureFlagsUri
+                  name: qix-datafiles-configs
+            - name: FEATUREFLAGS_URI
+              value: $(FEATURE_FLAGS_URI)
+            - name: ENCRYPTION_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: encryptionUri
+                  name: qix-datafiles-configs
+            - name: TOKEN_AUTH_PRIVATE_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  key: tokenAuthPrivateKeyId
+                  name: qix-datafiles-secrets
+            - name: EDGEAUTH_TOKEN_KID
+              value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
+            - name: TOKEN_AUTH_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: tokenAuthPrivateKey
+                  name: qix-datafiles-secrets
+            - name: EDGEAUTH_TOKEN_PRIVATE_KEY
+              value: $(TOKEN_AUTH_PRIVATE_KEY)
+            - name: JWTAUTHENTICATION_ENABLE
+              value: "true"
+            - name: DATA_DIRECTORY
+              value: /qlik/qix-datafiles
+            - name: NATS_ENABLED
+              value: "true"
+            - name: NATS_SPACEEVENTSENABLED
+              value: "true"
+            - name: NATS_CLIENTID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: NATS_AUTHENABLED
+              value: "true"
+          image: qlik-docker-qsefe.bintray.io/qix-datafiles:2.0.23
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+          name: main
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+            - containerPort: 50051
+              name: grpc
+              protocol: TCP
+          resources: {}
+          volumeMounts:
+            - mountPath: /qlik/qix-datafiles
+              name: qix-datafiles-storage
+            - mountPath: /tmp
+              name: tmpdir
       imagePullSecrets:
-      - name: artifactory-docker-secret
+        - name: artifactory-docker-secret
       volumes:
-      - name: qix-datafiles-storage
-        persistentVolumeClaim:
-          claimName: qix-datafiles
-      - emptyDir: {}
-        name: tmpdir
+        - name: qix-datafiles-storage
+          persistentVolumeClaim:
+            claimName: qix-datafiles
+        - emptyDir: {}
+          name: tmpdir
 ---

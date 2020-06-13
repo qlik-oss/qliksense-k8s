@@ -7,20 +7,20 @@ metadata:
   labels:
     action: command
     app: data-connector-qwc
-    chart: data-connector-qwc-2.3.0
+    chart: data-connector-qwc-3.0.4
     heritage: Helm
     release: data-connector-qwc
   name: data-connector-qwc-cmd
 spec:
   ports:
-  - name: grpc
-    port: 50060
-    protocol: TCP
-    targetPort: 50060
-  - name: http
-    port: 3005
-    protocol: TCP
-    targetPort: 3005
+    - name: grpc
+      port: 50060
+      protocol: TCP
+      targetPort: 50060
+    - name: http
+      port: 3005
+      protocol: TCP
+      targetPort: 3005
   selector:
     action: command
     app: data-connector-qwc
@@ -36,20 +36,20 @@ metadata:
   labels:
     action: reload
     app: data-connector-qwc
-    chart: data-connector-qwc-2.3.0
+    chart: data-connector-qwc-3.0.4
     heritage: Helm
     release: data-connector-qwc
   name: data-connector-qwc-rld
 spec:
   ports:
-  - name: grpc
-    port: 50060
-    protocol: TCP
-    targetPort: 50060
-  - name: http
-    port: 3005
-    protocol: TCP
-    targetPort: 3005
+    - name: grpc
+      port: 50060
+      protocol: TCP
+      targetPort: 50060
+    - name: http
+      port: 3005
+      protocol: TCP
+      targetPort: 3005
   selector:
     action: reload
     app: data-connector-qwc
@@ -65,16 +65,16 @@ metadata:
   labels:
     action: web
     app: data-connector-qwc
-    chart: data-connector-qwc-2.3.0
+    chart: data-connector-qwc-3.0.4
     heritage: Helm
     release: data-connector-qwc
   name: data-connector-qwc-web
 spec:
   ports:
-  - name: http
-    port: 6384
-    protocol: TCP
-    targetPort: 6384
+    - name: http
+      port: 6384
+      protocol: TCP
+      targetPort: 6384
   selector:
     action: web
     app: data-connector-qwc

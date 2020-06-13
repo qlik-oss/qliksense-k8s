@@ -6,16 +6,16 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: keys
-    chart: keys-1.5.8
+    chart: keys-1.6.1
     heritage: Helm
     release: keys
   name: keys
 spec:
   ports:
-  - name: keys
-    port: 8080
-    protocol: TCP
-    targetPort: 8080
+    - name: keys
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
   selector:
     app: keys
     release: keys

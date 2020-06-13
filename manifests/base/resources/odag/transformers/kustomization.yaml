@@ -18,7 +18,7 @@ patches:
         natsUri,
         natsStreamingClusterId,
         keysUri,
-        tokenAuthUri,
+        edgeAuthUri,
         mongodbUri,
         caCertificates,
         engineUri,
@@ -28,8 +28,6 @@ patches:
         collectionsUri,
         featureFlagsUri,
         encryptionUri,
-        tokenAuthPrivateKey,
-        tokenAuthPrivateKeyId
       )
   patch: |-
     - op: replace

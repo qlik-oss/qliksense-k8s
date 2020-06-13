@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: resource-library
-    chart: resource-library-1.10.10
+    chart: resource-library-1.10.11
     heritage: Helm
     release: resource-library
   name: resource-library
@@ -20,121 +20,122 @@ spec:
         release: resource-library
     spec:
       containers:
-      - env:
-        - name: NATS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: natsUri
-        - name: NATS_STREAMING_CLUSTER_ID
-          valueFrom:
-            configMapKeyRef:
-              key: natsStreamingClusterId
-              name: resource-library-configs
-        - name: MONGODB_URI
-          valueFrom:
-            secretKeyRef:
-              key: mongodbUri
-              name: resource-library-secrets
-        - name: KEYS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: keysUri
-              name: resource-library-configs
-        - name: PDS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: pdsUri
-              name: resource-library-configs
-        - name: AUTH_JWKS_URI
-          value: $(KEYS_URI)/v1/keys/qlik.api.internal
-        - name: TOKEN_AUTH_PRIVATE_KEY_ID
-          valueFrom:
-            secretKeyRef:
-              key: tokenAuthPrivateKeyId
-              name: resource-library-secrets
-        - name: KEY_ID
-          value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
-        - name: TOKEN_AUTH_URI
-          valueFrom:
-            configMapKeyRef:
-              key: tokenAuthUri
-              name: resource-library-configs
-        - name: LOG_LEVEL
-          value: verbose
-        - name: RESOURCE_VOLUME
-          value: /qlik/resources
-        - name: QCS
-          value: "false"
-        - name: AUTH_JWT_AUD
-          value: qlik.api.internal
-        - name: AUTH_JWT_ISS
-          value: qlik.api.internal
-        - name: PRIVATE_KEY_FILE
-          value: /run/secret/resource-library/jwtPrivateKey
-        - name: INTERNAL_TOKENS_RESOURCE
-          value: $(TOKEN_AUTH_URI)/v1
-        - name: NATS_SERVERS
-          value: $(NATS_URI)
-        - name: MONGO_URI
-          value: $(MONGODB_URI)
-        - name: NATS_URL
-          value: $(NATS_URI)
-        - name: NATS_CLUSTER_ID
-          value: $(NATS_STREAMING_CLUSTER_ID)
-        - name: NATS_ENABLED
-          value: "false"
-        - name: NATS_CLIENT_ID
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.name
-        - name: DISABLE_OCTET_STREAM_CHECK
-          value: "false"
-        image: qlik-docker-qsefe.bintray.io/resource-library:3.5.0
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: http
-        name: main
-        ports:
-        - containerPort: 21068
-          name: http
-          protocol: TCP
-        readinessProbe:
-          httpGet:
-            path: /ready
-            port: http
-        resources:
-          limits:
-            cpu: 0.25
-            memory: 512Mi
-          requests:
-            cpu: 0.1
-            memory: 128Mi
-        volumeMounts:
-        - mountPath: /qlik/resources
-          name: resource-storage
-        - mountPath: /run/secret/resource-library
-          name: resource-library-secret
-          readOnly: true
-        - mountPath: /usr/src/app/webroot
-          name: webroot-path
-        - mountPath: /usr/src/app/resources
-          name: resources-path
+        - env:
+            - name: NATS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: natsUri
+                  name: resource-library-configs
+            - name: NATS_URL
+              value: $(NATS_URI)
+            - name: NATS_STREAMING_CLUSTER_ID
+              valueFrom:
+                configMapKeyRef:
+                  key: natsStreamingClusterId
+                  name: resource-library-configs
+            - name: NATS_CLUSTER_ID
+              value: $(NATS_STREAMING_CLUSTER_ID)
+            - name: MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  key: mongodbUri
+                  name: resource-library-secrets
+            - name: MONGO_URI
+              value: $(MONGODB_URI)
+            - name: POLICY_DECISIONS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: policyDecisionsUri
+                  name: resource-library-configs
+            - name: PDS_URI
+              value: $(POLICY_DECISIONS_URI)
+            - name: KEYS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: keysUri
+                  name: resource-library-configs
+            - name: AUTH_JWKS_URI
+              value: $(KEYS_URI)/v1/keys/qlik.api.internal
+            - name: TOKEN_AUTH_PRIVATE_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  key: tokenAuthPrivateKeyId
+                  name: resource-library-secrets
+            - name: KEY_ID
+              value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
+            - name: EDGE_AUTH_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: edgeAuthUri
+                  name: resource-library-configs
+            - name: INTERNAL_TOKENS_RESOURCE
+              value: $(EDGE_AUTH_URI)/v1
+            - name: LOG_LEVEL
+              value: verbose
+            - name: RESOURCE_VOLUME
+              value: /qlik/resources
+            - name: QCS
+              value: "false"
+            - name: AUTH_JWT_AUD
+              value: qlik.api.internal
+            - name: AUTH_JWT_ISS
+              value: qlik.api.internal
+            - name: PRIVATE_KEY_FILE
+              value: /run/secret/resource-library/jwtPrivateKey
+            - name: NATS_ENABLED
+              value: "false"
+            - name: NATS_CLIENT_ID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: DISABLE_OCTET_STREAM_CHECK
+              value: "false"
+          image: qlik-docker-qsefe.bintray.io/resource-library:4.0.0
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+          name: main
+          ports:
+            - containerPort: 21068
+              name: http
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: http
+          resources:
+            limits:
+              cpu: 0.25
+              memory: 512Mi
+            requests:
+              cpu: 0.1
+              memory: 128Mi
+          volumeMounts:
+            - mountPath: /qlik/resources
+              name: resource-storage
+            - mountPath: /run/secret/resource-library
+              name: resource-library-secret
+              readOnly: true
+            - mountPath: /usr/src/app/webroot
+              name: webroot-path
+            - mountPath: /usr/src/app/resources
+              name: resources-path
       imagePullSecrets:
-      - name: artifactory-docker-secret
+        - name: artifactory-docker-secret
       volumes:
-      - name: resource-library-secret
-        secret:
-          items:
-          - key: tokenAuthPrivateKey
-            path: jwtPrivateKey
-          secretName: resource-library-secrets
-      - name: resource-storage
-        persistentVolumeClaim:
-          claimName: resource-library
-      - emptyDir: {}
-        name: webroot-path
-      - emptyDir: {}
-        name: resources-path
+        - name: resource-library-secret
+          secret:
+            items:
+              - key: tokenAuthPrivateKey
+                path: jwtPrivateKey
+            secretName: resource-library-secrets
+        - name: resource-storage
+          persistentVolumeClaim:
+            claimName: resource-library
+        - emptyDir: {}
+          name: webroot-path
+        - emptyDir: {}
+          name: resources-path
 ---

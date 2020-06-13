@@ -13,4 +13,4 @@ patches:
       name: geo-operations-configs
     data:
       featureFlagsUri: "http://$(PREFIX)-geo-operations-feature-flags:8080"
-      tokenAuthUri: "http://$(PREFIX)-geo-operations-edge-auth:8080/v1"
+      edgeAuthUri: "http://$(PREFIX)-geo-operations-edge-auth:8080/v1"

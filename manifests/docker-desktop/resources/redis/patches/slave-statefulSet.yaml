@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: component
+spec:
+  template:
+    spec:
+      imagePullSecrets:
+      - name: artifactory-docker-secret
+      containers:
+      - name: main
+        env:
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: redisPassword
+              name: redis-secrets
+        - name: REDIS_MASTER_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: redisPassword
+              name: secrets
+        - $patch: delete
+          name: REDIS_MASTER_HOST
+        - name: REDIS_MASTER_HOST
+          value: $(PREFIX)-redis-master-0.$(PREFIX)-redis-headless.$(NAMESPACE).svc.cluster.local

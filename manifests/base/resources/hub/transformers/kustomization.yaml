@@ -4,21 +4,7 @@ commonLabels:
   app: hub
 resources:
 - ../../../transformers/ingressClass
-- ../../../transformers/imageRegistry
 transformers:
 - ../../../../../.operator/transformers
 - ../../../../../configuration/transformers
-patches:
-- target:
-    labelSelector: >-
-      key notin (
-        imageRegistry,
-        ingressClass
-      )
-  patch: |-
-    - op: replace
-      path: /enabled
-      value: false
-    - op: replace
-      path: /default
-      value: true
+ 

@@ -6,16 +6,16 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: sharing
-    chart: sharing-1.3.32
+    chart: sharing-1.4.18
     heritage: Helm
     release: sharing
   name: sharing
 spec:
   ports:
-  - name: sharing
-    port: 8787
-    protocol: TCP
-    targetPort: 8787
+    - name: sharing
+      port: 8787
+      protocol: TCP
+      targetPort: 8787
   selector:
     app: sharing
     release: sharing

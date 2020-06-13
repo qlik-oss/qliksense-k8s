@@ -5,4 +5,4 @@ metadata:
 target:
   name: dcaas-configs
   kind: SuperConfigMap
-patch: '[{"op": "remove", "path": "/data/featureFlagsUri"}, {"op": "remove", "path": "/data/keysUri"}, {"op": "remove", "path": "/data/spacesUri"}, {"op": "remove", "path": "/data/qixDataConnectionUri"}]'
+patch: '[{"op": "remove", "path": "/data/dataConnectionsUri"}, {"op": "remove", "path": "/data/featureFlagsUri"}, {"op": "remove", "path": "/data/keysUri"}, {"op": "remove", "path": "/data/spacesUri"}, {"op": "remove", "path": "/data/qixDataConnectionUri"}]'

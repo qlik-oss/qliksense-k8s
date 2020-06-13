@@ -10,23 +10,25 @@ spec:
       template:
         spec:
           containers:
-          - env:
-            - name: PRUNE_ONLY
-              value: "true"
-            - name: ENVIRONMENT
-              value: k8s
-            - name: NATS_ENABLED
-              value: "false"
-            - name: MONGO_URI
-              valueFrom:
-                secretKeyRef:
-                  key: mongodb-uri
-                  name: sharing-mongoconfig
-            image: qlik-docker-qsefe.bintray.io/sharing:3.0.52
-            imagePullPolicy: IfNotPresent
-            name: main
+            - env:
+                - name: MONGODB_URI
+                  valueFrom:
+                    secretKeyRef:
+                      key: mongodbUri
+                      name: sharing-secrets
+                - name: MONGO_URI
+                  value: $(MONGODB_URI)
+                - name: PRUNE_ONLY
+                  value: "true"
+                - name: ENVIRONMENT
+                  value: k8s
+                - name: NATS_ENABLED
+                  value: "false"
+              image: qlik-docker-qsefe.bintray.io/sharing:3.0.70
+              imagePullPolicy: IfNotPresent
+              name: main
           imagePullSecrets:
-          - name: artifactory-docker-secret
+            - name: artifactory-docker-secret
           restartPolicy: Never
   schedule: 0 0 * * *
   successfulJobsHistoryLimit: 1

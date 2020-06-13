@@ -14,9 +14,9 @@ patches:
     data:
       natsUri: "nats://$(PREFIX)-qix-datafiles-messaging-nats-client:4222"
       natsStreamingClusterId: "$(PREFIX)-qix-datafiles-messaging-nats-streaming-cluster"
-      tokenAuthUri: "http://$(PREFIX)-qix-datafiles-edge-auth:8080/v1"
+      edgeAuthUri: "http://$(PREFIX)-qix-datafiles-edge-auth:8080/v1"
       keysUri: "http://$(PREFIX)-qix-datafiles-keys:8080/v1/keys/qlik.api.internal"
-      pdsUri: "http://$(PREFIX)-qix-datafiles-policy-decisions:5080"
+      policyDecisionsUri: "http://$(PREFIX)-qix-datafiles-policy-decisions:5080"
       usersUri: "http://$(PREFIX)-qix-datafiles-users:8080"
       spacesUri: "http://$(PREFIX)-qix-datafiles-spaces:6080"
       featureFlagsUri: "http://$(PREFIX)-qix-datafiles-feature-flags:8080"

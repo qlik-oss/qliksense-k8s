@@ -14,15 +14,15 @@ patches:
       key notin (
         imageRegistry,
         ingressClass,
-        tokenAuthUri,
-        pdsUri,
-        featureFlagsUri,
-        ingressClass,
         ingressAuthUrl,
+        edgeAuthUri,
+        policyDecisionsUri,
+        featureFlagsUri,
         natsStreamingClusterId,
         natsUri,
         keysUri,
-        mongodbUri
+        mongodbUri,
+        caCertificates
         )
   patch: |-
     - op: replace
@@ -32,7 +32,7 @@ patches:
       path: /default
       value: true
 # - target:
-#      name: pdsUri
+#      name: policyDecisionsUri
 #   patch: |-
 #     - op: replace
 #       path: /enabled

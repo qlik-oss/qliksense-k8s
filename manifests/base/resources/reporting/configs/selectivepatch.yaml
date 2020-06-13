@@ -14,7 +14,7 @@ patches:
     data:
       featureFlagsUri: "http://$(PREFIX)-reporting-feature-flags:8080"
       keysUri: "http://$(PREFIX)-reporting-keys:8080/v1/keys/qlik.api.internal"
-      tokenAuthUri: "http://$(PREFIX)-reporting-edge-auth:8080/v1"
+      edgeAuthUri: "http://$(PREFIX)-reporting-edge-auth:8080/v1"
       qixSessionsUri: http://$(PREFIX)-reporting-qix-sessions:8080
       temporaryContentsUri: http://$(PREFIX)-reporting-temporary-contents:6080
       redisUri: http://$(PREFIX)-reporting-redis-master:6379

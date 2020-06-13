@@ -16,10 +16,10 @@ metadata:
   namespace: $(NAMESPACE)
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: data-connector-nfs
-          servicePort: 8080
-        path: /customdata/64/data-connector-nfs
+    - http:
+        paths:
+          - backend:
+              serviceName: data-connector-nfs
+              servicePort: 8080
+            path: /customdata/64/data-connector-nfs
 ---

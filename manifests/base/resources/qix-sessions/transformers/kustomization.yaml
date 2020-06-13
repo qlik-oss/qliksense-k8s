@@ -15,15 +15,17 @@ patches:
         imageRegistry,
         engineUri,
         featureFlagsUri,
-        pdsUri,
+        policyDecisionsUri,
         keysUri,
         caCertificates,
         redisUri,
         redisPassword,
         natsUri,
         natsStreamingClusterId,
-        tokenAuthUri,
-        mongodbUri
+        edgeAuthUri,
+        mongodbUri,
+        ingressClass,
+        ingressAuthUrl
         )
   patch: |-
     - op: replace

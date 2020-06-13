@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: management-console
-    chart: management-console-1.6.265
+    chart: management-console-1.6.318
     heritage: Helm
     release: management-console
   name: management-console
@@ -20,26 +20,26 @@ spec:
         release: management-console
     spec:
       containers:
-      - env:
-        - name: PRODUCT_INFO
-          value: '{ "composition": { "deploymentEnvironment": "qsefe" } }'
-        image: qlik-docker-qsefe.bintray.io/management-console:2.374.0
-        imagePullPolicy: null
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 3024
-          initialDelaySeconds: 15
-          periodSeconds: 15
-        name: main
-        ports:
-        - containerPort: 3024
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: 3024
-          initialDelaySeconds: 15
-          periodSeconds: 15
+        - env:
+            - name: PRODUCT_INFO
+              value: '{ "composition": { "deploymentEnvironment": "qsefe" } }'
+          image: qlik-docker-qsefe.bintray.io/management-console:2.431.0
+          imagePullPolicy: null
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3024
+            initialDelaySeconds: 15
+            periodSeconds: 15
+          name: main
+          ports:
+            - containerPort: 3024
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3024
+            initialDelaySeconds: 15
+            periodSeconds: 15
       imagePullSecrets:
-      - name: artifactory-docker-secret
+        - name: artifactory-docker-secret
 ---

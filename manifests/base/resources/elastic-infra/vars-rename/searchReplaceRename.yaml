@@ -1,0 +1,9 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: elastic-infra-secrets-rename
+target:
+  labelSelector: release 
+path: /
+search: elastic-infra-elastic-infra
+replace: elastic-infra

@@ -6,15 +6,15 @@ enabled: true
 patches:
 - path: redisJSON.yaml
   target:
-    kind: Deployment
+    kind: StatefulSet
     name: redis-slave
 - path: redisJSON.yaml
   target:
     kind: StatefulSet
     name: redis-master
-- path: deployment.yaml
+- path: slave-statefulSet.yaml
   target:
-    kind: Deployment
+    kind: StatefulSet
     name: redis-slave
 - path: statefulset.yaml
   target:

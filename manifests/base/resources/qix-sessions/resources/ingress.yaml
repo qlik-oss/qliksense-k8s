@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/auth-response-headers: Authorization
+    nginx.ingress.kubernetes.io/auth-url: http://qix-sessions-edge-auth.$(NAMESPACE).svc.cluster.local:8080/v1/auth
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      rewrite (?i)/api/(.*) /$1 break;
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+  labels:
+    app: qix-sessions
+    chart: qix-sessions-6.6.4
+    heritage: Helm
+    release: qix-sessions
+  name: qix-sessions
+spec:
+  rules:
+    - http:
+        paths:
+          - backend:
+              serviceName: qix-sessions
+              servicePort: 8080
+            path: /api/v1/selectors
+          - backend:
+              serviceName: qix-sessions
+              servicePort: 8080
+            path: /api/v1/engines
+---

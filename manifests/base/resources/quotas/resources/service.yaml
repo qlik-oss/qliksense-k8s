@@ -6,16 +6,16 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: quotas
-    chart: quotas-1.0.3
+    chart: quotas-1.1.0
     heritage: Helm
     release: quotas
   name: quotas
 spec:
   ports:
-  - name: quotas
-    port: 6080
-    protocol: TCP
-    targetPort: 6080
+    - name: quotas
+      port: 6080
+      protocol: TCP
+      targetPort: 6080
   selector:
     app: quotas
     release: quotas

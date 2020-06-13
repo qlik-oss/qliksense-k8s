@@ -6,17 +6,17 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: tenants
-    chart: tenants-4.0.17
+    chart: tenants-4.1.2
     heritage: Helm
     release: tenants
   name: tenants
   namespace: $(NAMESPACE)
 spec:
   ports:
-  - name: tenants
-    port: 8080
-    protocol: TCP
-    targetPort: 8080
+    - name: tenants
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
   selector:
     app: tenants
     release: tenants

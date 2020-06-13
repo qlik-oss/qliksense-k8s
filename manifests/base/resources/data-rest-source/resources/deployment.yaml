@@ -20,30 +20,30 @@ spec:
         release: data-rest-source
     spec:
       containers:
-      - env:
-        - name: HOST_PORT
-          value: "8080"
-        - name: PROMETHEUS_PORT
-          value: "8080"
-        image: qlik-docker-qsefe.bintray.io/data-rest-source:1.0.6
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 8080
-        name: main
-        ports:
-        - containerPort: 8080
-          name: http
-          protocol: TCP
-        volumeMounts: null
+        - env:
+            - name: HOST_PORT
+              value: "8080"
+            - name: PROMETHEUS_PORT
+              value: "8080"
+          image: qlik-docker-qsefe.bintray.io/data-rest-source:1.0.6
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+          name: main
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          volumeMounts: null
       imagePullSecrets:
-      - name: artifactory-docker-secret
+        - name: artifactory-docker-secret
       terminationGracePeriodSeconds: 30
       volumes:
-      - configMap:
-          defaultMode: 493
+        - configMap:
+            defaultMode: 493
+            name: data-rest-source-prestop-hook
+            optional: true
           name: data-rest-source-prestop-hook
-          optional: true
-        name: data-rest-source-prestop-hook
 ---

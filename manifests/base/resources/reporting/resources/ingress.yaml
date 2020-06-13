@@ -11,18 +11,18 @@ metadata:
   name: reporting
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: reporting
-          servicePort: 8282
-        path: /api/v1/images
-      - backend:
-          serviceName: reporting
-          servicePort: 8282
-        path: /api/v1/reports
-      - backend:
-          serviceName: reporting
-          servicePort: 8282
-        path: /api/v1/files
+    - http:
+        paths:
+          - backend:
+              serviceName: reporting
+              servicePort: 8282
+            path: /api/v1/images
+          - backend:
+              serviceName: reporting
+              servicePort: 8282
+            path: /api/v1/reports
+          - backend:
+              serviceName: reporting
+              servicePort: 8282
+            path: /api/v1/files
 ---

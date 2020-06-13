@@ -15,7 +15,6 @@ patches:
         imageRegistry,
         ingressClass,
         ingressAuthUrl,
-        featureFlagsUri,
         natsStreamingClusterId,
         natsUri,
         keysUriTemp,
@@ -23,9 +22,8 @@ patches:
         caCertificates,
         usersUriTemp,
         licensesUriTemp,
-        tokenAuthUriTemp,
-        tokenAuthPrivateKey,
-        tokenAuthPrivateKeyId,
+        featureFlagsUriTemp,
+        edgeAuthUri,
         natsUri,
         natsStreamingClusterId
         )

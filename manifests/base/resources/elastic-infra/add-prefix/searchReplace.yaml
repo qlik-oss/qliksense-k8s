@@ -1,0 +1,9 @@
+apiVersion: qlik.com/v1
+kind: SearchReplace
+metadata:
+  name: add-prefix-elastic-infra-tls-secret
+target:
+  kind: Deployment
+path: spec/template/spec/containers/args
+search: --configmap=\$\(NAMESPACE\)\/elastic-infra-nginx-ingress-controller
+replace: --configmap=$(NAMESPACE)/$(PREFIX)-elastic-infra-nginx-ingress-controller

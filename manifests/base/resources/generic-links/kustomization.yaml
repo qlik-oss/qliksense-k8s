@@ -2,6 +2,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 commonLabels:
   app: generic-links
+commonAnnotations:
+  app.kubernetes.io/part-of: base
+  app.kubernetes.io/component: generic-links
 resources:
   - resources
 generators:

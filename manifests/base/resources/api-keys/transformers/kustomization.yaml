@@ -22,11 +22,10 @@ patches:
         redisUri,
         redisPassword,
         usersUriTemp,
-        tokenAuthUriTemp,
-        tokenAuthPrivateKey,
-        tokenAuthPrivateKeyId,
+        edgeAuthUri,
         natsUri,
-        natsStreamingClusterId
+        natsStreamingClusterId,
+        caCertificates
         )
   patch: |-
     - op: replace

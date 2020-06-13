@@ -12,7 +12,7 @@ resources:
   - data-connector-rest
   - data-connector-sap-sql
   - data-connector-sfdc
-  # - data-connector-nfs
+  - data-connector-nfs
   - data-prep
   - data-rest-source
   - dcaas
@@ -32,7 +32,8 @@ resources:
   - keys
   - licenses
   - locale
-  - messaging
+  - nats
+  - nats-streaming
   - management-console
   - nl-broker
   - nl-parser

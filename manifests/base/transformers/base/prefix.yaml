@@ -5,3 +5,5 @@ metadata:
 prefix: $(PREFIX)- 
 fieldSpecs:
 - path: metadata/name
+- path: spec/labels/qlik.com\/engine-deployment-name
+- path: spec/engineTemplateName

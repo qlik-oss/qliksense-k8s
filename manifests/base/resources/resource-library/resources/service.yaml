@@ -6,16 +6,16 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: resource-library
-    chart: resource-library-1.10.10
+    chart: resource-library-1.10.11
     heritage: Helm
     release: resource-library
   name: resource-library
 spec:
   ports:
-  - name: resource-library
-    port: 21068
-    protocol: TCP
-    targetPort: 21068
+    - name: resource-library
+      port: 21068
+      protocol: TCP
+      targetPort: 21068
   selector:
     app: resource-library
     release: resource-library

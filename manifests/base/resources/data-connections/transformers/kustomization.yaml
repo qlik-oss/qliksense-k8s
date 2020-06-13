@@ -15,7 +15,7 @@ patches:
     labelSelector: >-
       key notin (
         imageRegistry,
-        tokenAuthUri,
+        edgeAuthUri,
         featureFlagsUri,
         ingressClass,
         ingressAuthUrl,
@@ -28,7 +28,9 @@ patches:
         natsUri,
         natsStreamingClusterId,
         dcaasRedisUri,
-        dcaasRedisPassword
+        dcaasRedisPassword,
+        policyDecisionsUri,
+        dataConnectorNfsUri
         )
   patch: |-
     - op: replace

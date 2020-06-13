@@ -6,16 +6,16 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: web-notifications
-    chart: web-notifications-1.5.12
+    chart: web-notifications-1.5.13
     heritage: Helm
     release: web-notifications
   name: web-notifications
 spec:
   ports:
-  - name: web-notifications
-    port: 8080
-    protocol: TCP
-    targetPort: 8080
+    - name: web-notifications
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
   selector:
     app: web-notifications
     release: web-notifications

@@ -13,21 +13,21 @@ metadata:
     nginx.ingress.kubernetes.io/enable-cors: "true"
   labels:
     app: tenants
-    chart: tenants-4.0.17
+    chart: tenants-4.1.2
     heritage: Helm
     release: tenants
   name: tenants
   namespace: $(NAMESPACE)
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: tenants
-          servicePort: 8080
-        path: /api/v1/tenants
-      - backend:
-          serviceName: tenants
-          servicePort: 8080
-        path: /api/v1/web-integrations
+    - http:
+        paths:
+          - backend:
+              serviceName: tenants
+              servicePort: 8080
+            path: /api/v1/tenants
+          - backend:
+              serviceName: tenants
+              servicePort: 8080
+            path: /api/v1/web-integrations
 ---

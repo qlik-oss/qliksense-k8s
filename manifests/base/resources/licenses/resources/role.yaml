@@ -3,18 +3,18 @@ kind: Role
 metadata:
   labels:
     app: licenses
-    chart: licenses-1.19.0
+    chart: licenses-1.21.9
     heritage: Helm
     release: licenses
   name: licenses
   namespace: $(NAMESPACE)
 rules:
-- apiGroups:
-  - ""
-  resources:
-  - endpoints
-  verbs:
-  - get
-  - update
-  - create
+  - apiGroups:
+      - ""
+    resources:
+      - endpoints
+    verbs:
+      - get
+      - update
+      - create
 ---

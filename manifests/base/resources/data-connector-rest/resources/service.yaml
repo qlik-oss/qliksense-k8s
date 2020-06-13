@@ -7,20 +7,20 @@ metadata:
   labels:
     action: command
     app: data-connector-rest
-    chart: data-connector-rest-1.2.1
+    chart: data-connector-rest-1.2.11
     heritage: Helm
     release: data-connector-rest
   name: data-connector-rest-cmd
 spec:
   ports:
-  - name: grpc
-    port: 50060
-    protocol: TCP
-    targetPort: 50060
-  - name: http
-    port: 3005
-    protocol: TCP
-    targetPort: 3005
+    - name: grpc
+      port: 50060
+      protocol: TCP
+      targetPort: 50060
+    - name: http
+      port: 3005
+      protocol: TCP
+      targetPort: 3005
   selector:
     action: command
     app: data-connector-rest
@@ -36,20 +36,20 @@ metadata:
   labels:
     action: reload
     app: data-connector-rest
-    chart: data-connector-rest-1.2.1
+    chart: data-connector-rest-1.2.11
     heritage: Helm
     release: data-connector-rest
   name: data-connector-rest-rld
 spec:
   ports:
-  - name: grpc
-    port: 50060
-    protocol: TCP
-    targetPort: 50060
-  - name: http
-    port: 3005
-    protocol: TCP
-    targetPort: 3005
+    - name: grpc
+      port: 50060
+      protocol: TCP
+      targetPort: 50060
+    - name: http
+      port: 3005
+      protocol: TCP
+      targetPort: 3005
   selector:
     action: reload
     app: data-connector-rest

@@ -13,5 +13,5 @@ patches:
       name: nl-parser-configs
     data:
       dataPrepUri: "http://$(PREFIX)-nl-parser-data-prep.svc.cluster.local:9072"
-
+      nlAppSearchUri: http://$(PREFIX)-nl-parser-nl-app-search.svc.cluster.local:9085
 

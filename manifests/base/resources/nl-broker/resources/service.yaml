@@ -6,16 +6,16 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: nl-broker
-    chart: nl-broker-1.2.0
+    chart: nl-broker-1.2.9
     heritage: Helm
     release: nl-broker
   name: nl-broker
 spec:
   ports:
-  - name: nl-broker
-    port: 30301
-    protocol: TCP
-    targetPort: 30301
+    - name: nl-broker
+      port: 30301
+      protocol: TCP
+      targetPort: 30301
   selector:
     app: nl-broker
     release: nl-broker

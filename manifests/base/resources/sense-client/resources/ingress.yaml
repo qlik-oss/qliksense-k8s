@@ -10,30 +10,30 @@ metadata:
       more_set_headers "Cache-Control" "Pragma" "X-XSS-Protection: 1; mode=block" "X-Content-Type-Options: nosniff";
   labels:
     app: sense-client
-    chart: sense-client-1.7.84
+    chart: sense-client-1.7.126
     heritage: Helm
     release: sense-client
   name: sense-client
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: sense-client
-          servicePort: 9050
-        path: /sense
-      - backend:
-          serviceName: sense-client
-          servicePort: 9050
-        path: /dataloadeditor
-      - backend:
-          serviceName: sense-client
-          servicePort: 9050
-        path: /datamodelviewer
-      - backend:
-          serviceName: sense-client
-          servicePort: 9050
-        path: /single
+    - http:
+        paths:
+          - backend:
+              serviceName: sense-client
+              servicePort: 9050
+            path: /sense
+          - backend:
+              serviceName: sense-client
+              servicePort: 9050
+            path: /dataloadeditor
+          - backend:
+              serviceName: sense-client
+              servicePort: 9050
+            path: /datamodelviewer
+          - backend:
+              serviceName: sense-client
+              servicePort: 9050
+            path: /single
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -44,16 +44,16 @@ metadata:
       more_set_headers "Cache-Control" "Pragma" "Access-Control-Allow-Origin: *";
   labels:
     app: sense-client
-    chart: sense-client-1.7.84
+    chart: sense-client-1.7.126
     heritage: Helm
     release: sense-client
   name: sense-client-resources
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: sense-client
-          servicePort: 9050
-        path: /resources
+    - http:
+        paths:
+          - backend:
+              serviceName: sense-client
+              servicePort: 9050
+            path: /resources
 ---

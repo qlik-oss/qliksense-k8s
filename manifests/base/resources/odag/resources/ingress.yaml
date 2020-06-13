@@ -11,18 +11,18 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
   labels:
     app: odag
-    chart: odag-1.9.0
+    chart: odag-1.9.4
     heritage: Helm
     release: odag
   name: odag
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: odag
-          servicePort: 9098
-        path: /api/odag/openapi
+    - http:
+        paths:
+          - backend:
+              serviceName: odag
+              servicePort: 9098
+            path: /api/odag/openapi
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -36,32 +36,32 @@ metadata:
     nginx.ingress.kubernetes.io/enable-cors: "true"
   labels:
     app: odag
-    chart: odag-1.9.0
+    chart: odag-1.9.4
     heritage: Helm
     release: odag
   name: odag-api
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: odag
-          servicePort: 9098
-        path: /api/v1/odag
-      - backend:
-          serviceName: odag
-          servicePort: 9098
-        path: /api/v1/odaglinks
-      - backend:
-          serviceName: odag
-          servicePort: 9098
-        path: /api/v1/odagisavailable
-      - backend:
-          serviceName: odag
-          servicePort: 9098
-        path: /api/v1/odagsettings
-      - backend:
-          serviceName: odag
-          servicePort: 9098
-        path: /api/v1/odagrequests
+    - http:
+        paths:
+          - backend:
+              serviceName: odag
+              servicePort: 9098
+            path: /api/v1/odag
+          - backend:
+              serviceName: odag
+              servicePort: 9098
+            path: /api/v1/odaglinks
+          - backend:
+              serviceName: odag
+              servicePort: 9098
+            path: /api/v1/odagisavailable
+          - backend:
+              serviceName: odag
+              servicePort: 9098
+            path: /api/v1/odagsettings
+          - backend:
+              serviceName: odag
+              servicePort: 9098
+            path: /api/v1/odagrequests
 ---

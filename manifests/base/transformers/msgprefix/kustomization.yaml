@@ -3,5 +3,7 @@ kind: Kustomization
 resources:
 - msgprefix.yaml
 - msgprefix-engine.yaml
+- msgprefix-engineTemplate.yaml
 - search-replace-prefix.yaml
 - search-replace-engine-prefix.yaml
+- search-replace-engineTemplate-prefix.yaml

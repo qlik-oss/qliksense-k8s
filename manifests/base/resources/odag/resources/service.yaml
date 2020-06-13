@@ -6,15 +6,15 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: odag
-    chart: odag-1.9.0
+    chart: odag-1.9.4
     heritage: Helm
     release: odag
   name: odag
 spec:
   ports:
-  - name: odag
-    port: 9098
-    protocol: TCP
+    - name: odag
+      port: 9098
+      protocol: TCP
   selector:
     app: odag
     release: odag

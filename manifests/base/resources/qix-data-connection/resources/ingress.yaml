@@ -9,16 +9,16 @@ metadata:
       rewrite (?i)/api/(.*) /$1 break;
   labels:
     app: qix-data-connection
-    chart: qix-data-connection-1.8.8
+    chart: qix-data-connection-1.8.9
     heritage: Helm
     release: qix-data-connection
   name: qix-data-connection
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: qix-data-connection
-          servicePort: 9011
-        path: /api/v1/dataconnections
+    - http:
+        paths:
+          - backend:
+              serviceName: qix-data-connection
+              servicePort: 9011
+            path: /api/v1/dataconnections
 ---

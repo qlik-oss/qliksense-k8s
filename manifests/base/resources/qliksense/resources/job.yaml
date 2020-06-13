@@ -27,6 +27,8 @@ spec:
             - name: ca-certificates
               mountPath: "/mnt/certs"
       restartPolicy: Never
+      imagePullSecrets:
+      - name: artifactory-docker-secret
       volumes:
         - name: ca-certificates
           persistentVolumeClaim:

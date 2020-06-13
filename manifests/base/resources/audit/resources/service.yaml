@@ -6,17 +6,17 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: audit
-    chart: audit-3.3.4
+    chart: audit-3.5.0
     heritage: Helm
     release: audit
   name: audit
   namespace: $(NAMESPACE)
 spec:
   ports:
-  - name: audit
-    port: 6080
-    protocol: TCP
-    targetPort: 6080
+    - name: audit
+      port: 6080
+      protocol: TCP
+      targetPort: 6080
   selector:
     app: audit
     release: audit

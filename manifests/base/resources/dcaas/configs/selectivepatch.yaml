@@ -13,13 +13,15 @@ patches:
       name: dcaas-configs
     data:
       redisUri: $(PREFIX)-dcaas-redis-master:6379
-      keysUri: "http://$(PREFIX)-dcaas-keys:8080/v1"
+      keysUri: "http://$(PREFIX)-dcaas-keys:8080"
       featureFlagsUri: "http://$(PREFIX)-dcaas-feature-flags:8080"
       connectorServices: >-
             $(PREFIX)-data-connector-rest-rld:$(PREFIX)-data-connector-rest-cmd:50060
             $(PREFIX)-data-connector-qwc-rld:$(PREFIX)-data-connector-qwc-cmd:50060
             $(PREFIX)-data-connector-odbc-rld:$(PREFIX)-data-connector-odbc-cmd:50060
             $(PREFIX)-data-connector-sap-sql-rld:$(PREFIX)-data-connector-sap-sql-cmd:50060
+            $(PREFIX)-data-connector-sap-bw-rld:$(PREFIX)-data-connector-sap-bw-cmd:50060
             $(PREFIX)-qix-datafiles:50051
       qixDataConnectionUri: http://$(PREFIX)-dcaas-qix-data-connection:9011
+      dataConnectionsUri: http://$(PREFIX)-dcaas-data-connections:9011
       spacesUri: http://$(PREFIX)-dcaas-spaces:6080

@@ -12,5 +12,5 @@ patch: |-
     template:
       metadata:
         labels:
-          $(PREFIX)-messaging-nats-client: "true"
+          $(PREFIX)-nats-client: "true"
 

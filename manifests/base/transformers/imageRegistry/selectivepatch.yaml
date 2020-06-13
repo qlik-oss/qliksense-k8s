@@ -16,4 +16,3 @@ patches:
       name: imageRegistry
     replaceWithObjRef: null
     replace: $(IMAGE_REGISTRY)
-

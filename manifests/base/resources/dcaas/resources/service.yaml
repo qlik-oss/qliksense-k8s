@@ -7,18 +7,80 @@ metadata:
     prometheus.io/scrape_high_cardinality: "true"
   labels:
     app: dcaas
-    chart: dcaas-1.7.0
+    chart: dcaas-1.8.2
     heritage: Helm
     release: dcaas
   name: dcaas
 spec:
   ports:
-  - name: http
-    port: 9026
-    protocol: TCP
-    targetPort: http
+    - name: http
+      port: 9026
+      protocol: TCP
+      targetPort: http
   selector:
     app: dcaas
+    release: dcaas
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: dcaas-redis
+    chart: dcaas-redis-10.5.6
+    heritage: Helm
+    release: dcaas
+  name: dcaas-dcaas-redis-headless
+spec:
+  clusterIP: None
+  ports:
+    - name: redis
+      port: 6379
+      targetPort: redis
+  selector:
+    app: dcaas-redis
+    release: dcaas
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: dcaas-redis
+    chart: dcaas-redis-10.5.6
+    heritage: Helm
+    release: dcaas
+  name: dcaas-dcaas-redis-master
+spec:
+  ports:
+    - name: redis
+      port: 6379
+      targetPort: redis
+  selector:
+    app: dcaas-redis
+    release: dcaas
+    role: master
+  type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    prometheus.io/port: "9121"
+    prometheus.io/scrape: "true"
+  labels:
+    app: dcaas-redis
+    chart: dcaas-redis-10.5.6
+    heritage: Helm
+    release: dcaas
+  name: dcaas-dcaas-redis-metrics
+spec:
+  ports:
+    - name: metrics
+      port: 9121
+      targetPort: metrics
+  selector:
+    app: dcaas-redis
     release: dcaas
   type: ClusterIP
 ---

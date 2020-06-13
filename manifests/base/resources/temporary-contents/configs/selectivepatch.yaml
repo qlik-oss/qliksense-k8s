@@ -14,7 +14,7 @@ patches:
     data:
       featureFlagsUri: "http://$(PREFIX)-temporary-contents-feature-flags:8080"
       keysUri: "http://$(PREFIX)-temporary-contents-keys:8080/v1/keys/qlik.api.internal"
-      tokenAuthUri: "http://$(PREFIX)-temporary-contents-edge-auth:8080/v1"
-      pdsUri: "http://$(PREFIX)-temporary-contents-policy-decisions:5080"
+      edgeAuthUri: "http://$(PREFIX)-temporary-contents-edge-auth:8080/v1"
+      policyDecisionsUri: "http://$(PREFIX)-temporary-contents-policy-decisions:5080"
       encryptionUri: "http://$(PREFIX)-temporary-contents-encryption:8080"
   

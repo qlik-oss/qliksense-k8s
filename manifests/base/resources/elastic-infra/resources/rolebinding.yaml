@@ -12,7 +12,7 @@ roleRef:
   kind: Role
   name: elastic-infra-nginx-ingress
 subjects:
-- kind: ServiceAccount
-  name: elastic-infra-nginx-ingress
-  namespace: $(NAMESPACE)
+  - kind: ServiceAccount
+    name: elastic-infra-nginx-ingress
+    namespace: $(NAMESPACE)
 ---

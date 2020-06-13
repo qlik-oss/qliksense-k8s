@@ -14,15 +14,16 @@ patches:
       key notin (
         imageRegistry, 
         ingressClass,
+        ingressAuthUrl,
         qixDataFilesUri,
-        tokenAuthUri,
+        edgeAuthUri,
         keysUri,
         encryptionUri,
         spacesUri, 
         mongodbUri,
         caCertificates,
-        tokenAuthPrivateKey,
-        tokenAuthPrivateKeyId
+        featureFlagsUri,
+        dataConnectionsUri
       )
   patch: |-
     - op: replace

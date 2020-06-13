@@ -3,15 +3,15 @@ kind: Service
 metadata:
   labels:
     app: engine
-    chart: engine-1.66.39
+    chart: engine-1.70.2
     heritage: Helm
     release: engine
   name: engine
 spec:
   ports:
-  - name: engine
-    port: 9076
-    protocol: TCP
+    - name: engine
+      port: 9076
+      protocol: TCP
   selector:
     app: engine
     release: engine
@@ -22,18 +22,18 @@ kind: Service
 metadata:
   labels:
     app: redis-user-state
-    chart: redis-user-state-10.0.0
+    chart: redis-user-state-10.5.6
     heritage: Helm
     release: engine
   name: engine-redis-user-state
 spec:
   ports:
-  - name: redis
-    port: 6379
-    targetPort: redis
-  - name: redis-sentinel
-    port: 26379
-    targetPort: redis-sentinel
+    - name: redis
+      port: 6379
+      targetPort: redis
+    - name: redis-sentinel
+      port: 26379
+      targetPort: redis-sentinel
   selector:
     app: redis-user-state
     release: engine
@@ -44,19 +44,19 @@ kind: Service
 metadata:
   labels:
     app: redis-user-state
-    chart: redis-user-state-10.0.0
+    chart: redis-user-state-10.5.6
     heritage: Helm
     release: engine
   name: engine-redis-user-state-headless
 spec:
   clusterIP: None
   ports:
-  - name: redis
-    port: 6379
-    targetPort: redis
-  - name: redis-sentinel
-    port: 26379
-    targetPort: redis-sentinel
+    - name: redis
+      port: 6379
+      targetPort: redis
+    - name: redis-sentinel
+      port: 26379
+      targetPort: redis-sentinel
   selector:
     app: redis-user-state
     release: engine
@@ -70,15 +70,15 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: redis-user-state
-    chart: redis-user-state-10.0.0
+    chart: redis-user-state-10.5.6
     heritage: Helm
     release: engine
   name: engine-redis-user-state-metrics
 spec:
   ports:
-  - name: metrics
-    port: 9121
-    targetPort: metrics
+    - name: metrics
+      port: 9121
+      targetPort: metrics
   selector:
     app: redis-user-state
     release: engine

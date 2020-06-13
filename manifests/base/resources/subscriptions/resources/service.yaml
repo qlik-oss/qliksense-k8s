@@ -6,16 +6,16 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: subscriptions
-    chart: subscriptions-1.0.2
+    chart: subscriptions-1.0.3
     heritage: Helm
     release: subscriptions
   name: subscriptions
 spec:
   ports:
-  - name: subscriptions
-    port: 8080
-    protocol: TCP
-    targetPort: 8080
+    - name: subscriptions
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
   selector:
     app: subscriptions
     release: subscriptions

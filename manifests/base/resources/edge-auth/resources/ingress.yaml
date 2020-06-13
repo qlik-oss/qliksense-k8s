@@ -3,25 +3,31 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      set $host_and_uri $http_host$request_uri;
+      if ( $host_and_uri ~* "^.{2049,}$" ) { return 414; }
+      more_clear_input_headers "X-Forwarded-Host" "X-Forwarded-For" "X-Forwarded-Proto" "X-Original-URI" "X-Original-URL";
+      more_set_headers 'Access-Control-Allow-Origin: $http_origin';
+    nginx.ingress.kubernetes.io/enable-cors: "true"
   labels:
     app: edge-auth
-    chart: edge-auth-5.1.5
+    chart: edge-auth-6.2.12
     heritage: Helm
     release: edge-auth
   name: edge-auth
   namespace: $(NAMESPACE)
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: edge-auth
-          servicePort: 8080
-        path: /login
-      - backend:
-          serviceName: edge-auth
-          servicePort: 8080
-        path: /logout
+    - http:
+        paths:
+          - backend:
+              serviceName: edge-auth
+              servicePort: 8080
+            path: /login
+          - backend:
+              serviceName: edge-auth
+              servicePort: 8080
+            path: /logout
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -38,21 +44,21 @@ metadata:
     nginx.ingress.kubernetes.io/enable-cors: "true"
   labels:
     app: edge-auth
-    chart: edge-auth-5.1.5
+    chart: edge-auth-6.2.12
     heritage: Helm
     release: edge-auth
   name: edge-auth-api
   namespace: $(NAMESPACE)
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: edge-auth
-          servicePort: 8080
-        path: /api/v1/diagnose-claims
-      - backend:
-          serviceName: edge-auth
-          servicePort: 8080
-        path: /api/v1/csrf-token
+    - http:
+        paths:
+          - backend:
+              serviceName: edge-auth
+              servicePort: 8080
+            path: /api/v1/diagnose-claims
+          - backend:
+              serviceName: edge-auth
+              servicePort: 8080
+            path: /api/v1/csrf-token
 ---

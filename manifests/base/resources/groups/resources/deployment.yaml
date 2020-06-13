@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: groups
-    chart: groups-3.0.0
+    chart: groups-3.0.3
     heritage: Helm
     release: groups
   name: groups
@@ -17,80 +17,80 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/configs: 93351dbf072801d7502f87612f6be2273b5f22e9abde8a4cfd894e5bd23b2424
-        checksum/secrets: 695dc3cd893772fcb69dbe40f80d79963e383eade8d9d891f7f92dee482c8f0c
+        checksum/configs: 1063e44ac1426d051a0a89ff8d6e0cb71fb070c69b056a00542c0eb3fe8f0d4e
+        checksum/secrets: 248a665a806d628bcd682571099e4f4a22be7268aa3f2ae6711e6c177a84c113
       labels:
         app: groups
         release: groups
     spec:
       containers:
-      - env:
-        - name: KEYS_URI_TEMP
-          valueFrom:
-            configMapKeyRef:
-              key: keysUri
-              name: groups-configs
-        - name: KEYS_URI
-          value: $(KEYS_URI_TEMP)/v1/keys/qlik.api.internal
-        - name: TOKEN_AUTH_URI_TEMP
-          valueFrom:
-            configMapKeyRef:
-              key: tokenAuthUri
-              name: groups-configs
-        - name: TOKEN_AUTH_URI
-          value: $(TOKEN_AUTH_URI_TEMP)/v1
-        - name: MONGODB_URI_FILE
-          value: /run/secrets/qlik.com/groups/mongodbUri
-        - name: TOKEN_AUTH_PRIVATE_KEY_FILE
-          value: /run/secrets/qlik.com/groups/tokenAuthPrivateKey
-        - name: TOKEN_AUTH_PRIVATE_KEY_ID_FILE
-          value: /run/secrets/qlik.com/groups/tokenAuthPrivateKeyId
-        - name: INGRESS_AUTH_URL
-          valueFrom:
-            configMapKeyRef:
-              key: ingressAuthUrl
-              name: groups-configs
-        - name: LOG_LEVEL
-          valueFrom:
-            configMapKeyRef:
-              key: logLevel
-              name: groups-configs
-        - name: REDIS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: redisUri
-              name: groups-configs
-        - name: ENVIRONMENT
-          value: qseok
-        - name: REGION
-          value: example
-        image: qlik-docker-qsefe.bintray.io/groups:2.0.2
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: http
-        name: main
-        ports:
-        - containerPort: 8080
-          name: http
-          protocol: TCP
-        readinessProbe:
-          httpGet:
-            path: /ready
-            port: http
-        volumeMounts:
-        - mountPath: /run/secrets/qlik.com/groups
-          name: groups-secrets
-          readOnly: true
+        - env:
+            - name: KEYS_URI_TEMP
+              valueFrom:
+                configMapKeyRef:
+                  key: keysUri
+                  name: groups-configs
+            - name: KEYS_URI
+              value: $(KEYS_URI_TEMP)/v1/keys/qlik.api.internal
+            - name: EDGE_AUTH_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: edgeAuthUri
+                  name: groups-configs
+            - name: TOKEN_AUTH_URI
+              value: $(EDGE_AUTH_URI)/v1
+            - name: MONGODB_URI_FILE
+              value: /run/secrets/qlik.com/groups/mongodbUri
+            - name: TOKEN_AUTH_PRIVATE_KEY_FILE
+              value: /run/secrets/qlik.com/groups/tokenAuthPrivateKey
+            - name: TOKEN_AUTH_PRIVATE_KEY_ID_FILE
+              value: /run/secrets/qlik.com/groups/tokenAuthPrivateKeyId
+            - name: INGRESS_AUTH_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: ingressAuthUrl
+                  name: groups-configs
+            - name: LOG_LEVEL
+              valueFrom:
+                configMapKeyRef:
+                  key: logLevel
+                  name: groups-configs
+            - name: REDIS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: redisUri
+                  name: groups-configs
+            - name: ENVIRONMENT
+              value: qseok
+            - name: REGION
+              value: example
+          image: qlik-docker-qsefe.bintray.io/groups:3.1.1
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: http
+          name: main
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: http
+          volumeMounts:
+            - mountPath: /run/secrets/qlik.com/groups
+              name: groups-secrets
+              readOnly: true
       dnsConfig:
         options:
-        - name: timeout
-          value: "1"
+          - name: timeout
+            value: "1"
       imagePullSecrets:
-      - name: artifactory-docker-secret
+        - name: artifactory-docker-secret
       volumes:
-      - name: groups-secrets
-        secret:
-          secretName: groups-secrets
+        - name: groups-secrets
+          secret:
+            secretName: groups-secrets
 ---

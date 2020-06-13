@@ -6,16 +6,16 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: qlikview-client
-    chart: qlikview-client-1.0.23
+    chart: qlikview-client-1.0.30
     heritage: Helm
     release: qlikview-client
   name: qlikview-client
 spec:
   ports:
-  - name: qlikview-client
-    port: 9003
-    protocol: TCP
-    targetPort: 9003
+    - name: qlikview-client
+      port: 9003
+      protocol: TCP
+      targetPort: 9003
   selector:
     app: qlikview-client
     release: qlikview-client

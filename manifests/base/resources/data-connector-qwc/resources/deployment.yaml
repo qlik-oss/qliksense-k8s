@@ -4,7 +4,7 @@ metadata:
   labels:
     action: command
     app: data-connector-qwc
-    chart: data-connector-qwc-2.3.0
+    chart: data-connector-qwc-3.0.4
     heritage: Helm
     release: data-connector-qwc
   name: data-connector-qwc-cmd
@@ -23,47 +23,47 @@ spec:
         release: data-connector-qwc
     spec:
       containers:
-      - env:
-        - name: REDIS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: redisUri
-              name: data-connector-qwc-configs
-        - name: QWC_REDIS_CONFIG_STRING
-          value: $(REDIS_URI)
-        - name: REDIS_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: redisPassword
-              name: data-connector-qwc-secrets
-        - name: QWC_REDIS_PASSWORD
-          value: $(REDIS_PASSWORD)
-        - name: DATA_HOST
-          value: 0.0.0.0
-        - name: DATA_PORT_RANGE_START
-          value: "50060"
-        - name: DATA_PORT_RANGE_END
-          value: "50060"
-        - name: QWC_LOG_LEVEL
-          value: INFO
-        - name: QWC_ALLOW_REFERENCE_CONNECTOR
-          value: "true"
-        image: qlik-docker-qsefe.bintray.io/data-connector-qwc:0.77.0
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 3005
-        name: main
-        ports:
-        - containerPort: 50060
-          name: grpc
-          protocol: TCP
-        - containerPort: 3005
-          name: http
-          protocol: TCP
+        - env:
+            - name: REDIS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: redisUri
+                  name: data-connector-qwc-configs
+            - name: QWC_REDIS_CONFIG_STRING
+              value: $(REDIS_URI)
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: redisPassword
+                  name: data-connector-qwc-secrets
+            - name: QWC_REDIS_PASSWORD
+              value: $(REDIS_PASSWORD)
+            - name: DATA_HOST
+              value: 0.0.0.0
+            - name: DATA_PORT_RANGE_START
+              value: "50060"
+            - name: DATA_PORT_RANGE_END
+              value: "50060"
+            - name: QWC_LOG_LEVEL
+              value: INFO
+            - name: QWC_ALLOW_REFERENCE_CONNECTOR
+              value: "true"
+          image: qlik-docker-qsefe.bintray.io/data-connector-qwc:0.81.0
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3005
+          name: main
+          ports:
+            - containerPort: 50060
+              name: grpc
+              protocol: TCP
+            - containerPort: 3005
+              name: http
+              protocol: TCP
       imagePullSecrets:
-      - name: artifactory-docker-secret
+        - name: artifactory-docker-secret
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -71,7 +71,7 @@ metadata:
   labels:
     action: reload
     app: data-connector-qwc
-    chart: data-connector-qwc-2.3.0
+    chart: data-connector-qwc-3.0.4
     heritage: Helm
     release: data-connector-qwc
   name: data-connector-qwc-rld
@@ -90,61 +90,61 @@ spec:
         release: data-connector-qwc
     spec:
       containers:
-      - env:
-        - name: REDIS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: redisUri
-              name: data-connector-qwc-configs
-        - name: QWC_REDIS_CONFIG_STRING
-          value: $(REDIS_URI)
-        - name: REDIS_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: redisPassword
-              name: data-connector-qwc-secrets
-        - name: QWC_REDIS_PASSWORD
-          value: $(REDIS_PASSWORD)
-        - name: DATA_HOST
-          value: 0.0.0.0
-        - name: DATA_PORT_RANGE_START
-          value: "50060"
-        - name: DATA_PORT_RANGE_END
-          value: "50060"
-        - name: MAX_ACTIVE_RELOADS
-          value: "3"
-        - name: FILE_TRANSFER_ABOVE_MAX_ALLOWANCE
-          value: "2"
-        - name: QWC_LOG_LEVEL
-          value: INFO
-        - name: QWC_ALLOW_REFERENCE_CONNECTOR
-          value: "true"
-        - name: ENABLE_SHUTDOWN_DRAIN
-          value: "false"
-        - name: SHUTDOWN_TIMEOUT
-          value: "30"
-        image: qlik-docker-qsefe.bintray.io/data-connector-qwc:0.77.0
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 3005
-        name: main
-        ports:
-        - containerPort: 50060
-          name: grpc
-          protocol: TCP
-        - containerPort: 3005
-          name: http
-          protocol: TCP
-        readinessProbe:
-          httpGet:
-            path: /readiness
-            port: 3005
-          initialDelaySeconds: 2
-          periodSeconds: 10
+        - env:
+            - name: REDIS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: redisUri
+                  name: data-connector-qwc-configs
+            - name: QWC_REDIS_CONFIG_STRING
+              value: $(REDIS_URI)
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: redisPassword
+                  name: data-connector-qwc-secrets
+            - name: QWC_REDIS_PASSWORD
+              value: $(REDIS_PASSWORD)
+            - name: DATA_HOST
+              value: 0.0.0.0
+            - name: DATA_PORT_RANGE_START
+              value: "50060"
+            - name: DATA_PORT_RANGE_END
+              value: "50060"
+            - name: MAX_ACTIVE_RELOADS
+              value: "3"
+            - name: FILE_TRANSFER_ABOVE_MAX_ALLOWANCE
+              value: "2"
+            - name: QWC_LOG_LEVEL
+              value: INFO
+            - name: QWC_ALLOW_REFERENCE_CONNECTOR
+              value: "true"
+            - name: ENABLE_SHUTDOWN_DRAIN
+              value: "false"
+            - name: SHUTDOWN_TIMEOUT
+              value: "30"
+          image: qlik-docker-qsefe.bintray.io/data-connector-qwc:0.81.0
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3005
+          name: main
+          ports:
+            - containerPort: 50060
+              name: grpc
+              protocol: TCP
+            - containerPort: 3005
+              name: http
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /readiness
+              port: 3005
+            initialDelaySeconds: 2
+            periodSeconds: 10
       imagePullSecrets:
-      - name: artifactory-docker-secret
+        - name: artifactory-docker-secret
       terminationGracePeriodSeconds: 30
 ---
 apiVersion: apps/v1
@@ -153,7 +153,7 @@ metadata:
   labels:
     action: web
     app: data-connector-qwc
-    chart: data-connector-qwc-2.3.0
+    chart: data-connector-qwc-3.0.4
     heritage: Helm
     release: data-connector-qwc
   name: data-connector-qwc-web
@@ -172,36 +172,17 @@ spec:
         release: data-connector-qwc
     spec:
       containers:
-      - env:
-        - name: REDIS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: redisUri
-              name: data-connector-qwc-configs
-        # - $patch: delete
-        #   name: QWC_REDIS_CONFIG_STRING
-        - name: QWC_REDIS_CONFIG_STRING
-          value: $(REDIS_URI)
-        - name: REDIS_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              key: redisPassword
-              name: data-connector-qwc-secrets
-        # - $patch: delete
-        #   name: QWC_REDIS_PASSWORD
-        - name: QWC_REDIS_PASSWORD
-          value: $(REDIS_PASSWORD)
-        image: qlik-docker-qsefe.bintray.io/data-connector-qwc-web:0.77.0
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 6384
-        name: main
-        ports:
-        - containerPort: 6384
-          name: http
-          protocol: TCP
+        - image: qlik-docker-qsefe.bintray.io/data-connector-qwc-web:0.81.0
+          imagePullPolicy: null
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 6384
+          name: main
+          ports:
+            - containerPort: 6384
+              name: http
+              protocol: TCP
       imagePullSecrets:
-      - name: artifactory-docker-secret
+        - name: artifactory-docker-secret
 ---

@@ -2,6 +2,9 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 commonLabels:
   app: odag
+commonAnnotations:
+  app.kubernetes.io/part-of: base
+  app.kubernetes.io/component: odag
 resources:
   - resources
 generators:
@@ -20,5 +23,3 @@ transformers:
 images:
 - name: qlik-docker-qsefe.bintray.io/odag
   newName: $(IMAGE_REGISTRY)/odag
-- name: qlik-docker-qsefe.bintray.io/leader-elector
-  newName: $(IMAGE_REGISTRY)/leader-elector

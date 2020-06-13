@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: spaces
-    chart: spaces-2.8.25
+    chart: spaces-2.8.34
     heritage: Helm
     release: spaces
   name: spaces
@@ -20,120 +20,124 @@ spec:
         release: spaces
     spec:
       containers:
-      - env:
-        - name: MONGODB_URI
-          valueFrom:
-            secretKeyRef:
-              key: mongodbUri
-              name: spaces-secrets
-        - name: QUOTAS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: quotasUri
-              name: spaces-configs
-        - name: PDS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: pdsUri
-              name: spaces-configs
-        - name: KEYS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: keysUri
-              name: spaces-configs
-        - name: AUTH_JWKS_URI
-          value: $(KEYS_URI)/v1/keys/qlik.api.internal
-        - name: TOKEN_AUTH_URI
-          valueFrom:
-            configMapKeyRef:
-              key: tokenAuthUri
-              name: spaces-configs
-        - name: TOKEN_URI
-          value: $(TOKEN_AUTH_URI)/v1/internal-tokens
-        - name: ACCESS_CONTROL_PDS_URI
-          value: $(PDS_URI)
-        - name: GROUPS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: groupsUri
-              name: spaces-configs
-        - name: GROUPS_CLIENT_URI
-          value: $(GROUPS_URI)
-        - name: NATS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: natsUri
-              name: spaces-configs
-        - name: MESSAGING_NATS_ADDR
-          value: $(NATS_URI)
-        - name: NATS_STREAMING_CLUSTER_ID
-          valueFrom:
-            configMapKeyRef:
-              key: natsStreamingClusterId
-              name: spaces-configs
-        - name: MESSAGING_STAN_CLUSTER_ID
-          value: $(NATS_STREAMING_CLUSTER_ID)
-        - name: TOKEN_AUTH_PRIVATE_KEY
-          valueFrom:
-            secretKeyRef:
-              key: tokenAuthPrivateKey
-              name: spaces-secrets
-        - name: TOKEN_PRIVATE_KEY
-          value: $(TOKEN_AUTH_PRIVATE_KEY)
-        - name: TOKEN_AUTH_PRIVATE_KEY_ID
-          valueFrom:
-            secretKeyRef:
-              key: tokenAuthPrivateKeyId
-              name: spaces-secrets
-        - name: TOKEN_KID
-          value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
-        - name: MONGO_URI
-          value: $(MONGODB_URI)
-        - name: FEATURE_FLAGS_URI
-          valueFrom:
-            configMapKeyRef:
-              key: featureFlagsUri
-              name: spaces-configs
-        - name: TERMINATION_GRACE_PERIOD_SECONDS
-          value: "30"
-        - name: LOG_LEVEL
-          value: info
-        - name: ROLLBAR_ENABLED
-          value: "false"
-        - name: MESSAGING_ENABLED
-          value: "true"
-        - name: AUTH_ENABLED
-          value: "true"
-        - name: AUTH_JWT_AUD
-          value: qlik.api.internal
-        - name: AUTH_JWT_ISS
-          value: qlik.api.internal
-        - name: ACCESS_CONTROL_ENABLED
-          value: "true"
-        - name: GROUPS_ENABLED
-          value: "true"
-        - name: QUOTAS_ENABLED
-          value: "false"
-        - name: FEATURE_FLAGS_ENABLED
-          value: "true"
-        image: qlik-docker-qsefe.bintray.io/spaces:1.13.1
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 6080
-        name: main
-        ports:
-        - containerPort: 6080
-        readinessProbe:
-          httpGet:
-            path: /ready
-            port: 6080
+        - env:
+            - name: MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  key: mongodbUri
+                  name: spaces-secrets
+            - name: MONGO_URI
+              value: $(MONGODB_URI)
+            - name: QUOTAS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: quotasUri
+                  name: spaces-configs
+            - name: POLICY_DECISIONS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: policyDecisionsUri
+                  name: spaces-configs
+            - name: KEYS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: keysUri
+                  name: spaces-configs
+            - name: AUTH_JWKS_URI
+              value: $(KEYS_URI)/v1/keys/qlik.api.internal
+            - name: EDGE_AUTH_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: edgeAuthUri
+                  name: spaces-configs
+            - name: TOKEN_URI
+              value: $(EDGE_AUTH_URI)/v1/internal-tokens
+            - name: ACCESS_CONTROL_PDS_URI
+              value: $(POLICY_DECISIONS_URI)
+            - name: GROUPS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: groupsUri
+                  name: spaces-configs
+            - name: GROUPS_CLIENT_URI
+              value: $(GROUPS_URI)
+            - name: NATS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: natsUri
+                  name: spaces-configs
+            - name: MESSAGING_NATS_ADDR
+              value: $(NATS_URI)
+            - name: NATS_STREAMING_CLUSTER_ID
+              valueFrom:
+                configMapKeyRef:
+                  key: natsStreamingClusterId
+                  name: spaces-configs
+            - name: MESSAGING_STAN_CLUSTER_ID
+              value: $(NATS_STREAMING_CLUSTER_ID)
+            - name: TOKEN_AUTH_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: tokenAuthPrivateKey
+                  name: spaces-secrets
+            - name: TOKEN_PRIVATE_KEY
+              value: $(TOKEN_AUTH_PRIVATE_KEY)
+            - name: TOKEN_AUTH_PRIVATE_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  key: tokenAuthPrivateKeyId
+                  name: spaces-secrets
+            - name: TOKEN_KID
+              value: $(TOKEN_AUTH_PRIVATE_KEY_ID)
+            - name: FEATURE_FLAGS_URI
+              valueFrom:
+                configMapKeyRef:
+                  key: featureFlagsUri
+                  name: spaces-configs
+            - name: TERMINATION_GRACE_PERIOD_SECONDS
+              value: "30"
+            - name: LOG_LEVEL
+              value: info
+            - name: ROLLBAR_ENABLED
+              value: "false"
+            - name: MESSAGING_ENABLED
+              value: "true"
+            - name: AUTH_ENABLED
+              value: "true"
+            - name: AUTH_JWT_AUD
+              value: qlik.api.internal
+            - name: AUTH_JWT_ISS
+              value: qlik.api.internal
+            - name: ACCESS_CONTROL_ENABLED
+              value: "true"
+            - name: GROUPS_ENABLED
+              value: "true"
+            - name: QUOTAS_ENABLED
+              value: "false"
+            - name: FEATURE_FLAGS_ENABLED
+              value: "true"
+            - name: JAEGER_DISABLED
+              value: "true"
+            - name: RAW_SPACES_LIMIT
+              value: "700"
+          image: qlik-docker-qsefe.bintray.io/spaces:1.14.0
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 6080
+          name: main
+          ports:
+            - containerPort: 6080
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 6080
       dnsConfig:
         options:
-        - name: timeout
-          value: "1"
+          - name: timeout
+            value: "1"
       imagePullSecrets:
-      - name: artifactory-docker-secret
+        - name: artifactory-docker-secret
       terminationGracePeriodSeconds: 30
 ---

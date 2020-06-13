@@ -1,0 +1,17 @@
+apiVersion: qlik.com/v1
+kind: EnvUpsert
+metadata:
+  name: engineEnvUpdate-edgeAuthUri
+  labels:
+    key: edgeAuthUri
+enabled: true
+target:
+  kind: Engine
+  name: engine-reload
+path: spec/podSpec/containers/env
+env:
+  - name: EDGE_AUTH_URI
+    valueFrom:
+      configMapKeyRef:
+        key: edgeAuthUri
+        name: configs

@@ -1,0 +1,20 @@
+apiVersion: v1
+data:
+  edgeAuthUri: http://collections-edge-auth.$(NAMESPACE).svc.cluster.local:8080
+  featureFlagsUri: http://collections-feature-flags.$(NAMESPACE).svc.cluster.local:8080
+  ingressAuthUrl: http://collections-edge-auth.$(NAMESPACE).svc.cluster.local:8080/v1/auth
+  keysUri: http://collections-keys.$(NAMESPACE).svc.cluster.local:8080
+  logLevel: info
+  natsStreamingClusterId: collections-nats-streaming-cluster
+  natsUri: nats://collections-nats-client:4222
+  policyDecisionsUri: http://collections-policy-decisions.$(NAMESPACE).svc.cluster.local:5080
+kind: ConfigMap
+metadata:
+  labels:
+    app: collections
+    chart: collections-3.1.1
+    heritage: Helm
+    release: collections
+  name: collections-configs
+  namespace: $(NAMESPACE)
+---

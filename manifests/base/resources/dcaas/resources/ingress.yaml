@@ -12,20 +12,20 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
   labels:
     app: dcaas
-    chart: dcaas-1.7.0
+    chart: dcaas-1.8.2
     heritage: Helm
     release: dcaas
   name: dcaas
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: dcaas
-          servicePort: 9026
-        path: /dcaas
-      - backend:
-          serviceName: dcaas
-          servicePort: 9026
-        path: /api/dcaas
+    - http:
+        paths:
+          - backend:
+              serviceName: dcaas
+              servicePort: 9026
+            path: /dcaas
+          - backend:
+              serviceName: dcaas
+              servicePort: 9026
+            path: /api/dcaas
 ---

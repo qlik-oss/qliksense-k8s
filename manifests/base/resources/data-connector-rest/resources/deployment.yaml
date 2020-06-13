@@ -4,7 +4,7 @@ metadata:
   labels:
     action: command
     app: data-connector-rest
-    chart: data-connector-rest-1.2.1
+    chart: data-connector-rest-1.2.11
     heritage: Helm
     release: data-connector-rest
   name: data-connector-rest-cmd
@@ -23,42 +23,42 @@ spec:
         release: data-connector-rest
     spec:
       containers:
-      - env:
-        - name: STANDALONE
-          value: "false"
-        - name: DATA_HOST
-          value: 0.0.0.0
-        - name: DATA_PORT_RANGE_START
-          value: "50060"
-        - name: DATA_PORT_RANGE_END
-          value: "50060"
-        - name: CONFIG
-          value: /opt/runner/Rest_dotnetcore.json
-        - name: LOG_LEVEL
-          value: INFO
-        - name: SERVICE_MODE
-          value: "true"
-        - name: QS_ENVIRONMENT
-          value: QSEOK
-        image: qlik-docker-qsefe.bintray.io/data-connector-rest:2.33.0
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 3005
-        name: main
-        ports:
-        - containerPort: 50060
-          name: grpc
-          protocol: TCP
-        - containerPort: 3005
-          name: http
-          protocol: TCP
+        - env:
+            - name: STANDALONE
+              value: "false"
+            - name: DATA_HOST
+              value: 0.0.0.0
+            - name: DATA_PORT_RANGE_START
+              value: "50060"
+            - name: DATA_PORT_RANGE_END
+              value: "50060"
+            - name: CONFIG
+              value: /opt/runner/Rest_dotnetcore.json
+            - name: LOG_LEVEL
+              value: INFO
+            - name: SERVICE_MODE
+              value: "true"
+            - name: QS_ENVIRONMENT
+              value: QSEOK
+          image: qlik-docker-qsefe.bintray.io/data-connector-rest:2.41.0
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3005
+          name: main
+          ports:
+            - containerPort: 50060
+              name: grpc
+              protocol: TCP
+            - containerPort: 3005
+              name: http
+              protocol: TCP
       imagePullSecrets:
-      - name: artifactory-docker-secret
+        - name: artifactory-docker-secret
       securityContext:
         supplementalGroups:
-        - 13100
+          - 13100
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -66,7 +66,7 @@ metadata:
   labels:
     action: reload
     app: data-connector-rest
-    chart: data-connector-rest-1.2.1
+    chart: data-connector-rest-1.2.11
     heritage: Helm
     release: data-connector-rest
   name: data-connector-rest-rld
@@ -85,53 +85,53 @@ spec:
         release: data-connector-rest
     spec:
       containers:
-      - env:
-        - name: STANDALONE
-          value: "false"
-        - name: DATA_HOST
-          value: 0.0.0.0
-        - name: DATA_PORT_RANGE_START
-          value: "50060"
-        - name: DATA_PORT_RANGE_END
-          value: "50060"
-        - name: CONFIG
-          value: /opt/runner/Rest_dotnetcore.json
-        - name: LOG_LEVEL
-          value: INFO
-        - name: SERVICE_MODE
-          value: "true"
-        - name: MAX_ACTIVE_RELOADS
-          value: "3"
-        - name: QS_ENVIRONMENT
-          value: QSEOK
-        - name: ENABLE_SHUTDOWN_DRAIN
-          value: "false"
-        - name: SHUTDOWN_TIMEOUT
-          value: "30"
-        image: qlik-docker-qsefe.bintray.io/data-connector-rest:2.33.0
-        imagePullPolicy: IfNotPresent
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 3005
-        name: main
-        ports:
-        - containerPort: 50060
-          name: grpc
-          protocol: TCP
-        - containerPort: 3005
-          name: http
-          protocol: TCP
-        readinessProbe:
-          httpGet:
-            path: /readiness
-            port: 3005
-          initialDelaySeconds: 2
-          periodSeconds: 10
+        - env:
+            - name: STANDALONE
+              value: "false"
+            - name: DATA_HOST
+              value: 0.0.0.0
+            - name: DATA_PORT_RANGE_START
+              value: "50060"
+            - name: DATA_PORT_RANGE_END
+              value: "50060"
+            - name: CONFIG
+              value: /opt/runner/Rest_dotnetcore.json
+            - name: LOG_LEVEL
+              value: INFO
+            - name: SERVICE_MODE
+              value: "true"
+            - name: MAX_ACTIVE_RELOADS
+              value: "3"
+            - name: QS_ENVIRONMENT
+              value: QSEOK
+            - name: ENABLE_SHUTDOWN_DRAIN
+              value: "false"
+            - name: SHUTDOWN_TIMEOUT
+              value: "30"
+          image: qlik-docker-qsefe.bintray.io/data-connector-rest:2.41.0
+          imagePullPolicy: IfNotPresent
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3005
+          name: main
+          ports:
+            - containerPort: 50060
+              name: grpc
+              protocol: TCP
+            - containerPort: 3005
+              name: http
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /readiness
+              port: 3005
+            initialDelaySeconds: 2
+            periodSeconds: 10
       imagePullSecrets:
-      - name: artifactory-docker-secret
+        - name: artifactory-docker-secret
       securityContext:
         supplementalGroups:
-        - 13100
+          - 13100
       terminationGracePeriodSeconds: 30
 ---

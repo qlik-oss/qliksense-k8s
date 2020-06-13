@@ -9,16 +9,16 @@ metadata:
       rewrite (?i)/api/(.*) /$1 break;
   labels:
     app: web-notifications
-    chart: web-notifications-1.5.12
+    chart: web-notifications-1.5.13
     heritage: Helm
     release: web-notifications
   name: web-notifications
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: web-notifications
-          servicePort: 8080
-        path: /api/v1/web-notifications
+    - http:
+        paths:
+          - backend:
+              serviceName: web-notifications
+              servicePort: 8080
+            path: /api/v1/web-notifications
 ---

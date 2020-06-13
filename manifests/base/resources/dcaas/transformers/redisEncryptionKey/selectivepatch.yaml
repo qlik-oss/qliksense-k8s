@@ -1,0 +1,26 @@
+apiVersion: qlik.com/v1
+kind: SelectivePatch
+metadata:
+  name: dcaasRedisEncryptionKey
+  labels:
+    key: dcaasRedisEncryptionKey
+enabled: true
+patches:
+- target:
+    kind: Deployment
+  patch: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: component
+    spec:
+      template:
+        spec:
+          containers:
+          - name: main
+            env:
+            - name: REDIS_ENCRYPTION_KEY
+              valueFrom:
+                secretKeyRef:
+                  key: redisEncryptionKey
+                  name: dcaas-secrets

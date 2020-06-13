@@ -11,25 +11,25 @@ metadata:
     nginx.ingress.kubernetes.io/enable-cors: "true"
   labels:
     app: groups
-    chart: groups-3.0.0
+    chart: groups-3.0.3
     heritage: Helm
     release: groups
   name: groups
   namespace: $(NAMESPACE)
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: groups
-          servicePort: 8080
-        path: /api/v1/groups
-      - backend:
-          serviceName: groups
-          servicePort: 8080
-        path: /api/v1/qlik-groups
-      - backend:
-          serviceName: groups
-          servicePort: 8080
-        path: /api/v1/idp-groups
+    - http:
+        paths:
+          - backend:
+              serviceName: groups
+              servicePort: 8080
+            path: /api/v1/groups
+          - backend:
+              serviceName: groups
+              servicePort: 8080
+            path: /api/v1/qlik-groups
+          - backend:
+              serviceName: groups
+              servicePort: 8080
+            path: /api/v1/idp-groups
 ---

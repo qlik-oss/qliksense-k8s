@@ -15,22 +15,23 @@ metadata:
       }
       rewrite (?i)/api/v1/(.*) /v1/$1 break;
       more_clear_input_headers "X-Forwarded-Host" "X-Forwarded-For" "X-Forwarded-Proto" "X-Original-URI" "X-Original-URL";
+    nginx.ingress.kubernetes.io/proxy-body-size: 50m
   labels:
     app: sharing
-    chart: sharing-1.3.32
+    chart: sharing-1.4.18
     heritage: Helm
     release: sharing
   name: sharing
 spec:
   rules:
-  - http:
-      paths:
-      - backend:
-          serviceName: sharing
-          servicePort: 8787
-        path: /api/v1/sharing
-      - backend:
-          serviceName: sharing
-          servicePort: 8787
-        path: /api/v1/alerting
+    - http:
+        paths:
+          - backend:
+              serviceName: sharing
+              servicePort: 8787
+            path: /api/v1/sharing
+          - backend:
+              serviceName: sharing
+              servicePort: 8787
+            path: /api/v1/alerting
 ---

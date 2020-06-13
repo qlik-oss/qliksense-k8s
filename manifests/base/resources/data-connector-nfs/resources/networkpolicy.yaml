@@ -10,24 +10,24 @@ metadata:
   namespace: $(NAMESPACE)
 spec:
   egress:
-  - to:
-    - podSelector:
-        matchLabels:
-          app: keys
-          release: data-connector-nfs
-    - podSelector:
-        matchLabels:
-          app: policy-decisions
-          release: data-connector-nfs
-  - ports:
-    - port: 53
-      protocol: UDP
-    - port: 53
-      protocol: TCP
+    - to:
+        - podSelector:
+            matchLabels:
+              app: keys
+              release: data-connector-nfs
+        - podSelector:
+            matchLabels:
+              app: policy-decisions
+              release: data-connector-nfs
+    - ports:
+        - port: 53
+          protocol: UDP
+        - port: 53
+          protocol: TCP
   podSelector:
     matchLabels:
       app: data-connector-nfs
       release: data-connector-nfs
   policyTypes:
-  - Egress
+    - Egress
 ---

@@ -6,16 +6,8 @@ enabled: true
 patches:
   - path: redisJSON.yaml
     target:
-      kind: Deployment
-      name: dcaas-redis-slave
-  - path: redisJSON.yaml
-    target:
       kind: StatefulSet
       name: dcaas-redis-master
-  - path: redis-slave.yaml
-    target:
-      kind: Deployment
-      name: dcaas-redis-slave
   - path: redis-master.yaml
     arget:
       kind: StatefulSet

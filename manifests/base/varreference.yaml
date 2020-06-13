@@ -37,7 +37,7 @@ varReference:
   kind: Deployment
 - path: spec/jobTemplate/spec/template/spec/containers/image
   kind: CronJob
-- path: data/pdsUri
+- path: data/policyDecisionsUri
   kind: ConfigMap
 - path: spec/serviceName
   kind: StatefulSet
@@ -83,7 +83,7 @@ varReference:
   kind: ConfigMap
 - path: data/natsStreamingClusterId
   kind: ConfigMap
-- path: data/tokenAuthUri
+- path: data/edgeAuthUri
   kind: ConfigMap
 - path: data/ingressAuthUrl
   kind: ConfigMap
@@ -190,7 +190,7 @@ varReference:
 - kind: ConfigMap
   path: data/keysUriTemp
 - kind: ConfigMap
-  path: data/tokenAuthUriTemp
+  path: data/edgeAuthUriTemp
 - kind: ConfigMap
   path: data/licensesUriTemp
 - path: spec/template/spec/containers/env/valueFrom/secretKeyRef/name

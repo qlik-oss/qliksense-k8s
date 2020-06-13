@@ -13,16 +13,21 @@ patches:
     labelSelector: >-
       key notin (
         imageRegistry,
-        tokenAuthUri,
+        edgeAuthUri,
         ingressClass,
         ingressAuthUrl,
         keysUri,
+        featureFlagsUri,
+        usersUri,
+        tenantsUri,
+        licensesUri,
         caCertificates,
         mongodbUri,
         temporaryContentsUri,
         encryptionUri,
         natsUri,
-        natsStreamingClusterId
+        natsStreamingClusterId,
+        policyDecisionsUri
         )
   patch: |-
     - op: replace

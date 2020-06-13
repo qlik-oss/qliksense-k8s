@@ -6,16 +6,16 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: data-connections
-    chart: data-connections-1.6.17
+    chart: data-connections-1.7.8
     heritage: Helm
     release: data-connections
   name: data-connections
 spec:
   ports:
-  - name: data-connections
-    port: 9011
-    protocol: TCP
-    targetPort: 9011
+    - name: data-connections
+      port: 9011
+      protocol: TCP
+      targetPort: 9011
   selector:
     app: data-connections
     release: data-connections
