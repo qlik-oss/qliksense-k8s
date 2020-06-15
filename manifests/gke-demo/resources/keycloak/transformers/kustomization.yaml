@@ -28,7 +28,11 @@ patches:
       path: /default
       value: true
 - target:
-    labelSelector: key = ingressAuthUrl
+    labelSelector: >-
+      key in (
+        ingressAuthUrl,
+        ingressClass
+      )
   patch: |-
     - op: replace
       path: /enabled
