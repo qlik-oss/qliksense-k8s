@@ -5,5 +5,5 @@ metadata:
 target:
   kind: Deployment
 path: spec/template/spec/containers/args
-search: --configmap=\$\(NAMESPACE\)\/elastic-infra-nginx-ingress-controller
-replace: --configmap=$(NAMESPACE)/$(PREFIX)-tls
+search: --default-ssl-certificate=\$\(NAMESPACE\)\/$(PREFIX)-elastic-infra-tls-secret
+replace: --default-ssl-certificate=\$\(NAMESPACE\)\$(PREFIX)-tls
