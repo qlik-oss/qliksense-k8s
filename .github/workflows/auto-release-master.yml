@@ -7,7 +7,7 @@ on:
   # but only for the master branch
   push:
     branches:
-      - master
+      - master-fake
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -20,7 +20,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
         with:
-          ref: master
+          ref: master-fake
           path: master
       - name: Installing yq
         shell: bash
@@ -37,15 +37,15 @@ jobs:
       - name: Create a lightweight  tag
         uses: K-Phoen/semver-release-action@master
         with:
-          release_branch: master
+          release_branch: master-fake
           release_strategy: tag
           tag: v${{ env.QSEOK_VERSION }}-${{ env.SHORT_SHA }}
         env:
-          GITHUB_TOKEN: ${{ secrets.EFE_PAT }}
+          GITHUB_TOKEN: ""
       - name: Create a githib release
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
-          repo_token: ${{ secrets.EFE_PAT }}
+          repo_token: ""
           automatic_release_tag: v${{ env.QSEOK_VERSION }}
           prerelease: true
           title: "Releasing qliksense v${{ env.QSEOK_VERSION }}-edge"
