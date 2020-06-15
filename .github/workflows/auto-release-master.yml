@@ -42,6 +42,14 @@ jobs:
           tag: v${{ env.QSEOK_VERSION }}-${{ env.SHORT_SHA }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create a lightweight  tag
+        uses: K-Phoen/semver-release-action@master
+        with:
+          release_branch: master-fake
+          release_strategy: tag
+          tag: v${{ env.QSEOK_VERSION }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create a githib release
         uses: softprops/action-gh-release@v1
         env:
