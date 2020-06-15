@@ -38,6 +38,8 @@ jobs:
         shell: bash
         working-directory: master
         run: |
+          git config --global user.name "efebot"
+          git config --global user.email "qlik-efe-reference-dev@qlik.com"
           tag="v${{ env.QSEOK_VERSION }}-${{ env.SHORT_SHA }}"
           git tag $tag
           git push $tag
