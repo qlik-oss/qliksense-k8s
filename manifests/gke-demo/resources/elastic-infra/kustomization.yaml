@@ -8,11 +8,14 @@ generators:
   - generators
 transformers:
   - patches
-  - ../../../base/resources/elastic-infra/add-prefix
+  - ../../../base/resources/elastic-infra/vars-rename
+  - ../../../base/resources/elastic-infra/secrets
+  - ../../../base/resources/elastic-infra/vars-tls
   - configs
   - ../../../base/resources/elastic-infra/transformers
   - ../../../../.operator/patches
   - ../../../../configuration/patches
+  - ../../../base/resources/elastic-infra/add-prefix
   - ../../../base/transformers/release
   - ../../../base/resources/elastic-infra/vars
   - vars
