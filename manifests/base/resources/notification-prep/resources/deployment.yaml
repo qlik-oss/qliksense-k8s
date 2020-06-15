@@ -84,7 +84,7 @@ spec:
               value: dev
             - name: ROLLBAR_REGION
               value: local
-          image: qlik-docker-qsefe.bintray.io/notification-prep:1.0.9
+          image: qliktech-docker.jfrog.io/notification-prep:1.0.9
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:

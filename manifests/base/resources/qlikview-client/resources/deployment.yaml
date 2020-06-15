@@ -20,7 +20,7 @@ spec:
         release: qlikview-client
     spec:
       containers:
-        - image: qlik-docker-qsefe.bintray.io/qlikview-client:12.65.0
+        - image: qliktech-docker.jfrog.io/qlikview-client:12.65.0
           imagePullPolicy: null
           livenessProbe:
             httpGet:

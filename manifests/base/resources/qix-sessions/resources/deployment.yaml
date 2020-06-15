@@ -186,7 +186,7 @@ spec:
               value: "15"
             - name: DEFAULT_ENGINES_MEMORY
               value: 120Gi
-          image: qlik-docker-qsefe.bintray.io/qix-sessions:5.7.9
+          image: qliktech-docker.jfrog.io/qix-sessions:5.7.9
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:

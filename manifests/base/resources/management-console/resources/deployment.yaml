@@ -23,7 +23,7 @@ spec:
         - env:
             - name: PRODUCT_INFO
               value: '{ "composition": { "deploymentEnvironment": "qsefe" } }'
-          image: qlik-docker-qsefe.bintray.io/management-console:2.431.0
+          image: qliktech-docker.jfrog.io/management-console:2.431.0
           imagePullPolicy: null
           livenessProbe:
             httpGet:

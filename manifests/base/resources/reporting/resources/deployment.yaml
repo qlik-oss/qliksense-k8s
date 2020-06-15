@@ -26,7 +26,7 @@ spec:
             - -http-server-enable=true
             - -http-server-host=0.0.0.0
             - -http-server-port=9288
-          image: qlik-docker-qsefe.bintray.io/reporting-web-renderer:2.24.0
+          image: qliktech-docker.jfrog.io/reporting-web-renderer:2.24.0
           livenessProbe:
             httpGet:
               path: /health
@@ -34,7 +34,7 @@ spec:
           name: rwr
         - args:
             - -l debug
-          image: qlik-docker-qsefe.bintray.io/reporting-composer:3.5.0
+          image: qliktech-docker.jfrog.io/reporting-composer:3.5.0
           livenessProbe:
             exec:
               command:
@@ -140,7 +140,7 @@ spec:
               value: ""
             - name: TOKEN_AUTH_ENABLED
               value: "true"
-          image: qlik-docker-qsefe.bintray.io/reporting-service:9.4.3
+          image: qliktech-docker.jfrog.io/reporting-service:9.4.3
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
@@ -190,7 +190,7 @@ spec:
               value: "6080"
             - name: LOCALE_PORT
               value: "8080"
-          image: qlik-docker-qsefe.bintray.io/reporting-proxy:2.2.0
+          image: qliktech-docker.jfrog.io/reporting-proxy:2.2.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:

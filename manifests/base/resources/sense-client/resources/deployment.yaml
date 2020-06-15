@@ -39,7 +39,7 @@ spec:
               value: "true"
             - name: ASSETS_URL
               value: ../resources/
-          image: qlik-docker-qsefe.bintray.io/sense-client:6.410.0
+          image: qliktech-docker.jfrog.io/sense-client:6.410.0
           imagePullPolicy: IfNotPresent
           name: main
           ports:

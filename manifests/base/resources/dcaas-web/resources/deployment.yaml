@@ -20,7 +20,7 @@ spec:
         release: dcaas-web
     spec:
       containers:
-        - image: qlik-docker-qsefe.bintray.io/dcaas-web:1.1.89
+        - image: qliktech-docker.jfrog.io/dcaas-web:1.1.89
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:

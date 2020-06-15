@@ -38,7 +38,7 @@ spec:
               value: example
             - name: ROLLBAR_ENABLED
               value: "false"
-          image: qlik-docker-qsefe.bintray.io/keys:1.0.7
+          image: qliktech-docker.jfrog.io/keys:1.0.7
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:

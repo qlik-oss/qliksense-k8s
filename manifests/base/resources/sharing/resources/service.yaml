@@ -6,7 +6,7 @@ metadata:
     prometheus.io/scrape: "true"
   labels:
     app: sharing
-    chart: sharing-1.4.18
+    chart: sharing-1.4.20
     heritage: Helm
     release: sharing
   name: sharing

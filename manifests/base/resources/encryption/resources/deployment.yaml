@@ -38,7 +38,7 @@ spec:
               value: info
             - name: BACKEND_TYPE
               value: loopback
-          image: qlik-docker-qsefe.bintray.io/encryption:3.2.1
+          image: qliktech-docker.jfrog.io/encryption:3.2.1
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:

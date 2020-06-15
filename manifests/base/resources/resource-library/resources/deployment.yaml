@@ -90,7 +90,7 @@ spec:
                   fieldPath: metadata.name
             - name: DISABLE_OCTET_STREAM_CHECK
               value: "false"
-          image: qlik-docker-qsefe.bintray.io/resource-library:4.0.0
+          image: qliktech-docker.jfrog.io/resource-library:4.0.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:

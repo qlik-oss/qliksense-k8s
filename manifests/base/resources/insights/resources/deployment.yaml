@@ -100,7 +100,7 @@ spec:
               value: qlik.api.internal
             - name: AUTH_JWT_ISS
               value: qlik.api.internal
-          image: qlik-docker-qsefe.bintray.io/insights:2.0.11
+          image: qliktech-docker.jfrog.io/insights:2.0.11
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10

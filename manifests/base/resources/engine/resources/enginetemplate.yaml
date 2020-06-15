@@ -273,7 +273,7 @@ spec:
               configMapKeyRef:
                 key: dcaasUri
                 name: engine-configs
-        image: qlik-docker-qsefe.bintray.io/engine:12.712.0
+        image: qliktech-docker.jfrog.io/engine:12.712.0
         livenessProbe:
           failureThreshold: 3
           httpGet:
