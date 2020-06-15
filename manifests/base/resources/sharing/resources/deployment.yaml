@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   labels:
     app: sharing
-    chart: sharing-1.4.18
+    chart: sharing-1.4.19
     heritage: Helm
     release: sharing
   name: sharing
@@ -17,7 +17,7 @@ spec:
     metadata:
       labels:
         app: sharing
-        chart: sharing-1.4.18
+        chart: sharing-1.4.19
         heritage: Helm
         release: sharing
         sharing-nats-client: "true"
@@ -150,7 +150,7 @@ spec:
               value: $(TENANTS_URI)
             - name: STORAGE_PATH
               value: /qlik/sharingsvc-storage
-          image: qlik-docker-qsefe.bintray.io/sharing:3.0.70
+          image: qlik-docker-qsefe.bintray.io/sharing:3.0.71
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
