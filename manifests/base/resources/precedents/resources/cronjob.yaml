@@ -43,7 +43,7 @@ spec:
                   value: elastic
                 - name: LOGLEVEL
                   value: ""
-              image: qlik-docker-qsefe.bintray.io/precedents:0.81.0
+              image: qliktech-docker.jfrog.io/precedents:0.81.0
               imagePullPolicy: IfNotPresent
               name: main
           imagePullSecrets:

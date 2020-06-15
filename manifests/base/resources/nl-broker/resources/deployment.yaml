@@ -65,7 +65,7 @@ spec:
               value: qlik.api.internal
             - name: DPS_ROUTING
               value: "true"
-          image: qlik-docker-qsefe.bintray.io/nl-broker:1.20.0
+          image: qliktech-docker.jfrog.io/nl-broker:1.20.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 3

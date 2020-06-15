@@ -102,7 +102,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
-          image: qlik-docker-qsefe.bintray.io/precedents:0.81.0
+          image: qliktech-docker.jfrog.io/precedents:0.81.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: null

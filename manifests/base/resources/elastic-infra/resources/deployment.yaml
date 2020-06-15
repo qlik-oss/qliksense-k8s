@@ -49,7 +49,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: status.hostIP
-          image: qlik-docker-qsefe.bintray.io/nginx-ingress-controller:2.2.0
+          image: qliktech-docker.jfrog.io/nginx-ingress-controller:2.2.0
           imagePullPolicy: IfNotPresent
           lifecycle:
             preStop:

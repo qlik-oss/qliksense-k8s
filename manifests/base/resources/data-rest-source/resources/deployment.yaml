@@ -25,7 +25,7 @@ spec:
               value: "8080"
             - name: PROMETHEUS_PORT
               value: "8080"
-          image: qlik-docker-qsefe.bintray.io/data-rest-source:1.0.6
+          image: qliktech-docker.jfrog.io/data-rest-source:1.0.6
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:

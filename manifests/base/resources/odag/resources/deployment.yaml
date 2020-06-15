@@ -24,7 +24,7 @@ spec:
             - --election=$(PREFIX)-odag
             - --election-namespace=$(NAMESPACE)
             - --http=0.0.0.0:4040
-          image: qlik-docker-qsefe.bintray.io/leader-elector:1.8.0
+          image: qliktech-docker.jfrog.io/leader-elector:1.8.0
           livenessProbe:
             httpGet:
               path: /health
@@ -149,7 +149,7 @@ spec:
               value: "true"
             - name: RELOAD_WORKLOAD_TYPE
               value: odag
-          image: qlik-docker-qsefe.bintray.io/odag:1.31.0
+          image: qliktech-docker.jfrog.io/odag:1.31.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:

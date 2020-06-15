@@ -106,7 +106,7 @@ spec:
               value: "false"
             - name: BYPASS_TOKEN
               value: Qlik123456
-          image: qlik-docker-qsefe.bintray.io/qix-data-connection:1.12.29
+          image: qliktech-docker.jfrog.io/qix-data-connection:1.12.29
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:

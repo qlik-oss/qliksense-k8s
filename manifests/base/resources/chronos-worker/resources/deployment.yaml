@@ -69,7 +69,7 @@ spec:
                 configMapKeyRef:
                   key: natsUri
                   name: chronos-worker-configs
-          image: qlik-docker-qsefe.bintray.io/chronos-worker:0.8.0
+          image: qliktech-docker.jfrog.io/chronos-worker:0.8.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10

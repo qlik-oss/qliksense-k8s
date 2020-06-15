@@ -111,7 +111,7 @@ spec:
               value: "false"
             - name: GROUPS__ENABLED
               value: "true"
-          image: qlik-docker-qsefe.bintray.io/policy-decision-service:1.76.0
+          image: qliktech-docker.jfrog.io/policy-decision-service:1.76.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:

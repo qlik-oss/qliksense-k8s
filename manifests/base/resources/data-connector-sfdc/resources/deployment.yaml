@@ -40,7 +40,7 @@ spec:
               value: "true"
             - name: QS_ENVIRONMENT
               value: QSEOK
-          image: qlik-docker-qsefe.bintray.io/data-connector-sfdc:15.24.0
+          image: qliktech-docker.jfrog.io/data-connector-sfdc:15.24.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -108,7 +108,7 @@ spec:
               value: "false"
             - name: SHUTDOWN_TIMEOUT
               value: ""
-          image: qlik-docker-qsefe.bintray.io/data-connector-sfdc:15.24.0
+          image: qliktech-docker.jfrog.io/data-connector-sfdc:15.24.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:

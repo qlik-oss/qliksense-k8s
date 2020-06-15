@@ -25,7 +25,7 @@ spec:
             - --election=$(PREFIX)-licenses
             - --election-namespace=$(NAMESPACE)
             - --http=0.0.0.0:4040
-          image: qlik-docker-qsefe.bintray.io/leader-elector:1.8.0
+          image: qliktech-docker.jfrog.io/leader-elector:1.8.0
           livenessProbe:
             httpGet:
               path: /health
@@ -126,7 +126,7 @@ spec:
               value: "true"
             - name: SQS_ENABLED
               value: "false"
-          image: qlik-docker-qsefe.bintray.io/licenses:3.25.0
+          image: qliktech-docker.jfrog.io/licenses:3.25.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:

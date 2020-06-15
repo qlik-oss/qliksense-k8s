@@ -104,7 +104,7 @@ spec:
               value: "true"
             - name: ACCESS_CONTROL_ENABLED
               value: "true"
-          image: qlik-docker-qsefe.bintray.io/generic-links:1.0.2
+          image: qliktech-docker.jfrog.io/generic-links:1.0.2
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:

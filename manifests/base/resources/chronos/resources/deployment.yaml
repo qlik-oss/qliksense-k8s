@@ -26,7 +26,7 @@ spec:
             - --election=$(PREFIX)-chronos
             - --election-namespace=$(NAMESPACE)
             - --http=0.0.0.0:4040
-          image: qlik-docker-qsefe.bintray.io/leader-elector:1.8.0
+          image: qliktech-docker.jfrog.io/leader-elector:1.8.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10
@@ -72,7 +72,7 @@ spec:
                 configMapKeyRef:
                   key: keysUri
                   name: chronos-configs
-          image: qlik-docker-qsefe.bintray.io/chronos:0.14.0
+          image: qliktech-docker.jfrog.io/chronos:0.14.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 10

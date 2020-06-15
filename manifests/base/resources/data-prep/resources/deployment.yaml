@@ -103,7 +103,7 @@ spec:
               value: verbose
             - name: MODE
               value: elastic
-          image: qlik-docker-qsefe.bintray.io/data-prep-service:2.196.0
+          image: qliktech-docker.jfrog.io/data-prep-service:2.196.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: null

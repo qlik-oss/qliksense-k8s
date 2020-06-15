@@ -75,7 +75,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
-          image: qlik-docker-qsefe.bintray.io/subscriptions:0.0.7
+          image: qliktech-docker.jfrog.io/subscriptions:0.0.7
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:

@@ -122,7 +122,7 @@ spec:
                 secretKeyRef:
                   key: client-password
                   name: $(PREFIX)-nats-secret
-          image: qlik-docker-qsefe.bintray.io/nats-streaming:0.14.2
+          image: qliktech-docker.jfrog.io/nats-streaming:0.14.2
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 6
@@ -154,7 +154,7 @@ spec:
             - -channelz
             - -serverz
             - http://localhost:8222
-          image: qlik-docker-qsefe.bintray.io/prometheus-nats-exporter:0.3.0
+          image: qliktech-docker.jfrog.io/prometheus-nats-exporter:0.3.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:

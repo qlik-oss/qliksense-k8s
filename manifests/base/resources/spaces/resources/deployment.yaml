@@ -120,7 +120,7 @@ spec:
               value: "true"
             - name: RAW_SPACES_LIMIT
               value: "700"
-          image: qlik-docker-qsefe.bintray.io/spaces:1.14.0
+          image: qliktech-docker.jfrog.io/spaces:1.14.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:

@@ -20,7 +20,7 @@ spec:
         release: locale
     spec:
       containers:
-        - image: qlik-docker-qsefe.bintray.io/locale:1.0.10
+        - image: qliktech-docker.jfrog.io/locale:1.0.10
           imagePullPolicy: IfNotPresent
           name: main
           ports:

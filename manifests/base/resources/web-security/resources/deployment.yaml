@@ -84,7 +84,7 @@ spec:
               value: "true"
             - name: MESSAGING_AUTH_ENABLED
               value: "true"
-          image: qlik-docker-qsefe.bintray.io/web-security:1.7.0
+          image: qliktech-docker.jfrog.io/web-security:1.7.0
           imagePullPolicy: null
           livenessProbe:
             httpGet:

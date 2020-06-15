@@ -99,7 +99,7 @@ spec:
               value: "true"
             - name: TOKEN_AUTH_ENABLED
               value: "true"
-          image: qlik-docker-qsefe.bintray.io/audit:2.0.0
+          image: qliktech-docker.jfrog.io/audit:2.0.0
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:

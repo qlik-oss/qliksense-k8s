@@ -120,7 +120,7 @@ spec:
               value: info
             - name: NATS_ENABLED
               value: "true"
-          image: qlik-docker-qsefe.bintray.io/data-connections:0.6.2
+          image: qliktech-docker.jfrog.io/data-connections:0.6.2
           imagePullPolicy: null
           livenessProbe:
             httpGet:

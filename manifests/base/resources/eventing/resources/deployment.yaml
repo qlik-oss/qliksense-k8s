@@ -96,7 +96,7 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
-          image: qlik-docker-qsefe.bintray.io/eventing:0.0.23
+          image: qliktech-docker.jfrog.io/eventing:0.0.23
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
