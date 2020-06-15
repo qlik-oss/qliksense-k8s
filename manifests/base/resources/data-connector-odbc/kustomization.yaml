@@ -6,7 +6,7 @@ commonAnnotations:
   app.kubernetes.io/part-of: base
   app.kubernetes.io/component: data-connector-odbc
 resources:
-  - resources
+  - github.com/qlik-trial/elastic-charts/manifests/data-connector-odbc?ref=v1.58.20
 generators:
   - generators
 transformers:
@@ -21,5 +21,5 @@ transformers:
   - ../../transformers/prefix
   - ../../transformers/namespace
 images:
-  - name: qlik-docker-qsefe.bintray.io/data-connector-odbc
+  - name: qliktech-docker.jfrog.io/data-connector-odbc
     newName: $(IMAGE_REGISTRY)/data-connector-odbc

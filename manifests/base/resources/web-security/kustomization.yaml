@@ -6,7 +6,7 @@ commonAnnotations:
   app.kubernetes.io/part-of: base
   app.kubernetes.io/component: web-security
 resources:
-  - resources
+  - github.com/qlik-trial/elastic-charts/manifests/web-security?ref=v1.58.20
 generators:
   - generators
 transformers:

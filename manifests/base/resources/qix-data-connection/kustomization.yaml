@@ -6,7 +6,7 @@ commonAnnotations:
   app.kubernetes.io/part-of: base
   app.kubernetes.io/component: qix-data-connection
 resources:
-  - resources
+  - github.com/qlik-trial/elastic-charts/manifests/qix-data-connection?ref=v1.58.20
 generators:
   - generators
 transformers:

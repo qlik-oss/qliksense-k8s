@@ -6,7 +6,7 @@ commonAnnotations:
   app.kubernetes.io/part-of: base
   app.kubernetes.io/component: audit
 resources:
-  - resources
+  - github.com/qlik-trial/elastic-charts/manifests/audit?ref=v1.58.20
 transformers:
   - secrets
   - configs

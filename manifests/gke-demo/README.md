@@ -1,4 +1,4 @@
-# GKE Demo for QSEoK
+# GKE Demo for QSEoK //
 
 GKE Demo for QSEoK is an opinionated Qlik Sense on Kubernetes (QSEoK) manifest for Google Kubernetes Engine (GKE). 
 

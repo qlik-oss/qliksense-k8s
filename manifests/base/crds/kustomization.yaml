@@ -6,4 +6,4 @@ commonAnnotations:
   app.kubernetes.io/part-of: crd
   app.kubernetes.io/component: qliksense-init
 resources:
-  - resources
+  - github.com/qlik-trial/elastic-charts/manifests/qliksense-init?ref=v1.58.20
