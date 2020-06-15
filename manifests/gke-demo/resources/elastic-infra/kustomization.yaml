@@ -15,8 +15,8 @@ transformers:
   - ../../../base/resources/elastic-infra/transformers
   - ../../../../.operator/patches
   - ../../../../configuration/patches
-  - change-tls
   - ../../../base/resources/elastic-infra/add-prefix
+  - change-tls
   - ../../../base/transformers/release
   - ../../../base/resources/elastic-infra/vars
   - vars
