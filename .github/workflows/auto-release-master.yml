@@ -45,4 +45,4 @@ jobs:
           git checkout master-fake
           tag="v${{ env.QSEOK_VERSION }}-${{ env.SHORT_SHA }}"
           git tag $tag
-          git push $tag
+          git push origin $tag
