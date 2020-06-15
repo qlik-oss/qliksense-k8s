@@ -1,0 +1,51 @@
+# This is a basic workflow to help you get started with Actions.
+name: Auto tagging and releasing on master
+
+# Triggers the workflow when pushing to master
+on:
+  # Trigger the workflow on push
+  # but only for the master branch
+  push:
+    branches:
+      - master
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "auto-tagging-releasing"
+  auto-tagging-releasing:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: master
+          path: master
+      - name: Installing yq
+        shell: bash
+        run: |
+          ## Installing yq
+          sudo snap install yq 2>/dev/null
+      - name: Getting qliksense version on Master
+        shell: bash
+        working-directory: master
+        run: |
+          qseok_version=$(yq r manifests/base/transformers/release/annotations.yaml 'annotations."app.kubernetes.io/version"')
+          echo "::set-env name=QSEOK_VERSION::${qseok_version}"
+          echo "::set-env name=SHORT_SHA::${GITHUB_SHA::7}"
+      - name: Create a lightweight  tag
+        uses: K-Phoen/semver-release-action@master
+        with:
+          release_branch: master
+          release_strategy: tag
+          tag: v${{ env.QSEOK_VERSION }}-${{ env.SHORT_SHA }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create a githib release
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: v${{ env.QSEOK_VERSION }}
+          prerelease: true
+          title: "[Manifests-upd] qliksense v${{ env.QSEOK_VERSION }}"
