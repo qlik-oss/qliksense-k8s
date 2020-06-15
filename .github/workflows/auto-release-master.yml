@@ -41,11 +41,11 @@ jobs:
           release_strategy: tag
           tag: v${{ env.QSEOK_VERSION }}-${{ env.SHORT_SHA }}
         env:
-          GITHUB_TOKEN: ""
+          GITHUB_TOKEN: "12345"
       - name: Create a githib release
         uses: "marvinpinto/action-automatic-releases@latest"
         with:
-          repo_token: ""
+          repo_token: "12345"
           automatic_release_tag: v${{ env.QSEOK_VERSION }}
           prerelease: true
           title: "Releasing qliksense v${{ env.QSEOK_VERSION }}-edge"
