@@ -24,7 +24,7 @@ spec:
                   value: k8s
                 - name: NATS_ENABLED
                   value: "false"
-              image: qlik-docker-qsefe.bintray.io/sharing:3.0.70
+              image: qlik-docker-qsefe.bintray.io/sharing:3.0.73
               imagePullPolicy: IfNotPresent
               name: main
           imagePullSecrets:
