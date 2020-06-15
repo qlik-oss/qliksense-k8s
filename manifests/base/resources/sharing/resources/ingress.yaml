@@ -18,7 +18,7 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: 50m
   labels:
     app: sharing
-    chart: sharing-1.4.18
+    chart: sharing-1.4.19
     heritage: Helm
     release: sharing
   name: sharing

@@ -8,7 +8,7 @@ metadata:
     nginx.ingress.kubernetes.io/configuration-snippet: |
       rewrite (?i)/api/(.*) /$1 break;
       more_clear_input_headers "X-Forwarded-Host" "X-Forwarded-For" "X-Forwarded-Proto" "X-Original-URI" "X-Original-URL";
-    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/enable-cors: "false"
   labels:
     app: api-keys
     chart: api-keys-3.0.7
