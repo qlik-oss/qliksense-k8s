@@ -60,15 +60,6 @@ resources:
   - ../base/resources/users
   - ../base/resources/web-security
   - ../base/resources/web-notifications
-  - ../base/resources/api-keys
-  - ../base/resources/data-connector-sap-sql
-  - ../base/resources/data-connector-nfs
-  - ../base/resources/notification-prep
-  - ../base/resources/sharing
-  - ../base/resources/subscriptions
-  - ../base/resources/transport
-  - ../base/resources/web-security
-  - ../base/resources/web-notifications
   - ../docker-desktop/resources/redis
   - ../docker-desktop/resources/mongodb
 patches:
