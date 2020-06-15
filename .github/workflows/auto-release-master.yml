@@ -42,20 +42,11 @@ jobs:
           tag: v${{ env.QSEOK_VERSION }}-${{ env.SHORT_SHA }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Create a lightweight  tag
-        uses: K-Phoen/semver-release-action@master
-        with:
-          release_branch: master-fake
-          release_strategy: tag
-          tag: v${{ env.QSEOK_VERSION }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create a githib release
-        uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: "marvinpinto/action-automatic-releases@latest"
         with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: v${{ env.QSEOK_VERSION }}
           prerelease: true
-          name: v${{ env.QSEOK_VERSION }}
-          tag_name: v${{ env.QSEOK_VERSION }}
+          title: "Releasing qliksense v${{ env.QSEOK_VERSION }}-edge"
 
