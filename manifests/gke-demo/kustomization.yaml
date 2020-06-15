@@ -1,16 +1,19 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - resources
-  - ../base/resources/qliksense
+  - ../base/resources/resources
   - ../base/resources/audit
+  - ../base/resources/api-keys
   - ../base/resources/chronos
   - ../base/resources/chronos-worker
   - ../base/resources/collections
+  - ../base/resources/data-connections
   - ../base/resources/data-connector-qwc
   - ../base/resources/data-connector-odbc
   - ../base/resources/data-connector-rest
+  - ../base/resources/data-connector-sap-sql
   - ../base/resources/data-connector-sfdc
+  - ../base/resources/data-connector-nfs
   - ../base/resources/data-prep
   - ../base/resources/data-rest-source
   - ../base/resources/dcaas
@@ -20,37 +23,54 @@ resources:
   - ../base/resources/engine
   - ../base/resources/eventing
   - ../base/resources/feature-flags
-  - ../base/resources/generic-links
   - ../base/resources/geo-operations
   - ../base/resources/groups
+  - ../base/resources/generic-links
   - ../base/resources/hub
   - ../base/resources/insights
   - ../base/resources/keys
   - ../base/resources/licenses
   - ../base/resources/locale
-  - ../base/resources/messaging
+  - ../base/resources/nats
+  - ../base/resources/nats-streaming
   - ../base/resources/management-console
   - ../base/resources/nl-broker
   - ../base/resources/nl-parser
+  - ../base/resources/notification-prep
   - ../base/resources/odag
   - ../base/resources/policy-decisions
   - ../base/resources/precedents
   - ../base/resources/qix-data-connection
   - ../base/resources/qix-datafiles
   - ../base/resources/qix-sessions
-  - ../base/resources/qlikview-client
   - ../base/resources/quotas
+  - ../base/resources/qlikview-client
   - ../base/resources/qix-data-reload
-  - ../docker-desktop/resources/redis
-  - ../docker-desktop/resources/mongodb
+  - ../base/resources/qliksense
   - ../base/resources/reload-tasks
   - ../base/resources/reporting
   - ../base/resources/resource-library
   - ../base/resources/sense-client
   - ../base/resources/spaces
+  - ../base/resources/sharing
+  - ../base/resources/subscriptions
   - ../base/resources/temporary-contents
   - ../base/resources/tenants
+  - ../base/resources/transport
   - ../base/resources/users
+  - ../base/resources/web-security
+  - ../base/resources/web-notifications
+  - ../base/resources/api-keys
+  - ../base/resources/data-connector-sap-sql
+  - ../base/resources/data-connector-nfs
+  - ../base/resources/notification-prep
+  - ../base/resources/sharing
+  - ../base/resources/subscriptions
+  - ../base/resources/transport
+  - ../base/resources/web-security
+  - ../base/resources/web-notifications
+  - ../docker-desktop/resources/redis
+  - ../docker-desktop/resources/mongodb
 patches:
 - target:
     kind: Service
