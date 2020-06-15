@@ -8,7 +8,7 @@ generators:
   - generators
 transformers:
   - patches
-  - ../../../base/resources/elastic-infra/vars-rename
+  - ../../../base/resources/elastic-infra/add-prefix
   - configs
   - ../../../base/resources/elastic-infra/transformers
   - ../../../../.operator/patches
