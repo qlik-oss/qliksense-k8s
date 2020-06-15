@@ -41,13 +41,5 @@ jobs:
           release_strategy: tag
           tag: v${{ env.QSEOK_VERSION }}-${{ env.SHORT_SHA }}
         env:
-          GITHUB_TOKEN: "${{ secrets.EFE_PAT }}"
-      - name: Create a githib release
-        uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: "${{ secrets.EFE_PAT }}"
-        with:
-          prerelease: true
-          name: v${{ env.QSEOK_VERSION }}-${{ env.SHORT_SHA }}
-          tag_name: v${{ env.QSEOK_VERSION }}-${{ env.SHORT_SHA }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
