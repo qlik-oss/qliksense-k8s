@@ -48,5 +48,5 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: v${{ env.QSEOK_VERSION }}
           prerelease: true
-          title: "Releasing qliksense v${{ env.QSEOK_VERSION }}-edge"
+          title: "[Manifests-upd] Update manifests to qliksense v${{ env.QSEOK_VERSION }}"
 
