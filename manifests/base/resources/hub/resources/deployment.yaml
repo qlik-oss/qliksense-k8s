@@ -20,7 +20,7 @@ spec:
         release: hub
     spec:
       containers:
-        - image: qlik-docker-qsefe.bintray.io/hub:1.0.193
+        - image: qlik-docker-qsefe.bintray.io/hub:1.0.194
           imagePullPolicy: IfNotPresent
           name: main
           ports:

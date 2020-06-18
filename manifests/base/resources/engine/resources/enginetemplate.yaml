@@ -15,7 +15,7 @@ spec:
     app: engine
     metricsPort: "9090"
     qix-engine: qix-engine
-    qix-engine-version: 12.710.0
+    qix-engine-version: 12.712.0
     qlik.com/engine-deployment-name: engine-template-default
     qlik.com/engine-type: qliksense
     release: engine
@@ -273,7 +273,7 @@ spec:
               configMapKeyRef:
                 key: dcaasUri
                 name: engine-configs
-        image: qlik-docker-qsefe.bintray.io/engine:12.710.0
+        image: qlik-docker-qsefe.bintray.io/engine:12.712.0
         livenessProbe:
           failureThreshold: 3
           httpGet:

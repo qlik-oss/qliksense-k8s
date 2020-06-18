@@ -255,7 +255,7 @@ spec:
         configMapKeyRef:
           key: dcaasUri
           name: engine-configs
-  image: qlik-docker-qsefe.bintray.io/engine:12.710.0
+  image: qlik-docker-qsefe.bintray.io/engine:12.712.0
   labels:
     qlik.com/engine-type: qliksense
 ---
@@ -524,7 +524,7 @@ spec:
         configMapKeyRef:
           key: dcaasUri
           name: engine-configs
-  image: qlik-docker-qsefe.bintray.io/engine-qv:12.710.0
+  image: qlik-docker-qsefe.bintray.io/engine-qv:12.712.0
   labels:
     qlik.com/engine-type: qlikview
 ---
@@ -787,7 +787,7 @@ spec:
         configMapKeyRef:
           key: dcaasUri
           name: engine-configs
-  image: qlik-docker-qsefe.bintray.io/engine:12.710.0
+  image: qlik-docker-qsefe.bintray.io/engine:12.712.0
   labels:
     qlik.com/engine-type: qliksense
 ---
