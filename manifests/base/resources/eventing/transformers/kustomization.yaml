@@ -23,6 +23,8 @@ patches:
         usersUri,
         spacesUri,
         featureFlagsUri,
+        mongodbUri,
+        caCertificates
         )
   patch: |-
     - op: replace
